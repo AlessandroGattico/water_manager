@@ -3,8 +3,8 @@ package pissir.watermanager.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanagerbackend.model.cambio.CambioBool;
-import pissir.watermanagerbackend.model.item.Attivazione;
+import pissir.watermanager.model.cambio.CambioBool;
+import pissir.watermanager.model.item.Attivazione;
 
 import java.sql.*;
 import java.util.ArrayList;

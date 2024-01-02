@@ -1,8 +1,8 @@
 package pissir.watermanager.dao;
 
-import com.watermanager.model.cambio.CambioInt;
-import com.watermanager.model.cambio.CambioString;
-import com.watermanager.model.item.Sensore;
+import pissir.watermanager.model.cambio.CambioInt;
+import pissir.watermanager.model.cambio.CambioString;
+import pissir.watermanager.model.item.Sensore;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;

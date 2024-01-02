@@ -1,6 +1,6 @@
 package pissir.watermanager.dao;
 
-import com.watermanager.model.item.Coltivazione;
+import pissir.watermanager.model.item.Coltivazione;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;

@@ -1,8 +1,8 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
-import com.watermanager.dao.DAO;
-import com.watermanager.model.item.RisorsaIdrica;
+import pissir.watermanager.dao.DAO;
+import pissir.watermanager.model.item.RisorsaIdrica;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

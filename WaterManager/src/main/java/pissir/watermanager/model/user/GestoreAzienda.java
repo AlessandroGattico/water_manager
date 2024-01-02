@@ -1,8 +1,6 @@
 package pissir.watermanager.model.user;
 
-
-import com.watermanager.model.item.Azienda;
-import com.watermanager.model.item.RichiestaIdrica;
+import pissir.watermanager.model.item.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,8 +1,9 @@
 package pissir.watermanager.dao;
 
 import org.springframework.stereotype.Repository;
-import pissir.watermanagerbackend.model.item.*;
-import pissir.watermanagerbackend.model.user.*;
+import pissir.watermanager.model.cambio.*;
+import pissir.watermanager.model.item.*;
+import pissir.watermanager.model.user.*;
 
 import java.util.HashSet;
 

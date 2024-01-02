@@ -1,12 +1,9 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
-import com.watermanager.dao.DAO;
-import com.watermanager.model.cambio.CambioString;
-import com.watermanager.model.user.Admin;
-import com.watermanager.model.user.GestoreAzienda;
-import com.watermanager.model.user.GestoreIdrico;
-import com.watermanager.model.user.UserProfile;
+import pissir.watermanager.dao.DAO;
+import pissir.watermanager.model.cambio.CambioString;
+import pissir.watermanager.model.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

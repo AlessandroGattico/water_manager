@@ -1,8 +1,8 @@
 package pissir.watermanager.model.user;
 
 
-import com.watermanager.model.item.BacinoIdrico;
-import com.watermanager.model.item.RichiestaIdrica;
+import pissir.watermanager.model.item.BacinoIdrico;
+import pissir.watermanager.model.item.RichiestaIdrica;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

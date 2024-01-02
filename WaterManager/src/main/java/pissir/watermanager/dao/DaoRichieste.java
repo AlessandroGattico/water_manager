@@ -1,6 +1,6 @@
 package pissir.watermanager.dao;
 
-import com.watermanager.model.item.RichiestaIdrica;
+import pissir.watermanager.model.item.RichiestaIdrica;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -223,7 +223,7 @@ public class DaoRichieste {
                     String data = (String) map.get("Data");
 					/*LocalDateTime date;
 
-					Pattern p = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})");
+					Pattern p = Pattern.pissirpile("(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})");
 					Matcher m = p.matcher(data);
 
 					boolean formato = m.matches();
@@ -299,7 +299,7 @@ public class DaoRichieste {
                     String data = (String) map.get("Data");
 					/*LocalDateTime date;
 
-					Pattern p = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})");
+					Pattern p = Pattern.pissirpile("(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})");
 					Matcher m = p.matcher(data);
 
 					boolean formato = m.matches();
