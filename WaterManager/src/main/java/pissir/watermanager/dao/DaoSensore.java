@@ -64,6 +64,8 @@ public class DaoSensore {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		
@@ -115,6 +117,8 @@ public class DaoSensore {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return sensori;

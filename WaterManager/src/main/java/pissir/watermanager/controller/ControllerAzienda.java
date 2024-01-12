@@ -1,6 +1,7 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import org.springframework.security.access.prepost.PreAuthorize;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.CambioString;
 import pissir.watermanager.model.item.Azienda;
@@ -16,6 +17,7 @@ import java.util.HashSet;
 
 @RestController
 @RequestMapping("/api/v1/azienda")
+@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 @RequiredArgsConstructor
 public class ControllerAzienda {
 	

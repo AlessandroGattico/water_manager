@@ -77,3 +77,10 @@
 /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.pdb
 /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.genruntimeconfig.cache
 /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/obj/Debug/net7.0/ref/WaterManagerUI.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.Extensions.DependencyInjection.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.Extensions.Logging.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.Extensions.Logging.Abstractions.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.Extensions.Primitives.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Newtonsoft.Json.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Oauth2Login.dll

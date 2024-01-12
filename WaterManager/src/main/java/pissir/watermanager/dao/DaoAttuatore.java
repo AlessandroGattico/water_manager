@@ -24,12 +24,12 @@ public class DaoAttuatore {
 	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoAttuatore () {
+	public DaoAttuatore() {
 	
 	}
 	
 	
-	public Attuatore getAttuatoreId (int uuidAttuatore) {
+	public Attuatore getAttuatoreId(int uuidAttuatore) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -61,7 +61,10 @@ public class DaoAttuatore {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		
@@ -69,7 +72,7 @@ public class DaoAttuatore {
 	}
 	
 	
-	public HashSet<Attuatore> getAttuatoriCampo (long uuidCampo) {
+	public HashSet<Attuatore> getAttuatoriCampo(long uuidCampo) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -110,14 +113,17 @@ public class DaoAttuatore {
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return attuatori;
 	}
 	
 	
-	public int addAttuatore (Attuatore attuatore) {
+	public int addAttuatore(Attuatore attuatore) {
 		int id = 0;
 		
 		String query = """
@@ -139,15 +145,17 @@ public class DaoAttuatore {
 					id = resultSet.getInt(1);
 				}
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
 			
+			return id;
 		}
 		return id;
 	}
 	
 	
-	public void deleteAttuatore (int uuidAttuatore) {
+	public void deleteAttuatore(int uuidAttuatore) {
 		String query = """
 				DELETE FROM attuatore
 				WHERE id = ? ;
@@ -160,13 +168,14 @@ public class DaoAttuatore {
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
 		}
 		
 	}
 	
 	
-	public Boolean cambiaNome (CambioString cambio) {
+	public Boolean cambiaNome(CambioString cambio) {
 		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
@@ -190,7 +199,7 @@ public class DaoAttuatore {
 	}
 	
 	
-	public Boolean cambiaCampo (CambioInt cambio) {
+	public Boolean cambiaCampo(CambioInt cambio) {
 		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);

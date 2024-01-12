@@ -1,10 +1,10 @@
 package pissir.watermanager.dao;
 
-import pissir.watermanager.model.cambio.CambioString;
-import pissir.watermanager.model.item.BacinoIdrico;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.model.cambio.CambioString;
+import pissir.watermanager.model.item.BacinoIdrico;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,11 +26,11 @@ public class DaoBacinoIdrico {
 	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoBacinoIdrico () {
+	public DaoBacinoIdrico() {
 	}
 	
 	
-	public BacinoIdrico getBacinoId (int bacino) {
+	public BacinoIdrico getBacinoId(int bacino) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -66,13 +66,15 @@ public class DaoBacinoIdrico {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return bacinoIdrico;
 	}
 	
 	
-	public HashSet<BacinoIdrico> getBacini () {
+	public HashSet<BacinoIdrico> getBacini() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -112,14 +114,18 @@ public class DaoBacinoIdrico {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return bacini;
 	}
 	
 	
-	public int addBacino (BacinoIdrico bacinoIdrico) {
-		String queryInsert = """
+	public int addBacino(BacinoIdrico bacinoIdrico) {
+		int id = 0;
+		
+		String query = """
 				INSERT INTO bacino (nome, id_user)
 				VALUES (?, ?);
 				SELECT  last_insert_rowid() AS newId;
@@ -127,71 +133,50 @@ public class DaoBacinoIdrico {
 		
 		try (
 				Connection connection = DriverManager.getConnection(this.url);
-				PreparedStatement insertStatement = connection.prepareStatement(queryInsert)) {
+				PreparedStatement statement = connection.prepareStatement(query)) {
 			
-			insertStatement.setString(1, bacinoIdrico.getNome());
-			insertStatement.setInt(2, bacinoIdrico.getIdGestore());
+			statement.setString(1, bacinoIdrico.getNome());
+			statement.setInt(2, bacinoIdrico.getIdGestore());
 			
-			insertStatement.executeUpdate();
+			statement.executeUpdate();
 			
-		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-		}
-		
-		return 0;
-	}
-	
-	
-	public void deleteBacino (BacinoIdrico bacino) {
-		String query = """
-				DELETE FROM bacino
-				WHERE id = ? ;
-				""";
-		
-		if (this.exist(bacino.getNome())) {
-			try (Connection connection = DriverManager.getConnection(this.url);
-				 PreparedStatement statement = connection.prepareStatement(query)) {
-				
-				statement.setLong(1, bacino.getId());
-				
-				statement.executeUpdate();
-			} catch (SQLException e) {
-				logger.error(e.getMessage());
-				loggerSql.error(e.getMessage(), e);
-			}
-		}
-	}
-	
-	
-	private boolean exist (String nome) {
-		String query = """
-				SELECT COUNT(*)
-				FROM bacino
-				WHERE nome = ? ;
-				""";
-		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			statement.setString(1, nome);
-			
-			try (ResultSet resultSet = statement.executeQuery()) {
+			try (ResultSet resultSet = statement.getGeneratedKeys();) {
 				if (resultSet.next()) {
-					int count = resultSet.getInt(1);
-					return count > 0;
+					id = resultSet.getInt(1);
 				}
 			}
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return id;
 		}
 		
-		return false;
+		return id;
 	}
 	
 	
-	public BacinoIdrico getBacinoUser (int idGestore) {
+	public void deleteBacino(BacinoIdrico bacino) {
+		String query = """
+				DELETE FROM bacino
+				WHERE id = ? ;
+				""";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			
+			statement.setLong(1, bacino.getId());
+			
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+		}
+		
+	}
+	
+	
+	public BacinoIdrico getBacinoUser(int idGestore) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -226,13 +211,15 @@ public class DaoBacinoIdrico {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return bacinoIdrico;
 	}
 	
 	
-	public Boolean cambiaNome (CambioString cambio) {
+	public Boolean cambiaNome(CambioString cambio) {
 		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);

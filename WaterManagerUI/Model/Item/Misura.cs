@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace WaterManagerUI.Model.Item;
 
 public class Misura
@@ -16,6 +18,7 @@ public class Misura
         this.idSensore = idSensore;
     }
 
+    [JsonConstructor]
     public Misura(int id, double value, string time, int idSensore)
     {
         this.id = id;

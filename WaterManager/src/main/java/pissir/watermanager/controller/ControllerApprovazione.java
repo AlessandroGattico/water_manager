@@ -3,6 +3,7 @@ package pissir.watermanager.controller;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.CambioBool;
@@ -17,13 +18,15 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/v1/approvazione")
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('GESTOREIDRICO') or hasAuthority('SYSTEMADMIN')")
 public class ControllerApprovazione {
 	
 	private final DAO daoApprovazione;
+	private final Gson gson;
 	
 	
 	@GetMapping(value = "/get/{id}")
-	public String getApprovazioneId (@PathVariable int id) {
+	public String getApprovazioneId(@PathVariable int id) {
 		Gson gson = new Gson();
 		Approvazione approvazione = this.daoApprovazione.getApprovazioneId(id);
 		
@@ -32,7 +35,7 @@ public class ControllerApprovazione {
 	
 	
 	@GetMapping(value = "/getGestore/{id}")
-	public String getApprovazioniGestore (@PathVariable int id) {
+	public String getApprovazioniGestore(@PathVariable int id) {
 		HashSet<Approvazione> approvazioni = this.daoApprovazione.getApprovazioniGestore(id);
 		Gson gson = new Gson();
 		
@@ -41,7 +44,7 @@ public class ControllerApprovazione {
 	
 	
 	@PostMapping(value = "/add")
-	public ResponseEntity<Integer> addApprovazione (@RequestBody String param) {
+	public ResponseEntity<Integer> addApprovazione(@RequestBody String param) {
 		Gson gson = new Gson();
 		Approvazione approvazione = gson.fromJson(param, Approvazione.class);
 		
@@ -50,13 +53,13 @@ public class ControllerApprovazione {
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
-	public void deleteApprovazione (@PathVariable int id) {
+	public void deleteApprovazione(@PathVariable int id) {
 		this.daoApprovazione.deleteApprovazione(id);
 	}
 	
 	
 	@PostMapping(value = "/modifica/app")
-	public ResponseEntity<Boolean> modificaApprovato (@RequestBody String param) {
+	public ResponseEntity<Boolean> modificaApprovato(@RequestBody String param) {
 		Gson gson = new Gson();
 		CambioBool cambio = gson.fromJson(param, CambioBool.class);
 		

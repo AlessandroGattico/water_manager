@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace WaterManagerUI.Model.Item;
 
 public class RichiestaIdrica
@@ -18,6 +20,7 @@ public class RichiestaIdrica
         this.date = date;
     }
 
+    [JsonConstructor]
     public RichiestaIdrica(int id, double quantita, int idColtivazione, int idBacino, string date)
     {
         this.id = id;

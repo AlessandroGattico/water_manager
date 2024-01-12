@@ -64,6 +64,8 @@ public class DaoRichieste {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return richiestaIdrica;
@@ -118,6 +120,8 @@ public class DaoRichieste {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return richieste;
@@ -172,6 +176,8 @@ public class DaoRichieste {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return richieste;
@@ -367,6 +373,8 @@ public class DaoRichieste {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return id;
 		}
 		
 		return id;
@@ -391,7 +399,6 @@ public class DaoRichieste {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
-			
 		}
 	}
 	

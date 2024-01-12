@@ -2,12 +2,13 @@ package pissir.watermanager.controller;
 
 
 import com.google.gson.Gson;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.CambioBool;
 import pissir.watermanager.model.item.Attivazione;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 
@@ -16,15 +17,16 @@ import java.util.HashSet;
  */
 
 @RestController
-@RequestMapping("/api/v1/attivazione")
+@RequestMapping("/api/v1/azienda/campagna/campo/attuatore/attivazione")
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 public class ControllerAttivazione {
 	
 	private final DAO daoAttivazioni;
 	
 	
 	@GetMapping(value = "/get/{id}")
-	public String getAttivazioneId (@PathVariable int id) {
+	public String getAttivazioneId(@PathVariable int id) {
 		Gson gson = new Gson();
 		Attivazione attivazione = this.daoAttivazioni.getAttivazioneId(id);
 		
@@ -33,7 +35,7 @@ public class ControllerAttivazione {
 	
 	
 	@GetMapping(value = "/getAttuatore/{id}")
-	public String getAttivazioniAttuatore (@PathVariable int id) {
+	public String getAttivazioniAttuatore(@PathVariable int id) {
 		Gson gson = new Gson();
 		HashSet<Attivazione> attivazioni = this.daoAttivazioni.getAttivazioniAttuatore(id);
 		
@@ -42,7 +44,7 @@ public class ControllerAttivazione {
 	
 	
 	@PostMapping(value = "/add")
-	public ResponseEntity<Integer> addAttivazione (@RequestBody String param) {
+	public ResponseEntity<Integer> addAttivazione(@RequestBody String param) {
 		Gson gson = new Gson();
 		Attivazione attivazione = gson.fromJson(param, Attivazione.class);
 		
@@ -51,15 +53,17 @@ public class ControllerAttivazione {
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
-	public void deleteAttivazione (@PathVariable int id) {
+	public void deleteAttivazione(@PathVariable int id) {
 		this.daoAttivazioni.deleteAttivazione(id);
 	}
 	
+	
 	@PostMapping(value = "/modifica/att")
-	public ResponseEntity<Boolean> modificaAttivazione (@RequestBody String param) {
+	public ResponseEntity<Boolean> modificaAttivazione(@RequestBody String param) {
 		Gson gson = new Gson();
 		CambioBool cambio = gson.fromJson(param, CambioBool.class);
 		
 		return ResponseEntity.ok(this.daoAttivazioni.cambiaAttivazione(cambio));
 	}
+	
 }

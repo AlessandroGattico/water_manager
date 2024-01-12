@@ -1,10 +1,10 @@
 package pissir.watermanager.dao;
 
-import pissir.watermanager.model.cambio.CambioString;
-import pissir.watermanager.model.user.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.model.cambio.CambioString;
+import pissir.watermanager.model.user.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,14 +20,16 @@ public class DaoUser {
 	
 	private final Logger logger = LogManager.getLogger(DaoUser.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	private final String url =
+			"jdbc:sqlite:/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoUser () {
+	public DaoUser() {
 	}
 	
 	
-	public Admin getAdmin (String username, String password) {
+	public Admin getAdmin(String username, String password) {
 		Admin admin = (Admin) this.getUser(username, password);
 		
 		admin.setGestoriAziende(this.getGestoriAzienda());
@@ -37,7 +39,7 @@ public class DaoUser {
 	}
 	
 	
-	private HashSet<GestoreIdrico> getGestoriIdrici () {
+	private HashSet<GestoreIdrico> getGestoriIdrici() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -46,7 +48,7 @@ public class DaoUser {
 		
 		String query = """
 				SELECT *
-				FROM user
+				FROM users
 				WHERE role = 'GESTOREIDRICO';
 				""";
 		
@@ -69,22 +71,24 @@ public class DaoUser {
 			}
 			
 			for (HashMap<String, Object> map : list) {
-				GestoreIdrico user = new GestoreIdrico((int) map.get("id"), (String) map.get("nome"),
-						(String) map.get("cognome"), (String) map.get("username"), (String) map.get("mail"),
-						(String) map.get("password"));
+				GestoreIdrico user =
+						new GestoreIdrico((int) map.get("id"), (String) map.get("nome"), (String) map.get("cognome"),
+								(String) map.get("username"), (String) map.get("mail"), (String) map.get("password"));
 				
 				utenti.add(user);
 			}
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return utenti;
 	}
 	
 	
-	private HashSet<GestoreAzienda> getGestoriAzienda () {
+	private HashSet<GestoreAzienda> getGestoriAzienda() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -93,7 +97,7 @@ public class DaoUser {
 		
 		String query = """
 				SELECT *
-				FROM user
+				FROM users
 				WHERE role = 'GESTOREAZIENDA';
 				""";
 		
@@ -116,22 +120,24 @@ public class DaoUser {
 			}
 			
 			for (HashMap<String, Object> map : list) {
-				GestoreAzienda user = new GestoreAzienda((int) map.get("id"), (String) map.get("nome"),
-						(String) map.get("cognome"), (String) map.get("username"), (String) map.get("mail"),
-						(String) map.get("password"));
+				GestoreAzienda user =
+						new GestoreAzienda((int) map.get("id"), (String) map.get("nome"), (String) map.get("cognome"),
+								(String) map.get("username"), (String) map.get("mail"), (String) map.get("password"));
 				
 				utenti.add(user);
 			}
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return utenti;
 	}
 	
 	
-	public UserProfile getUser (String username, String password) {
+	public UserProfile getUser(String username, String password) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -139,7 +145,7 @@ public class DaoUser {
 		
 		String query = """
 				SELECT *
-				FROM user
+				FROM users
 				WHERE username = ?
 				AND password = ? ;
 				""";
@@ -160,22 +166,66 @@ public class DaoUser {
 						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 					}
 					
-					user = new UserProfile((int) row.get("id"), (String) row.get("nome"),
-							(String) row.get("cognome"), (String) row.get("username"), (String) row.get("mail"),
-							(String) row.get("password"),
-							(UserRole) row.get("Role"));
+					user = new UserProfile((int) row.get("id"), (String) row.get("nome"), (String) row.get("cognome"),
+							(String) row.get("username"), (String) row.get("mail"), (String) row.get("password"),
+							(UserRole) row.get("role"));
 				}
 			}
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return user;
 	}
 	
 	
-	public HashSet<UserProfile> getUtenti () {
+	public UserProfile getUserByUsername(String username) {
+		int columns;
+		HashMap<String, Object> row;
+		ResultSetMetaData resultSetMetaData;
+		UserProfile user = null;
+		
+		String query = """
+				SELECT *
+				FROM users
+				WHERE username = ?;
+				""";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			
+			statement.setString(1, username);
+			
+			try (ResultSet resultSet = statement.executeQuery()) {
+				resultSetMetaData = resultSet.getMetaData();
+				columns = resultSetMetaData.getColumnCount();
+				
+				while (resultSet.next()) {
+					row = new HashMap<>(columns);
+					for (int i = 1; i <= columns; ++ i) {
+						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+					}
+					
+					user = new UserProfile((int) row.get("id"), (String) row.get("nome"), (String) row.get("cognome"),
+							(String) row.get("username"), (String) row.get("mail"), (String) row.get("password"),
+							UserRole.valueOf((String) row.get("role")));
+				}
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return null;
+		}
+		
+		return user;
+	}
+	
+	
+	public HashSet<UserProfile> getUtenti() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -184,7 +234,7 @@ public class DaoUser {
 		
 		String query = """
 				SELECT *
-				FROM user
+				FROM users
 				WHERE role <> 'SYSTEMADMIN';
 				""";
 		
@@ -207,27 +257,29 @@ public class DaoUser {
 			}
 			
 			for (HashMap<String, Object> map : list) {
-				UserProfile user = new UserProfile((int) map.get("id"), (String) map.get("nome"),
-						(String) map.get("cognome"), (String) map.get("username"), (String) map.get("mail"),
-						(String) map.get("password"),
-						(UserRole) map.get("role"));
+				UserProfile user =
+						new UserProfile((int) map.get("id"), (String) map.get("nome"), (String) map.get("cognome"),
+								(String) map.get("username"), (String) map.get("mail"), (String) map.get("password"),
+								(UserRole) map.get("role"));
 				
 				utenti.add(user);
 			}
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return utenti;
 	}
 	
 	
-	public int addUser (UserProfile user) {
+	public int addUser(UserProfile user) {
 		int id = 0;
 		
 		String query = """
-				INSERT INTO user (nome, cognome, username, mail, password, role)
+				INSERT INTO users (nome, cognome, username, mail, password, role)
 				VALUES (?, ?, ?, ?, ?, ?);
 				SELECT last_insert_rowid() AS newId;
 				""";
@@ -257,9 +309,9 @@ public class DaoUser {
 	}
 	
 	
-	public void deleteUser (UserProfile user) {
+	public void deleteUser(UserProfile user) {
 		String query = """
-				DELETE FROM user
+				DELETE FROM users
 				WHERE username = ?
 				""";
 		
@@ -276,7 +328,7 @@ public class DaoUser {
 	}
 	
 	
-	public GestoreIdrico getGestoreIdrico (String username, String password) {
+	public GestoreIdrico getGestoreIdrico(int id) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -284,16 +336,14 @@ public class DaoUser {
 		
 		String query = """
 				SELECT *
-				FROM user
-				WHERE username = ?
-				AND password = ? ;
+				FROM users
+				WHERE id = ?;
 				""";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
-			statement.setString(1, username);
-			statement.setString(2, password);
+			statement.setInt(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				resultSetMetaData = resultSet.getMetaData();
@@ -306,15 +356,16 @@ public class DaoUser {
 						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 					}
 					
-					user = new GestoreIdrico((int) row.get("id"), (String) row.get("nome"),
-							(String) row.get("cognome"), (String) row.get("username"), (String) row.get("mail"),
-							(String) row.get("password"));
+					user = new GestoreIdrico((int) row.get("id"), (String) row.get("nome"), (String) row.get("cognome"),
+							(String) row.get("username"), (String) row.get("mail"), (String) row.get("password"));
 				}
 			}
 			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		
@@ -322,7 +373,7 @@ public class DaoUser {
 	}
 	
 	
-	public GestoreAzienda getGestoreAzienda (String username, String password) {
+	public GestoreAzienda getGestoreAzienda(int id) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -330,16 +381,14 @@ public class DaoUser {
 		
 		String query = """
 				SELECT *
-				FROM user
-				WHERE username = ?
-				AND password = ? ;
+				FROM users
+				WHERE id = ?;
 				""";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
-			statement.setString(1, username);
-			statement.setString(2, password);
+			statement.setInt(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				resultSetMetaData = resultSet.getMetaData();
@@ -361,6 +410,8 @@ public class DaoUser {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		
@@ -368,8 +419,8 @@ public class DaoUser {
 	}
 	
 	
-	public Boolean cambiaNome (CambioString cambio) {
-		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
+	public Boolean cambiaNome(CambioString cambio) {
+		String query = "UPDATE users SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
@@ -392,8 +443,8 @@ public class DaoUser {
 	}
 	
 	
-	public Boolean cambiaCognome (CambioString cambio) {
-		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
+	public Boolean cambiaCognome(CambioString cambio) {
+		String query = "UPDATE users SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
@@ -416,8 +467,8 @@ public class DaoUser {
 	}
 	
 	
-	public Boolean cambiaPassword (CambioString cambio) {
-		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
+	public Boolean cambiaPassword(CambioString cambio) {
+		String query = "UPDATE users SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {

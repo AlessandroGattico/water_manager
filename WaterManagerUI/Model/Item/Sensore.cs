@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace WaterManagerUI.Model.Item;
 
 public class Sensore
@@ -18,6 +20,7 @@ public class Sensore
         this.idCampo = idCampo;
     }
 
+    [JsonConstructor]
     public Sensore(int id, string nome, string type, HashSet<Misura> misure, int idCampo)
     {
         this.id = id;

@@ -1,66 +1,65 @@
 package pissir.watermanager.security.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pissir.watermanager.security.model.ApplicationUser;
+import pissir.watermanager.model.user.UserProfile;
+import pissir.watermanager.security.model.LoginRequestDTO;
 import pissir.watermanager.security.model.LoginResponseDTO;
-import pissir.watermanager.security.model.Role;
-import pissir.watermanager.security.repository.RoleRepository;
+import pissir.watermanager.security.model.RegistrationDTO;
 import pissir.watermanager.security.repository.UserRepository;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 @Transactional
 public class AuthenticationService {
 	
-	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	
-	@Autowired
-	private RoleRepository roleRepository;
+	private final PasswordEncoder encoder;
 	
-	@Autowired
-	private PasswordEncoder encoder;
+	private final AuthenticationManager authenticationManager;
 	
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	private final TokenService tokenService;
 	
-	@Autowired
-	private TokenService tokenService;
 	
-	public ApplicationUser registerUser(String username, String password){
-		String encodedPassword = encoder.encode(password);
-		Role userRole = roleRepository.findByAuthority("USER").get();
-		
-		Set<Role> authorities = new HashSet<>();
-		
-		authorities.add(userRole);
-		
-		return userRepository.save(new ApplicationUser(0, username, encodedPassword, authorities));
-		
+	public AuthenticationService(UserRepository userRepository, PasswordEncoder encoder,
+								 AuthenticationManager authenticationManager, TokenService tokenService) {
+		this.userRepository = userRepository;
+		this.encoder = encoder;
+		this.authenticationManager = authenticationManager;
+		this.tokenService = tokenService;
 	}
 	
 	
-	public LoginResponseDTO loginUser(String username, String password){
+	public LoginResponseDTO registerUser(RegistrationDTO reg) {
+		String encodedPassword = encoder.encode(reg.getPassword());
 		
-		try {
-			Authentication auth = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(username, password)
-			);
+		UserProfile user =
+				new UserProfile(reg.getNome(), reg.getCognome(), reg.getUsername(), reg.getMail(), encodedPassword,
+						reg.getRole());
+		
+		userRepository.saveUser(user);
+		
+		
+		return this.loginUser(new LoginRequestDTO(user.getUsername(), user.getPassword()));
+	}
+	
+	
+	public LoginResponseDTO loginUser(LoginRequestDTO login) {
+		UserProfile user = userRepository.findByUsername(login.getUsername());
+		
+		String password = user.getPassword();
+		
+		user.setPassword(this.encoder.encode(password));
+		
+		if (user != null && encoder.matches(login.getPassword(), user.getPassword())) {
+			String token = tokenService.generateJwt(user);
 			
-			String token = tokenService.generateJwt(auth);
-			
-			return new LoginResponseDTO(userRepository.findByUsername(username).get(), token);
-		} catch (AuthenticationException e){
+			return new LoginResponseDTO(user, token);
+		} else {
 			return new LoginResponseDTO(null, "");
 		}
 	}
+	
 }

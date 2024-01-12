@@ -61,7 +61,10 @@ public class DaoColtivazione {
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return coltivazione;
@@ -113,6 +116,8 @@ public class DaoColtivazione {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return coltivazioni;
@@ -147,6 +152,8 @@ public class DaoColtivazione {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return id;
 		}
 		
 		return id;
@@ -210,6 +217,8 @@ public class DaoColtivazione {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return raccolti;
@@ -297,6 +306,8 @@ public class DaoColtivazione {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return esigenze;
@@ -386,6 +397,8 @@ public class DaoColtivazione {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return irrigazioni;

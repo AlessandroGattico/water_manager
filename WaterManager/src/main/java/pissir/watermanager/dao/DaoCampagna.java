@@ -63,6 +63,8 @@ public class DaoCampagna {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		
@@ -113,6 +115,8 @@ public class DaoCampagna {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return campagne;
@@ -144,6 +148,8 @@ public class DaoCampagna {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return id;
 		}
 		
 		return id;

@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace WaterManagerUI.Model.Item;
 
 public class Azienda
@@ -18,6 +20,7 @@ public class Azienda
         this.risorse = new HashSet<RisorsaIdrica>();
     }
 
+    [JsonConstructor]
     public Azienda(int id, string nome, HashSet<Campagna> campagne, HashSet<RisorsaIdrica> risorse, int idGestore)
     {
         this.id = id;

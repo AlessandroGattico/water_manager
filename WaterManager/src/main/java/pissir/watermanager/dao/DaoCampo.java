@@ -64,6 +64,8 @@ public class DaoCampo {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return campo;
@@ -113,6 +115,8 @@ public class DaoCampo {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return campi;
@@ -144,6 +148,8 @@ public class DaoCampo {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return id;
 		}
 		
 		return id;

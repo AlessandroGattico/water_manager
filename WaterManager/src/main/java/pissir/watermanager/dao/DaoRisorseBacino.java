@@ -61,7 +61,10 @@ public class DaoRisorseBacino {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return risorsaIdrica;
@@ -112,6 +115,8 @@ public class DaoRisorseBacino {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return risorse;

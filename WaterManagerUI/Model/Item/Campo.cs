@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace WaterManagerUI.Model.Item;
 
 public class Campo
@@ -22,6 +24,7 @@ public class Campo
         this.attuatori = new HashSet<Attuatore>();
     }
 
+    [JsonConstructor]
     public Campo(int id, string nome, double dimensione, HashSet<Coltivazione> coltivazioni, HashSet<Sensore> sensori,
         HashSet<Attuatore> attuatori, int idCampagna)
     {

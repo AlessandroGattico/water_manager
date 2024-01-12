@@ -20,12 +20,32 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/GestoreAzienda.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvR2VzdG9yZUF6aWVuZGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/GestoreIdrico.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvR2VzdG9yZUlkcmljby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Home.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSG9tZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Privacy.cshtml]

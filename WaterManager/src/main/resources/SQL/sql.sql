@@ -73,7 +73,7 @@ create table azienda
     insert_time timestamp default current_timestamp,
     id_user     integer not null
         constraint azienda_user_id_fk
-            references user (id)
+            references users (id)
             on delete cascade
 );
 
@@ -85,7 +85,7 @@ create table bacino
     nome        text    not null,
     id_user     integer not null
         constraint bacino_user_id_fk
-            references user (id)
+            references users (id)
             on delete cascade,
     insert_time timestamp default current_timestamp
 );
@@ -204,7 +204,7 @@ create table approvazione
             on delete cascade,
     id_gestore   integer not null
         constraint approvazione_user_id_fk
-            references user
+            references users
             on delete cascade,
     approvato    boolean not null,
     date         date    not null,

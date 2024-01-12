@@ -1,6 +1,7 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import org.springframework.security.access.prepost.PreAuthorize;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.RisorsaIdrica;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/v1/risorsa")
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 public class ControllerRisorsaIdrica {
 	
 	private final DAO dao;

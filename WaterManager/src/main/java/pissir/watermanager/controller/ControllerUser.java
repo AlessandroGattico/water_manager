@@ -3,6 +3,7 @@ package pissir.watermanager.controller;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.CambioString;
@@ -26,7 +27,7 @@ public class ControllerUser {
 	
 	
 	@GetMapping(value = "/admin")
-	public String getAdmin (@RequestBody String username, String password) {
+	public String getAdmin(@RequestBody String username, String password) {
 		Gson gson = new Gson();
 		Admin admin = this.daoUser.getAdmin(username, password);
 		
@@ -35,7 +36,7 @@ public class ControllerUser {
 	
 	
 	@GetMapping(value = "/get")
-	public String getUser (@RequestBody String username, String password) {
+	public String getUser(@RequestBody String username, String password) {
 		Gson gson = new Gson();
 		UserProfile userProfile = this.daoUser.getUser(username, password);
 		
@@ -43,26 +44,29 @@ public class ControllerUser {
 	}
 	
 	
-	@GetMapping(value = "/get/ga")
-	public String getGestoreAzienda (String username, String password) {
+	@GetMapping(value = "/get/ga/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String getGestoreAzienda(@PathVariable int id) {
 		Gson gson = new Gson();
-		GestoreAzienda gestoreAzienda = this.daoUser.getGestoreAzienda(username, password);
+		GestoreAzienda gestoreAzienda = this.daoUser.getGestoreAzienda(id);
 		
 		return gson.toJson(gestoreAzienda);
 	}
 	
 	
-	@GetMapping("/get/gi")
-	public String getGestoreIdrico (String username, String password) {
+	@GetMapping("/get/gi/{id}")
+	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
+	public String getGestoreIdrico(@PathVariable int id) {
 		Gson gson = new Gson();
-		GestoreIdrico gestoreIdrico = this.daoUser.getGestoreIdrico(username, password);
+		GestoreIdrico gestoreIdrico = this.daoUser.getGestoreIdrico(id);
 		
 		return gson.toJson(gestoreIdrico);
 	}
 	
 	
 	@GetMapping(value = "/getAll")
-	public String getUtenti () {
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
+	public String getUtenti() {
 		Gson gson = new Gson();
 		HashSet<UserProfile> users = this.daoUser.getUtenti();
 		
@@ -71,7 +75,7 @@ public class ControllerUser {
 	
 	
 	@PostMapping(value = "/add")
-	public ResponseEntity<Integer> addUser (@RequestBody String param) {
+	public ResponseEntity<Integer> addUser(@RequestBody String param) {
 		Gson gson = new Gson();
 		UserProfile user = gson.fromJson(param, UserProfile.class);
 		
@@ -80,7 +84,7 @@ public class ControllerUser {
 	
 	
 	@DeleteMapping(value = "/delete")
-	public void deleteUser (@RequestBody String param) {
+	public void deleteUser(@RequestBody String param) {
 		Gson gson = new Gson();
 		UserProfile user = gson.fromJson(param, UserProfile.class);
 		
@@ -89,7 +93,7 @@ public class ControllerUser {
 	
 	
 	@PostMapping(value = "/modifica/nome")
-	public ResponseEntity<Boolean> modificaNome (@RequestBody String param) {
+	public ResponseEntity<Boolean> modificaNome(@RequestBody String param) {
 		Gson gson = new Gson();
 		CambioString cambio = gson.fromJson(param, CambioString.class);
 		
@@ -98,7 +102,7 @@ public class ControllerUser {
 	
 	
 	@PostMapping(value = "/modifica/cognome")
-	public ResponseEntity<Boolean> modificaCognome (@RequestBody String param) {
+	public ResponseEntity<Boolean> modificaCognome(@RequestBody String param) {
 		Gson gson = new Gson();
 		CambioString cambio = gson.fromJson(param, CambioString.class);
 		
@@ -107,7 +111,7 @@ public class ControllerUser {
 	
 	
 	@PostMapping(value = "/modifica/password")
-	public ResponseEntity<Boolean> modificaPassword (@RequestBody String param) {
+	public ResponseEntity<Boolean> modificaPassword(@RequestBody String param) {
 		Gson gson = new Gson();
 		CambioString cambio = gson.fromJson(param, CambioString.class);
 		

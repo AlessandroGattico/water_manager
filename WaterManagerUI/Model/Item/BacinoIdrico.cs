@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace WaterManagerUI.Model.Item;
 
 public class BacinoIdrico
@@ -16,6 +18,7 @@ public class BacinoIdrico
         this.risorse = new HashSet<RisorsaIdrica>();
     }
 
+    [JsonConstructor]
     public BacinoIdrico(int id, string nome, HashSet<RisorsaIdrica> risorse, int idGestore)
     {
         this.id = id;

@@ -23,14 +23,16 @@ public class DaoAttivazioni {
 	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoAttivazioni () {
+	public DaoAttivazioni() {
 	}
 	
 	
-	public Attivazione getAttivazioneId (int uuidAttivazione) {
-		int columns;
+	public Attivazione getAttivazioneId(int uuidAttivazione) {
+		/*int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
+		
+		 */
 		Attivazione attivazione = null;
 		
 		String query = """
@@ -45,24 +47,28 @@ public class DaoAttivazioni {
 			statement.setLong(1, uuidAttivazione);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
+				//resultSetMetaData = resultSet.getMetaData();
+				//columns = resultSetMetaData.getColumnCount();
 				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
+					/*row = new HashMap<>(columns);
 					
 					for (int i = 1; i <= columns; ++ i) {
 						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 					}
 					
-					attivazione = new Attivazione((int) row.get("id"), (String) row.get("data"),
-							(boolean) row.get("stato"), (Integer) row.get("id_attuatore"));
+					 */
+					
+					attivazione = new Attivazione(resultSet.getInt("id"), resultSet.getString("data"),
+							resultSet.getBoolean("stato"), resultSet.getInt("id_attuatore"));
 				}
 			}
 			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		
@@ -70,7 +76,7 @@ public class DaoAttivazioni {
 	}
 	
 	
-	public HashSet<Attivazione> getAttivazioniAttuatore (int uuidAttuatore) {
+	public HashSet<Attivazione> getAttivazioniAttuatore(int uuidAttuatore) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -112,13 +118,15 @@ public class DaoAttivazioni {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return attivazioni;
 	}
 	
 	
-	public int addAttivazione (Attivazione attivazione) {
+	public int addAttivazione(Attivazione attivazione) {
 		int id = 0;
 		String query = """
 				INSERT INTO attivazione (current, time, id_attuatore)
@@ -150,7 +158,7 @@ public class DaoAttivazioni {
 	}
 	
 	
-	public void deleteAttivazione (int attivazione) {
+	public void deleteAttivazione(int attivazione) {
 		String query = """
 				DELETE FROM attivazione
 				WHERE id = ? ;
@@ -169,7 +177,7 @@ public class DaoAttivazioni {
 	}
 	
 	
-	public Boolean cambiaAttivazione (CambioBool cambio) {
+	public Boolean cambiaAttivazione(CambioBool cambio) {
 		String query = "UPDATE attivazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);

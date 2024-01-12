@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace WaterManagerUI.Model.Item;
 
 public class RisorsaIdrica
@@ -18,6 +20,7 @@ public class RisorsaIdrica
         this.idSource = idSource;
     }
 
+    [JsonConstructor]
     public RisorsaIdrica(int id, string data, double disponibilita, double consumo, int idSource)
     {
         this.id = id;

@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pissir.watermanager.model.user.UserProfile;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponseDTO {
-	private ApplicationUser user;
+	private UserProfile user;
 	private String jwt;
 }

@@ -1,0 +1,51 @@
+@page
+@model HomeModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    body {
+        background-image: url('../sfondi/sfondodef.png');
+        background-size: cover;
+        background-position: center;
+    }
+    .login-panel {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 50px;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 login-panel">
+            <h2>Benvenuto in WaterManagerUI</h2>
+            <p>Gestisci le tue risorse idriche in modo efficiente</p>
+            
+            <!-- Form di Login Standard -->
+            <form method="post" asp-page="/Login">
+                <div class="form-group">
+                    <label asp-for="loginRequestDTO.username"></label>
+                    <input asp-for="loginRequestDTO.username" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="loginRequestDTO.password"></label>
+                    <input asp-for="loginRequestDTO.password" class="form-control" type="password"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+
+            <!-- Link per la Registrazione -->
+            <p>
+                Non hai un account? <a asp-page="/Register">Registrati qui</a>.
+            </p>
+
+            <!-- Login OAuth2 con Google -->
+            <form method="post" asp-page="/ExternalLogin" asp-route-returnUrl="/">
+                <button name="provider" value="Google" title="Accedi usando il tuo account Google" class="btn btn-danger">Login con Google</button>
+            </form>
+        </div>
+    </div>
+</div>

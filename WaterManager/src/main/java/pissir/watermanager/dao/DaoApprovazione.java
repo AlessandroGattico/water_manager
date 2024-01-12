@@ -29,9 +29,11 @@ public class DaoApprovazione {
 	
 	
 	public Approvazione getApprovazioneId (int idRichiesta) {
-		int columns;
+		/*int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
+		
+		 */
 		Approvazione approvazione = null;
 		
 		String query = """
@@ -49,24 +51,28 @@ public class DaoApprovazione {
 			statement.setInt(1, idRichiesta);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
+				//resultSetMetaData = resultSet.getMetaData();
+				//columns = resultSetMetaData.getColumnCount();
 				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
+					/*row = new HashMap<>(columns);
 					
 					for (int i = 1; i <= columns; ++ i) {
 						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 					}
 					
-					approvazione = new Approvazione((int) row.get("id"), (int) row.get("idRichiesta"),
-							(int) row.get("idGestore"), (boolean) row.get("approvato"), (String) row.get("date"));
+					 */
+					
+					approvazione = new Approvazione(resultSet.getInt("id"), resultSet.getInt("id_richiesta"),
+							resultSet.getInt("id_gestore"), resultSet.getBoolean("approvato"), resultSet.getString("date"));
 				}
 			}
 			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		
@@ -120,6 +126,8 @@ public class DaoApprovazione {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return approvazioni;

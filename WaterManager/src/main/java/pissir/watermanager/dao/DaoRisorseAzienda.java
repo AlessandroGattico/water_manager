@@ -66,6 +66,8 @@ public class DaoRisorseAzienda {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return risorsaIdrica;
@@ -119,6 +121,8 @@ public class DaoRisorseAzienda {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return risorse;
@@ -159,6 +163,8 @@ public class DaoRisorseAzienda {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return id;
 		}
 		
 		return id;

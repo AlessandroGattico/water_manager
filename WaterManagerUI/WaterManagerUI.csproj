@@ -17,6 +17,9 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.14"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.14"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Oauth2Login" Version="1.2.1" />
     </ItemGroup>
 
 </Project>

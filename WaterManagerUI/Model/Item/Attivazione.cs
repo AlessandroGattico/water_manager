@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace WaterManagerUI.Model.Item;
 
 public class Attivazione
@@ -16,6 +18,7 @@ public class Attivazione
         this.idAttuatore = idAttuatore;
     }
 
+    [JsonConstructor]
     public Attivazione(int id, bool current, string time, int idAttuatore)
     {
         this.id = id;

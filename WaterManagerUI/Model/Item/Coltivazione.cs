@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace WaterManagerUI.Model.Item;
 
 public class Coltivazione
@@ -25,6 +27,7 @@ public class Coltivazione
         this.idCampo = idCampo;
     }
 
+    [JsonConstructor]
     public Coltivazione(int id, string raccolto, string irrigazione, string esigenza, double temperatura,
         double umidita, string semina, int idCampo)
     {

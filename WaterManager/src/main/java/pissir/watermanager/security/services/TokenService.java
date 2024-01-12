@@ -1,37 +1,38 @@
 package pissir.watermanager.security.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
+import pissir.watermanager.model.user.UserProfile;
 
+import java.time.Duration;
 import java.time.Instant;
-import java.util.stream.Collectors;
 
 @Service
 public class TokenService {
 	
-	@Autowired
-	private JwtEncoder jwtEncoder;
+	private final JwtEncoder jwtEncoder;
 	
-	@Autowired
-	private JwtDecoder jwtDecoder;
+	private final JwtDecoder jwtDecoder;
 	
-	public String generateJwt(Authentication auth){
+	
+	public TokenService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {
+		this.jwtEncoder = jwtEncoder;
+		this.jwtDecoder = jwtDecoder;
+	}
+	
+	
+	public String generateJwt(UserProfile user){
 		Instant now = Instant.now();
-		String scope = auth.getAuthorities().stream()
-				.map(GrantedAuthority ::getAuthority)
-				.collect(Collectors.joining(" "));
 		
 		JwtClaimsSet claims = JwtClaimsSet.builder()
 				.issuer("self")
 				.issuedAt(now)
-				.subject(auth.getName())
-				.claim("roles", scope)
+				.subject(user.getUsername())
+				.claim("roles", user.getRole())
+				.expiresAt(now.plus(Duration.ofHours(1)))
 				.build();
 		
 		

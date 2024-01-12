@@ -1,6 +1,7 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import org.springframework.security.access.prepost.PreAuthorize;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.*;
 import pissir.watermanager.model.item.Sensore;
@@ -15,8 +16,9 @@ import java.util.HashSet;
  */
 
 @RestController
-@RequestMapping("/api/v1/sensore")
+@RequestMapping("/api/v1/azienda/campagna/campo/sensore")
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 public class ControllerSensore {
 	
 	private final DAO daoSensore;

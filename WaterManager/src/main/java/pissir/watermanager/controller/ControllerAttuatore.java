@@ -1,13 +1,14 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.CambioInt;
 import pissir.watermanager.model.cambio.CambioString;
 import pissir.watermanager.model.item.Attuatore;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 
@@ -16,15 +17,16 @@ import java.util.HashSet;
  */
 
 @RestController
-@RequestMapping("/api/v1/attuatore")
+@RequestMapping("/api/v1/azienda/campagna/campo/attuatore")
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 public class ControllerAttuatore {
 	
 	private final DAO daoAttuatore;
 	
 	
 	@GetMapping(value = "/get/{id}")
-	public String getAttuatoreId (@PathVariable int id) {
+	public String getAttuatoreId(@PathVariable int id) {
 		Gson gson = new Gson();
 		Attuatore attuatore = this.daoAttuatore.getAttuatoreId(id);
 		
@@ -33,7 +35,7 @@ public class ControllerAttuatore {
 	
 	
 	@GetMapping(value = "/getCampo/{id}")
-	public String getAttuatoriCampo (@PathVariable int id) {
+	public String getAttuatoriCampo(@PathVariable int id) {
 		Gson gson = new Gson();
 		HashSet<Attuatore> attuatori = this.daoAttuatore.getAttuatoriCampo(id);
 		
@@ -42,7 +44,7 @@ public class ControllerAttuatore {
 	
 	
 	@PostMapping(value = "/add")
-	public ResponseEntity<Integer> addAttuatore (@RequestBody String param) {
+	public ResponseEntity<Integer> addAttuatore(@RequestBody String param) {
 		Gson gson = new Gson();
 		Attuatore attuatore = gson.fromJson(param, Attuatore.class);
 		
@@ -51,13 +53,13 @@ public class ControllerAttuatore {
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
-	public void deleteAttuatore (@PathVariable int id) {
+	public void deleteAttuatore(@PathVariable int id) {
 		this.daoAttuatore.deleteAttuatore(id);
 	}
 	
 	
 	@PostMapping(value = "/modifica/nome")
-	public ResponseEntity<Boolean> modificaNome (@RequestBody String param) {
+	public ResponseEntity<Boolean> modificaNome(@RequestBody String param) {
 		Gson gson = new Gson();
 		CambioString cambio = gson.fromJson(param, CambioString.class);
 		
@@ -66,7 +68,7 @@ public class ControllerAttuatore {
 	
 	
 	@PostMapping(value = "/modifica/campo")
-	public ResponseEntity<Boolean> modificaCampo (@RequestBody String param) {
+	public ResponseEntity<Boolean> modificaCampo(@RequestBody String param) {
 		Gson gson = new Gson();
 		CambioInt cambio = gson.fromJson(param, CambioInt.class);
 		

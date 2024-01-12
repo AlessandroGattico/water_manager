@@ -21,20 +21,25 @@ public class DaoAzienda {
 	private final Logger logger = LogManager.getLogger(DaoAzienda.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	private final String post = "jdbc:postgresql://localhost:5432/watermanager";
+	private final String password = "alessandro";
+	private final String username = "postgres";
 	
-	
-	public DaoAzienda () {
+	public DaoAzienda() {
 	}
 	
 	
-	public Azienda getAziendaId (int id) {
+	public Azienda getAziendaId(int id) {
 		logger.info("Get azienda per id");
 		logger.info("Id: " + id);
 		
-		int columns;
+		/*int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
 		Azienda azienda = new Azienda();
+		 */
+		
+		Azienda azienda = null;
 		
 		String query = """
 				SELECT *
@@ -52,32 +57,37 @@ public class DaoAzienda {
 			statement.setLong(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
+				//resultSetMetaData = resultSet.getMetaData();
+				//columns = resultSetMetaData.getColumnCount();
 				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
+					/*row = new HashMap<>(columns);
 					for (int i = 1; i <= columns; ++ i) {
 						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 					}
 					
-					azienda.setId((int) row.get("id"));
-					azienda.setNome((String) row.get("nome"));
-					azienda.setIdGestore((int) row.get("id_user"));
+					azienda.setId(resultSet.getInt("id"));
+					azienda.setNome(resultSet.getString("nome"));
+					azienda.setIdGestore(resultSet.getInt("id_user"));
+					
+					 */
+					azienda = new Azienda(resultSet.getInt("uuid"), resultSet.getString("nome"),
+							resultSet.getInt("id_user"));
 				}
 			}
 			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
-		
 		
 		return azienda;
 	}
 	
 	
-	public HashSet<Azienda> getAziende () {
+	public HashSet<Azienda> getAziende() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -119,6 +129,8 @@ public class DaoAzienda {
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return aziende;
@@ -126,7 +138,7 @@ public class DaoAzienda {
 	
 	
 	//aqggiungere id in return
-	public int addAzienda (Azienda azienda) {
+	public int addAzienda(Azienda azienda) {
 		int id = 0;
 		
 		logger.info("Add azienda");
@@ -139,7 +151,7 @@ public class DaoAzienda {
 				SELECT last_insert_rowid() AS newId;
 				""";
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
+		try (Connection connection = DriverManager.getConnection(this.post, this.username, this.password);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
 			loggerSql.debug("Executing sql " + query);
@@ -157,16 +169,18 @@ public class DaoAzienda {
 					id = resultSet.getInt(1);
 				}
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return id;
 		}
 		
 		return id;
 	}
 	
 	
-	public void deleteAzienda (int id) {
+	public void deleteAzienda(int id) {
 		String query = """
 				DELETE FROM azienda
 				WHERE id = ? ;
@@ -189,10 +203,12 @@ public class DaoAzienda {
 	}
 	
 	
-	public Azienda getAziendaUser (int idGestore) {
+	public Azienda getAziendaUser(int idGestore) {
+		/*
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
+		*/
 		Azienda azienda = null;
 		
 		logger.info("Get azienda user");
@@ -214,29 +230,23 @@ public class DaoAzienda {
 			statement.setInt(1, idGestore);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					azienda = new Azienda((int) row.get("uuid"), (String) row.get("nome"), idGestore);
+					azienda = new Azienda(resultSet.getInt("uuid"), resultSet.getString("nome"), idGestore);
 				}
 			}
 			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
+			
+			return null;
 		}
 		
 		return azienda;
 	}
 	
 	
-	public Boolean cambiaNome (CambioString cambio) {
+	public Boolean cambiaNome(CambioString cambio) {
 		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);

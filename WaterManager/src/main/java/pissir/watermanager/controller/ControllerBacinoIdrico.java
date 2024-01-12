@@ -1,6 +1,7 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import org.springframework.security.access.prepost.PreAuthorize;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.CambioString;
 import pissir.watermanager.model.item.BacinoIdrico;
@@ -17,6 +18,7 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/v1/bacino")
 @RequiredArgsConstructor
+@PreAuthorize("hasAuthority('GESTOREIDRICO') or hasAuthority('SYSTEMADMIN')")
 public class ControllerBacinoIdrico {
 	
 	private final DAO daoBacino;
