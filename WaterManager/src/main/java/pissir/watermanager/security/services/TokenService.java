@@ -1,14 +1,13 @@
 package pissir.watermanager.security.services;
 
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 import pissir.watermanager.model.user.UserProfile;
+import pissir.watermanager.model.user.UserRole;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class TokenService {
@@ -24,7 +23,7 @@ public class TokenService {
 	}
 	
 	
-	public String generateJwt(UserProfile user){
+	public String generateJwt(UserProfile user) {
 		Instant now = Instant.now();
 		
 		JwtClaimsSet claims = JwtClaimsSet.builder()
@@ -38,4 +37,17 @@ public class TokenService {
 		
 		return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 	}
+	
+	
+	public boolean validateTokenAndRole(String token, UserRole requiredRole) {
+		try {
+			Jwt jwt = jwtDecoder.decode(token);
+			List<String> roles = jwt.getClaimAsStringList("roles");
+			
+			return roles.contains(requiredRole.toString());
+		} catch (JwtException e) {
+			return false;
+		}
+	}
+	
 }

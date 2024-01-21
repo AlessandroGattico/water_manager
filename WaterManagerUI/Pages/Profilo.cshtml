@@ -1,0 +1,31 @@
+@page
+@model WaterManagerUI.Pages.Profilo
+
+<link rel="stylesheet" href="~/css/Profilo.css"/>
+
+<div class="profile-container">
+    <h2 class="profile-heading">Profilo Utente</h2>
+
+    @if (Model.user != null)
+    {
+        <div>
+            <div class="profile-detail">
+                <strong>Nome:</strong> @Model.user.nome
+            </div>
+            <div class="profile-detail">
+                <strong>Cognome:</strong> @Model.user.cognome
+            </div>
+            <div class="profile-detail">
+                <strong>Email:</strong> @Model.user.mail
+            </div>
+            <div class="profile-detail">
+                <strong>Username:</strong> @Model.user.username
+            </div>
+            <!-- Altri dettagli del profilo -->
+        </div>
+    }
+    else
+    {
+        <p>Non ci sono dettagli da visualizzare.</p>
+    }
+</div>

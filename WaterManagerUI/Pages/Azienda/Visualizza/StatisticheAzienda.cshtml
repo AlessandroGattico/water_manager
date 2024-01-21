@@ -1,0 +1,49 @@
+@page
+@model WaterManagerUI.Pages.StatisticheAzienda
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+<title>Azienda</title>
+
+<div class="main-container">
+    <aside class="sidebar">
+        <ul>
+            @if (Model.user?.azienda == null)
+            {
+                <div>
+                    <a href="/Azienda/Crea/CreaAzienda">Aggiungi Azienda</a>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <a href="/Azienda/Visualizza/GestoreAzienda">Statistiche Azienda</a>
+                </div>
+                <div>
+                    <a href="/Azienda/Visualizza/VisualizzaCampagne">Campagne</a>
+                </div>
+                <div>
+                    <a href="/Azienda/Visualizza/VisualizzaCampi">Campi</a>
+                </div>
+                <div>
+                    <a href="/Azienda/Visualizza/VisualizzaColtivazioni">Coltivazioni</a>
+                </div>
+                <div>
+                    <a href="/Azienda/Visualizza/VisualizzaRichiesta">Richieste</a>
+                </div>
+            }
+        </ul>
+    </aside>
+    
+    <div class="content">
+        @if (Model.user?.azienda != null)
+        {
+            <h2>Dettagli Azienda</h2>
+            <p>Nome Azienda: @Model.user.azienda.nome</p>
+        }
+        else
+        {
+            <p>Nessuna azienda registrata. Utilizza il link per aggiungere un'azienda.</p>
+        }
+    </div>
+</div>

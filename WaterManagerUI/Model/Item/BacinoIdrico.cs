@@ -7,8 +7,14 @@ public class BacinoIdrico
     public int id { get; set; }
     public String nome { get; set; }
     public HashSet<RisorsaIdrica> risorse { get; set; }
+    public HashSet<RichiestaIdrica> richieste { get; set; }
     public int idGestore { get; set; }
 
+    public BacinoIdrico()
+    {
+        this.risorse = new HashSet<RisorsaIdrica>();
+        this.richieste = new HashSet<RichiestaIdrica>();
+    }
 
     public BacinoIdrico(String nome, int idGestore)
     {

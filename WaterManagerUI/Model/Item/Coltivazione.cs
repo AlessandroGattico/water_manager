@@ -13,6 +13,9 @@ public class Coltivazione
     public String semina { get; set; }
     public int idCampo { get; set; }
 
+    public Coltivazione()
+    {
+    }
 
     public Coltivazione(String raccolto, String irrigazione, String esigenza, Double temperatura,
         Double umidita, String semina, int idCampo)
@@ -39,5 +42,18 @@ public class Coltivazione
         this.umidita = umidita;
         this.semina = semina;
         this.idCampo = idCampo;
+    }
+    
+    public DateTime SeminaAsDateTime()
+    {
+        DateTime seminaDate;
+        if (DateTime.TryParse(semina, out seminaDate))
+        {
+            return seminaDate;
+        }
+        else
+        {
+            return DateTime.MinValue;
+        }
     }
 }

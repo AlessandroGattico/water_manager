@@ -19,13 +19,15 @@ public class BacinoIdrico {
 	private String nome;
 	private HashSet<RisorsaIdrica> risorse;
 	private int idGestore;
+	private HashSet<RichiestaIdrica> richieste;
 	
 	
-	public BacinoIdrico (int id, String nome, int idGestore) {
+	public BacinoIdrico(int id, String nome, int idGestore) {
 		this.id = id;
 		this.nome = nome;
 		this.idGestore = idGestore;
 		this.risorse = new HashSet<>();
+		this.richieste = new HashSet<>();
 	}
 	
 }

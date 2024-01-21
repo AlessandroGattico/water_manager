@@ -10,6 +10,9 @@ public class Sensore
     public HashSet<Misura> misure { get; set; }
     public int idCampo { get; set; }
 
+    public Sensore()
+    {
+    }
 
     public Sensore(String nome, String type, int idCampo)
     {

@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pissir.watermanager.model.user.UserProfile;
+import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.model.LoginRequestDTO;
 import pissir.watermanager.security.model.LoginResponseDTO;
 import pissir.watermanager.security.model.RegistrationDTO;
@@ -33,28 +34,40 @@ public class AuthenticationService {
 	
 	
 	public LoginResponseDTO registerUser(RegistrationDTO reg) {
-		String encodedPassword = encoder.encode(reg.getPassword());
+		UserRole role = null;
+		
+		switch (reg.getRole()) {
+			case 0:
+				role = UserRole.SYSTEMADMIN;
+				break;
+			case 1:
+				role = UserRole.GESTOREAZIENDA;
+				break;
+			case 2:
+				role = UserRole.GESTOREIDRICO;
+			default:
+				break;
+		}
 		
 		UserProfile user =
-				new UserProfile(reg.getNome(), reg.getCognome(), reg.getUsername(), reg.getMail(), encodedPassword,
-						reg.getRole());
+				new UserProfile(reg.getNome(), reg.getCognome(), reg.getUsername(), reg.getMail(),
+						encoder.encode(reg.getPassword()), role);
 		
-		userRepository.saveUser(user);
+		this.userRepository.saveUser(user);
 		
 		
-		return this.loginUser(new LoginRequestDTO(user.getUsername(), user.getPassword()));
+		return this.loginUser(new LoginRequestDTO(user.getUsername(), reg.getPassword()));
 	}
 	
 	
 	public LoginResponseDTO loginUser(LoginRequestDTO login) {
 		UserProfile user = userRepository.findByUsername(login.getUsername());
 		
-		String password = user.getPassword();
-		
-		user.setPassword(this.encoder.encode(password));
 		
 		if (user != null && encoder.matches(login.getPassword(), user.getPassword())) {
 			String token = tokenService.generateJwt(user);
+			
+			user.setPassword("");
 			
 			return new LoginResponseDTO(user, token);
 		} else {

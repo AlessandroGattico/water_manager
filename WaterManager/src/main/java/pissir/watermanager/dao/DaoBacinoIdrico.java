@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.cambio.CambioString;
 import pissir.watermanager.model.item.BacinoIdrico;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +20,8 @@ public class DaoBacinoIdrico {
 	
 	private final Logger logger = LogManager.getLogger(DaoBacinoIdrico.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	Path path = Paths.get(System.getProperty("user.dir")).getParent().getParent();
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	private final String url =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
 	public DaoBacinoIdrico() {

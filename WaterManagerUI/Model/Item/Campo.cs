@@ -12,6 +12,9 @@ public class Campo
     public HashSet<Attuatore> attuatori { get; set; }
     public int idCampagna { get; set; }
 
+    public Campo()
+    {
+    }
 
     public Campo(String nome, Double dimensione, int idCampagna)
     {
@@ -35,5 +38,16 @@ public class Campo
         this.sensori = sensori;
         this.attuatori = attuatori;
         this.idCampagna = idCampagna;
+    }
+
+
+    public List<Coltivazione> storicoColtivazioni()
+    {
+        if (this.coltivazioni.Count == 0)
+        {
+            return new List<Coltivazione>();
+        }
+
+        return coltivazioni.OrderByDescending(c => c.SeminaAsDateTime()).ToList();
     }
 }

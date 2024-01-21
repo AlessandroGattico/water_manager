@@ -6,6 +6,8 @@ namespace UserInterfaceWaterManager.Model.User
         SYSTEMADMIN,
         GESTOREAZIENDA,
         GESTOREIDRICO
+        
+        
     }
 }
 

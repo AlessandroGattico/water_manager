@@ -84,3 +84,4 @@
 /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.Extensions.Primitives.dll
 /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Newtonsoft.Json.dll
 /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Oauth2Login.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.Google.dll

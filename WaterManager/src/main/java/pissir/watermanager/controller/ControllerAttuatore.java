@@ -1,6 +1,7 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,6 +10,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.CambioInt;
 import pissir.watermanager.model.cambio.CambioString;
 import pissir.watermanager.model.item.Attuatore;
+import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
 
@@ -17,12 +19,13 @@ import java.util.HashSet;
  */
 
 @RestController
-@RequestMapping("/api/v1/azienda/campagna/campo/attuatore")
+@RequestMapping("/api/v1/azienda/attuatore")
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 public class ControllerAttuatore {
 	
 	private final DAO daoAttuatore;
+	private final TokenService tokenService;
 	
 	
 	@GetMapping(value = "/get/{id}")
@@ -73,6 +76,15 @@ public class ControllerAttuatore {
 		CambioInt cambio = gson.fromJson(param, CambioInt.class);
 		
 		return ResponseEntity.ok(this.daoAttuatore.cambiaCampoAttuatore(cambio));
+	}
+	
+	
+	private String extractTokenFromRequest(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
 	}
 	
 }

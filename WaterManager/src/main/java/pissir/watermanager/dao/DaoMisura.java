@@ -1,9 +1,9 @@
 package pissir.watermanager.dao;
 
-import pissir.watermanager.model.item.Misura;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.model.item.Misura;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,14 +19,15 @@ public class DaoMisura {
 	
 	private final Logger logger = LogManager.getLogger(DaoColtivazione.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	private final String url =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoMisura () {
+	public DaoMisura() {
 	}
 	
 	
-	public Misura getMisuraId (int idMisura) {
+	public Misura getMisuraId(int idMisura) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -73,7 +74,7 @@ public class DaoMisura {
 	}
 	
 	
-	public HashSet<Misura> getMisureSensore (int idSensore) {
+	public HashSet<Misura> getMisureSensore(int idSensore) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -128,7 +129,7 @@ public class DaoMisura {
 	}
 	
 	
-	public void addMisura (Misura misura) {
+	public void addMisura(Misura misura) {
 		String query = """
 				INSERT INTO misura (value, time, id_sensore)
 				VALUES (?, ?, ?);
@@ -154,7 +155,7 @@ public class DaoMisura {
 	}
 	
 	
-	public void deleteMisura (int idMisura) {
+	public void deleteMisura(int idMisura) {
 		String query = """
 				DELETE FROM misura
 				WHERE id = ? ;

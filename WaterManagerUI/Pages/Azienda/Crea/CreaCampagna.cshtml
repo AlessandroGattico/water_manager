@@ -1,0 +1,23 @@
+@page
+@model WaterManagerUI.Pages.CreaCampagna
+
+<link rel="stylesheet" href="~/css/form.css"/>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>Crea campagna</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="campagna.nome">Nome campagna</label>
+                    <input asp-for="campagna.nome" class="form-control"/>
+                    <span asp-validation-for="campagna.nome" class="text-danger"></span>
+                </div>
+                <div>
+                    <input type="submit" value="Crea campagna" class="btn btn-primary form-button"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

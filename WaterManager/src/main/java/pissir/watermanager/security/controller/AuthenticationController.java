@@ -2,19 +2,22 @@ package pissir.watermanager.security.controller;
 
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pissir.watermanager.dao.DAO;
 import pissir.watermanager.security.model.LoginRequestDTO;
 import pissir.watermanager.security.model.RegistrationDTO;
 import pissir.watermanager.security.services.AuthenticationService;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @CrossOrigin("*")
 @RequiredArgsConstructor
 public class AuthenticationController {
 	
 	private final AuthenticationService authenticationService;
 	private final Gson gson;
+	private final DAO dao;
 	
 	
 	@PostMapping("/register")
@@ -31,5 +34,22 @@ public class AuthenticationController {
 		
 		return this.gson.toJson(authenticationService.loginUser(request));
 	}
+	
+	
+	@GetMapping("/verify/username/{username}")
+	public ResponseEntity<Boolean> verificaUsername(@PathVariable String username) {
+		boolean esiste = this.dao.existsByUsername(username);
+		
+		return ResponseEntity.ok(! esiste);
+	}
+	
+	
+	@GetMapping("/verify/mail/{email}")
+	public ResponseEntity<Boolean> verificaEmail(@PathVariable String email) {
+		boolean esiste = this.dao.existsByEmail(email);
+		
+		return ResponseEntity.ok(! esiste);
+	}
+	
 	
 }

@@ -1,0 +1,25 @@
+@page
+@model WaterManagerUI.Pages.CreaRichiesta
+
+<h2>Crea Richiesta</h2>
+
+<form method="post" asp-page-handler="addAzienda">
+    <div class="form-group">
+        <label asp-for="richiesta.quantita">Quantità richiesta</label>
+        <input asp-for="richiesta.quantita" class="form-control"/>
+        <span asp-validation-for="richiesta.quantita" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="richiesta.quantita">Quantità richiesta</label>
+        <select asp-for="richiesta.quantita" asp-items="@(new SelectList(Model.bacini))" class="form-control"></select>
+        <span asp-validation-for="richiesta.quantita" class="text-danger"></span>
+    </div>
+
+
+    <!-- Altri campi dell'azienda qui -->
+
+    <div>
+        <input type="submit" value="Crea" class="btn btn-primary"
+               style="margin: 10px; padding: 10px"/>
+    </div>
+</form>

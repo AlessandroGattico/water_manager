@@ -1,0 +1,90 @@
+@page
+@using WaterManagerUI.Pages.Shared
+@using WaterManagerUI.Model.Item
+@model WaterManagerUI.Pages.GestoreAziendaPage
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+<title>Azienda</title>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        @if (Model.azienda == null)
+                        {
+                            <div>
+                                <a href="/Azienda/Crea/CreaAzienda">Aggiungi Azienda</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
+                            </div>
+                            <div>
+                                <a href="/Azienda/Visualizza/VisualizzaCampagne">Campagne</a>
+                            </div>
+                            <div>
+                                <a href="/Azienda/Visualizza/VisualizzaCampi">Campi</a>
+                            </div>
+                            <div>
+                                <a href="/Azienda/Visualizza/VisualizzaColtivazioni">Coltivazioni</a>
+                            </div>
+                            <div>
+                                <a href="/Azienda/Visualizza/VisualizzaRichiesta">Richieste</a>
+                            </div>
+                        }
+                    </ul>
+                </span>
+            </aside>
+        </div>
+        <div class="col-md-8">
+            <div class="content">
+                @if (Model.user?.azienda != null)
+                {
+                    <h2>Dettagli Azienda</h2>
+                    <p>Nome Azienda: @Model.user.azienda.nome</p>
+
+                    <div class="elemento">
+                        <a href="/Azienda/Visualizza/VisualizzaCampagne">
+                            <div class="info-elemento nome">Disponibilità idrica: @Model.user.azienda.dispAttuale</div>
+                        </a>
+                    </div>
+                    <div class="elemento">
+                        <a href="/Azienda/Visualizza/VisualizzaCampagne">
+                            <div class="info-elemento nome">Dimensione: @Model.user.azienda.size()</div>
+                        </a>
+                    </div>
+                    <div class="elemento">
+                        <a href="/Azienda/Visualizza/VisualizzaCampagna">
+                            <div class="info-elemento nome">Campagne: @Model.user.azienda.campagne.Count</div>
+                        </a>
+                    </div>
+                    <div class="elemento">
+                        <a href="/Azienda/Visualizza/VisualizzaCampagna">
+                            <div class="info-elemento nome">Campi: @Model.user.azienda.campagne.Count</div>
+                        </a>
+                    </div>
+                    
+                    @if (Model.user.azienda.richieste != null)
+                    {
+                        <div class="elemento">
+                            <a href="/Azienda/Visualizza/VisualizzaCampagna">
+                                <div class="info-elemento nome">Richieste in sospeso: @Model.user.azienda.richiesteSospeso()</div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>Nessuna azienda registrata. Utilizza il link per aggiungere un'azienda.</p>
+                }
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

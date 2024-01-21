@@ -1,6 +1,7 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,6 +10,8 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.CambioInt;
 import pissir.watermanager.model.cambio.CambioString;
 import pissir.watermanager.model.item.Campo;
+import pissir.watermanager.model.user.UserRole;
+import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
 
@@ -17,20 +20,27 @@ import java.util.HashSet;
  */
 
 @RestController
-@RequestMapping("/api/v1/azienda/campagna/campo")
+@RequestMapping("/api/v1/azienda/campo")
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 public class ControllerCampo {
 	
 	private final DAO daoCampo;
+	private final TokenService tokenService;
 	
 	
-	@PostMapping(value = "/add/{id}")
-	public ResponseEntity<Integer> addCampo(@RequestBody String param) {
+	@PostMapping(value = "/add")
+	public String addCampo(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		Campo campo = gson.fromJson(param, Campo.class);
+		String jwt = extractTokenFromRequest(request);
 		
-		return ResponseEntity.ok(this.daoCampo.addCampo(campo));
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			Campo campo = gson.fromJson(param, Campo.class);
+			
+			return gson.toJson(this.daoCampo.addCampo(campo));
+		} else {
+			return gson.toJson(0);
+		}
 	}
 	
 	
@@ -73,6 +83,15 @@ public class ControllerCampo {
 		CambioInt cambio = gson.fromJson(param, CambioInt.class);
 		
 		return ResponseEntity.ok(this.daoCampo.cambiaCampagnaCampo(cambio));
+	}
+	
+	
+	private String extractTokenFromRequest(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
 	}
 	
 }

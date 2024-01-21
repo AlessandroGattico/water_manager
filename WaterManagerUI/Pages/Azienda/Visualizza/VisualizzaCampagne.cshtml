@@ -1,0 +1,82 @@
+@page
+@using WaterManagerUI.Model.Item
+@model WaterManagerUI.Pages.VisualizzaCampagne
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        @if (Model.user?.azienda.campagne == null)
+                        {
+                            <li>
+                                <a href="/Azienda/CreaCampagna">Aggiungi Azienda</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
+                            </li>
+                            <li>
+                                <a href="/Azienda/Visualizza/VisualizzaCampagne">Campagne</a>
+                            </li>
+                            <li>
+                                <a href="/Azienda/Coltivazioni">Coltivazioni</a>
+                            </li>
+                            <li>
+                                <a href="/Azienda/Richiesta">Richieste</a>
+                            </li>
+                        }
+                    </ul>
+                </span>
+            </aside>
+        </div>
+        <div class="col-md-8">
+            <div class="content">
+                @if (Model.user?.azienda != null)
+                {
+                    <h2>Dettagli Azienda</h2>
+                    <p>Nome Azienda: @Model.user.azienda.nome</p>
+                }
+                else
+                {
+                    <p>Nessuna azienda registrata. Utilizza il link a sinistra per aggiungere un'azienda.</p>
+                }
+            </div>
+
+            <div class="elements">
+                @if (@Model.user.azienda.campagne.Count > 0)
+                {
+                    @foreach (Campagna campagna in Model.user.azienda.campagne)
+                    {
+                        <div class="elemento" onclick="this.parentNode.submit()">
+                            <a asp-page="/Azienda/Visualizza/VisualizzaCampagna" asp-route-campagnaId="@campagna.id">
+                                <div class="info-elemento nome">Nome: @campagna.nome</div>
+                                <div class="info-elemento dimensione">Dimensione: @campagna.size()</div>
+                                <div class="info-elemento campi">Numero campi: @campagna.campi.Count</div>
+                            </a>
+                        </div>
+                    }
+
+                    <div class="bottone-aggiungi">
+                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id" class="plus-icon">+</a>
+                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id">Aggiungi campagna</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="bottone-aggiungi">
+                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id" class="plus-icon">+</a>
+                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id">Aggiungi campagna</a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

@@ -20,9 +20,8 @@ public class DaoUser {
 	
 	private final Logger logger = LogManager.getLogger(DaoUser.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
 	private final String url =
-			"jdbc:sqlite:/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManager/src/main/resources/DATABASEWATER";
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
 	public DaoUser() {
@@ -488,6 +487,52 @@ public class DaoUser {
 		}
 		
 		return true;
+	}
+	
+	
+	public boolean existsUsername(String username) {
+		String sql = "SELECT COUNT(*) FROM users WHERE username = ?";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, username);
+			
+			ResultSet rs = statement.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getInt(1) > 0;
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return false;
+		}
+		
+		return false;
+	}
+	
+	
+	public boolean existsMail(String email) {
+		String sql = "SELECT COUNT(*) FROM users WHERE mail = ?";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, email);
+			
+			ResultSet rs = statement.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getInt(1) > 0;
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return false;
+		}
+		
+		return false;
 	}
 	
 }

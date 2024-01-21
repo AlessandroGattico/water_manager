@@ -1,6 +1,7 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.CambioString;
@@ -66,5 +67,13 @@ public class ControllerBacinoIdrico {
 		CambioString cambio = gson.fromJson(param, CambioString.class);
 		
 		return ResponseEntity.ok(this.daoBacino.cambiaNomeBacino(cambio));
+	}
+	
+	private String extractTokenFromRequest(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
 	}
 }

@@ -20,10 +20,10 @@ public class DaoAzienda {
 	
 	private final Logger logger = LogManager.getLogger(DaoAzienda.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
-	private final String post = "jdbc:postgresql://localhost:5432/watermanager";
-	private final String password = "alessandro";
-	private final String username = "postgres";
+	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	
+	
+	
 	
 	public DaoAzienda() {
 	}
@@ -151,7 +151,7 @@ public class DaoAzienda {
 				SELECT last_insert_rowid() AS newId;
 				""";
 		
-		try (Connection connection = DriverManager.getConnection(this.post, this.username, this.password);
+		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
 			loggerSql.debug("Executing sql " + query);
@@ -230,8 +230,12 @@ public class DaoAzienda {
 			statement.setInt(1, idGestore);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet == null) {
+					return null;
+				}
+				
 				while (resultSet.next()) {
-					azienda = new Azienda(resultSet.getInt("uuid"), resultSet.getString("nome"), idGestore);
+					azienda = new Azienda(resultSet.getInt("id"), resultSet.getString("nome"), idGestore);
 				}
 			}
 			

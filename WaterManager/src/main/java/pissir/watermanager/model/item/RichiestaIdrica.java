@@ -17,6 +17,7 @@ public class RichiestaIdrica {
 	private int idColtivazione;
 	private int idBacino;
 	private String date;
+	private Boolean approvato;
 	
 	
 	public RichiestaIdrica (int id, Double quantita, int idColtivazione, int idBacino, String date) {

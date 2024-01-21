@@ -58,10 +58,7 @@ public class SecurityConfiguration {
 				.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(auth -> {
 					auth
-							.requestMatchers("/api/v1/azienda/**").hasAuthority("GESTOREAZIENDA")
-							.requestMatchers("/api/v1/bacino/**").hasAuthority("GESTOREIDRICO")
-							.requestMatchers("/api/v1/admin/**").hasAuthority("SYSTEMADMIN")
-							.requestMatchers("/auth/**").permitAll()
+							.requestMatchers("/api/v1/auth/**").permitAll()
 							.anyRequest().authenticated();
 				})
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer :: jwt)

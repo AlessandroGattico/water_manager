@@ -8,8 +8,17 @@ public class Azienda
     public String nome { get; set; }
     public HashSet<Campagna> campagne { get; set; }
     public HashSet<RisorsaIdrica> risorse { get; set; }
+    public HashSet<RichiestaIdrica> richieste { get; set; }
     public int idGestore { get; set; }
 
+    public Double dispAttuale { get; set; }
+
+    public Azienda()
+    {
+        this.campagne = new HashSet<Campagna>();
+        this.risorse = new HashSet<RisorsaIdrica>();
+        this.richieste = new HashSet<RichiestaIdrica>();
+    }
 
     public Azienda(String nome, int idGestore)
     {
@@ -28,5 +37,53 @@ public class Azienda
         this.campagne = campagne;
         this.risorse = risorse;
         this.idGestore = idGestore;
+
+        if (this.risorse.Count > 0)
+        {
+            this.dispAttuale = this.storicoRisorse().First().disponibilita;
+        }
+        else
+        {
+            this.dispAttuale = 0;
+        }
+    }
+
+
+    public Double size()
+    {
+        Double size = 0;
+
+        if (campagne.Count > 0)
+        {
+            foreach (Campagna campagna in campagne)
+            {
+                size += campagna.size();
+            }
+        }
+
+        return size;
+    }
+
+    public List<RisorsaIdrica> storicoRisorse()
+    {
+        return risorse.OrderByDescending(c => c.RisorsaAsDateTime()).ToList();
+    }
+
+
+    public List<RichiestaIdrica> richiesteSospeso()
+    {
+        if (this.richieste.Count > 0)
+        {
+            List<RichiestaIdrica> richiesteNonApprovate = this.richieste
+                .Where(r => r.approvato == null)
+                .OrderBy(r => r.date)
+                .ToList();
+
+            return richiesteNonApprovate;
+        }
+        else
+        {
+            return new List<RichiestaIdrica>();
+        }
     }
 }

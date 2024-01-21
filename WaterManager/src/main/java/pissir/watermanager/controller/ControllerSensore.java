@@ -1,6 +1,7 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.*;
@@ -8,6 +9,7 @@ import pissir.watermanager.model.item.Sensore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
 
@@ -22,6 +24,7 @@ import java.util.HashSet;
 public class ControllerSensore {
 	
 	private final DAO daoSensore;
+	private final TokenService tokenService;
 	
 	
 	@GetMapping(value = "/get/{id}")
@@ -74,4 +77,12 @@ public class ControllerSensore {
 		return ResponseEntity.ok(this.daoSensore.cambiaCampoSensore(cambio));
 	}
 	
+	
+	private String extractTokenFromRequest(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
+	}
 }

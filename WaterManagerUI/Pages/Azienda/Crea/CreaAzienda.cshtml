@@ -1,0 +1,23 @@
+@page
+@model WaterManagerUI.Pages.CreaAzienda
+
+<link rel="stylesheet" href="~/css/form.css"/>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>Crea azienda</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="azienda.nome"></label>
+                    <input asp-for="azienda.nome" class="form-control"/>
+                    <span asp-validation-for="azienda.nome" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary form-button">Crea azienda</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

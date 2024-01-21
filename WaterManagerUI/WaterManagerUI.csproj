@@ -9,12 +9,16 @@
 
     <ItemGroup>
         <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
+        <None Include="wwwroot\css\form.css" />
+        <None Include="wwwroot\css\Profilo.css" />
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.15" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.14"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.14"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.14"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.15" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.14"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14"/>
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />

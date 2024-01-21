@@ -1,0 +1,108 @@
+/*
+.elemento {
+    background-color: #f3f3f3;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+}
+
+.bottone-aggiungi {
+    text-decoration: none;
+    grid-column: span 3;
+    background-color: transparent;
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 24px;
+    color: #007bff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.plus-icon {
+    display: block;
+    font-size: 48px;
+}
+
+.info-elemento {
+    margin: 10px 0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 15px;
+}
+
+.content-container {
+    width: 100%;
+}
+
+
+
+.main-container {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+ */
+.elements {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colonne */
+    grid-gap: 15px;
+    margin: 20px 0;
+}
+
+.elemento {
+    background-color: #f3f3f3;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    grid-column: span 1; 
+}
+
+.bottone-aggiungi {
+    text-decoration: none;
+    background-color: transparent;
+    border: 2px dashed #007bff;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 24px;
+    color: #007bff;
+    text-align: center;
+    cursor: pointer;
+    grid-column: span 3; /* Il bottone occupa tutte e 3 le colonne */
+}
+
+.plus-icon {
+    display: block;
+    font-size: 48px;
+}
+
+.info-elemento {
+    margin: 10px 0;
+}
+
+.main-container {
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1900px; /* Adatta questo valore in base alle tue esigenze */
+    padding: 20px; /* Spazio attorno ai contenitori */
+}
+
+.flex-container {
+    flex-basis: 20%; /* Larghezza della sidebar */
+}
+
+.content-container {
+    flex-basis: 80%; /* Larghezza del contenuto principale */
+    padding-right: 300px;
+}
+
+/* Stili per gli altri elementi come prima */

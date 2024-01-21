@@ -9,6 +9,9 @@ public class Attivazione
     public String time { get; set; }
     public int idAttuatore { get; set; }
 
+    public Attivazione()
+    {
+    }
 
     public Attivazione(String data, bool stato, int idAttuatore)
     {

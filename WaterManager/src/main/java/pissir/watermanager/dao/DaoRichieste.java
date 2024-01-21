@@ -1,9 +1,9 @@
 package pissir.watermanager.dao;
 
-import pissir.watermanager.model.item.RichiestaIdrica;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.model.item.RichiestaIdrica;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,14 +19,15 @@ public class DaoRichieste {
 	
 	private final Logger logger = LogManager.getLogger(DaoRichieste.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	private final String url =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoRichieste () {
+	public DaoRichieste() {
 	}
 	
 	
-	public RichiestaIdrica getRichiestaId (int idRichiesta) {
+	public RichiestaIdrica getRichiestaId(int idRichiesta) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -72,7 +73,7 @@ public class DaoRichieste {
 	}
 	
 	
-	public HashSet<RichiestaIdrica> getRichiesteColtivazione (int idColtivazione) {
+	public HashSet<RichiestaIdrica> getRichiesteColtivazione(int idColtivazione) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -128,7 +129,7 @@ public class DaoRichieste {
 	}
 	
 	
-	public HashSet<RichiestaIdrica> getRichiesteBacino (int idBacino) {
+	public HashSet<RichiestaIdrica> getRichiesteBacino(int idBacino) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -182,85 +183,62 @@ public class DaoRichieste {
 		
 		return richieste;
 	}
-
-    /*
-    public HashSet<RichiestaIdrica> getRichiesteAzienda(int uuidAzienda) {
-        ArrayList<HashMap<String, Object>> list;
-        int columns;
-        HashMap<String, Object> row;
-        ResultSetMetaData resultSetMetaData;
-        HashSet<RichiestaIdrica> richieste = new HashSet<>();
-
-        String query = """
-                SELECT *
-                FROM richiesta_idrica
-                JOIN Coltivazione ON richiesta_idrica.coltivazione_uuid = Coltivazione.UUID
-                JOIN Campo ON Coltivazione.campo_uuid = Campo.UUID
-                JOIN Campagna ON Campo.campagna_uuid = Campagna.UUID
-                JOIN Azienda ON Campagna.azienda_uuid = Azienda.UUID
-                WHERE Azienda.UUID = ?;
-                """;
-
-        try (Connection connection = DriverManager.getConnection(this.url);
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setint(1, uuidAzienda);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                resultSetMetaData = resultSet.getMetaData();
-                columns = resultSetMetaData.getColumnCount();
-                list = new ArrayList<>();
-
-                while (resultSet.next()) {
-                    row = new HashMap<>(columns);
-
-                    for (int i = 1; i <= columns; ++i) {
-                        row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-                    }
-
-                    list.add(row);
-                }
-
-                for (HashMap<String, Object> map : list) {
-                    int id = (int) map.get("IdRichiesta");
-                    int bacinoIdricoUUID = (int) map.get("BacinoIdricoUUID");
-                    Double quantita = (Double) map.get("Quantita");
-                    int uuidColtivazione = (int) map.get("ColtivazioneUUID");
-                    String data = (String) map.get("Data");
-					/*LocalDateTime date;
-
-					Pattern p = Pattern.pissirpile("(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})");
-					Matcher m = p.matcher(data);
-
-					boolean formato = m.matches();
-
-					if (formato) {
-						int anno = Integer.parseInt(m.group(1));
-						int mese = Integer.parseInt(m.group(2));
-						int giorno = Integer.parseInt(m.group(3));
-						int ora = Integer.parseInt(m.group(4));
-						int minuti = Integer.parseInt(m.group(5));
-						int secondi = Integer.parseInt(m.group(6));
-						date = LocalDateTime.of(anno, mese, giorno, ora, minuti, secondi);
-					} else {
-						date = null;
+	
+	
+	public HashSet<RichiestaIdrica> getRichiesteAzienda(int idAzienda) {
+		ArrayList<HashMap<String, Object>> list;
+		int columns;
+		HashMap<String, Object> row;
+		ResultSetMetaData resultSetMetaData;
+		HashSet<RichiestaIdrica> richieste = new HashSet<>();
+		
+		String query = """
+				SELECT *
+				FROM richiesta r
+				INNER JOIN coltivazione c ON r.id_coltivazione = c.id
+				INNER JOIN campo cmp ON c.id_campo = cmp.id
+				INNER JOIN campagna cam ON cmp.id_campagna = cam.id
+				INNER JOIN azienda a ON cam.id_azienda = a.id
+				WHERE a.id = ? ;
+				""";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			
+			statement.setInt(1, idAzienda);
+			
+			try (ResultSet resultSet = statement.executeQuery()) {
+				resultSetMetaData = resultSet.getMetaData();
+				columns = resultSetMetaData.getColumnCount();
+				list = new ArrayList<>();
+				
+				while (resultSet.next()) {
+					row = new HashMap<>(columns);
+					
+					for (int i = 1; i <= columns; ++ i) {
+						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 					}
-
-
-
-                    RichiestaIdrica RichiestaIdrica =
-                            new RichiestaIdrica(id, bacinoIdricoUUID, uuidColtivazione, quantita, data);
-                    richieste.add(RichiestaIdrica);
-                }
-            }
-        } catch (SQLException e) {
-            logger.error(e.getMessage());
-            loggerSql.error(e.getMessage(), e);
-        }
-
-        return richieste;
-    }
-
+					
+					list.add(row);
+				}
+				
+				for (HashMap<String, Object> map : list) {
+					RichiestaIdrica RichiestaIdrica =
+							new RichiestaIdrica((int) map.get("id_richiesta"), (Double) map.get("quantita"),
+									(int) map.get("id_coltivazione"), (int) map.get("id_bacino"),
+									(String) map.get("date"));
+					
+					richieste.add(RichiestaIdrica);
+				}
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+		}
+		
+		return richieste;
+	}
+/*
 
     public HashSet<RichiestaIdrica> getRichiesteCampo(int uuidCampo) {
         ArrayList<HashMap<String, Object>> list;
@@ -340,7 +318,7 @@ public class DaoRichieste {
      */
 	
 	
-	public int addRichiesta (RichiestaIdrica richiesta) {
+	public int addRichiesta(RichiestaIdrica richiesta) {
 		int id = 0;
 		String query = """
 				INSERT INTO richiesta (quantita, id_coltivazione, id_bacino, date)
@@ -381,7 +359,7 @@ public class DaoRichieste {
 	}
 	
 	
-	public void deleteRichiesta (int idRichiesta) {
+	public void deleteRichiesta(int idRichiesta) {
 		String query = """
 				DELETE FROM richiesta
 				WHERE id = ? ;

@@ -1,13 +1,15 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.CambioString;
 import pissir.watermanager.model.item.Azienda;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import pissir.watermanager.model.user.UserRole;
+import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
 
@@ -22,47 +24,94 @@ import java.util.HashSet;
 public class ControllerAzienda {
 	
 	private final DAO daoAzienda;
+	private final TokenService tokenService;
 	
 	
 	@PostMapping(value = "/add")
-	public ResponseEntity<Integer> addAzienda (@RequestBody String param) {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String addAzienda(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		Azienda azienda = gson.fromJson(param, Azienda.class);
+		String jwt = extractTokenFromRequest(request);
 		
-		return ResponseEntity.ok(this.daoAzienda.addAzienda(azienda));
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			Azienda azienda = gson.fromJson(param, Azienda.class);
+			
+			return gson.toJson((this.daoAzienda.addAzienda(azienda)));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@GetMapping(value = "/get/{id}")
-	public String getAziendaId (@PathVariable int id) {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String getAziendaId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		Azienda azienda = this.daoAzienda.getAziendaId(id);
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(azienda);
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			Azienda azienda = this.daoAzienda.getAziendaId(id);
+			
+			return gson.toJson(azienda);
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@GetMapping(value = "/get/all")
-	public String getAziende () {
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
+	public String getAziende(HttpServletRequest request) {
 		Gson gson = new Gson();
-		HashSet<Azienda> aziende = this.daoAzienda.getAziende();
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(aziende);
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			HashSet<Azienda> aziende = this.daoAzienda.getAziende();
+			
+			return gson.toJson(aziende);
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
-	public void deleteAzienda (@PathVariable int id) {
-		this.daoAzienda.deleteAzienda(id);
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String deleteAzienda(@PathVariable int id, HttpServletRequest request) {
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			this.daoAzienda.deleteAzienda(id);
+			
+			return "OK";
+		} else {
+			return "Accesso negato";
+		}
 	}
 	
 	
 	@PostMapping(value = "/modifica/nome")
-	public ResponseEntity<Boolean> modificaNome (@RequestBody String param) {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String modificaNome(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		CambioString cambio = gson.fromJson(param, CambioString.class);
+		String jwt = extractTokenFromRequest(request);
 		
-		return ResponseEntity.ok(this.daoAzienda.cambiaNomeAzienda(cambio));
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			CambioString cambio = gson.fromJson(param, CambioString.class);
+			
+			return gson.toJson(this.daoAzienda.cambiaNomeAzienda(cambio));
+		} else {
+			return "Accesso negato";
+		}
+	}
+	
+	
+	private String extractTokenFromRequest(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
 	}
 	
 }

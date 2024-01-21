@@ -1,6 +1,7 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,13 +17,12 @@ import java.util.HashSet;
  */
 
 @RestController
-@RequestMapping("/api/v1/approvazione")
+@RequestMapping("/api/v1/azienda/approvazione")
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('GESTOREIDRICO') or hasAuthority('SYSTEMADMIN')")
 public class ControllerApprovazione {
 	
 	private final DAO daoApprovazione;
-	private final Gson gson;
 	
 	
 	@GetMapping(value = "/get/{id}")
@@ -66,4 +66,12 @@ public class ControllerApprovazione {
 		return ResponseEntity.ok(this.daoApprovazione.cambiaApprovazione(cambio));
 	}
 	
+	
+	private String extractTokenFromRequest(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
+	}
 }

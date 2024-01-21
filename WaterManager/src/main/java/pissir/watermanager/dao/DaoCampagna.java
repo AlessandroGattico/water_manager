@@ -1,10 +1,10 @@
 package pissir.watermanager.dao;
 
-import pissir.watermanager.model.cambio.CambioString;
-import pissir.watermanager.model.item.Campagna;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.model.cambio.CambioString;
+import pissir.watermanager.model.item.Campagna;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -20,18 +20,16 @@ public class DaoCampagna {
 	
 	private final Logger logger = LogManager.getLogger(DaoCampagna.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	private final String url =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoCampagna () {
+	public DaoCampagna() {
 	
 	}
 	
 	
-	public Campagna getCampagnaId (long uuidCampagna) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
+	public Campagna getCampagnaId(int id) {
 		Campagna campagna = null;
 		
 		String query = """
@@ -43,28 +41,19 @@ public class DaoCampagna {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
-			statement.setLong(1, uuidCampagna);
+			statement.setInt(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
+				campagna = new Campagna(resultSet.getInt("id"), resultSet.getString("nome"),
+						resultSet.getInt("id_azienda"));
 				
-				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					campagna = new Campagna((int) row.get("id"), (String) row.get("nome"), (int) row.get("id_azienda"));
-				}
 			}
 			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
 			
-			return null;
+			return campagna;
 		}
 		
 		
@@ -72,7 +61,7 @@ public class DaoCampagna {
 	}
 	
 	
-	public HashSet<Campagna> getCampagnaAzienda (long uuidAzienda) {
+	public HashSet<Campagna> getCampagnaAzienda(int idAzienda) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -88,7 +77,7 @@ public class DaoCampagna {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
-			statement.setLong(1, uuidAzienda);
+			statement.setInt(1, idAzienda);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				resultSetMetaData = resultSet.getMetaData();
@@ -116,14 +105,14 @@ public class DaoCampagna {
 			logger.error(e.getMessage());
 			loggerSql.error(e.getMessage(), e);
 			
-			return null;
+			return campagne;
 		}
 		
 		return campagne;
 	}
 	
 	
-	public int addCampagna (Campagna campagna) {
+	public int addCampagna(Campagna campagna) {
 		int id = 0;
 		
 		String query = """
@@ -135,8 +124,8 @@ public class DaoCampagna {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setString(2, campagna.getNome());
-			statement.setLong(3, campagna.getIdAzienda());
+			statement.setString(1, campagna.getNome());
+			statement.setInt(2, campagna.getIdAzienda());
 			
 			statement.executeUpdate();
 			
@@ -156,7 +145,7 @@ public class DaoCampagna {
 	}
 	
 	
-	public void deleteCampagna (int uuidCampagna) {
+	public void deleteCampagna(int id) {
 		String query = """
 				DELETE FROM campagna
 				WHERE id = ? ;
@@ -165,7 +154,7 @@ public class DaoCampagna {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
-			statement.setLong(1, uuidCampagna);
+			statement.setLong(1, id);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
@@ -174,7 +163,8 @@ public class DaoCampagna {
 		}
 	}
 	
-	public Boolean cambiaNome (CambioString cambio) {
+	
+	public Boolean cambiaNome(CambioString cambio) {
 		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
@@ -196,4 +186,5 @@ public class DaoCampagna {
 		
 		return true;
 	}
+	
 }

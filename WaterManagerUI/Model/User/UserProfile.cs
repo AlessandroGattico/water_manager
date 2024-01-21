@@ -13,23 +13,23 @@ namespace UserInterfaceWaterManager.Model.User
         public String username { get; set; }
         public String mail { get; set; }
         public String password { get; set; }
-        public UserRole userRole { get; set; }
+        public UserRole role { get; set; }
 
         public UserProfile(String nome, String cognome, String username, String mail, String password,
-            UserRole userRole)
+            UserRole role)
         {
             this.nome = nome;
             this.cognome = cognome;
             this.username = username;
             this.mail = mail;
             this.password = password;
-            this.userRole = userRole;
+            this.role = role;
         }
 
 
         [JsonConstructor]
         public UserProfile(int id, String nome, String cognome, String username, String mail, String password,
-            UserRole userRole)
+            UserRole role)
         {
             this.id = id;
             this.nome = nome;
@@ -37,7 +37,7 @@ namespace UserInterfaceWaterManager.Model.User
             this.cognome = cognome;
             this.mail = mail;
             this.password = password;
-            this.userRole = userRole;
+            this.role = role;
         }
     }
 }

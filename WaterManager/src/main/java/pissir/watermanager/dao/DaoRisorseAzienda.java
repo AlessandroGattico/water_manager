@@ -1,9 +1,9 @@
 package pissir.watermanager.dao;
 
-import pissir.watermanager.model.item.RisorsaIdrica;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.model.item.RisorsaIdrica;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,14 +19,15 @@ public class DaoRisorseAzienda {
 	
 	private final Logger logger = LogManager.getLogger(DaoRisorseAzienda.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	private final String url =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoRisorseAzienda () {
+	public DaoRisorseAzienda() {
 	}
 	
 	
-	public RisorsaIdrica getRisorsaAziendaId (int idRisorsa) {
+	public RisorsaIdrica getRisorsaAziendaId(int idRisorsa) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -74,7 +75,7 @@ public class DaoRisorseAzienda {
 	}
 	
 	
-	public HashSet<RisorsaIdrica> getStoricoRisorseAzienda (int idAzienda) {
+	public HashSet<RisorsaIdrica> getStoricoRisorseAzienda(int idAzienda) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -129,7 +130,7 @@ public class DaoRisorseAzienda {
 	}
 	
 	
-	public int addRisorsaAzienda (RisorsaIdrica risorsaIdrica) {
+	public int addRisorsaAzienda(RisorsaIdrica risorsaIdrica) {
 		int id = 0;
 		
 		String query = """
@@ -171,7 +172,7 @@ public class DaoRisorseAzienda {
 	}
 	
 	
-	public void deleteRisorsaAzienda (int id) {
+	public void deleteRisorsaAzienda(int id) {
 		String query = """
 				DELETE FROM risorsa_azienda
 				WHERE id = ? ;

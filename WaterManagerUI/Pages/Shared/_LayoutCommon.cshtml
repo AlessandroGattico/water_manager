@@ -1,0 +1,114 @@
+@page
+@model WaterManagerUI.Pages.Shared._LayoutCommon
+
+@functions {
+
+    private object RenderBody()
+    {
+        throw new NotImplementedException();
+    }
+
+}
+
+@functions {
+
+    private object RenderSection(string scripts, bool required)
+    {
+        throw new NotImplementedException();
+    }
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - Water Manager</title>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    <!-- Aggiungi qui altri CSS o script necessari -->
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-page="/Home">WaterManager</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                    </li>
+                </ul>
+                <partial name="_LoginPartial"/>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- <aside class="sidebar">
+    @if (User.IsInRole("GESTOREIDRICO"))
+    {
+        <ul>
+            <li>
+                <a href="/Bacino/Statistiche">Statistiche bacino</a>
+            </li>
+            <li>
+                <a href="/Bacino/StoricoRisorse">Storico Risorse</a>
+            </li>
+            <li>
+                <a href="/Bacino/Richieste">Storico Richieste</a>
+            </li>
+            <li>
+                <a href="/Bacino/RichiesteDaApprovare">Richieste da approvare</a>
+            </li>
+        </ul>
+    }
+    else if (User.IsInRole("GESTOREAZIENDA"))
+    {
+        <ul>
+            <li>
+                <a href="/Azienda/Statistiche">Statistiche Azienda</a>
+            </li>
+            <li>
+                <a href="/Azienda/Campagne">Campagne</a>
+            </li>
+            <li>
+                <a href="/Azienda/Campi">Campi</a>
+            </li>
+            Altri link per GESTOREAZIENDA 
+        </ul>
+    }
+    else if (User.IsInRole("SYSTEMADMIN"))
+    {
+        <ul>
+            <li>
+                <a href="/Admin/GestoriAzienda">Gestori Azienda</a>
+            </li>
+            <li>
+                <a href="/Admin/GestoriIdrici">Gestori Idrici</a>
+            </li>
+            Altri link per SYSTEMADMIN 
+        </ul>
+    }
+</aside> -->
+
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<footer>
+    <!-- Codice del footer -->
+</footer>
+
+@RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.cambio.CambioBool;
 import pissir.watermanager.model.item.Approvazione;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,19 +20,15 @@ public class DaoApprovazione {
 	
 	private static final Logger logger = LogManager.getLogger(DaoApprovazione.class.getName());
 	private static final Logger loggerSql = LogManager.getLogger("sql");
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	private final String url =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoApprovazione () {
+	public DaoApprovazione() {
 	}
 	
 	
-	public Approvazione getApprovazioneId (int idRichiesta) {
-		/*int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
-		
-		 */
+	public Approvazione getApprovazioneIdRichiesta(int idRichiesta) {
 		Approvazione approvazione = null;
 		
 		String query = """
@@ -64,7 +59,8 @@ public class DaoApprovazione {
 					 */
 					
 					approvazione = new Approvazione(resultSet.getInt("id"), resultSet.getInt("id_richiesta"),
-							resultSet.getInt("id_gestore"), resultSet.getBoolean("approvato"), resultSet.getString("date"));
+							resultSet.getInt("id_gestore"), resultSet.getBoolean("approvato"),
+							resultSet.getString("date"));
 				}
 			}
 			
@@ -80,7 +76,7 @@ public class DaoApprovazione {
 	}
 	
 	
-	public HashSet<Approvazione> getApprovazioniGestore (int idGestore) {
+	public HashSet<Approvazione> getApprovazioniGestore(int idGestore) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -134,7 +130,7 @@ public class DaoApprovazione {
 	}
 	
 	
-	public int addApprovazione (Approvazione approvazione) {
+	public int addApprovazione(Approvazione approvazione) {
 		int id = 0;
 		String query = """
 				INSERT INTO approvazione (id_richiesta, id_gestore, approvato, date)
@@ -173,7 +169,7 @@ public class DaoApprovazione {
 	}
 	
 	
-	public void deleteApprovazione (int idApprovazione) {
+	public void deleteApprovazione(int idApprovazione) {
 		String query = """
 				DELETE FROM approvazione
 				WHERE id = ? ;
@@ -195,7 +191,7 @@ public class DaoApprovazione {
 	}
 	
 	
-	public Boolean cambiaApprovazione (CambioBool cambio) {
+	public Boolean cambiaApprovazione(CambioBool cambio) {
 		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);

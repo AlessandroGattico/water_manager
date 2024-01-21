@@ -1,11 +1,11 @@
 package pissir.watermanager.dao;
 
-import pissir.watermanager.model.cambio.CambioInt;
-import pissir.watermanager.model.cambio.CambioString;
-import pissir.watermanager.model.item.Sensore;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.model.cambio.CambioInt;
+import pissir.watermanager.model.cambio.CambioString;
+import pissir.watermanager.model.item.Sensore;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,14 +21,15 @@ public class DaoSensore {
 	
 	private final Logger logger = LogManager.getLogger(DaoSensore.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	private final String url =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoSensore () {
+	public DaoSensore() {
 	}
 	
 	
-	public Sensore getSensoreId (int id) {
+	public Sensore getSensoreId(int id) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -73,7 +74,7 @@ public class DaoSensore {
 	}
 	
 	
-	public HashSet<Sensore> getSensoriCampo (int idCampo) {
+	public HashSet<Sensore> getSensoriCampo(int idCampo) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -125,7 +126,7 @@ public class DaoSensore {
 	}
 	
 	
-	public int addSensore (Sensore sensore) {
+	public int addSensore(Sensore sensore) {
 		int id = 0;
 		
 		String query = """
@@ -156,7 +157,7 @@ public class DaoSensore {
 	}
 	
 	
-	public void deleteSensore (int idSensore) {
+	public void deleteSensore(int idSensore) {
 		String query = """
 				DELETE FROM sensore
 				WHERE id = ? ;
@@ -176,7 +177,7 @@ public class DaoSensore {
 	}
 	
 	
-	public Boolean cambiaNome (CambioString cambio) {
+	public Boolean cambiaNome(CambioString cambio) {
 		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
@@ -200,7 +201,7 @@ public class DaoSensore {
 	}
 	
 	
-	public Boolean cambiaCampo (CambioInt cambio) {
+	public Boolean cambiaCampo(CambioInt cambio) {
 		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);

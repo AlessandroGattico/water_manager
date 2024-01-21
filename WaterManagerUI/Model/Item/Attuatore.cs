@@ -9,6 +9,9 @@ public class Attuatore
     public int idCampo { get; set; }
     public HashSet<Attivazione> attivazioni { get; set; }
 
+    public Attuatore()
+    {
+    }
 
     public Attuatore(String nome, int idCampo)
     {

@@ -1,11 +1,11 @@
 package pissir.watermanager.dao;
 
-import pissir.watermanager.model.cambio.CambioInt;
-import pissir.watermanager.model.cambio.CambioString;
-import pissir.watermanager.model.item.Campo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.model.cambio.CambioInt;
+import pissir.watermanager.model.cambio.CambioString;
+import pissir.watermanager.model.item.Campo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -21,14 +21,15 @@ public class DaoCampo {
 	
 	private final Logger logger = LogManager.getLogger(DaoCampo.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	private final String url =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoCampo () {
+	public DaoCampo() {
 	}
 	
 	
-	public Campo getCampoId (int idCampo) {
+	public Campo getCampoId(int idCampo) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -72,7 +73,7 @@ public class DaoCampo {
 	}
 	
 	
-	public HashSet<Campo> getCampiCampagna (int idCampagna) {
+	public HashSet<Campo> getCampiCampagna(int idCampagna) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -123,7 +124,7 @@ public class DaoCampo {
 	}
 	
 	
-	public int addCampo (Campo campo) {
+	public int addCampo(Campo campo) {
 		int id = 0;
 		
 		String query = """
@@ -156,7 +157,7 @@ public class DaoCampo {
 	}
 	
 	
-	public void deleteCampo (int idCampo) {
+	public void deleteCampo(int idCampo) {
 		String query = """
 				DELETE FROM campo
 				WHERE id = ? ;
@@ -175,7 +176,7 @@ public class DaoCampo {
 	}
 	
 	
-	public Boolean cambiaNome (CambioString cambio) {
+	public Boolean cambiaNome(CambioString cambio) {
 		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
@@ -198,7 +199,8 @@ public class DaoCampo {
 		return true;
 	}
 	
-	public Boolean cambiaCampagna (CambioInt cambio) {
+	
+	public Boolean cambiaCampagna(CambioInt cambio) {
 		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
@@ -220,4 +222,5 @@ public class DaoCampo {
 		
 		return true;
 	}
+	
 }

@@ -1,9 +1,9 @@
 package pissir.watermanager.dao;
 
-import pissir.watermanager.model.item.Coltivazione;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.model.item.Coltivazione;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,14 +19,15 @@ public class DaoColtivazione {
 	
 	private final Logger logger = LogManager.getLogger(DaoColtivazione.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/src/main/resources/DATABASEWATER";
+	private final String url =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoColtivazione () {
+	public DaoColtivazione() {
 	}
 	
 	
-	public Coltivazione getColtivazioneId (int idColtivazione) {
+	public Coltivazione getColtivazioneId(int idColtivazione) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -71,7 +72,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public HashSet<Coltivazione> getColtivazioniCampo (int idCampo) {
+	public HashSet<Coltivazione> getColtivazioniCampo(int idCampo) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -124,7 +125,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public int addColtivazione (Coltivazione coltivazione) {
+	public int addColtivazione(Coltivazione coltivazione) {
 		int id = 0;
 		String queryInsert = """
 				INSERT INTO coltivazione (raccolto, esigenza, irrigazione, temperatura, umidita, semina, id_campo)
@@ -160,7 +161,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public void deleteColtivazione (int idColtivazione) {
+	public void deleteColtivazione(int idColtivazione) {
 		String query = """
 				DELETE FROM coltivazione
 				WHERE id = ? ;
@@ -179,7 +180,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public HashSet<String> getRaccolti () {
+	public HashSet<String> getRaccolti() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -225,7 +226,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public void addRaccolto (String string) {
+	public void addRaccolto(String string) {
 		String queryInsert = """
 				INSERT INTO raccolto (nome)
 				VALUES (?);
@@ -246,7 +247,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public void deleteRaccolto (String nome) {
+	public void deleteRaccolto(String nome) {
 		String query = """
 				DELETE FROM raccolto
 				WHERE nome = ? ;
@@ -268,7 +269,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public HashSet<String> getEsigenze () {
+	public HashSet<String> getEsigenze() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -314,7 +315,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public void addEsigenza (String esigenza) {
+	public void addEsigenza(String esigenza) {
 		String query = """
 				INSERT INTO esigenza (nome)
 				VALUES (?);
@@ -336,7 +337,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public void deleteEsigenza (String nome) {
+	public void deleteEsigenza(String nome) {
 		String query = """
 				DELETE FROM esigenza
 				WHERE nome = ? ;
@@ -359,7 +360,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public HashSet<String> getIrrigazioni () {
+	public HashSet<String> getIrrigazioni() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -405,7 +406,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public void addIrrigazione (String nome) {
+	public void addIrrigazione(String nome) {
 		String queryInsert = """
 				INSERT INTO irrigazione (nome)
 				VALUES (?);
@@ -428,7 +429,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public void deleteIrrigazione (String nome) {
+	public void deleteIrrigazione(String nome) {
 		String query = """
 				DELETE FROM irrigazione
 				WHERE nome = ? ;

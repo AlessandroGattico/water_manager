@@ -1,6 +1,7 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import pissir.watermanager.dao.DAO;
  */
 
 @RestController
-@RequestMapping("/api/v1/raccolto")
+@RequestMapping("/api/v1/admin/raccolto")
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('SYSTEMADMIN')")
 public class ControllerRaccolto {
@@ -84,4 +85,12 @@ public class ControllerRaccolto {
 		this.dao.deleteIrrigazione(nome);
 	}
 	
+	
+	private String extractTokenFromRequest(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
+	}
 }

@@ -10,12 +10,17 @@ public class Campagna
     public int idAzienda { get; set; }
 
 
+    public Campagna()
+    {
+        this.campi = new HashSet<Campo>();
+    }
+
     public Campagna(String nome, HashSet<Campo> campi, int idAzienda)
     {
         this.nome = nome;
         this.campi = campi;
         this.idAzienda = idAzienda;
-        this.campi = new HashSet<Campo>();
+        this.campi = campi;
     }
 
 
@@ -34,5 +39,21 @@ public class Campagna
         this.nome = nome;
         this.campi = campi;
         this.idAzienda = idAzienda;
+    }
+
+    public Double size()
+    {
+        Double size = 0;
+
+
+        if (campi.Count > 0)
+        {
+            foreach (Campo campo in campi)
+            {
+                size += campo.dimensione;
+            }
+        }
+
+        return size;
     }
 }

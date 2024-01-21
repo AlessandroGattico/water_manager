@@ -11,6 +11,7 @@ import pissir.watermanager.model.user.GestoreIdrico;
 import pissir.watermanager.model.user.UserProfile;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 
 /**
  * @author alessandrogattico
@@ -69,13 +70,18 @@ public class DAO {
 	}
 	
 	
-	public GestoreIdrico getGestoreIdrico(int di) {
+	public GestoreIdrico getGestoreIdrico(int id) {
 		GestoreIdrico gestoreIdrico = this.daoUser.getGestoreIdrico(id);
 		
 		BacinoIdrico bacinoIdrico = this.getBacinoGestore(gestoreIdrico.getId());
 		
 		if (bacinoIdrico != null) {
 			HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseBacino(bacinoIdrico.getId());
+			HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(bacinoIdrico.getId());
+			
+			if (richieste != null) {
+				bacinoIdrico.setRichieste(richieste);
+			}
 			
 			if (! risorse.isEmpty()) {
 				bacinoIdrico.setRisorse(risorse);
@@ -96,12 +102,17 @@ public class DAO {
 		if (azienda != null) {
 			HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseAzienda(azienda.getId());
 			HashSet<Campagna> campagne = this.getCampagnaAzienda(azienda.getId());
+			HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(azienda.getId());
 			
-			if (! risorse.isEmpty()) {
+			if (richieste != null) {
+				gestoreAzienda.setRichieste(richieste);
+			}
+			
+			if (risorse != null) {
 				azienda.setRisorse(risorse);
 			}
 			
-			if (! campagne.isEmpty()) {
+			if (risorse != null) {
 				azienda.setCampagne(campagne);
 			}
 			
@@ -182,12 +193,44 @@ public class DAO {
 	
 	//------ BACINOIDRICO ------
 	public BacinoIdrico getBacinoId(int idBacino) {
-		return this.daoBacinoIdrico.getBacinoId(idBacino);
+		BacinoIdrico bacino = this.daoBacinoIdrico.getBacinoId(idBacino);
+		
+		HashSet<RichiestaIdrica> richieste = this.daoRichieste.getRichiesteBacino(idBacino);
+		
+		if (richieste != null) {
+			bacino.setRichieste(richieste);
+		}
+		
+		return bacino;
 	}
 	
 	
 	public HashSet<BacinoIdrico> getBacini() {
-		return this.daoBacinoIdrico.getBacini();
+		HashSet<BacinoIdrico> bacini = this.daoBacinoIdrico.getBacini();
+		
+		for (BacinoIdrico bacino : bacini) {
+			HashSet<RichiestaIdrica> richieste = this.daoRichieste.getRichiesteBacino(bacino.getId());
+			
+			if (richieste != null) {
+				bacino.setRichieste(richieste);
+			}
+		}
+		
+		return bacini;
+	}
+	
+	
+	public LinkedList<BacinoIdrico> getBaciniSelect() {
+		LinkedList<BacinoIdrico> bacini = new LinkedList<>();
+		HashSet<BacinoIdrico> baciniAll = this.daoBacinoIdrico.getBacini();
+		
+		if (baciniAll != null) {
+			bacini.addAll(baciniAll);
+			
+			return bacini;
+		}
+		
+		return null;
 	}
 	
 	
@@ -211,14 +254,16 @@ public class DAO {
 		Azienda azienda = this.daoAzienda.getAziendaId(idAzienda);
 		HashSet<Campagna> campagne = this.getCampagnaAzienda(idAzienda);
 		HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseAzienda(idAzienda);
+		HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(idAzienda);
 		
-		if (! campagne.isEmpty()) {
+		if (campagne != null) {
 			azienda.setCampagne(campagne);
 		}
 		
-		if (! risorse.isEmpty()) {
+		if (risorse != null) {
 			azienda.setRisorse(risorse);
 		}
+		
 		
 		return azienda;
 	}
@@ -230,13 +275,13 @@ public class DAO {
 		if (! aziende.isEmpty()) {
 			for (Azienda azienda : aziende) {
 				HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseAzienda(azienda.getId());
-				if (! risorse.isEmpty()) {
+				if (risorse != null) {
 					azienda.setRisorse(risorse);
 				}
 				
 				HashSet<Campagna> campagne = this.getCampagnaAzienda(azienda.getId());
 				
-				if (! campagne.isEmpty()) {
+				if (campagne != null) {
 					azienda.setCampagne(campagne);
 				}
 			}
@@ -264,10 +309,12 @@ public class DAO {
 	//------ CAMPAGNA ------
 	public Campagna getCampagnaId(int idCampagna) {
 		Campagna campagna = this.daoCampagna.getCampagnaId(idCampagna);
-		HashSet<Campo> campi = this.getCampiCampagna(idCampagna);
-		
-		if (! campi.isEmpty()) {
-			campagna.setCampi(campi);
+		if (campagna != null) {
+			HashSet<Campo> campi = this.getCampiCampagna(idCampagna);
+			
+			if (campi != null) {
+				campagna.setCampi(campi);
+			}
 		}
 		
 		return campagna;
@@ -277,11 +324,11 @@ public class DAO {
 	public HashSet<Campagna> getCampagnaAzienda(int idAzienda) {
 		HashSet<Campagna> campagne = this.daoCampagna.getCampagnaAzienda(idAzienda);
 		
-		if (! campagne.isEmpty()) {
+		if (campagne != null) {
 			for (Campagna campagna : campagne) {
 				HashSet<Campo> campi = this.getCampiCampagna(campagna.getId());
 				
-				if (! campi.isEmpty()) {
+				if (campi != null) {
 					campagna.setCampi(campi);
 				}
 			}
@@ -313,14 +360,14 @@ public class DAO {
 		HashSet<Attuatore> attuatori = this.getAttuatoriCampo(campo.getId());
 		HashSet<Sensore> sensori = this.getSensoriCampo(campo.getId());
 		
-		if (! cotivazioni.isEmpty()) {
+		if (cotivazioni != null) {
 			campo.setColtivazioni(cotivazioni);
 		}
-		if (! attuatori.isEmpty()) {
+		if (attuatori != null) {
 			campo.setAttuatori(attuatori);
 		}
 		
-		if (! sensori.isEmpty()) {
+		if (sensori != null) {
 			campo.setSensori(this.getSensoriCampo(campo.getId()));
 		}
 		
@@ -332,21 +379,21 @@ public class DAO {
 		HashSet<Campo> campi = this.daoCampo.getCampiCampagna(idCampagna);
 		
 		
-		if (! campi.isEmpty()) {
+		if (campi != null) {
 			for (Campo campo : campi) {
 				HashSet<Coltivazione> cotivazioni = this.getColtivazioniCampo(campo.getId());
 				HashSet<Attuatore> attuatori = this.getAttuatoriCampo(campo.getId());
 				HashSet<Sensore> sensori = this.getSensoriCampo(campo.getId());
 				
-				if (! cotivazioni.isEmpty()) {
+				if (cotivazioni != null) {
 					campo.setColtivazioni(cotivazioni);
 				}
-				if (! attuatori.isEmpty()) {
+				if (attuatori != null) {
 					campo.setAttuatori(attuatori);
 				}
 				
-				if (! sensori.isEmpty()) {
-					campo.setSensori(sensori);
+				if (sensori != null) {
+					campo.setSensori(this.getSensoriCampo(campo.getId()));
 				}
 			}
 		}
@@ -402,7 +449,7 @@ public class DAO {
 		Sensore sensore = this.daoSensore.getSensoreId(idSensore);
 		HashSet<Misura> misure = this.daoMisura.getMisureSensore(idSensore);
 		
-		if (! misure.isEmpty()) {
+		if (misure != null) {
 			sensore.setMisure(misure);
 		}
 		
@@ -416,7 +463,7 @@ public class DAO {
 		for (Sensore sensore : sensori) {
 			HashSet<Misura> misure = this.daoMisura.getMisureSensore(sensore.getId());
 			
-			if (! misure.isEmpty()) {
+			if (misure != null) {
 				sensore.setMisure(misure);
 			}
 		}
@@ -471,7 +518,7 @@ public class DAO {
 		Attuatore attuatore = this.daoAttuatore.getAttuatoreId(idAttuatore);
 		HashSet<Attivazione> attivazioni = this.daoAttivazioni.getAttivazioniAttuatore(idAttuatore);
 		
-		if (! attivazioni.isEmpty()) {
+		if (attivazioni != null) {
 			attuatore.setAttivazioni(attivazioni);
 		}
 		
@@ -482,11 +529,13 @@ public class DAO {
 	public HashSet<Attuatore> getAttuatoriCampo(int idCampo) {
 		HashSet<Attuatore> attuatori = this.daoAttuatore.getAttuatoriCampo(idCampo);
 		
-		for (Attuatore attuatore : attuatori) {
-			HashSet<Attivazione> attivazioni = this.daoAttivazioni.getAttivazioniAttuatore(attuatore.getId());
-			
-			if (! attivazioni.isEmpty()) {
-				attuatore.setAttivazioni(attivazioni);
+		if (attuatori != null) {
+			for (Attuatore attuatore : attuatori) {
+				HashSet<Attivazione> attivazioni = this.daoAttivazioni.getAttivazioniAttuatore(attuatore.getId());
+				
+				if (attivazioni != null) {
+					attuatore.setAttivazioni(attivazioni);
+				}
 			}
 		}
 		
@@ -542,7 +591,16 @@ public class DAO {
 	
 	//------ RICHIESTA ------
 	public RichiestaIdrica getRichiestaId(int idRichiesta) {
-		return this.daoRichieste.getRichiestaId(idRichiesta);
+		RichiestaIdrica richiestaIdrica = this.daoRichieste.getRichiestaId(idRichiesta);
+		
+		if (richiestaIdrica != null) {
+			Approvazione approvazione = this.daoApprovazione.getApprovazioneIdRichiesta(idRichiesta);
+			if (approvazione != null) {
+				richiestaIdrica.setApprovato(approvazione.isApprovato());
+			}
+		}
+		
+		return richiestaIdrica;
 	}
 	
 	
@@ -556,12 +614,26 @@ public class DAO {
 	}
 	
 	
-	/*
-	public HashSet<RichiestaIdrica> getRichiesteAzienda (int idAzienda) {
-		return this.daoRichieste.getRichiesteAzienda(idAzienda);
+	public HashSet<RichiestaIdrica> getRichiesteAzienda(int idAzienda) {
+		HashSet<RichiestaIdrica> richieste = this.daoRichieste.getRichiesteAzienda(idAzienda);
+		
+		if (richieste != null) {
+			for (RichiestaIdrica richiestaIdrica : richieste) {
+				if (richiestaIdrica != null) {
+					Approvazione approvazione =
+							this.daoApprovazione.getApprovazioneIdRichiesta(richiestaIdrica.getId());
+					if (approvazione != null) {
+						richiestaIdrica.setApprovato(approvazione.isApprovato());
+					}
+				}
+			}
+		}
+		
+		return richieste;
 	}
 	
 	
+	/*
 	public HashSet<RichiestaIdrica> getRichiesteCampo (int idCampo) {
 		return this.daoRichieste.getRichiesteCampo(idCampo);
 	}
@@ -581,7 +653,7 @@ public class DAO {
 	
 	//------ APPROVAZIONE ------
 	public Approvazione getApprovazioneId(int idApprovazione) {
-		return this.daoApprovazione.getApprovazioneId(idApprovazione);
+		return this.daoApprovazione.getApprovazioneIdRichiesta(idApprovazione);
 	}
 	
 	
@@ -692,5 +764,14 @@ public class DAO {
 		this.daoColtivazione.deleteIrrigazione(nome);
 	}
 	
+	
+	public boolean existsByUsername(String username) {
+		return this.daoUser.existsUsername(username);
+	}
+	
+	
+	public boolean existsByEmail(String email) {
+		return this.daoUser.existsMail(email);
+	}
 	
 }

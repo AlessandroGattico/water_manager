@@ -9,7 +9,11 @@ public class RichiestaIdrica
     public int idColtivazione { get; set; }
     public int idBacino { get; set; }
     public String date { get; set; }
+    public Boolean approvato { get; set; }
 
+    public RichiestaIdrica()
+    {
+    }
 
     public RichiestaIdrica(Double quantita, int idColtivazione, int idBacino, String date)
     {

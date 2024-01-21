@@ -1,0 +1,73 @@
+@page
+@using UserInterfaceWaterManager.Model.User
+@model WaterManagerUI.Pages.Register
+
+<link rel="stylesheet" href="css/form.css"/>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 register-panel">
+            <h2>Register</h2>
+
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="registration.nome">Nome</label>
+                    <input asp-for="registration.nome" type="text" name="registration.nome" class="form-control" id="nome" placeholder="Nome">
+                    <span asp-validation-for="registration.nome" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="registration.cognome">Cognome</label>
+                    <input asp-for="registration.cognome" type="text" name="registration.cognome" class="form-control" id="cognome" placeholder="Cognome">
+                    <span asp-validation-for="registration.cognome" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="registration.username">Username</label>
+                    <input asp-for="registration.username" type="text" class="form-control" id="stato" placeholder="Username">
+                    <span asp-validation-for="registration.username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="registration.mail">Email address</label>
+                    <input asp-for="registration.mail" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                    <span asp-validation-for="registration.mail" class="text-danger"></span>
+                </div>
+
+                <!-- 
+                <div class="form-group">
+                    <label asp-for="registration.username">Username</label>
+                    <input type="text" id="username" class="form-control" placeholder="Username" onblur="verificaDisponibilita('username', this.value)">
+                    <span id="usernameError" class="text-danger" style="display: none;">Username già in uso</span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="registration.mail">Email address</label>
+                    <input type="email" id="email" class="form-control" placeholder="Email" onblur="verificaDisponibilita('email', this.value)">
+                    <span id="mailError" class="text-danger" style="display: none;">Mail già in uso</span>
+                </div>
+                -->
+                <div class="form-group">
+                    <label asp-for="registration.password">Password</label>
+                    <input asp-for="registration.password" type="password" class="form-control" id="password" placeholder="Password">
+                    <span asp-validation-for="registration.password" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group role-selection">
+                    <label>Seleziona il ruolo: </label>
+                    <div class="form-check form-check-inline">
+                        <input asp-for="registration.role" class="form-check-input" type="radio" name="registration.role" id="gestoreAzienda" value=@UserRole.GESTOREAZIENDA.ToString()>
+                        <label class="form-check-label" asp-for="registration.role">Gestore Azienda</label>
+                        <span asp-validation-for="registration.role" class="text-danger"></span>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input asp-for="registration.role" class="form-check-input" type="radio" name="registration.role" id="gestoreIdrico" value=@UserRole.GESTOREIDRICO.ToString()>
+                        <label class="form-check-label" asp-for="registration.role">Gestore Idrico</label>
+                        <span asp-validation-for="registration.role" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Register" class="btn btn-primary form-button"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

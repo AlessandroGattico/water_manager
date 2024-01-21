@@ -9,6 +9,9 @@ public class Misura
     public String time { get; set; }
     public int idSensore { get; set; }
 
+    public Misura()
+    {
+    }
 
     public Misura(Double value, String time, int idSensore)
     {

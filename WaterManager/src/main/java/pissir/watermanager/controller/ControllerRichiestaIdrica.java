@@ -1,12 +1,14 @@
 package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.RichiestaIdrica;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
 
@@ -17,10 +19,10 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/v1/richiesta")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('GESTOREIDRICO') or hasAuthority('SYSTEMADMIN') or hasAuthority('GESTOREAZIENDA')")
 public class ControllerRichiestaIdrica {
 	
 	private final DAO daoRichieste;
+	private final TokenService tokenService;
 	
 	
 	@PostMapping(value = "/add")
@@ -84,4 +86,12 @@ public class ControllerRichiestaIdrica {
 		this.daoRichieste.deleteRichiesta(id);
 	}
 	
+	
+	private String extractTokenFromRequest(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
+	}
 }

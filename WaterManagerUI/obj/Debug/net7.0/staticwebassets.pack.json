@@ -5,6 +5,26 @@
       "PackagePath": "staticwebassets/WaterManagerUI.bundle.scp.css"
     },
     {
+      "Id": "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/wwwroot/css/Azienda.css",
+      "PackagePath": "staticwebassets/css/Azienda.css"
+    },
+    {
+      "Id": "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/wwwroot/css/Profilo.css",
+      "PackagePath": "staticwebassets/css/Profilo.css"
+    },
+    {
+      "Id": "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/wwwroot/css/Register.css",
+      "PackagePath": "staticwebassets/css/Register.css"
+    },
+    {
+      "Id": "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/wwwroot/css/Visualizza.css",
+      "PackagePath": "staticwebassets/css/Visualizza.css"
+    },
+    {
+      "Id": "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/wwwroot/css/form.css",
+      "PackagePath": "staticwebassets/css/form.css"
+    },
+    {
       "Id": "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },
