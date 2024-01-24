@@ -1,43 +1,42 @@
 using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using UserInterfaceWaterManager.Model.User;
 using WaterManagerUI.Model.Item;
 
 namespace WaterManagerUI.Pages;
 
-public class VisualizzaCampo : PageModel
+public class VisualizzaColtivazioni : PageModel
 {
-    private int idCampo { get; set; }
     public Campo campo { get; set; }
-    public GestoreAzienda user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
 
-    public VisualizzaCampo(IHttpClientFactory httpClientFactory,
-        IHttpContextAccessor httpContextAccessor)
+    public VisualizzaColtivazioni(IHttpClientFactory httpClientFactory,
+        IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
         _httpContextAccessor = httpContextAccessor;
+        _signInManager = signInManager;
     }
 
-    public async Task OnGetAsync(int idCampo)
+    public async Task OnGetAsync(int campoId)
     {
-        this.idCampo = idCampo;
         var client = _httpClientFactory.CreateClient();
-        var jwtToken = _httpContextAccessor.HttpContext.Session.GetString("JWTToken");
 
-        var userJson = HttpContext.Session.GetString("UserSession");
-        if (!string.IsNullOrEmpty(userJson))
+
+        if (_signInManager.IsSignedIn(User))
         {
             try
             {
                 client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", jwtToken);
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+
                 var response = await client.GetAsync(
-                    $"http://localhost:8080/api/v1/azienda/campagna/get/{this.campo}");
+                    $"http://localhost:8080/api/v1/azienda/campo/get/{campoId}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -45,9 +44,8 @@ public class VisualizzaCampo : PageModel
                     this.campo = JsonConvert.DeserializeObject<Campo>(jsonResponse);
                 }
             }
-            catch (Exception e)
+            catch (HttpRequestException e)
             {
-                
             }
         }
     }

@@ -59,20 +59,21 @@
 .elemento {
     background-color: #f3f3f3;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     padding: 20px;
     text-align: center;
     grid-column: span 1; 
 }
 
+
 .bottone-aggiungi {
     text-decoration: none;
     background-color: transparent;
-    border: 2px dashed #007bff;
+    border: 2px dashed #7bff00;
     border-radius: 10px;
     padding: 20px;
     font-size: 24px;
-    color: #007bff;
+    color: #7bff00;
     text-align: center;
     cursor: pointer;
     grid-column: span 3; /* Il bottone occupa tutte e 3 le colonne */
@@ -105,4 +106,5 @@
     padding-right: 300px;
 }
 
-/* Stili per gli altri elementi come prima */
+
+

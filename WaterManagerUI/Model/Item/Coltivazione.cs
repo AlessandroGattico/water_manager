@@ -5,11 +5,11 @@ namespace WaterManagerUI.Model.Item;
 public class Coltivazione
 {
     public int id { get; set; }
-    public String raccolto { get; set; }
-    public String irrigazione { get; set; }
-    public String esigenza { get; set; }
-    public Double temperatura { get; set; }
-    public Double umidita { get; set; }
+    public String? raccolto { get; set; }
+    public String? irrigazione { get; set; }
+    public String? esigenza { get; set; }
+    public double? temperatura { get; set; }
+    public double? umidita { get; set; }
     public String semina { get; set; }
     public int idCampo { get; set; }
 
@@ -18,7 +18,7 @@ public class Coltivazione
     }
 
     public Coltivazione(String raccolto, String irrigazione, String esigenza, Double temperatura,
-        Double umidita, String semina, int idCampo)
+        Double umidita, int idCampo)
     {
         this.id = 0;
         this.raccolto = raccolto;
@@ -26,13 +26,13 @@ public class Coltivazione
         this.esigenza = esigenza;
         this.temperatura = temperatura;
         this.umidita = umidita;
-        this.semina = semina;
+        this.semina = "";
         this.idCampo = idCampo;
     }
 
     [JsonConstructor]
-    public Coltivazione(int id, string raccolto, string irrigazione, string esigenza, double temperatura,
-        double umidita, string semina, int idCampo)
+    public Coltivazione(int id, string raccolto, string irrigazione, string esigenza, Double temperatura,
+        Double umidita, string semina, int idCampo)
     {
         this.id = id;
         this.raccolto = raccolto;

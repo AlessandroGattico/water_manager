@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Coltivazione;
+import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
@@ -27,29 +28,47 @@ public class ControllerColtivazione {
 	
 	
 	@PostMapping(value = "/add")
-	public ResponseEntity<Integer> addColtivazione(@RequestBody String param) {
+	public String addColtivazione(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 		Coltivazione coltivazione = gson.fromJson(param, Coltivazione.class);
 		
-		return ResponseEntity.ok(this.daoColtivazione.addColtivazione(coltivazione));
+		return gson.toJson(this.daoColtivazione.addColtivazione(coltivazione));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@GetMapping(value = "/get/{id}")
-	public String getColtivazioneId(@PathVariable int id) {
+	public String getColtivazioneId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		Coltivazione coltivazione = this.daoColtivazione.getColtivazioneId(id);
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(coltivazione);
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			Coltivazione coltivazione = this.daoColtivazione.getColtivazioneId(id);
+			
+			return gson.toJson(coltivazione);
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@GetMapping(value = "/get/all/{id}")
-	public String getColtivazioniCampo(@PathVariable int id) {
+	public String getColtivazioniCampo(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 		HashSet<Coltivazione> coltivazioni = this.daoColtivazione.getColtivazioniCampo(id);
 		
 		return gson.toJson(coltivazioni);
+	} else {
+		return gson.toJson("Accesso negato");
+	}
 	}
 	
 	
@@ -66,4 +85,5 @@ public class ControllerColtivazione {
 		}
 		return null;
 	}
+	
 }

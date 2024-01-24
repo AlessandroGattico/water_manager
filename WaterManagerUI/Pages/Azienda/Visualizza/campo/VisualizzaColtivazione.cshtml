@@ -1,0 +1,48 @@
+@page
+@model WaterManagerUI.Pages.VisualizzaColtivazione
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <li>
+                            <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
+                        </li>
+                        <li>
+                            <a href="/Azienda/Visualizza/VisualizzaColtivazioni">Coltivazioni</a>
+                        </li>
+                        <li>
+                            <a href="/Azienda/Visualizza/VisualizzaAttuatori">Attuatori</a>
+                        </li>
+                    </ul>
+                </span>
+            </aside>
+        </div>
+
+        <div class="col-md-8">
+            <div class="content">
+                @if (Model.coltivazione != null)
+                {
+                    <h2>Dettagli campo</h2>
+                    <p>Nome campo: @Model.coltivazione.raccolto</p>
+                }
+            </div>
+
+            <div class="elemento">
+                <div class="info-elemento raccolto">Raccolto: @Model.coltivazione.raccolto</div>
+                <div class="info-elemento nome">Irrigazione: @Model.coltivazione.irrigazione</div>
+                <div class="info-elemento nome">Esigenza: @Model.coltivazione.esigenza</div>
+                <div class="info-elemento nome">Semina: @Model.coltivazione.semina</div>
+                <div class="info-elemento nome">Temperatura ideale: @Model.coltivazione.temperatura</div>
+                <div class="info-elemento nome">Umidità ideale: @Model.coltivazione.umidita</div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

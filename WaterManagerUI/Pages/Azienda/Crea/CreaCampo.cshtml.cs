@@ -51,6 +51,8 @@ public class CreaCampo : PageModel
                     string responseContentStr = await response.Content.ReadAsStringAsync();
 
                     var idcampo = JsonConvert.DeserializeObject<int>(responseContentStr);
+                    return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna",
+                        new { campagnaId = this.idCampagna });
                 }
                 else
                 {

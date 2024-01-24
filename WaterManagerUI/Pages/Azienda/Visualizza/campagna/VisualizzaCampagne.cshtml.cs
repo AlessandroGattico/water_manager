@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using UserInterfaceWaterManager.Model.User;
@@ -8,24 +9,21 @@ using WaterManagerUI.Model.Item;
 
 namespace WaterManagerUI.Pages;
 
-public class GestoreAziendaPage : PageModel
+public class VisualizzaCampagne : PageModel
 {
     public GestoreAzienda user { get; set; }
+    public HashSet<Campagna> campagne { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly SignInManager<IdentityUser> _signInManager;
-    public Model.Item.Azienda azienda { get; set; }
 
-
-    public GestoreAziendaPage(IHttpClientFactory httpClientFactory,
+    public VisualizzaCampagne(IHttpClientFactory httpClientFactory,
         IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
-        _httpContextAccessor = httpContextAccessor;
         _signInManager = signInManager;
     }
 
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(int aziendaId)
     {
         var client = _httpClientFactory.CreateClient();
 
@@ -35,30 +33,23 @@ public class GestoreAziendaPage : PageModel
                 User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
                 User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
                 JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
-
-            if (user.azienda != null)
-            {
-                azienda = user.azienda;
-            }
-            else
-            {
+            
                 try
                 {
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
                     var response = await client.GetAsync(
-                        $"http://localhost:8080/api/v1/azienda/get/gestore/{user.id}");
+                        $"http://localhost:8080/api/v1/azienda/campagna/get/all/{aziendaId}");
 
                     if (response.IsSuccessStatusCode)
                     {
                         var jsonResponse = await response.Content.ReadAsStringAsync();
-                        this.azienda = JsonConvert.DeserializeObject<Model.Item.Azienda>(jsonResponse);
+                        this.campagne = JsonConvert.DeserializeObject<HashSet<Campagna>>(jsonResponse);
                     }
                 }
-                catch (Exception e)
+                catch (HttpRequestException e)
                 {
                 }
-            }
         }
     }
 }

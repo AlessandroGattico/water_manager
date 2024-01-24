@@ -52,7 +52,30 @@ public class ControllerAzienda {
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			Azienda azienda = this.daoAzienda.getAziendaId(id);
 			
-			return gson.toJson(azienda);
+			if (azienda != null) {
+				return gson.toJson(azienda);
+			} else {
+				return null;
+			}
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	@GetMapping(value = "/get/gestore/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String getAziendaGa(@PathVariable int id, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			Azienda azienda = this.daoAzienda.getAziendaGestore(id);
+			
+			if (azienda != null) {
+				return gson.toJson(azienda);
+			} else {
+				return null;
+			}
 		} else {
 			return gson.toJson("Accesso negato");
 		}

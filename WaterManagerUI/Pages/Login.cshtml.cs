@@ -71,30 +71,56 @@ public class Login : PageModel
                             var jsonResponse = await response.Content.ReadAsStringAsync();
                             userA = JsonConvert.DeserializeObject<GestoreAzienda>(jsonResponse);
 
-                            
 
                             if (userA != null)
                             {
-                                var claims = new List<Claim>
+                                List<Claim> claims;
+
+                                if (userA.azienda != null)
                                 {
-                                    new Claim(ClaimTypes.Name, userA.nome),
-                                    new Claim(ClaimTypes.Email, userA.mail),
-                                    new Claim(ClaimTypes.Role, userA.role.ToString()),
-                                    new Claim(ClaimTypes.NameIdentifier, userA.azienda.id.ToString())
-                                };
+                                    String aziendaJson = JsonConvert.SerializeObject(userA.azienda);
+
+
+                                    claims = new List<Claim>
+                                    {
+                                        new Claim(ClaimTypes.Gender, userA.id.ToString()),
+                                        new Claim(ClaimTypes.Surname, userA.cognome),
+                                        new Claim(ClaimTypes.Name, userA.nome),
+                                        new Claim(ClaimTypes.Email, userA.mail),
+                                        new Claim(ClaimTypes.UserData, userA.username),
+                                        new Claim(ClaimTypes.Role, userA.role.ToString()),
+                                        new Claim(ClaimTypes.Authentication, loginResponse.jwt),
+                                        new Claim(ClaimTypes.NameIdentifier, aziendaJson)
+                                    };
+                                }
+                                else
+                                {
+                                    claims = new List<Claim>
+                                    {
+                                        new Claim(ClaimTypes.Gender, userA.id.ToString()),
+                                        new Claim(ClaimTypes.Surname, userA.cognome),
+                                        new Claim(ClaimTypes.Name, userA.nome),
+                                        new Claim(ClaimTypes.Email, userA.mail),
+                                        new Claim(ClaimTypes.UserData, userA.username),
+                                        new Claim(ClaimTypes.Role, userA.role.ToString()),
+                                        new Claim(ClaimTypes.Authentication, loginResponse.jwt)
+                                    };
+                                }
 
                                 var claimsIdentity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
 
                                 var authProperties = new AuthenticationProperties
                                 {
-                                    IsPersistent = false, // o false, a seconda se vuoi che la sessione persista tra le sessioni del browser
+                                    IsPersistent =
+                                        false, // o false, a seconda se vuoi che la sessione persista tra le sessioni del browser
                                     ExpiresUtc =
-                                        DateTimeOffset.UtcNow.AddMinutes(30) // imposta un tempo di scadenza del cookie, se necessario
+                                        DateTimeOffset.UtcNow
+                                            .AddMinutes(30) // imposta un tempo di scadenza del cookie, se necessario
                                 };
 
-                                await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, new ClaimsPrincipal(claimsIdentity),
+                                await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
+                                    new ClaimsPrincipal(claimsIdentity),
                                     authProperties);
-                                HttpContext.Session.SetString("UserSession", JsonConvert.SerializeObject(userA));
                             }
                         }
                         else

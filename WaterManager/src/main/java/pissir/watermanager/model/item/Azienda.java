@@ -18,6 +18,7 @@ public class Azienda {
 	private String nome;
 	private HashSet<Campagna> campagne;
 	private HashSet<RisorsaIdrica> risorse;
+	private HashSet<RichiestaIdrica> richieste;
 	private int idGestore;
 	
 	
@@ -27,6 +28,7 @@ public class Azienda {
 		this.idGestore = idGestore;
 		this.campagne = new HashSet<>();
 		this.risorse = new HashSet<>();
+		this.richieste = new HashSet<>();
 	}
 	
 }

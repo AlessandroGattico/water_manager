@@ -1,19 +1,78 @@
 @page
 @model WaterManagerUI.Pages.CreaColtivazione
 
-@{
-    Layout = null;
-}
+<link rel="stylesheet" href="~/css/form.css"/>
 
-<!DOCTYPE html>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>Crea Coltivazione</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="raccolto">Raccolto</label>
+                    <select asp-for="raccolto" class="form-control">
+                        @foreach (String element in Model.raccolti)
+                        {
+                            <option>@element</option>
+                        }
+                    </select>
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="irrigazione">Irrigazione</label>
+                    <select asp-for="irrigazione" class="form-control">
+                        @foreach (String element in Model.irrigazioni)
+                        {
+                            <option>@element</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="esigenza">Esigenza</label>
+                    <select asp-for="esigenza" class="form-control">
+                        @foreach (String element in Model.esigenze)
+                        {
+                            <option>@element</option>
+                        }
+                    </select>
+                </div>
+
+                <!-- Campo di input per Temperatura -->
+                <div class="form-group">
+                    <label asp-for="temperatura">Temperatura</label>
+                    <input asp-for="temperatura" type="number" step="0.05" class="form-control"/>
+                    <span asp-validation-for="temperatura" class="text-danger"></span>
+                </div>
+
+                <!-- Campo di input per Umidità -->
+                <div class="form-group">
+                    <label asp-for="umidita">Umidità</label>
+                    <input asp-for="umidita" type="number" step="0.05" class="form-control"/>
+                    <span asp-validation-for="umidita" class="text-danger"></span>
+                </div>
+
+                <!-- Campo di input per la Data -->
+                <div class="form-group">
+                    <label asp-for="Data">Data</label>
+                    <input asp-for="Data" type="date" class="form-control" min="2020-01-01" max="2030-01-01"/>
+                    <span asp-validation-for="Data" class="text-danger"></span>
+                </div>
+
+
+                <!-- Campo di input per l'Ora -->
+                <div class="form-group">
+                    <label asp-for="Ora">Ora</label>
+                    <input asp-for="Ora" type="time" class="form-control"/>
+                    <span asp-validation-for="Ora" class="text-danger"></span>
+                </div>
+
+                <!-- Pulsante di invio -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary form-button">Crea coltivazione</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-</body>
-</html>

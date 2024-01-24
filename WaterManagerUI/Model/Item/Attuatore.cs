@@ -29,4 +29,15 @@ public class Attuatore
         this.idCampo = idCampo;
         this.attivazioni = attivazioni;
     }
+
+
+    public List<Attivazione> storicoAttivazioni()
+    {
+        if (this.attivazioni.Count == 0)
+        {
+            return new List<Attivazione>();
+        }
+
+        return attivazioni.OrderByDescending(c => c.attivazioneAsDateTime()).ToList();
+    }
 }

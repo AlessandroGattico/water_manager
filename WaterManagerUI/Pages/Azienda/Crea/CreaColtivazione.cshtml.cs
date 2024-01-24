@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -10,134 +13,82 @@ namespace WaterManagerUI.Pages;
 
 public class CreaColtivazione : PageModel
 {
-    [BindProperty] public Coltivazione coltivazione { get; set; }
+    [DataType(DataType.Date)] public DateTime Data { get; set; }
+
+    [DataType(DataType.Time)] public TimeSpan Ora { get; set; }
+    [BindProperty] public string raccolto { get; set; }
+    [BindProperty] public string irrigazione { get; set; }
+    [BindProperty] public string esigenza { get; set; }
+    [BindProperty] public Double temperatura { get; set; }
+    [BindProperty] public Double umidita { get; set; }
+    private Coltivazione coltivazione { get; set; }
     private GestoreAzienda user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    public List<String> raccolti { get; set; }
-    public List<String> irrigazioni { get; set; }
-    public List<String> esigenze { get; set; }
-    private int idColtivazione { get; set; }
+    private readonly SignInManager<IdentityUser> _signInManager;
+    public HashSet<string> raccolti { get; set; }
+    public HashSet<string> irrigazioni { get; set; }
+    public HashSet<string> esigenze { get; set; }
+    public int campoId { get; set; }
 
-    public CreaColtivazione(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+    public CreaColtivazione(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor,
+        SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
-        _httpContextAccessor = httpContextAccessor;
+        _signInManager = signInManager;
     }
 
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task OnGetAsync(int campoId)
+    {
+        this.raccolti = await GetRaccolti();
+        this.irrigazioni = await GetIrrigazioni();
+        this.esigenze = await GetEsigenze();
+        this.campoId = campoId;
+    }
+
+    public async Task<IActionResult> OnPostAsync(int campoId)
     {
         var client = _httpClientFactory.CreateClient();
-        var jwtToken = _httpContextAccessor.HttpContext.Session.GetString("JWTToken");
-        var userJson = HttpContext.Session.GetString("UserSession");
 
-        try
+        if (_signInManager.IsSignedIn(User))
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
-            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/raccolto/get/all");
+            user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
+                User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
+                User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
+                JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
 
-            if (response.IsSuccessStatusCode)
+
+            coltivazione = new Coltivazione
             {
-                string responseContentStr = await response.Content.ReadAsStringAsync();
-
-                raccolti = JsonConvert.DeserializeObject<List<String>>(responseContentStr);
-                if (raccolti.Count == 0)
-                {
-                    //ERRORE
-                }
-            }
-            else
-            {
-                return RedirectToPage("/Azienda/GestoreAzienda");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.StackTrace);
-            return RedirectToPage("/Azienda/GestoreAzienda");
-        }
-
-        try
-        {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
-            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/irrigazione/get/all");
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseContentStr = await response.Content.ReadAsStringAsync();
-
-                irrigazioni = JsonConvert.DeserializeObject<List<String>>(responseContentStr);
-                if (irrigazioni.Count == 0)
-                {
-                    //ERRORE
-                }
-            }
-            else
-            {
-                return RedirectToPage("/Azienda/GestoreAzienda");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.StackTrace);
-            return RedirectToPage("/Azienda/GestoreAzienda");
-        }
-
-        try
-        {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
-            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/esigenza/get/all");
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseContentStr = await response.Content.ReadAsStringAsync();
-
-                esigenze = JsonConvert.DeserializeObject<List<String>>(responseContentStr);
-                if (esigenze.Count == 0)
-                {
-                    //ERRORE
-                }
-            }
-            else
-            {
-                return RedirectToPage("/Azienda/GestoreAzienda");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.StackTrace);
-            return RedirectToPage("/Azienda/GestoreAzienda");
-        }
-
-        if (!string.IsNullOrEmpty(userJson))
-        {
-            user = JsonConvert.DeserializeObject<GestoreAzienda>(userJson);
-
-            DateTime now = DateTime.Now;
-            string formattedDate = now.ToString("yyyy-MM-dd HH:mm:ss");
-            coltivazione.semina = formattedDate;
+                idCampo = this.campoId,
+                semina = Data.Add(Ora).ToString("yyyy-MM-dd HH:mm:ss"),
+                raccolto = raccolto,
+                irrigazione = raccolto.Equals("INCOLTO") ? null : irrigazione,
+                esigenza = raccolto.Equals("INCOLTO") ? null : esigenza,
+                temperatura = raccolto.Equals("INCOLTO") ? null : temperatura,
+                umidita = raccolto.Equals("INCOLTO") ? null : umidita
+            };
 
             String stringaDaInviare = JsonConvert.SerializeObject(coltivazione);
 
             try
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
-                StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/coltivazione/add34" +
-                                                      "",
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                
+                StringContent stringContent =
+                    new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
+                
+                var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/coltivazione/add",
                     stringContent);
 
                 if (response.IsSuccessStatusCode)
                 {
                     string responseContentStr = await response.Content.ReadAsStringAsync();
 
-                    idColtivazione = JsonConvert.DeserializeObject<int>(responseContentStr);
-                    coltivazione.id = idColtivazione;
+                    coltivazione.id = JsonConvert.DeserializeObject<int>(responseContentStr);
 
-
-                    HttpContext.Session.SetString("UserSession", JsonConvert.SerializeObject(user));
-                    return RedirectToPage("/Azienda/GestoreAzienda");
+                    return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = this.campoId });
                 }
                 else
                 {
@@ -151,6 +102,48 @@ public class CreaColtivazione : PageModel
             }
         }
 
-        return RedirectToPage("/Azienda/GestoreAzienda");
+        return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
+    }
+
+    public async Task<HashSet<string>> GetRaccolti()
+    {
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.GetAsync("http://localhost:8080/api/v1/utils/raccolto/get/all");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<HashSet<string>>(content);
+        }
+
+        return new HashSet<string>();
+    }
+
+    public async Task<HashSet<string>> GetIrrigazioni()
+    {
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.GetAsync("http://localhost:8080/api/v1/utils/irrigazione/get/all");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<HashSet<string>>(content);
+        }
+
+        return new HashSet<string>();
+    }
+
+    public async Task<HashSet<string>> GetEsigenze()
+    {
+        var client = _httpClientFactory.CreateClient();
+        var response = await client.GetAsync("http://localhost:8080/api/v1/utils/esigenza/get/all");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<HashSet<string>>(content);
+        }
+
+        return new HashSet<string>();
     }
 }

@@ -29,4 +29,17 @@ public class Attivazione
         this.time = time;
         this.idAttuatore = idAttuatore;
     }
+
+    public DateTime attivazioneAsDateTime()
+    {
+        DateTime attivazioneDate;
+        if (DateTime.TryParse(time, out attivazioneDate))
+        {
+            return attivazioneDate;
+        }
+        else
+        {
+            return DateTime.MinValue;
+        }
+    }
 }

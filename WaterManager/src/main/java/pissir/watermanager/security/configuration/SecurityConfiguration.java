@@ -59,6 +59,7 @@ public class SecurityConfiguration {
 				.authorizeHttpRequests(auth -> {
 					auth
 							.requestMatchers("/api/v1/auth/**").permitAll()
+							.requestMatchers("/api/v1/utils/**").permitAll()
 							.anyRequest().authenticated();
 				})
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer :: jwt)

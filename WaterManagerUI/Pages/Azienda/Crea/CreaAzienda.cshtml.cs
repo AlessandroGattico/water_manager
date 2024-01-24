@@ -1,5 +1,8 @@
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -11,32 +14,37 @@ namespace WaterManagerUI.Pages;
 
 public class CreaAzienda : PageModel
 {
-    [BindProperty] public Model.Item.Azienda azienda { get; set; }
+    [BindProperty] public String nomeAzienda { get; set; }
+    private Model.Item.Azienda azienda { get; set; }
     private GestoreAzienda user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private int idAzienda { get; set; }
+    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly UserManager<IdentityUser> _userManager;
 
     public CreaAzienda(IHttpClientFactory httpClientFactory,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager)
     {
         _httpClientFactory = httpClientFactory;
         _httpContextAccessor = httpContextAccessor;
+        _signInManager = signInManager;
+        _userManager = userManager;
     }
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync(int userId)
     {
         var client = _httpClientFactory.CreateClient();
         var jwtToken = _httpContextAccessor.HttpContext.Session.GetString("JWTToken");
         var userJson = HttpContext.Session.GetString("UserSession");
-
-
         if (!string.IsNullOrEmpty(userJson))
         {
             user = JsonConvert.DeserializeObject<GestoreAzienda>(userJson);
+        }
 
-
-            azienda.idGestore = user.id;
+        if (!string.IsNullOrEmpty(userJson))
+        {
+            azienda = new Model.Item.Azienda(nomeAzienda, userId);
 
             String stringaDaInviare = JsonConvert.SerializeObject(azienda);
 
@@ -50,10 +58,45 @@ public class CreaAzienda : PageModel
                 {
                     string responseContentStr = await response.Content.ReadAsStringAsync();
 
-                    idAzienda = JsonConvert.DeserializeObject<int>(responseContentStr);
-                    user.azienda.id = idAzienda;
-                    
+                    azienda.id = JsonConvert.DeserializeObject<int>(responseContentStr);
+
+                    user.azienda = azienda;
+                    String aziendaJson = JsonConvert.SerializeObject(azienda);
+
                     HttpContext.Session.SetString("UserSession", JsonConvert.SerializeObject(user));
+                    var userL = await _userManager.GetUserAsync(User);
+                    if (user == null)
+                    {
+                        return Challenge();
+                    }
+
+                    // Aggiungi il nuovo claim
+                    var claim = new Claim(ClaimTypes.NameIdentifier, aziendaJson);
+                    var result = await _userManager.AddClaimAsync(userL, claim);
+
+                    if (!result.Succeeded)
+                    {
+                        // Gestisci l'errore
+                    }
+
+                    // Aggiorna il cookie di autenticazione
+                    await _signInManager.RefreshSignInAsync(userL);
+
+
+                    /*var identity = User.Identity as ClaimsIdentity;
+
+                    if (identity != null)
+                    {
+                        identity.RemoveClaim(identity.FindFirst(ClaimTypes.NameIdentifier));
+
+                        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, aziendaJson));
+
+                        await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+                        await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
+                            new ClaimsPrincipal(identity));
+                    }
+                    */
+
                     return RedirectToPage("/Azienda/GestoreAzienda");
                 }
                 else

@@ -11,8 +11,6 @@ public class Azienda
     public HashSet<RichiestaIdrica> richieste { get; set; }
     public int idGestore { get; set; }
 
-    public Double dispAttuale { get; set; }
-
     public Azienda()
     {
         this.campagne = new HashSet<Campagna>();
@@ -27,25 +25,19 @@ public class Azienda
         this.idGestore = idGestore;
         this.campagne = new HashSet<Campagna>();
         this.risorse = new HashSet<RisorsaIdrica>();
+        this.richieste = new HashSet<RichiestaIdrica>();
     }
 
     [JsonConstructor]
-    public Azienda(int id, string nome, HashSet<Campagna> campagne, HashSet<RisorsaIdrica> risorse, int idGestore)
+    public Azienda(int id, string nome, HashSet<Campagna> campagne, HashSet<RisorsaIdrica> risorse,
+        HashSet<RichiestaIdrica> richieste, int idGestore)
     {
         this.id = id;
         this.nome = nome;
         this.campagne = campagne;
         this.risorse = risorse;
+        this.richieste = richieste;
         this.idGestore = idGestore;
-
-        if (this.risorse.Count > 0)
-        {
-            this.dispAttuale = this.storicoRisorse().First().disponibilita;
-        }
-        else
-        {
-            this.dispAttuale = 0;
-        }
     }
 
 
@@ -62,6 +54,18 @@ public class Azienda
         }
 
         return size;
+    }
+
+    public Double dispAttuale()
+    {
+        if (this.risorse.Count > 0)
+        {
+            return this.storicoRisorse().First().disponibilita;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     public List<RisorsaIdrica> storicoRisorse()

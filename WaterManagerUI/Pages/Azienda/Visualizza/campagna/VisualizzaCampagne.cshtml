@@ -1,6 +1,6 @@
 @page
 @using WaterManagerUI.Model.Item
-@model WaterManagerUI.Pages.VisualizzaCampo
+@model WaterManagerUI.Pages.VisualizzaCampagne
 
 <link rel="stylesheet" href="~/css/Visualizza.css"/>
 
@@ -10,19 +10,16 @@
             <aside class="flex-container">
                 <span>
                     <ul>
-                        @if (Model == null)
+                        @if (Model.user.azienda.campagne == null)
                         {
                             <li>
-                                <a href="/Azienda/CreaCampagna">Aggiungi Azienda</a>
+                                <a href="/Azienda/CreaCampagna">Aggiungi campagna</a>
                             </li>
                         }
                         else
                         {
                             <li>
                                 <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
-                            </li>
-                            <li>
-                                <a href="/Azienda/VisualizzaCampagna">Campagne</a>
                             </li>
                             <li>
                                 <a href="/Azienda/Coltivazioni">Coltivazioni</a>
@@ -35,10 +32,9 @@
                 </span>
             </aside>
         </div>
-
         <div class="col-md-8">
             <div class="content">
-                @if (Model.user?.azienda != null)
+                @if (Model.user.azienda != null)
                 {
                     <h2>Dettagli Azienda</h2>
                     <p>Nome Azienda: @Model.user.azienda.nome</p>
@@ -50,12 +46,12 @@
             </div>
 
             <div class="elements">
-                @if (@Model.user.azienda.campagne.Count > 0)
+                @if (@Model.campagne.Any())
                 {
-                    @foreach (Campagna campagna in Model.user.azienda.campagne)
+                    @foreach (Campagna campagna in Model.campagne)
                     {
-                        <div class="elemento">
-                            <a href="/Azienda/Visualizza/VisualizzaCampagna?campagna=@campagna.id">
+                        <div class="elemento" onclick="this.parentNode.submit()">
+                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagna" asp-route-campagnaId="@campagna.id">
                                 <div class="info-elemento nome">Nome: @campagna.nome</div>
                                 <div class="info-elemento dimensione">Dimensione: @campagna.size()</div>
                                 <div class="info-elemento campi">Numero campi: @campagna.campi.Count</div>
@@ -64,20 +60,19 @@
                     }
 
                     <div class="bottone-aggiungi">
-                        <a href="/Azienda/Crea/CreaCampagna?parametro=@Model.user.azienda.id" class="plus-icon">+</a>
-                        <a href="/Azienda/Crea/CreaCampagna?parametro=@Model.user.azienda.id">Aggiungi campagna</a>
+                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id" class="plus-icon">+</a>
+                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id">Aggiungi campagna</a>
                     </div>
                 }
                 else
                 {
                     <div class="bottone-aggiungi">
-                        <a href="/Azienda/Crea/CreaCampagna?parametro=@Model.user.azienda.id" class="plus-icon">+</a>
-                        <a href="/Azienda/Crea/CreaCampagna?parametro=@Model.user.azienda.id">Aggiungi campagna</a>
+                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id" class="plus-icon">+</a>
+                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id">Aggiungi campagna</a>
                     </div>
                 }
             </div>
         </div>
-
         <div class="col-md-2">
         </div>
     </div>

@@ -1,0 +1,78 @@
+@page
+@using WaterManagerUI.Model.Item
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model WaterManagerUI.Pages.VisualizzaColtivazioneCampagna
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        @if (Model.user.azienda.campagne == null)
+                        {
+                            <li>
+                                <a href="/Azienda/CreaCampagna">Aggiungi campagna</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
+                            </li>
+                            <li>
+                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagna" asp-route-aziendaId="@Model.campagna.id">Campi</a>
+                            </li>
+                            <li>
+                                <a href="/Azienda/Coltivazioni">Coltivazioni</a>
+                            </li>
+                            <li>
+                                <a href="/Azienda/Richiesta">Richieste</a>
+                            </li>
+                        }
+                    </ul>
+                </span>
+            </aside>
+        </div>
+        <div class="col-md-8">
+            <div class="content">
+                @if (Model.user.azienda != null)
+                {
+                    <h2>Dettagli Azienda</h2>
+                    <p>Nome Azienda: @Model.user.azienda.nome</p>
+                }
+                else
+                {
+                    <p>Nessuna azienda registrata. Utilizza il link a sinistra per aggiungere un'azienda.</p>
+                }
+            </div>
+
+            <div class="elements">
+                @if (Model.campagna.campi.Any())
+                {
+                    foreach (Campo campo in Model.campagna.campi)
+                    {
+                        @if (campo.coltivazioni.Any())
+                        {
+                            <div class="elemento">
+                                <div class="info-elemento nomeCampagna">Nome campagna: @Model.campagna.nome</div>
+                                <div class="info-elemento nomeCampo">Nome campo: @campo.nome</div>
+                                <div class="info-elemento raccolto">Raccolto: @campo.storicoColtivazioni().FirstOrDefault().raccolto</div>
+                                <div class="info-elemento nome">Irrigazione: @campo.storicoColtivazioni().FirstOrDefault().irrigazione</div>
+                                <div class="info-elemento nome">Esigenza: @campo.storicoColtivazioni().FirstOrDefault().esigenza</div>
+                                <div class="info-elemento nome">Semina: @campo.storicoColtivazioni().FirstOrDefault().semina</div>
+                                <div class="info-elemento nome">Temperatura ideale: @campo.storicoColtivazioni().FirstOrDefault().temperatura</div>
+                                <div class="info-elemento nome">Umidità ideale: @campo.storicoColtivazioni().FirstOrDefault().umidita</div>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+
+    </div>
+</div>

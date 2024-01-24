@@ -1,9 +1,8 @@
 @page
-@using WaterManagerUI.Pages.Shared
-@using WaterManagerUI.Model.Item
 @model WaterManagerUI.Pages.GestoreAziendaPage
 
 <link rel="stylesheet" href="~/css/site.css"/>
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
 
 <title>Azienda</title>
 
@@ -13,25 +12,19 @@
             <aside class="flex-container">
                 <span>
                     <ul>
-                        @if (Model.azienda == null)
-                        {
-                            <div>
-                                <a href="/Azienda/Crea/CreaAzienda">Aggiungi Azienda</a>
-                            </div>
-                        }
-                        else
+                        @if (Model.azienda != null)
                         {
                             <div>
                                 <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
                             </div>
                             <div>
-                                <a href="/Azienda/Visualizza/VisualizzaCampagne">Campagne</a>
+                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id">Campagne</a>
                             </div>
                             <div>
-                                <a href="/Azienda/Visualizza/VisualizzaCampi">Campi</a>
+                                <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.azienda.id">Campi</a>
                             </div>
                             <div>
-                                <a href="/Azienda/Visualizza/VisualizzaColtivazioni">Coltivazioni</a>
+                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaColtivazioniAzienda" asp-route-aziendaId="@Model.azienda.id">Campagne</a>
                             </div>
                             <div>
                                 <a href="/Azienda/Visualizza/VisualizzaRichiesta">Richieste</a>
@@ -43,44 +36,47 @@
         </div>
         <div class="col-md-8">
             <div class="content">
-                @if (Model.user?.azienda != null)
+                @if (Model.azienda != null)
                 {
                     <h2>Dettagli Azienda</h2>
-                    <p>Nome Azienda: @Model.user.azienda.nome</p>
+                    <p>Nome Azienda: @Model.azienda.nome</p>
 
                     <div class="elemento">
-                        <a href="/Azienda/Visualizza/VisualizzaCampagne">
-                            <div class="info-elemento nome">Disponibilità idrica: @Model.user.azienda.dispAttuale</div>
+                        <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id">
+                            <div class="info-elemento nome">Disponibilità idrica: @Model.azienda.dispAttuale()</div>
                         </a>
                     </div>
                     <div class="elemento">
-                        <a href="/Azienda/Visualizza/VisualizzaCampagne">
-                            <div class="info-elemento nome">Dimensione: @Model.user.azienda.size()</div>
+                        <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id">
+                            <div class="info-elemento nome">Dimensione: @Model.azienda.size()</div>
                         </a>
                     </div>
                     <div class="elemento">
-                        <a href="/Azienda/Visualizza/VisualizzaCampagna">
-                            <div class="info-elemento nome">Campagne: @Model.user.azienda.campagne.Count</div>
+                        <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id">
+                            <div class="info-elemento nome">Campagne: @Model.azienda.campagne.Count</div>
                         </a>
                     </div>
                     <div class="elemento">
-                        <a href="/Azienda/Visualizza/VisualizzaCampagna">
-                            <div class="info-elemento nome">Campi: @Model.user.azienda.campagne.Count</div>
+                        <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.azienda.id">
+                            <div class="info-elemento nome">Campi: @Model.azienda.campagne.Count</div>
                         </a>
                     </div>
-                    
-                    @if (Model.user.azienda.richieste != null)
+
+                    @if (Model.azienda.richieste != null)
                     {
                         <div class="elemento">
                             <a href="/Azienda/Visualizza/VisualizzaCampagna">
-                                <div class="info-elemento nome">Richieste in sospeso: @Model.user.azienda.richiesteSospeso()</div>
+                                <div class="info-elemento nome">Richieste in sospeso: @Model.azienda.richiesteSospeso()</div>
                             </a>
                         </div>
                     }
                 }
                 else
                 {
-                    <p>Nessuna azienda registrata. Utilizza il link per aggiungere un'azienda.</p>
+                    <div class="bottone-aggiungi">
+                        <a asp-page="/Azienda/Crea/CreaAzienda" asp-route-userId="@Model.user.id" class="plus-icon">+</a>
+                        <a asp-page="/Azienda/Crea/CreaAzienda" asp-route-userId="@Model.user.id">Aggiungi Azienda</a>
+                    </div>
                 }
             </div>
         </div>

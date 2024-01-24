@@ -45,20 +45,32 @@ public class ControllerCampo {
 	
 	
 	@GetMapping(value = "/get/{id}")
-	public String getCampoId(@PathVariable int id) {
+	public String getCampoId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		Campo campo = this.daoCampo.getCampoId(id);
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(campo);
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			Campo campo = this.daoCampo.getCampoId(id);
+			
+			return gson.toJson(campo);
+		} else {
+			return gson.toJson(0);
+		}
 	}
 	
 	
 	@GetMapping(value = "/get/all/{id}")
-	public String getCampiCampagna(@PathVariable int id) {
+	public String getCampiCampagna(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		HashSet<Campo> campi = this.daoCampo.getCampiCampagna(id);
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(campi);
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			HashSet<Campo> campi = this.daoCampo.getCampiCampagna(id);
+			
+			return gson.toJson(campi);
+		} else {
+			return gson.toJson(0);
+		}
 	}
 	
 	

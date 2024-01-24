@@ -123,7 +123,7 @@ public class DAO {
 	}
 	
 	
-	private Azienda getAziendaGestore(int idGestore) {
+	public Azienda getAziendaGestore(int idGestore) {
 		return this.daoAzienda.getAziendaUser(idGestore);
 	}
 	
@@ -234,7 +234,7 @@ public class DAO {
 	}
 	
 	
-	public Integer addBacino(BacinoIdrico bacinoIdrico) {
+	public int addBacino(BacinoIdrico bacinoIdrico) {
 		return this.daoBacinoIdrico.addBacino(bacinoIdrico);
 	}
 	
@@ -252,19 +252,23 @@ public class DAO {
 	//------ AZIENDA ------
 	public Azienda getAziendaId(int idAzienda) {
 		Azienda azienda = this.daoAzienda.getAziendaId(idAzienda);
-		HashSet<Campagna> campagne = this.getCampagnaAzienda(idAzienda);
-		HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseAzienda(idAzienda);
-		HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(idAzienda);
-		
-		if (campagne != null) {
-			azienda.setCampagne(campagne);
+		if (azienda != null) {
+			HashSet<Campagna> campagne = this.getCampagnaAzienda(idAzienda);
+			HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseAzienda(idAzienda);
+			HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(idAzienda);
+			
+			if (campagne != null) {
+				azienda.setCampagne(campagne);
+			}
+			
+			if (risorse != null) {
+				azienda.setRisorse(risorse);
+			}
+			
+			if (richieste != null) {
+				azienda.setRichieste(richieste);
+			}
 		}
-		
-		if (risorse != null) {
-			azienda.setRisorse(risorse);
-		}
-		
-		
 		return azienda;
 	}
 	
@@ -275,6 +279,7 @@ public class DAO {
 		if (! aziende.isEmpty()) {
 			for (Azienda azienda : aziende) {
 				HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseAzienda(azienda.getId());
+				
 				if (risorse != null) {
 					azienda.setRisorse(risorse);
 				}
@@ -283,6 +288,12 @@ public class DAO {
 				
 				if (campagne != null) {
 					azienda.setCampagne(campagne);
+				}
+				
+				HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(azienda.getId());
+				
+				if (richieste != null) {
+					azienda.setRichieste(richieste);
 				}
 			}
 		}
@@ -354,21 +365,23 @@ public class DAO {
 	
 	
 	//------ CAMPO ------
-	public Campo getCampoId(int uuidCampo) {
-		Campo campo = this.daoCampo.getCampoId(uuidCampo);
-		HashSet<Coltivazione> cotivazioni = this.getColtivazioniCampo(campo.getId());
-		HashSet<Attuatore> attuatori = this.getAttuatoriCampo(campo.getId());
-		HashSet<Sensore> sensori = this.getSensoriCampo(campo.getId());
-		
-		if (cotivazioni != null) {
-			campo.setColtivazioni(cotivazioni);
-		}
-		if (attuatori != null) {
-			campo.setAttuatori(attuatori);
-		}
-		
-		if (sensori != null) {
-			campo.setSensori(this.getSensoriCampo(campo.getId()));
+	public Campo getCampoId(int idCampo) {
+		Campo campo = this.daoCampo.getCampoId(idCampo);
+		if (campo != null) {
+			HashSet<Coltivazione> coltivazioni = this.getColtivazioniCampo(campo.getId());
+			HashSet<Attuatore> attuatori = this.getAttuatoriCampo(campo.getId());
+ 			HashSet<Sensore> sensori = this.getSensoriCampo(campo.getId());
+			
+			if (coltivazioni != null) {
+				campo.setColtivazioni(coltivazioni);
+			}
+			if (attuatori != null) {
+				campo.setAttuatori(attuatori);
+			}
+			
+			if (sensori != null) {
+				campo.setSensori(this.getSensoriCampo(campo.getId()));
+			}
 		}
 		
 		return campo;
@@ -434,7 +447,7 @@ public class DAO {
 	}
 	
 	
-	public Integer addColtivazione(Coltivazione coltivazione) {
+	public int addColtivazione(Coltivazione coltivazione) {
 		return this.daoColtivazione.addColtivazione(coltivazione);
 	}
 	

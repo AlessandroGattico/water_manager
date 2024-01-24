@@ -20,9 +20,8 @@ public class DaoAzienda {
 	
 	private final Logger logger = LogManager.getLogger(DaoAzienda.class.getName());
 	private final Logger loggerSql = LogManager.getLogger("sql");
-	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	
-	
+	private final String url =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
 	public DaoAzienda() {
@@ -57,21 +56,9 @@ public class DaoAzienda {
 			statement.setLong(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				//resultSetMetaData = resultSet.getMetaData();
-				//columns = resultSetMetaData.getColumnCount();
 				
 				while (resultSet.next()) {
-					/*row = new HashMap<>(columns);
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					azienda.setId(resultSet.getInt("id"));
-					azienda.setNome(resultSet.getString("nome"));
-					azienda.setIdGestore(resultSet.getInt("id_user"));
-					
-					 */
-					azienda = new Azienda(resultSet.getInt("uuid"), resultSet.getString("nome"),
+					azienda = new Azienda(resultSet.getInt("id"), resultSet.getString("nome"),
 							resultSet.getInt("id_user"));
 				}
 			}
