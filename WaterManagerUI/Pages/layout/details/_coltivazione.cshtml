@@ -1,0 +1,12 @@
+@model WaterManagerUI.Model.Item.Coltivazione
+
+<div class="elemento" onclick="this.parentNode.submit()">
+    <a asp-page="/Azienda/Visualizza/campo/VisualizzaColtivazione" asp-route-coltivazioneId="@Model.id">
+        <div class="info-elemento raccolto">Raccolto: @Model.raccolto</div>
+        <div class="info-elemento nome">Irrigazione: @Model.irrigazione</div>
+        <div class="info-elemento nome">Esigenza: @Model.esigenza</div>
+        <div class="info-elemento nome">Semina: @Model.semina</div>
+        <div class="info-elemento nome">Temperatura ideale: @Model.temperatura</div>
+        <div class="info-elemento nome">Umidità ideale: @Model.umidita</div>
+    </a>
+</div>

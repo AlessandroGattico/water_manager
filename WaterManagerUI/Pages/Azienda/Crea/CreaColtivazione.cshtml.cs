@@ -13,9 +13,9 @@ namespace WaterManagerUI.Pages;
 
 public class CreaColtivazione : PageModel
 {
-    [DataType(DataType.Date)] public DateTime Data { get; set; }
+    [BindProperty] public DateTime Data { get; set; }
 
-    [DataType(DataType.Time)] public TimeSpan Ora { get; set; }
+    [BindProperty] public TimeSpan Ora { get; set; }
     [BindProperty] public string raccolto { get; set; }
     [BindProperty] public string irrigazione { get; set; }
     [BindProperty] public string esigenza { get; set; }
@@ -60,7 +60,7 @@ public class CreaColtivazione : PageModel
 
             coltivazione = new Coltivazione
             {
-                idCampo = this.campoId,
+                idCampo = campoId,
                 semina = Data.Add(Ora).ToString("yyyy-MM-dd HH:mm:ss"),
                 raccolto = raccolto,
                 irrigazione = raccolto.Equals("INCOLTO") ? null : irrigazione,
@@ -88,17 +88,17 @@ public class CreaColtivazione : PageModel
 
                     coltivazione.id = JsonConvert.DeserializeObject<int>(responseContentStr);
 
-                    return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = this.campoId });
+                    return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
                 }
                 else
                 {
-                    return RedirectToPage("/Azienda/GestoreAzienda");
+                    return RedirectToPage("/Azienda/GestoreAzienda", new { userId = user.id });
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.StackTrace);
-                return RedirectToPage("/Azienda/GestoreAzienda");
+                return RedirectToPage("/Azienda/GestoreAzienda", new { userId = user.id });
             }
         }
 
@@ -108,6 +108,8 @@ public class CreaColtivazione : PageModel
     public async Task<HashSet<string>> GetRaccolti()
     {
         var client = _httpClientFactory.CreateClient();
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
         var response = await client.GetAsync("http://localhost:8080/api/v1/utils/raccolto/get/all");
 
         if (response.IsSuccessStatusCode)
@@ -122,6 +124,8 @@ public class CreaColtivazione : PageModel
     public async Task<HashSet<string>> GetIrrigazioni()
     {
         var client = _httpClientFactory.CreateClient();
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
         var response = await client.GetAsync("http://localhost:8080/api/v1/utils/irrigazione/get/all");
 
         if (response.IsSuccessStatusCode)
@@ -136,6 +140,8 @@ public class CreaColtivazione : PageModel
     public async Task<HashSet<string>> GetEsigenze()
     {
         var client = _httpClientFactory.CreateClient();
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
         var response = await client.GetAsync("http://localhost:8080/api/v1/utils/esigenza/get/all");
 
         if (response.IsSuccessStatusCode)

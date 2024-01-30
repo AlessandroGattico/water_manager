@@ -1,0 +1,20 @@
+@model WaterManagerUI.Model.Item.RichiestaIdrica
+
+<div class="elemento" onclick="this.parentNode.submit()">
+    <a asp-page="/VisualizzaRichiesta" asp-route-richiestaId="@Model.id">
+        <div class="info-elemento nome">Quantita: @Model.quantita</div>
+        <div class="info-elemento dimensione">Data: @Model.date</div>
+        @if (Model.approvato)
+        {
+            <div class="info-elemento coltivazioni">Stato: APPROVATA</div>
+        }
+        else if (!Model.approvato)
+        {
+            <div class="info-elemento coltivazioni">Stato: RIFIUTATA</div>
+        }
+        else
+        {
+            <div class="info-elemento coltivazioni">Stato: IN ATTESA</div>
+        }
+    </a>
+</div>

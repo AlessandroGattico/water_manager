@@ -1,0 +1,78 @@
+@page
+@model WaterManagerUI.Pages.Admin.Irrigazione
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <div>
+                            <a asp-page="/Admin/Users/UsersAzienda">Gestori Azienda</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Admin/Users/UsersBacino">Gestori Bacino</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Admin/Coltivazione/Raccolto">Raccolto</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Admin/Coltivazione/Esigenza">Esigenza</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Admin/Coltivazione/Irrigazione">Irrigazione</a>
+                        </div>
+                    </ul>
+                </span>
+            </aside>
+        </div>
+
+        <div class="col-md-8">
+            <div class="content">
+                <h2>Visualizza tipologie irrigazione</h2>
+            </div>
+
+            <div class="bottone-aggiungi">
+                <a asp-page="/Admin/Crea/CreaIrrigazione" class="plus-icon">+</a>
+                <a asp-page="/Admin/Crea/CreaIrrigazione">Aggiungi irrigazione</a>
+            </div>
+            @if (Model.irrigazioni.Any())
+            {
+                <div class="bottone-elimina">
+                    <a asp-page="/Admin/Elimina/EliminaIrrigazione" class="minus-icon">-</a>
+                    <a asp-page="/Admin/Elimina/EliminaIrrigazione">Elimina irrigazione</a>
+                </div>
+            }
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nome</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (Model.irrigazioni.Any())
+                {
+                    @foreach (String irrigazione in Model.irrigazioni)
+                    {
+                        <tr>
+                            <td>@irrigazione</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <div class="bottone-aggiungi">
+                        <a asp-page="/Admin/Crea/CreaIrrigazione" class="plus-icon">+</a>
+                        <a asp-page="/Admin/Crea/CreaIrrigazione">Aggiungi irrigazione</a>
+                    </div>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

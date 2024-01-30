@@ -1,17 +1,14 @@
 package pissir.watermanager.dao;
 
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.model.ElementsCount;
 import pissir.watermanager.model.cambio.CambioBool;
 import pissir.watermanager.model.cambio.CambioInt;
 import pissir.watermanager.model.cambio.CambioString;
 import pissir.watermanager.model.item.*;
-import pissir.watermanager.model.user.Admin;
-import pissir.watermanager.model.user.GestoreAzienda;
-import pissir.watermanager.model.user.GestoreIdrico;
-import pissir.watermanager.model.user.UserProfile;
+import pissir.watermanager.model.user.*;
 
 import java.util.HashSet;
-import java.util.LinkedList;
 
 /**
  * @author alessandrogattico
@@ -34,6 +31,7 @@ public class DAO {
 	private final DaoAttivazioni daoAttivazioni;
 	private final DaoRisorseAzienda daoRisorseAzienda;
 	private final DaoRisorseBacino daoRisorseBacino;
+	private final DaoUtils daoUtils;
 	
 	
 	public DAO() {
@@ -51,6 +49,7 @@ public class DAO {
 		this.daoAttivazioni = new DaoAttivazioni();
 		this.daoRisorseAzienda = new DaoRisorseAzienda();
 		this.daoRisorseBacino = new DaoRisorseBacino();
+		this.daoUtils = new DaoUtils();
 	}
 	
 	
@@ -128,7 +127,7 @@ public class DAO {
 	}
 	
 	
-	private BacinoIdrico getBacinoGestore(int idGestore) {
+	public BacinoIdrico getBacinoGestore(int idGestore) {
 		return this.daoBacinoIdrico.getBacinoUser(idGestore);
 	}
 	
@@ -140,6 +139,14 @@ public class DAO {
 	
 	public void deleteUser(UserProfile user) {
 		this.daoUser.deleteUser(user);
+	}
+	
+	
+	public Admin getAdmin(int id) {
+		Admin admin = this.daoUser.getAdmin(id);
+		
+		
+		return admin;
 	}
 	
 	
@@ -220,17 +227,15 @@ public class DAO {
 	}
 	
 	
-	public LinkedList<BacinoIdrico> getBaciniSelect() {
-		LinkedList<BacinoIdrico> bacini = new LinkedList<>();
+	public HashSet<BacinoIdrico> getBaciniSelect() {
 		HashSet<BacinoIdrico> baciniAll = this.daoBacinoIdrico.getBacini();
 		
 		if (baciniAll != null) {
-			bacini.addAll(baciniAll);
 			
-			return bacini;
+			return baciniAll;
 		}
 		
-		return null;
+		return baciniAll;
 	}
 	
 	
@@ -367,10 +372,11 @@ public class DAO {
 	//------ CAMPO ------
 	public Campo getCampoId(int idCampo) {
 		Campo campo = this.daoCampo.getCampoId(idCampo);
+		
 		if (campo != null) {
 			HashSet<Coltivazione> coltivazioni = this.getColtivazioniCampo(campo.getId());
 			HashSet<Attuatore> attuatori = this.getAttuatoriCampo(campo.getId());
- 			HashSet<Sensore> sensori = this.getSensoriCampo(campo.getId());
+			HashSet<Sensore> sensori = this.getSensoriCampo(campo.getId());
 			
 			if (coltivazioni != null) {
 				campo.setColtivazioni(coltivazioni);
@@ -734,47 +740,47 @@ public class DAO {
 	
 	//
 	public HashSet<String> getRaccolti() {
-		return this.daoColtivazione.getRaccolti();
+		return this.daoUtils.getRaccolti();
 	}
 	
 	
 	public void addRaccolto(String raccolto) {
-		this.daoColtivazione.addRaccolto(raccolto);
+		this.daoUtils.addRaccolto(raccolto);
 	}
 	
 	
 	public void deleteRaccolto(String nome) {
-		this.daoColtivazione.deleteRaccolto(nome);
+		this.daoUtils.deleteRaccolto(nome);
 	}
 	
 	
 	public HashSet<String> getEsigenze() {
-		return this.daoColtivazione.getEsigenze();
+		return this.daoUtils.getEsigenze();
 	}
 	
 	
 	public void addEsigenza(String esigenza) {
-		this.daoColtivazione.addEsigenza(esigenza);
+		this.daoUtils.addEsigenza(esigenza);
 	}
 	
 	
 	public void deleteEsigenza(String nome) {
-		this.daoColtivazione.deleteEsigenza(nome);
+		this.daoUtils.deleteEsigenza(nome);
 	}
 	
 	
 	public HashSet<String> getIrrigazioni() {
-		return this.daoColtivazione.getIrrigazioni();
+		return this.daoUtils.getIrrigazioni();
 	}
 	
 	
 	public void addIrrigazione(String nome) {
-		this.daoColtivazione.addIrrigazione(nome);
+		this.daoUtils.addIrrigazione(nome);
 	}
 	
 	
 	public void deleteIrrigazione(String nome) {
-		this.daoColtivazione.deleteIrrigazione(nome);
+		this.daoUtils.deleteIrrigazione(nome);
 	}
 	
 	
@@ -785,6 +791,109 @@ public class DAO {
 	
 	public boolean existsByEmail(String email) {
 		return this.daoUser.existsMail(email);
+	}
+	
+	
+	public RisorsaIdrica ultimaRisorsaBacino(int idBacino) {
+		return this.daoRisorseBacino.ultimaRisorsa(idBacino);
+	}
+	
+	
+	public RisorsaIdrica ultimaRisorsaAzienda(int idAzienda) {
+		return this.daoRisorseAzienda.ultimaRisorsa(idAzienda);
+	}
+	
+	
+	public HashSet<String> getSensorTypes() {
+		return this.daoUtils.getSensorTypes();
+	}
+	
+	
+	public void addSensorType(String nome) {
+		this.daoUtils.addSensorType(nome);
+	}
+	
+	
+	public void deleteSensorType(String nome) {
+		this.daoUtils.deleteSensorType(nome);
+	}
+	
+	
+	private int countGestoriAzienda() {
+		return this.daoUtils.countGestori(UserRole.GESTOREAZIENDA);
+	}
+	
+	
+	private int countGestoriBacino() {
+		return this.daoUtils.countGestori(UserRole.GESTOREIDRICO);
+	}
+	
+	
+	private int countRaccolti() {
+		return this.daoUtils.countRaccolti();
+	}
+	
+	
+	private int countEsigenze() {
+		return this.daoUtils.countEsigenze();
+	}
+	
+	
+	private int countIrrigazioni() {
+		return this.daoUtils.countIrrigazioni();
+	}
+	
+	
+	private int countSensorTypes() {
+		return this.daoUtils.countSensorTypes();
+	}
+	
+	
+	private int countCampi() {
+		return this.daoUtils.countCampi();
+	}
+	
+	
+	private int countCampagne() {
+		return this.daoUtils.countCampagne();
+	}
+	
+	
+	private int countAziende() {
+		return this.daoUtils.countAziende();
+	}
+	
+	
+	private int countBacini() {
+		return this.daoUtils.countBacini();
+	}
+	
+	
+	public ElementsCount getcount() {
+		ElementsCount count = new ElementsCount();
+		
+		count.setGestoriAzienda(this.countGestoriAzienda());
+		count.setGestoriBacino(this.countGestoriBacino());
+		count.setAziende(this.countAziende());
+		count.setCampagne(this.countCampagne());
+		count.setCampi(this.countCampi());
+		count.setBacini(this.countBacini());
+		count.setSensorTypes(this.countSensorTypes());
+		count.setRaccolti(this.countRaccolti());
+		count.setEsigenze(this.countEsigenze());
+		count.setIrrigazioni(this.countIrrigazioni());
+		
+		return count;
+	}
+	
+	
+	public HashSet<GestoreIdrico> getGestoriIdrici() {
+		return this.daoUser.getGestoriIdrici();
+	}
+	
+	
+	public HashSet<GestoreAzienda> getGestoriAzienda() {
+		return this.daoUser.getGestoriAzienda();
 	}
 	
 }

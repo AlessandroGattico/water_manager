@@ -38,7 +38,53 @@ public class DaoUser {
 	}
 	
 	
-	private HashSet<GestoreIdrico> getGestoriIdrici() {
+	public Admin getAdmin(int id) {
+		Admin admin = null;
+		int columns;
+		HashMap<String, Object> row;
+		ResultSetMetaData resultSetMetaData;
+		
+		String query = """
+				SELECT *
+				FROM users
+				WHERE id = ?
+				AND role = 'SYSTEMADMIN';
+				""";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			
+			statement.setInt(1, id);
+			
+			try (ResultSet resultSet = statement.executeQuery()) {
+				resultSetMetaData = resultSet.getMetaData();
+				columns = resultSetMetaData.getColumnCount();
+				
+				while (resultSet.next()) {
+					row = new HashMap<>(columns);
+					for (int i = 1; i <= columns; ++ i) {
+						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+					}
+					
+					admin = new Admin((int) row.get("id"), (String) row.get("nome"), (String) row.get("cognome"),
+							(String) row.get("username"), (String) row.get("mail"), (String) row.get("password"));
+					admin.setGestoriAziende(new HashSet<>());
+					admin.setGestoriIdrici(new HashSet<>());
+				}
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return null;
+		}
+		
+		
+		return admin;
+	}
+	
+	
+	public HashSet<GestoreIdrico> getGestoriIdrici() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -72,7 +118,7 @@ public class DaoUser {
 			for (HashMap<String, Object> map : list) {
 				GestoreIdrico user =
 						new GestoreIdrico((int) map.get("id"), (String) map.get("nome"), (String) map.get("cognome"),
-								(String) map.get("username"), (String) map.get("mail"), (String) map.get("password"));
+								(String) map.get("username"), (String) map.get("mail"), "");
 				
 				utenti.add(user);
 			}
@@ -87,7 +133,7 @@ public class DaoUser {
 	}
 	
 	
-	private HashSet<GestoreAzienda> getGestoriAzienda() {
+	public HashSet<GestoreAzienda> getGestoriAzienda() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -121,7 +167,7 @@ public class DaoUser {
 			for (HashMap<String, Object> map : list) {
 				GestoreAzienda user =
 						new GestoreAzienda((int) map.get("id"), (String) map.get("nome"), (String) map.get("cognome"),
-								(String) map.get("username"), (String) map.get("mail"), (String) map.get("password"));
+								(String) map.get("username"), (String) map.get("mail"), "");
 				
 				utenti.add(user);
 			}

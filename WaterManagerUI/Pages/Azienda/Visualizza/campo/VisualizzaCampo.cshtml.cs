@@ -17,40 +17,35 @@ public class VisualizzaCampo : PageModel
     private readonly SignInManager<IdentityUser> _signInManager;
 
 
-    public VisualizzaCampo(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
+    public VisualizzaCampo(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
-        _signInManager = signInManager;
     }
 
     public async Task OnGetAsync(int campoId)
     {
         var client = _httpClientFactory.CreateClient();
 
-        if (_signInManager.IsSignedIn(User))
+        user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
+            User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
+            User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
+            JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
+
+        try
         {
-            user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
-                User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
-                User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
-                JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+            var response = await client.GetAsync(
+                $"http://localhost:8080/api/v1/azienda/campo/get/{campoId}");
 
-            try
+            if (response.IsSuccessStatusCode)
             {
-                client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-                var response = await client.GetAsync(
-                    $"http://localhost:8080/api/v1/azienda/campo/get/{campoId}");
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var jsonResponse = await response.Content.ReadAsStringAsync();
-                    this.campo = JsonConvert.DeserializeObject<Campo>(jsonResponse);
-                }
-            }
-            catch (Exception e)
-            {
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                this.campo = JsonConvert.DeserializeObject<Campo>(jsonResponse);
             }
         }
+        catch (Exception e)
+        {
+        }
     }
-    
 }

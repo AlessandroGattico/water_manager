@@ -35,82 +35,36 @@ public class CreaAzienda : PageModel
     public async Task<IActionResult> OnPostAsync(int userId)
     {
         var client = _httpClientFactory.CreateClient();
-        var jwtToken = _httpContextAccessor.HttpContext.Session.GetString("JWTToken");
-        var userJson = HttpContext.Session.GetString("UserSession");
-        if (!string.IsNullOrEmpty(userJson))
+        azienda = new Model.Item.Azienda(nomeAzienda, userId);
+
+        String stringaDaInviare = JsonConvert.SerializeObject(azienda);
+
+        try
         {
-            user = JsonConvert.DeserializeObject<GestoreAzienda>(userJson);
-        }
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
 
-        if (!string.IsNullOrEmpty(userJson))
-        {
-            azienda = new Model.Item.Azienda(nomeAzienda, userId);
+            StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/add", stringContent);
 
-            String stringaDaInviare = JsonConvert.SerializeObject(azienda);
-
-            try
+            if (response.IsSuccessStatusCode)
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
-                StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/add", stringContent);
+                string responseContentStr = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseContentStr = await response.Content.ReadAsStringAsync();
+                azienda.id = JsonConvert.DeserializeObject<int>(responseContentStr);
 
-                    azienda.id = JsonConvert.DeserializeObject<int>(responseContentStr);
-
-                    user.azienda = azienda;
-                    String aziendaJson = JsonConvert.SerializeObject(azienda);
-
-                    HttpContext.Session.SetString("UserSession", JsonConvert.SerializeObject(user));
-                    var userL = await _userManager.GetUserAsync(User);
-                    if (user == null)
-                    {
-                        return Challenge();
-                    }
-
-                    // Aggiungi il nuovo claim
-                    var claim = new Claim(ClaimTypes.NameIdentifier, aziendaJson);
-                    var result = await _userManager.AddClaimAsync(userL, claim);
-
-                    if (!result.Succeeded)
-                    {
-                        // Gestisci l'errore
-                    }
-
-                    // Aggiorna il cookie di autenticazione
-                    await _signInManager.RefreshSignInAsync(userL);
-
-
-                    /*var identity = User.Identity as ClaimsIdentity;
-
-                    if (identity != null)
-                    {
-                        identity.RemoveClaim(identity.FindFirst(ClaimTypes.NameIdentifier));
-
-                        identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, aziendaJson));
-
-                        await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
-                        await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
-                            new ClaimsPrincipal(identity));
-                    }
-                    */
-
-                    return RedirectToPage("/Azienda/GestoreAzienda");
-                }
-                else
-                {
-                    return RedirectToPage("/Azienda/GestoreAzienda");
-                }
+                return RedirectToPage("/Azienda/GestoreAzienda", new { userId = user.id });
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(ex.StackTrace);
-                return RedirectToPage("/Azienda/GestoreAzienda");
+                return RedirectToPage("/Azienda/GestoreAzienda", new { userId = user.id });
             }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.StackTrace);
+            return RedirectToPage("/Azienda/GestoreAzienda", new { userId = user.id });
+        }
 
-        return RedirectToPage("/Azienda/GestoreAzienda");
     }
 }

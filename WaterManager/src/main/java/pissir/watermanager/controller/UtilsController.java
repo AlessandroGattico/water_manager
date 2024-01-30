@@ -11,6 +11,7 @@ import pissir.watermanager.model.item.BacinoIdrico;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 
@@ -21,26 +22,6 @@ public class UtilsController {
 	
 	private final DAO dao;
 	private final TokenService tokenService;
-	
-	
-	
-	@GetMapping(value = "/bacino/get/all")
-	public String getBacini(HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
-		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			LinkedList<BacinoIdrico> bacini = this.dao.getBaciniSelect();
-			
-			if (bacini == null) {
-				return gson.toJson(new LinkedList<BacinoIdrico>());
-			}
-			
-			return gson.toJson(bacini);
-		} else {
-			return gson.toJson("Accesso negato");
-		}
-	}
 	
 	
 	@GetMapping(value = "/raccolto/get/all")
@@ -64,6 +45,14 @@ public class UtilsController {
 		Gson gson = new Gson();
 		
 		return gson.toJson(this.dao.getEsigenze());
+	}
+	
+	
+	@GetMapping(value = "/sensorTypes/get/all")
+	public String getSensorTypes() {
+		Gson gson = new Gson();
+		
+		return gson.toJson(this.dao.getSensorTypes());
 	}
 	
 	

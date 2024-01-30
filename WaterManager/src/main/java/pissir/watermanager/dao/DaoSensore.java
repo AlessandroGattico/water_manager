@@ -224,4 +224,7 @@ public class DaoSensore {
 		return true;
 	}
 	
+	
+	
+	
 }

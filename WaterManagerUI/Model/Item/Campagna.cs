@@ -56,4 +56,14 @@ public class Campagna
 
         return size;
     }
+
+    public List<Campo> campiAlfabetico()
+    {
+        if (this.campi.Count == 0)
+        {
+            return new List<Campo>();
+        }
+
+        return campi.OrderBy(c => c.nome).ToList();
+    }
 }

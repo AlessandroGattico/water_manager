@@ -32,4 +32,19 @@ public class Sensore
         this.misure = misure;
         this.idCampo = idCampo;
     }
+
+    public IEnumerable<Misura> GetMisureOrdinate()
+    {
+        return misure.OrderBy(m => DateTime.Parse(m.time));
+    }
+
+    public List<Misura> storicoMisure()
+    {
+        if (misure.Count == 0)
+        {
+            return new List<Misura>();
+        }
+
+        return misure.OrderByDescending(c => c.timeAsDateTime()).ToList();
+    }
 }

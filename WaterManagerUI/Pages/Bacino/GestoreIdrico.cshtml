@@ -1,0 +1,68 @@
+@page
+@model WaterManagerUI.Pages.GestoreIdricoPage
+
+<link rel="stylesheet" href="~/css/site.css"/>
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+
+<title>Bacino</title>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        @if (Model.bacino != null)
+                        {
+                            <div>
+                                <a asp-page="/Bacino/GestoreBacino">Statistiche bacino</a>
+                            </div>
+                            <div>
+                                <a asp-page="/Bacino/Visualizza/VisualizzaRichieste" asp-route-bacinoId="@Model.bacino.id">Richieste</a>
+                            </div>
+                        }
+                    </ul>
+                </span>
+            </aside>
+        </div>
+        <div class="col-md-8">
+            <div class="content">
+                @if (Model.bacino != null)
+                {
+                    <h2>Dettagli bacino</h2>
+                    <p>Nome bacino: @Model.bacino.nome</p>
+
+                    <div class="elemento">
+                        <a asp-page="/Bacino/GestoreIdrico" asp-route-bacinoId="@Model.bacino.id">
+                            <div class="info-elemento nome">Disponibilità idrica: @Model.bacino.dispAttuale()</div>
+                        </a>
+                    </div>
+                    <div class="elemento">
+                        <a asp-page="/Bacino/VisualizzaRichiesteBacino" asp-route-bacinoId="@Model.bacino.id">
+                            <div class="info-elemento nome">Richieste in sospeso: @Model.bacino.richiesteSospeso().Count</div>
+                        </a>
+                    </div>
+                    <div class="elemento">
+                        <a asp-page="/Bacino/VisualizzaRichiesteBacino" asp-route-bacinoId="@Model.bacino.id">
+                            <div class="info-elemento nome">Richieste approvate: @Model.bacino.richiesteApprovate().Count</div>
+                        </a>
+                    </div>
+                    <div class="elemento">
+                        <a asp-page="/Bacino/VisualizzaRichiesteBacino" asp-route-bacinoId="@Model.bacino.id">
+                            <div class="info-elemento nome">Richieste rifiutate: @Model.bacino.richiesteRifiutate().Count</div>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="bottone-aggiungi">
+                        <a asp-page="/Bacino/Crea/CreaBacino" asp-route-userId="@Model.user.id" class="plus-icon">+</a>
+                        <a asp-page="/Bacino/Crea/CreaBacino" asp-route-userId="@Model.user.id">Aggiungi bacino</a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

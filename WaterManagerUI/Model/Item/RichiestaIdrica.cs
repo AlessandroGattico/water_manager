@@ -33,4 +33,19 @@ public class RichiestaIdrica
         this.idBacino = idBacino;
         this.date = date;
     }
+    
+    
+    
+    public DateTime RichiestaAsDateTime()
+    {
+        DateTime date;
+        if (DateTime.TryParse(this.date, out date))
+        {
+            return date;
+        }
+        else
+        {
+            return DateTime.MinValue;
+        }
+    }
 }

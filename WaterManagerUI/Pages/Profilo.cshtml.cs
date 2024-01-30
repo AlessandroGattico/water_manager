@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using UserInterfaceWaterManager.Model.User;
@@ -6,28 +7,34 @@ namespace WaterManagerUI.Pages;
 
 public class Profilo : PageModel
 {
-    public GestoreAzienda user { get; set; }
+    public UserProfile user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
 
-    public Profilo(IHttpClientFactory httpClientFactory,
-        IHttpContextAccessor httpContextAccessor)
+    public Profilo(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task OnGetAsync()
     {
-        var client = _httpClientFactory.CreateClient();
-        var jwtToken = _httpContextAccessor.HttpContext.Session.GetString("JWTToken");
-
-        var userJson = HttpContext.Session.GetString("UserSession");
-        if (!string.IsNullOrEmpty(userJson))
+        switch (User.FindFirstValue(ClaimTypes.Role))
         {
-            user = JsonConvert.DeserializeObject<GestoreAzienda>(userJson);
+            case "SYSTEMADMIN":
+                user = new UserProfile(User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
+                    User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
+                    UserRole.SYSTEMADMIN);
+                break;
+            case "GESTOREAZIENDA":
+                user = new UserProfile(User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
+                    User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
+                    UserRole.GESTOREAZIENDA);
+                break;
+            case "GESTOREIDRICO":
+                user = new UserProfile(User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
+                    User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
+                    UserRole.GESTOREIDRICO);
+                break;
         }
-        
     }
 }

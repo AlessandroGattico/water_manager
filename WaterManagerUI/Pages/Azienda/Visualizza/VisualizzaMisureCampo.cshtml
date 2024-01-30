@@ -1,0 +1,73 @@
+@page
+@using WaterManagerUI.Model.Item
+@using Humanizer
+@model WaterManagerUI.Pages.VisualizzaMisureCampo
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <div>
+                            <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
+                        </div>
+                        <div>
+                            <a href="/Azienda/Visualizza/VisualizzaColtivazioni">Coltivazioni</a>
+                        </div>
+                        <div>
+                            <a href="/Azienda/Visualizza/VisualizzaAttuatori">Attuatori</a>
+                        </div>
+                    </ul>
+                </span>
+            </aside>
+        </div>
+
+        <div class="col-md-8">
+            <div class="content">
+                <h2>Visualizza Misure</h2>
+                @if (Model.campo != null)
+                {
+                    <h2>Dettagli campo</h2>
+                    <p>Nome campo: @Model.campo.nome</p>
+                }
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Misura</th>
+                    <th>Data</th>
+                    <th>Tipologia Sensore</th>
+                    <th>Nome Sensore</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (Model.campo.sensori.Any())
+                {
+                    @foreach (Sensore sensore in Model.campo.sensori)
+                    {
+                        @if (sensore.misure.Any())
+                        {
+                            @foreach (Misura misura in sensore.storicoMisure())
+                            {
+                                <tr>
+                                    <td>@misura.value</td>
+                                    <td>@misura.time.FormatWith("yyyy-MM-dd HH:mm:ss")</td>
+                                    <td>@sensore.type</td>
+                                    <td>@sensore.nome</td>
+                                </tr>
+                            }
+                        }
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

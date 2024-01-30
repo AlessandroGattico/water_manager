@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WaterManagerUI.Pages.Shared;
+namespace WaterManagerUI.Pages;
 
-public class _LayoutCommon : PageModel
+public class VisualizzaRichiesteBacino : PageModel
 {
     public void OnGet()
     {

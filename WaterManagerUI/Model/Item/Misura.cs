@@ -29,4 +29,17 @@ public class Misura
         this.time = time;
         this.idSensore = idSensore;
     }
+
+    public DateTime timeAsDateTime()
+    {
+        DateTime date;
+        if (DateTime.TryParse(time, out date))
+        {
+            return date;
+        }
+        else
+        {
+            return DateTime.MinValue;
+        }
+    }
 }

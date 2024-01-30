@@ -1,0 +1,9 @@
+@model WaterManagerUI.Model.Item.Campagna
+
+<div class="elemento" onclick="this.parentNode.submit()">
+    <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagna" asp-route-campagnaId="@Model.id">
+        <div class="info-elemento nome">Nome: @Model.nome</div>
+        <div class="info-elemento dimensione">Dimensione: @Model.size()</div>
+        <div class="info-elemento campi">Numero campi: @Model.campi.Count</div>
+    </a>
+</div>

@@ -1,0 +1,28 @@
+@page
+@model WaterManagerUI.Pages.Modifica.ModificaCampo
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>Modifica Campo</h2>
+            <form method="post">
+
+                <div class="form-group">
+                    <p>Nome corrente: @Model.campo.nome</p>
+                    <label asp-for="nomeNew">Nome Campo</label>
+                    <input asp-for="nomeNew" class="form-control"/>
+                    <span asp-validation-for="nomeNew" class="text-danger"></span>
+                </div>
+
+                <!-- Aggiungi altri campi di modifica qui -->
+
+                <!-- Pulsante per inviare il form -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Salva Modifiche</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

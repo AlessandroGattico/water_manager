@@ -31,7 +31,6 @@
                     <p>Nome campo: @Model.coltivazione.raccolto</p>
                 }
             </div>
-
             <div class="elemento">
                 <div class="info-elemento raccolto">Raccolto: @Model.coltivazione.raccolto</div>
                 <div class="info-elemento nome">Irrigazione: @Model.coltivazione.irrigazione</div>
@@ -40,7 +39,14 @@
                 <div class="info-elemento nome">Temperatura ideale: @Model.coltivazione.temperatura</div>
                 <div class="info-elemento nome">Umidità ideale: @Model.coltivazione.umidita</div>
             </div>
+
+
+            <div class="bottone-aggiungi" style="margin-top: 30px">
+                <a asp-page="/Azienda/Crea/CreaRichiesta" asp-route-coltivazioneId="@Model.coltivazione.id" class="plus-icon">+</a>
+                <a asp-page="/Azienda/Crea/CreaRichiesta" asp-route-coltivazioneId="@Model.coltivazione.id">Aggiungi richiesta</a>
+            </div>
         </div>
+
 
         <div class="col-md-2">
         </div>

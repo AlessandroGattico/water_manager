@@ -1,0 +1,73 @@
+@page
+@using UserInterfaceWaterManager.Model.User
+@model WaterManagerUI.Pages.Admin.UsersAzienda
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <div>
+                            <a asp-page="/Admin/Users/UsersAzienda">Gestori Azienda</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Admin/Users/UsersBacino">Gestori Bacino</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Admin/Coltivazione/Raccolto">Raccolto</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Admin/Coltivazione/Esigenza">Esigenza</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Admin/Coltivazione/Irrigazione">Irrigazione</a>
+                        </div>
+                    </ul>
+                </span>
+            </aside>
+        </div>
+
+        <div class="col-md-8">
+            <div class="content">
+                <h2>Visualizza Misure</h2>
+                @if (Model.gestori != null)
+                {
+                    <h2>Dettagli gestori azienda</h2>
+                }
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Cognome</th>
+                    <th>Username</th>
+                    <th>Mail</th>
+                    <th>Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (Model.gestori.Any())
+                {
+                    @foreach (GestoreAzienda gestore in Model.gestori)
+                    {
+                        <tr>
+                            <td>@gestore.nome</td>
+                            <td>@gestore.cognome</td>
+                            <td>@gestore.username</td>
+                            <td>@gestore.mail</td>
+                            <td>@gestore.role</td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

@@ -81,20 +81,20 @@ public class ControllerCampo {
 	
 	
 	@PostMapping(value = "/modifica/nome")
-	public ResponseEntity<Boolean> modificaNome(@RequestBody String param) {
+	public String modificaNome(@RequestBody String param) {
 		Gson gson = new Gson();
 		CambioString cambio = gson.fromJson(param, CambioString.class);
 		
-		return ResponseEntity.ok(this.daoCampo.cambiaNomeCampo(cambio));
+		return gson.toJson(this.daoCampo.cambiaNomeCampo(cambio));
 	}
 	
 	
 	@PostMapping(value = "/modifica/campagna")
-	public ResponseEntity<Boolean> modificaCampagna(@RequestBody String param) {
+	public String modificaCampagna(@RequestBody String param) {
 		Gson gson = new Gson();
 		CambioInt cambio = gson.fromJson(param, CambioInt.class);
 		
-		return ResponseEntity.ok(this.daoCampo.cambiaCampagnaCampo(cambio));
+		return gson.toJson(this.daoCampo.cambiaCampagnaCampo(cambio));
 	}
 	
 	

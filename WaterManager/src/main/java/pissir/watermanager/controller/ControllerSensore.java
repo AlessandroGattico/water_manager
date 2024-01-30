@@ -18,7 +18,7 @@ import java.util.HashSet;
  */
 
 @RestController
-@RequestMapping("/api/v1/azienda/campagna/campo/sensore")
+@RequestMapping("/api/v1/azienda/sensore")
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 public class ControllerSensore {

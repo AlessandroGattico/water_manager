@@ -70,7 +70,7 @@ public class ControllerUser {
 			
 			return gson.toJson(gestoreAzienda);
 		} else {
-			return gson.toJson(ResponseEntity.status(HttpStatus.FORBIDDEN).body("Accesso negato"));
+			return gson.toJson("Accesso negato");
 			
 		}
 	}
@@ -87,7 +87,7 @@ public class ControllerUser {
 			
 			return gson.toJson(gestoreIdrico);
 		} else {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Access Denied");
+			return gson.toJson("Accesso negato");
 		}
 	}
 	

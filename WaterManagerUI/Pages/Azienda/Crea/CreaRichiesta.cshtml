@@ -1,25 +1,33 @@
 @page
+@using WaterManagerUI.Model.Item
 @model WaterManagerUI.Pages.CreaRichiesta
 
-<h2>Crea Richiesta</h2>
 
-<form method="post" asp-page-handler="addAzienda">
-    <div class="form-group">
-        <label asp-for="richiesta.quantita">Quantità richiesta</label>
-        <input asp-for="richiesta.quantita" class="form-control"/>
-        <span asp-validation-for="richiesta.quantita" class="text-danger"></span>
+<link rel="stylesheet" href="~/css/form.css"/>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>Crea richiesta</h2>
+            <form method="post" asp-page-handler="addAzienda">
+                <div class="form-group">
+                    <label asp-for="quantita">Quantità richiesta</label>
+                    <input asp-for="quantita" type="number" step="0.5" class="form-control"/>
+                    <span asp-validation-for="quantita" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="nomeBacino">Bacino idrico</label>
+                    <select asp-for="nomeBacino" class="form-control">
+                        @foreach (BacinoIdrico element in Model.bacini)
+                        {
+                            <option>@element.nome</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <input type="submit" value="Crea richiesta" class="btn btn-primary form-button"/>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="richiesta.quantita">Quantità richiesta</label>
-        <select asp-for="richiesta.quantita" asp-items="@(new SelectList(Model.bacini))" class="form-control"></select>
-        <span asp-validation-for="richiesta.quantita" class="text-danger"></span>
-    </div>
-
-
-    <!-- Altri campi dell'azienda qui -->
-
-    <div>
-        <input type="submit" value="Crea" class="btn btn-primary"
-               style="margin: 10px; padding: 10px"/>
-    </div>
-</form>
+</div>

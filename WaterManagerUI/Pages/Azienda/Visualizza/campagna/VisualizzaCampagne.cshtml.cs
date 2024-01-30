@@ -12,7 +12,7 @@ namespace WaterManagerUI.Pages;
 public class VisualizzaCampagne : PageModel
 {
     public GestoreAzienda user { get; set; }
-    public HashSet<Campagna> campagne { get; set; }
+    public List<Campagna> campagne { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly SignInManager<IdentityUser> _signInManager;
 
@@ -33,23 +33,25 @@ public class VisualizzaCampagne : PageModel
                 User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
                 User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
                 JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
-            
-                try
-                {
-                    client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-                    var response = await client.GetAsync(
-                        $"http://localhost:8080/api/v1/azienda/campagna/get/all/{aziendaId}");
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var jsonResponse = await response.Content.ReadAsStringAsync();
-                        this.campagne = JsonConvert.DeserializeObject<HashSet<Campagna>>(jsonResponse);
-                    }
-                }
-                catch (HttpRequestException e)
+            try
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var response = await client.GetAsync(
+                    $"http://localhost:8080/api/v1/azienda/campagna/get/all/{aziendaId}");
+
+                if (response.IsSuccessStatusCode)
                 {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    var campagneList = JsonConvert.DeserializeObject<HashSet<Campagna>>(jsonResponse);
+                    
+                    this.campagne = campagneList.OrderBy(c => c.nome).ToList();
                 }
+            }
+            catch (HttpRequestException e)
+            {
+            }
         }
     }
 }

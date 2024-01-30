@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
@@ -53,12 +52,11 @@ public class Login : PageModel
 
         if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.jwt))
         {
-            HttpContext.Session.SetString("JWTToken", loginResponse.jwt);
-
             switch (loginResponse.user.role)
             {
                 case UserRole.GESTOREAZIENDA:
                     GestoreAzienda userA;
+
                     try
                     {
                         client.DefaultRequestHeaders.Authorization =
@@ -103,7 +101,8 @@ public class Login : PageModel
                                         new Claim(ClaimTypes.Email, userA.mail),
                                         new Claim(ClaimTypes.UserData, userA.username),
                                         new Claim(ClaimTypes.Role, userA.role.ToString()),
-                                        new Claim(ClaimTypes.Authentication, loginResponse.jwt)
+                                        new Claim(ClaimTypes.Authentication, loginResponse.jwt),
+                                        new Claim(ClaimTypes.NameIdentifier, "null")
                                     };
                                 }
 
@@ -137,35 +136,84 @@ public class Login : PageModel
                 case UserRole.GESTOREIDRICO:
                     GestoreIdrico userI;
 
-                    if (!string.IsNullOrEmpty(loginResponse.jwt))
+                    try
                     {
-                        try
-                        {
-                            client.DefaultRequestHeaders.Authorization =
-                                new AuthenticationHeaderValue("Bearer", loginResponse.jwt);
-                            var response = await client.GetAsync(
-                                $"http://localhost:8080/api/v1/user/get/gi/{loginResponse.user.id}");
-                            if (response.IsSuccessStatusCode)
-                            {
-                                var jsonResponse = await response.Content.ReadAsStringAsync();
-                                userI = JsonConvert.DeserializeObject<GestoreIdrico>(jsonResponse);
+                        client.DefaultRequestHeaders.Authorization =
+                            new AuthenticationHeaderValue("Bearer", loginResponse.jwt);
+                        var response = await client.GetAsync(
+                            $"http://localhost:8080/api/v1/user/get/gi/{loginResponse.user.id}");
 
-                                HttpContext.Session.SetString("UserSession", JsonConvert.SerializeObject(userI));
-                            }
-                            else
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var jsonResponse = await response.Content.ReadAsStringAsync();
+                            userI = JsonConvert.DeserializeObject<GestoreIdrico>(jsonResponse);
+
+
+                            if (userI != null)
                             {
-                                return Page();
+                                List<Claim> claims;
+
+                                if (userI.bacinoIdrico != null)
+                                {
+                                    String bacinoJson = JsonConvert.SerializeObject(userI.bacinoIdrico);
+
+
+                                    claims = new List<Claim>
+                                    {
+                                        new Claim(ClaimTypes.Gender, userI.id.ToString()),
+                                        new Claim(ClaimTypes.Surname, userI.cognome),
+                                        new Claim(ClaimTypes.Name, userI.nome),
+                                        new Claim(ClaimTypes.Email, userI.mail),
+                                        new Claim(ClaimTypes.UserData, userI.username),
+                                        new Claim(ClaimTypes.Role, userI.role.ToString()),
+                                        new Claim(ClaimTypes.Authentication, loginResponse.jwt),
+                                        new Claim(ClaimTypes.NameIdentifier, bacinoJson)
+                                    };
+                                }
+                                else
+                                {
+                                    claims = new List<Claim>
+                                    {
+                                        new Claim(ClaimTypes.Gender, userI.id.ToString()),
+                                        new Claim(ClaimTypes.Surname, userI.cognome),
+                                        new Claim(ClaimTypes.Name, userI.nome),
+                                        new Claim(ClaimTypes.Email, userI.mail),
+                                        new Claim(ClaimTypes.UserData, userI.username),
+                                        new Claim(ClaimTypes.Role, userI.role.ToString()),
+                                        new Claim(ClaimTypes.Authentication, loginResponse.jwt),
+                                        new Claim(ClaimTypes.NameIdentifier, "null")
+                                    };
+                                }
+
+                                var claimsIdentity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
+
+                                var authProperties = new AuthenticationProperties
+                                {
+                                    IsPersistent =
+                                        false, // o false, a seconda se vuoi che la sessione persista tra le sessioni del browser
+                                    ExpiresUtc =
+                                        DateTimeOffset.UtcNow
+                                            .AddMinutes(30) // imposta un tempo di scadenza del cookie, se necessario
+                                };
+
+                                await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
+                                    new ClaimsPrincipal(claimsIdentity),
+                                    authProperties);
                             }
                         }
-                        catch (HttpRequestException e)
+                        else
                         {
                             return Page();
                         }
                     }
+                    catch (HttpRequestException e)
+                    {
+                        return Page();
+                    }
 
                     return RedirectToPage("/Bacino/GestoreIdrico");
                 case UserRole.SYSTEMADMIN:
-                    Admin admin;
+                    UserInterfaceWaterManager.Model.User.Admin admin;
 
                     if (!string.IsNullOrEmpty(loginResponse.jwt))
                     {
@@ -175,13 +223,43 @@ public class Login : PageModel
                                 new AuthenticationHeaderValue("Bearer", loginResponse.jwt);
                             var response =
                                 await client.GetAsync(
-                                    $"http://localhost:8080/api/v1/user/admin");
+                                    $"http://localhost:8080/api/v1/admin/get/{loginResponse.user.id}");
                             if (response.IsSuccessStatusCode)
                             {
                                 var jsonResponse = await response.Content.ReadAsStringAsync();
-                                admin = JsonConvert.DeserializeObject<Admin>(jsonResponse);
+                                admin = JsonConvert.DeserializeObject<UserInterfaceWaterManager.Model.User.Admin>(
+                                    jsonResponse);
 
-                                HttpContext.Session.SetString("UserSession", JsonConvert.SerializeObject(admin));
+                                if (admin != null)
+                                {
+                                    List<Claim> claims = new List<Claim>
+                                    {
+                                        new Claim(ClaimTypes.Gender, admin.id.ToString()),
+                                        new Claim(ClaimTypes.Surname, admin.cognome),
+                                        new Claim(ClaimTypes.Name, admin.nome),
+                                        new Claim(ClaimTypes.Email, admin.mail),
+                                        new Claim(ClaimTypes.UserData, admin.username),
+                                        new Claim(ClaimTypes.Role, admin.role.ToString()),
+                                        new Claim(ClaimTypes.Authentication, loginResponse.jwt),
+                                    };
+
+                                    var claimsIdentity =
+                                        new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
+
+                                    var authProperties = new AuthenticationProperties
+                                    {
+                                        IsPersistent =
+                                            false, // o false, a seconda se vuoi che la sessione persista tra le sessioni del browser
+                                        ExpiresUtc =
+                                            DateTimeOffset.UtcNow
+                                                .AddMinutes(
+                                                    30) // imposta un tempo di scadenza del cookie, se necessario
+                                    };
+
+                                    await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
+                                        new ClaimsPrincipal(claimsIdentity),
+                                        authProperties);
+                                }
                             }
                             else
                             {
@@ -194,7 +272,7 @@ public class Login : PageModel
                         }
                     }
 
-                    return RedirectToPage("/Admin");
+                    return RedirectToPage("/Admin/Admin");
             }
         }
         else

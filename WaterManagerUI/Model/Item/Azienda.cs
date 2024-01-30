@@ -73,6 +73,11 @@ public class Azienda
         return risorse.OrderByDescending(c => c.RisorsaAsDateTime()).ToList();
     }
 
+    public List<RichiestaIdrica> storicoRichieste()
+    {
+        return richieste.OrderByDescending(c => c.RichiestaAsDateTime()).ToList();
+    }
+
 
     public List<RichiestaIdrica> richiesteSospeso()
     {
@@ -80,6 +85,40 @@ public class Azienda
         {
             List<RichiestaIdrica> richiesteNonApprovate = this.richieste
                 .Where(r => r.approvato == null)
+                .OrderBy(r => r.date)
+                .ToList();
+
+            return richiesteNonApprovate;
+        }
+        else
+        {
+            return new List<RichiestaIdrica>();
+        }
+    }
+    
+    public List<RichiestaIdrica> richiesteRifiutate()
+    {
+        if (this.richieste.Count > 0)
+        {
+            List<RichiestaIdrica> richiesteNonApprovate = this.richieste
+                .Where(r => r.approvato == false)
+                .OrderBy(r => r.date)
+                .ToList();
+
+            return richiesteNonApprovate;
+        }
+        else
+        {
+            return new List<RichiestaIdrica>();
+        }
+    }
+
+    public List<RichiestaIdrica> richiesteApprovate()
+    {
+        if (this.richieste.Count > 0)
+        {
+            List<RichiestaIdrica> richiesteNonApprovate = this.richieste
+                .Where(r => r.approvato == true)
                 .OrderBy(r => r.date)
                 .ToList();
 

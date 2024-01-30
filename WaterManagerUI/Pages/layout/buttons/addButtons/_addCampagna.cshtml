@@ -1,0 +1,7 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model WaterManagerUI.Model.Item.Azienda
+
+<div class="bottone-aggiungi">
+    <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.id" class="plus-icon">+</a>
+    <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.id">Aggiungi campagna</a>
+</div>

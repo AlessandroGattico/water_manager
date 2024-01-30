@@ -1,19 +1,67 @@
 @page
+@using WaterManagerUI.Model.Item
 @model WaterManagerUI.Pages.VisualizzaRichieste
 
-@{
-    Layout = null;
-}
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
 
-<!DOCTYPE html>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <div>
+                            <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id">Campagne</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.azienda.id">Campi</a>
+                        </div>
+                    </ul>
+                </span>
+            </aside>
+        </div>
 
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<div>
-    
+        <div class="col-md-8">
+            <div class="content">
+                @if (Model.azienda != null)
+                {
+                    <h2>Dettagli campagna</h2>
+                    <p>Nome campagna: @Model.azienda.nome</p>
+                }
+                else
+                {
+                    <p>Nessuna azienda registrata. Utilizza il link a sinistra per aggiungere un'azienda.</p>
+                }
+            </div>
+
+            <div class="elements">
+                <div class="row">
+                    <div class="col-md-4">
+                        @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteSospeso())
+                        {
+                            @Html.Partial("layout/details/_richiestaDetails", richiesta)
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteApprovate())
+                        {
+                            @Html.Partial("layout/details/_richiestaDetails", richiesta)
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteRifiutate())
+                        {
+                            @Html.Partial("layout/details/_richiestaDetails", richiesta)
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
 </div>
-</body>
-</html>

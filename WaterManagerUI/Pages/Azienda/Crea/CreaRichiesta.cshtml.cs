@@ -1,101 +1,102 @@
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using UserInterfaceWaterManager.Model.User;
 using WaterManagerUI.Model.Item;
 
 namespace WaterManagerUI.Pages;
 
 public class CreaRichiesta : PageModel
 {
-    [BindProperty] public RichiestaIdrica richiesta { get; set; }
-    private GestoreAzienda user { get; set; }
-    private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    public List<BacinoIdrico> bacini { get; set; }
-    private int idRichiesta { get; set; }
+    [BindProperty] public Double quantita { get; set; }
+    [BindProperty] public string nomeBacino { get; set; }
 
-    public CreaRichiesta(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+    private RichiestaIdrica richiesta { get; set; }
+    private readonly IHttpClientFactory _httpClientFactory;
+    public HashSet<BacinoIdrico> bacini { get; set; }
+
+    public CreaRichiesta(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
-        _httpContextAccessor = httpContextAccessor;
+    }
+
+    public async Task OnGetAsync(int coltivazioneId)
+    {
+        this.bacini = await GetBacini();
     }
 
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync(int idColtivazione)
     {
         var client = _httpClientFactory.CreateClient();
-        var jwtToken = _httpContextAccessor.HttpContext.Session.GetString("JWTToken");
-        var userJson = HttpContext.Session.GetString("UserSession");
+        string formattedDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+        this.bacini = await GetBacini();
+        int idBacino = TrovaIdBacinoPerNome(nomeBacino);
+
+        richiesta = new RichiestaIdrica(quantita, idColtivazione, idBacino, formattedDateTime);
 
         try
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
-            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/bacino/get/all");
+            String stringaDaInviare = JsonConvert.SerializeObject(richiesta);
+
+            StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+            var response = await client.PostAsync("http://localhost:8080/api/v1/richiesta/add", stringContent);
 
             if (response.IsSuccessStatusCode)
             {
                 string responseContentStr = await response.Content.ReadAsStringAsync();
 
-                bacini = JsonConvert.DeserializeObject<List<BacinoIdrico>>(responseContentStr);
-                if (bacini.Count == 0)
-                {
-                    //ERRORE
-                }
+                richiesta.id = JsonConvert.DeserializeObject<int>(responseContentStr);
             }
             else
             {
-                return RedirectToPage("/Azienda/GestoreAzienda");
+                return RedirectToPage("/Azienda/GestoreAzienda",
+                    new { userId = Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)) });
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.StackTrace);
-            return RedirectToPage("/Azienda/GestoreAzienda");
+            return RedirectToPage("/Azienda/GestoreAzienda",
+                new { userId = Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)) });
         }
 
-        if (!string.IsNullOrEmpty(userJson))
+        return RedirectToPage("/Azienda/GestoreAzienda",
+            new { userId = Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)) });
+    }
+
+
+    public async Task<HashSet<BacinoIdrico>> GetBacini()
+    {
+        var client = _httpClientFactory.CreateClient();
+        client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+        var response = await client.GetAsync("http://localhost:8080/api/v1/utils/bacino/get/all");
+
+        if (response.IsSuccessStatusCode)
         {
-            user = JsonConvert.DeserializeObject<GestoreAzienda>(userJson);
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<HashSet<BacinoIdrico>>(content);
+        }
 
-            DateTime now = DateTime.Now;
-            string formattedDate = now.ToString("yyyy-MM-dd HH:mm:ss");
-            richiesta.date = formattedDate;
+        return new HashSet<BacinoIdrico>();
+    }
 
-            String stringaDaInviare = JsonConvert.SerializeObject(richiesta);
-
-            try
+    private int TrovaIdBacinoPerNome(string nomeBacino)
+    {
+        foreach (BacinoIdrico bacino in bacini)
+        {
+            if (bacino.nome.Equals(nomeBacino))
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
-                StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("http://localhost:8080/api/v1/richiesta/add", stringContent);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseContentStr = await response.Content.ReadAsStringAsync();
-
-                    idRichiesta = JsonConvert.DeserializeObject<int>(responseContentStr);
-                    richiesta.id = idRichiesta;
-
-                    user.azienda.richieste.Add(richiesta);
-
-                    HttpContext.Session.SetString("UserSession", JsonConvert.SerializeObject(user));
-                    return RedirectToPage("/Azienda/GestoreAzienda");
-                }
-                else
-                {
-                    return RedirectToPage("/Azienda/GestoreAzienda");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.StackTrace);
-                return RedirectToPage("/Azienda/GestoreAzienda");
+                return bacino.id;
             }
         }
 
-        return RedirectToPage("/Azienda/GestoreAzienda");
+        return 0;
     }
 }

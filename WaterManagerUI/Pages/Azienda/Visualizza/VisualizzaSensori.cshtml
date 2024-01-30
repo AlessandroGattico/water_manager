@@ -1,0 +1,56 @@
+@page
+@using WaterManagerUI.Model.Item
+@model WaterManagerUI.Pages.VisualizzaSensori
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <div>
+                            <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
+                        </div>
+                        <div>
+                            <a href="/Azienda/Visualizza/VisualizzaColtivazioni">Coltivazioni</a>
+                        </div>
+                        <div>
+                            <a href="/Azienda/Visualizza/VisualizzaAttuatori">Attuatori</a>
+                        </div>
+                    </ul>
+                </span>
+            </aside>
+        </div>
+
+        <div class="col-md-8">
+            <div class="content">
+                @if (Model.campo != null)
+                {
+                    <h2>Dettagli campo</h2>
+                    <p>Nome campo: @Model.campo.nome</p>
+                }
+            </div>
+
+            <div class="elements">
+                @if (Model.campo.sensori.Any())
+                {
+                    @Html.Partial("layout/buttons/addButtons/_addSensore", @Model.campo)
+
+                    @foreach (Sensore sensore in Model.campo.sensori)
+                    {
+                        @Html.Partial("layout/details/_sensoreDetails", sensore)
+                    }
+                }
+                else
+                {
+                    @Html.Partial("layout/buttons/addButtons/_addSensore", @Model.campo)
+                }
+            </div>
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

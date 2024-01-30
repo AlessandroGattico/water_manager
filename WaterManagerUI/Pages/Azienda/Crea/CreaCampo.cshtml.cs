@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,59 +14,52 @@ public class CreaCampo : PageModel
     [BindProperty] public Campo campo { get; set; }
     private GestoreAzienda user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private int idCampagna { get; set; }
 
-    public CreaCampo(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor)
+    public CreaCampo(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<IActionResult> OnPostAsync(int campagnaId)
     {
         this.idCampagna = campagnaId;
         var client = _httpClientFactory.CreateClient();
-        var jwtToken = _httpContextAccessor.HttpContext.Session.GetString("JWTToken");
-        var userJson = HttpContext.Session.GetString("UserSession");
 
+        user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
+            User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
+            User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
+            JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
 
-        if (!string.IsNullOrEmpty(userJson))
+        campo.idCampagna = this.idCampagna;
+
+        String stringaDaInviare = JsonConvert.SerializeObject(campo);
+
+        try
         {
-            user = JsonConvert.DeserializeObject<GestoreAzienda>(userJson);
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+            StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
+            var response =
+                await client.PostAsync("http://localhost:8080/api/v1/azienda/campo/add", stringContent);
 
-
-            campo.idCampagna = this.idCampagna;
-
-            String stringaDaInviare = JsonConvert.SerializeObject(campo);
-
-            try
+            if (response.IsSuccessStatusCode)
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtToken);
-                StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
-                var response =
-                    await client.PostAsync("http://localhost:8080/api/v1/azienda/campo/add", stringContent);
+                string responseContentStr = await response.Content.ReadAsStringAsync();
 
-                if (response.IsSuccessStatusCode)
-                {
-                    string responseContentStr = await response.Content.ReadAsStringAsync();
-
-                    var idcampo = JsonConvert.DeserializeObject<int>(responseContentStr);
-                    return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna",
-                        new { campagnaId = this.idCampagna });
-                }
-                else
-                {
-                    return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna",
-                        new { campagnaId = this.idCampagna });
-                }
+                var idcampo = JsonConvert.DeserializeObject<int>(responseContentStr);
+                return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna",
+                    new { campagnaId = this.idCampagna });
             }
-            catch (Exception ex)
+            else
             {
-                return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna", new { campagnaId = this.idCampagna });
+                return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna",
+                    new { campagnaId = idCampagna });
             }
         }
-
-        return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna", new { campagnaId = this.idCampagna });
+        catch (Exception ex)
+        {
+            return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna", new { campagnaId = this.idCampagna });
+        }
     }
 }

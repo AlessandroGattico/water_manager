@@ -1,0 +1,12 @@
+@model WaterManagerUI.Model.Item.Campo
+
+
+<div class="elemento">
+    <div class="info-elemento nomeCampo">Nome campo: @Model.nome</div>
+    <div class="info-elemento raccolto">Raccolto: @Model.storicoColtivazioni().FirstOrDefault().raccolto</div>
+    <div class="info-elemento nome">Irrigazione: @Model.storicoColtivazioni().FirstOrDefault().irrigazione</div>
+    <div class="info-elemento nome">Esigenza: @Model.storicoColtivazioni().FirstOrDefault().esigenza</div>
+    <div class="info-elemento nome">Semina: @Model.storicoColtivazioni().FirstOrDefault().semina</div>
+    <div class="info-elemento nome">Temperatura ideale: @Model.storicoColtivazioni().FirstOrDefault().temperatura</div>
+    <div class="info-elemento nome">Umidità ideale: @Model.storicoColtivazioni().FirstOrDefault().umidita</div>
+</div>

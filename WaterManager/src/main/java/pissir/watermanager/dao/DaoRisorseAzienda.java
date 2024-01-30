@@ -194,4 +194,50 @@ public class DaoRisorseAzienda {
 		
 	}
 	
+	
+	public RisorsaIdrica ultimaRisorsa(int idAzienda) {
+		int columns;
+		HashMap<String, Object> row;
+		ResultSetMetaData resultSetMetaData;
+		RisorsaIdrica risorsa = null;
+		
+		String query = """
+				SELECT * FROM risorsa_azienda
+				WHERE id_azienda = ?
+				ORDER BY time
+				DESC LIMIT 1;
+				""";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			
+			statement.setInt(1, idAzienda);
+			
+			try (ResultSet resultSet = statement.executeQuery()) {
+				resultSetMetaData = resultSet.getMetaData();
+				columns = resultSetMetaData.getColumnCount();
+				
+				while (resultSet.next()) {
+					row = new HashMap<>(columns);
+					
+					for (int i = 1; i <= columns; ++ i) {
+						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+					}
+					
+					risorsa = new RisorsaIdrica((int) row.get("id"), (String) row.get(
+							"time"), (Double) row.get("disponibilita"), (Double) row.get("consumo"),
+							(int) row.get("id_azienda"));
+				}
+			}
+			
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return null;
+		}
+		
+		return risorsa;
+	}
+	
 }

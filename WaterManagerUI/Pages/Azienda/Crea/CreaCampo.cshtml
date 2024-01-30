@@ -8,20 +8,20 @@
         <div class="col-md-6">
             <h2>Crea campo</h2>
             <form method="post">
-                 <div class="form-group">
-                     <label asp-for="campo.nome">Nome campo</label>
-                     <input asp-for="campo.nome" class="form-control"/>
-                     <span asp-validation-for="campo.nome" class="text-danger"></span>
-                 </div>
-                 <div class="form-group">
-                     <label asp-for="campo.dimensione">Dimensione campo</label>
-                     <input asp-for="campo.dimensione" class="form-control"/>
-                     <span asp-validation-for="campo.dimensione" class="text-danger"></span>
-                 </div>
-                 <div>
-                     <input type="submit" value="Crea campo" class="btn btn-primary form-button"/>
-                 </div>
-             </form>
+                <div class="form-group">
+                    <label asp-for="campo.nome">Nome campo</label>
+                    <input asp-for="campo.nome" class="form-control"/>
+                    <span asp-validation-for="campo.nome" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="campo.dimensione">Dimensione campo (ha)</label>
+                    <input asp-for="campo.dimensione" type="number" step="0.5" class="form-control"/>
+                    <span asp-validation-for="campo.dimensione" class="text-danger"></span>
+                </div>
+                <div>
+                    <input type="submit" value="Crea campo" class="btn btn-primary form-button"/>
+                </div>
+            </form>
         </div>
     </div>
 </div>

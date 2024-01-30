@@ -177,7 +177,7 @@ public class DaoCampo {
 	
 	
 	public Boolean cambiaNome(CambioString cambio) {
-		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
+		String query = "UPDATE campo SET " + cambio.getProperty() + " = ? WHERE id = ?;";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {

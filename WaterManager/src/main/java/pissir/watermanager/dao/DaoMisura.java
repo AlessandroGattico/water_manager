@@ -1,7 +1,5 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Misura;
 
@@ -17,8 +15,7 @@ import java.util.HashSet;
 @Repository
 public class DaoMisura {
 	
-	private final Logger logger = LogManager.getLogger(DaoColtivazione.class.getName());
-	private final Logger loggerSql = LogManager.getLogger("sql");
+	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -41,9 +38,6 @@ public class DaoMisura {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + idMisura);
 			
 			statement.setInt(1, idMisura);
 			
@@ -64,8 +58,6 @@ public class DaoMisura {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
 			
 			return null;
 		}
@@ -89,9 +81,6 @@ public class DaoMisura {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id_sensore = " + idSensore);
 			
 			statement.setInt(1, idSensore);
 			
@@ -119,8 +108,6 @@ public class DaoMisura {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
 			
 			return null;
 		}
@@ -137,11 +124,6 @@ public class DaoMisura {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 value = " + misura.getValue());
-			loggerSql.debug("?2 time = " + misura.getTime());
-			loggerSql.debug("?3 id_sensore = " + misura.getIdSensore());
 			
 			statement.setDouble(1, misura.getValue());
 			statement.setString(2, misura.getTime());
@@ -149,8 +131,6 @@ public class DaoMisura {
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
 		}
 	}
 	
@@ -163,16 +143,11 @@ public class DaoMisura {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + idMisura);
 			
 			statement.setInt(1, idMisura);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
 		}
 		
 	}

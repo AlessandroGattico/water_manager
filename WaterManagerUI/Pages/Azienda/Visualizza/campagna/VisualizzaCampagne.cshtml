@@ -1,5 +1,6 @@
 @page
 @using WaterManagerUI.Model.Item
+@using System.Net
 @model WaterManagerUI.Pages.VisualizzaCampagne
 
 <link rel="stylesheet" href="~/css/Visualizza.css"/>
@@ -10,23 +11,26 @@
             <aside class="flex-container">
                 <span>
                     <ul>
-                        @if (Model.user.azienda.campagne == null)
+                        @if (Model.user.azienda.campagne.Count == 0)
                         {
-                            <li>
-                                <a href="/Azienda/CreaCampagna">Aggiungi campagna</a>
-                            </li>
+                            <div>
+                                <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id">Crea campagna</a>
+                            </div>
                         }
                         else
                         {
-                            <li>
+                            <div>
                                 <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
-                            </li>
-                            <li>
-                                <a href="/Azienda/Coltivazioni">Coltivazioni</a>
-                            </li>
-                            <li>
+                            </div>
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.user.azienda.id">Campagne</a>
+                            </div>
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.user.azienda.id">Campi</a>
+                            </div>
+                            <div>
                                 <a href="/Azienda/Richiesta">Richieste</a>
-                            </li>
+                            </div>
                         }
                     </ul>
                 </span>
@@ -48,28 +52,16 @@
             <div class="elements">
                 @if (@Model.campagne.Any())
                 {
+                    @Html.Partial("layout/buttons/addButtons/_addCampagna", Model.user.azienda)
+
                     @foreach (Campagna campagna in Model.campagne)
                     {
-                        <div class="elemento" onclick="this.parentNode.submit()">
-                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagna" asp-route-campagnaId="@campagna.id">
-                                <div class="info-elemento nome">Nome: @campagna.nome</div>
-                                <div class="info-elemento dimensione">Dimensione: @campagna.size()</div>
-                                <div class="info-elemento campi">Numero campi: @campagna.campi.Count</div>
-                            </a>
-                        </div>
+                        @Html.Partial("layout/details/_campagnaDetails", campagna)
                     }
-
-                    <div class="bottone-aggiungi">
-                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id" class="plus-icon">+</a>
-                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id">Aggiungi campagna</a>
-                    </div>
                 }
                 else
                 {
-                    <div class="bottone-aggiungi">
-                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id" class="plus-icon">+</a>
-                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id">Aggiungi campagna</a>
-                    </div>
+                    @Html.Partial("layout/buttons/addButtons/_addCampagna", Model.user.azienda)
                 }
             </div>
         </div>

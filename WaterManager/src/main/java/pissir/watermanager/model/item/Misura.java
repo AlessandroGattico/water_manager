@@ -25,4 +25,11 @@ public class Misura {
 		this.idSensore = idSensore;
 	}
 	
+	
+	public Misura(Double value, String time, int idSensore) {
+		this.value = value;
+		this.time = time;
+		this.idSensore = idSensore;
+	}
+	
 }

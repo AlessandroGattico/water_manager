@@ -15,7 +15,7 @@
                         @if (Model.azienda != null)
                         {
                             <div>
-                                <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
+                                <a asp-page="/Azienda/GestoreAzienda">Statistiche Azienda</a>
                             </div>
                             <div>
                                 <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id">Campagne</a>
@@ -24,10 +24,7 @@
                                 <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.azienda.id">Campi</a>
                             </div>
                             <div>
-                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaColtivazioniAzienda" asp-route-aziendaId="@Model.azienda.id">Campagne</a>
-                            </div>
-                            <div>
-                                <a href="/Azienda/Visualizza/VisualizzaRichiesta">Richieste</a>
+                                <a asp-page="/Azienda/Visualizza/VisualizzaRichieste" asp-route-aziendaId="@Model.azienda.id">Richieste</a>
                             </div>
                         }
                     </ul>

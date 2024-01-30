@@ -104,7 +104,7 @@ public class DaoBacinoIdrico {
 			
 			for (HashMap<String, Object> map : list) {
 				BacinoIdrico bacinoIdrico =
-						new BacinoIdrico((int) map.get("int"), (String) map.get("nome"), (int) map.get("id_user"));
+						new BacinoIdrico((int) map.get("id"), (String) map.get("nome"), (int) map.get("id_user"));
 				
 				bacini.add(bacinoIdrico);
 			}

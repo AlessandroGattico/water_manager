@@ -10,15 +10,18 @@
             <aside class="flex-container">
                 <span>
                     <ul>
-                        <li>
+                        <div>
                             <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
-                        </li>
-                        <li>
+                        </div>
+                        <div>
                             <a href="/Azienda/Visualizza/VisualizzaColtivazioni">Coltivazioni</a>
-                        </li>
-                        <li>
+                        </div>
+                        <div>
                             <a href="/Azienda/Visualizza/VisualizzaAttuatori">Attuatori</a>
-                        </li>
+                        </div>
+                        <div>
+                            <a asp-page="/Azienda/Visualizza/VisualizzaMisureCampo" asp-route-campoId="@Model.campo.id">Misure</a>
+                        </div>
                     </ul>
                 </span>
             </aside>
@@ -31,28 +34,30 @@
                     <h2>Dettagli campo</h2>
                     <p>Nome campo: @Model.campo.nome</p>
                 }
+                <div class="elements">
+                    <a asp-page="/Azienda/Modifica/campo/ModificaNomeCampo" asp-route-campoId="@Model.campo.id" class="btn btn-primary" style="grid-column: span 1">Modifica nome campo</a>
+                    <a asp-page="/Azienda/Modifica/ModificaDimensioneCampo" asp-route-campoId="@Model.campo.id" class="btn btn-primary" style="grid-column: span 1">Modifica dimensione campo</a>
+                    <a asp-page="/Azienda/Modifica/ModificaCampagnaCampo" asp-route-campoId="@Model.campo.id" class="btn btn-primary" style="grid-column: span 1">Modifica campagna campo</a>
+                </div>
             </div>
 
             <div class="elements">
                 @if (Model.campo.coltivazioni.Any())
                 {
                     <div class="elemento" style="grid-column: span 3;">
-                        <a href="/Azienda/Visualizza/Campo/VisualizzaColtivazioni">
+                        <a asp-page="/Azienda/Visualizza/Campo/VisualizzaColtivazioni" asp-route-campoId="@Model.campo.id">
                             <div class="info-elemento nome">Coltivazione recente: @Model.campo.storicoColtivazioni().FirstOrDefault().raccolto</div>
                         </a>
                     </div>
                 }
                 else
                 {
-                    <div class="bottone-aggiungi">
-                        <a asp-page="/Azienda/Crea/CreaColtivazione" asp-route-campoId="@Model.campo.id" class="plus-icon">+</a>
-                        <a asp-page="/Azienda/Crea/CreaColtivazione" asp-route-campoId="@Model.campo.id">Aggiungi coltivazione</a>
-                    </div>
+                    @Html.Partial("layout/buttons/addButtons/_addColtivazione", @Model.campo)
                 }
                 @if (Model.campo.attuatori.Any())
                 {
-                    <div class="elemento">
-                        <a href="/Azienda/Visualizza/Campo/VisualizzaAttuatoriCampo">
+                    <div class="elemento" style="grid-column: span 3;">
+                        <a asp-page="/Azienda/Visualizza/Campo/VisualizzaAttuatori" asp-route-campoId="@Model.campo.id">
                             <div class="info-elemento nome">Numero attuatori: @Model.campo.attuatori.Count()</div>
                         </a>
                     </div>
@@ -66,8 +71,8 @@
                 }
                 @if (Model.campo.sensori.Any())
                 {
-                    <div class="elemento">
-                        <a href="/Azienda/Visualizza/Campo/VisualizzaSensoriCampo">
+                    <div class="elemento" style="grid-column: span 3;">
+                        <a asp-page="/Azienda/Visualizza/VisualizzaSensori" asp-route-campoId="@Model.campo.id">
                             <div class="info-elemento nome">Numero sensori: @Model.campo.attuatori.Count()</div>
                         </a>
                     </div>

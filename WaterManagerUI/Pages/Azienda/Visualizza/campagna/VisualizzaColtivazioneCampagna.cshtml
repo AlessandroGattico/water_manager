@@ -1,6 +1,7 @@
 @page
 @using WaterManagerUI.Model.Item
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using WaterManagerUI.Pages.layout.details
 @model WaterManagerUI.Pages.VisualizzaColtivazioneCampagna
 
 <link rel="stylesheet" href="~/css/Visualizza.css"/>
@@ -56,23 +57,14 @@
                     {
                         @if (campo.coltivazioni.Any())
                         {
-                            <div class="elemento">
-                                <div class="info-elemento nomeCampagna">Nome campagna: @Model.campagna.nome</div>
-                                <div class="info-elemento nomeCampo">Nome campo: @campo.nome</div>
-                                <div class="info-elemento raccolto">Raccolto: @campo.storicoColtivazioni().FirstOrDefault().raccolto</div>
-                                <div class="info-elemento nome">Irrigazione: @campo.storicoColtivazioni().FirstOrDefault().irrigazione</div>
-                                <div class="info-elemento nome">Esigenza: @campo.storicoColtivazioni().FirstOrDefault().esigenza</div>
-                                <div class="info-elemento nome">Semina: @campo.storicoColtivazioni().FirstOrDefault().semina</div>
-                                <div class="info-elemento nome">Temperatura ideale: @campo.storicoColtivazioni().FirstOrDefault().temperatura</div>
-                                <div class="info-elemento nome">Umidità ideale: @campo.storicoColtivazioni().FirstOrDefault().umidita</div>
-                            </div>
+                            @Html.Partial("layout/details/_coltivazioneDetails", campo)
                         }
                     }
+                }
                 }
             </div>
         </div>
         <div class="col-md-2">
         </div>
-
     </div>
 </div>

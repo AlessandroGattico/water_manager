@@ -11,15 +11,15 @@
             <aside class="flex-container">
                 <span>
                     <ul>
-                        <li>
+                        <div>
                             <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
-                        </li>
-                        <li>
+                        </div>
+                        <div>
                             <a href="/Azienda/Visualizza/VisualizzaColtivazioni">Coltivazioni</a>
-                        </li>
-                        <li>
+                        </div>
+                        <div>
                             <a href="/Azienda/Visualizza/VisualizzaAttuatori">Attuatori</a>
-                        </li>
+                        </div>
                     </ul>
                 </span>
             </aside>
@@ -34,32 +34,18 @@
                 }
             </div>
             <div class="elements">
-                <div class="bottone-aggiungi">
-                    <a asp-page="/Azienda/Crea/CreaColtivazione" asp-route-campoId="@Model.campo.id" class="plus-icon">+</a>
-                    <a asp-page="/Azienda/Crea/CreaColtivazione" asp-route-campoId="@Model.campo.id">Aggiungi coltivazione</a>
-                </div>
                 @if (Model.campo.coltivazioni.Count > 0)
                 {
+                    @Html.Partial("layout/buttons/addButtons/_addColtivazione", Model.campo)
+
                     @foreach (Coltivazione coltivazione in Model.campo.storicoColtivazioni())
                     {
-                        <div class="elemento" onclick="this.parentNode.submit()">
-                            <a asp-page="/Azienda/Visualizza/VisualizzaColtivazione" asp-route-coltivazioneId="@coltivazione.id">
-                                <div class="elemento">
-                                    <div class="info-elemento raccolto">Raccolto: @coltivazione.raccolto</div>
-                                    <div class="info-elemento nome">Irrigazione: @coltivazione.irrigazione</div>
-                                    <div class="info-elemento nome">Esigenza: @coltivazione.esigenza</div>
-                                    <div class="info-elemento nome">Semina: @coltivazione.semina</div>
-                                    <div class="info-elemento nome">Temperatura ideale: @coltivazione.temperatura</div>
-                                    <div class="info-elemento nome">Umidità ideale: @coltivazione.umidita</div>
-                                </div>
-                            </a>
-                        </div>
+                        @Html.Partial("layout/details/_coltivazione", coltivazione)
                     }
-
-                    <div class="bottone-aggiungi">
-                        <a asp-page="/Azienda/Crea/CreaCampo" asp-route-campagnaId="@Model.campo.id" class="plus-icon">+</a>
-                        <a asp-page="/Azienda/Crea/CreaCampo" asp-route-campagnaId="@Model.campo.id">Aggiungi coltivazione</a>
-                    </div>
+                }
+                else
+                {
+                    @Html.Partial("layout/buttons/addButtons/_addColtivazione", Model.campo)
                 }
             </div>
         </div>

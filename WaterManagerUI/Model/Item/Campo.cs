@@ -43,7 +43,7 @@ public class Campo
 
     public List<Coltivazione> storicoColtivazioni()
     {
-        if (this.coltivazioni.Count == 0)
+        if (coltivazioni.Count == 0)
         {
             return new List<Coltivazione>();
         }
