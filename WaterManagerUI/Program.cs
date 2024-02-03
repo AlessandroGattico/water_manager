@@ -28,6 +28,9 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddDistributedMemoryCache(); 
+
+
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
 

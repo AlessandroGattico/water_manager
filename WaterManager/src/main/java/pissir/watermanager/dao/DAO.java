@@ -8,6 +8,8 @@ import pissir.watermanager.model.cambio.CambioString;
 import pissir.watermanager.model.item.*;
 import pissir.watermanager.model.user.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 
 /**
@@ -240,7 +242,17 @@ public class DAO {
 	
 	
 	public int addBacino(BacinoIdrico bacinoIdrico) {
-		return this.daoBacinoIdrico.addBacino(bacinoIdrico);
+		int result = this.daoBacinoIdrico.addBacino(bacinoIdrico);
+		
+		if (result != 0) {
+			this.addRisorsaBacino(
+					new RisorsaIdrica(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
+							0.0,
+							0.0, result));
+			
+			return result;
+		}
+		return 0;
 	}
 	
 	
@@ -308,7 +320,14 @@ public class DAO {
 	
 	
 	public int addAzienda(Azienda azienda) {
-		return this.daoAzienda.addAzienda(azienda);
+		int result = this.daoAzienda.addAzienda(azienda);
+		
+		if (result != 0) {
+			this.addRisorsaAzienda(
+					new RisorsaIdrica(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
+							0.0, 0.0, result));
+		}
+		return 0;
 	}
 	
 	
@@ -894,6 +913,26 @@ public class DAO {
 	
 	public HashSet<GestoreAzienda> getGestoriAzienda() {
 		return this.daoUser.getGestoriAzienda();
+	}
+	
+	
+	public HashSet<Azienda> getAllAziende() {
+		return this.daoAzienda.getAziende();
+	}
+	
+	
+	public HashSet<Campagna> getAllCampagne() {
+		return this.daoCampagna.getCampagne();
+	}
+	
+	
+	public HashSet<Campo> getAllCampi() {
+		return this.daoCampo.getCampi();
+	}
+	
+	
+	public HashSet<BacinoIdrico> getAllBacini() {
+		return this.daoBacinoIdrico.getBacini();
 	}
 	
 }

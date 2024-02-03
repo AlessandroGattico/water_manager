@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -15,11 +16,13 @@ public class CreaRichiesta : PageModel
 
     private RichiestaIdrica richiesta { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly SignInManager<IdentityUser> _signInManager;
     public HashSet<BacinoIdrico> bacini { get; set; }
 
-    public CreaRichiesta(IHttpClientFactory httpClientFactory)
+    public CreaRichiesta(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
+        _signInManager = signInManager;
     }
 
     public async Task OnGetAsync(int coltivazioneId)
@@ -30,40 +33,43 @@ public class CreaRichiesta : PageModel
 
     public async Task<IActionResult> OnPostAsync(int idColtivazione)
     {
-        var client = _httpClientFactory.CreateClient();
-        string formattedDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-
-        this.bacini = await GetBacini();
-        int idBacino = TrovaIdBacinoPerNome(nomeBacino);
-
-        richiesta = new RichiestaIdrica(quantita, idColtivazione, idBacino, formattedDateTime);
-
-        try
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
-            String stringaDaInviare = JsonConvert.SerializeObject(richiesta);
+            var client = _httpClientFactory.CreateClient();
+            string formattedDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-            StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-            var response = await client.PostAsync("http://localhost:8080/api/v1/richiesta/add", stringContent);
+            this.bacini = await GetBacini();
+            int idBacino = TrovaIdBacinoPerNome(nomeBacino);
 
-            if (response.IsSuccessStatusCode)
+            richiesta = new RichiestaIdrica(quantita, idColtivazione, idBacino, formattedDateTime);
+
+            try
             {
-                string responseContentStr = await response.Content.ReadAsStringAsync();
+                String stringaDaInviare = JsonConvert.SerializeObject(richiesta);
 
-                richiesta.id = JsonConvert.DeserializeObject<int>(responseContentStr);
+                StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var response = await client.PostAsync("http://localhost:8080/api/v1/richiesta/add", stringContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContentStr = await response.Content.ReadAsStringAsync();
+
+                    richiesta.id = JsonConvert.DeserializeObject<int>(responseContentStr);
+                }
+                else
+                {
+                    return RedirectToPage("/Azienda/GestoreAzienda",
+                        new { userId = Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)) });
+                }
             }
-            else
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.StackTrace);
                 return RedirectToPage("/Azienda/GestoreAzienda",
                     new { userId = Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)) });
             }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.StackTrace);
-            return RedirectToPage("/Azienda/GestoreAzienda",
-                new { userId = Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)) });
         }
 
         return RedirectToPage("/Azienda/GestoreAzienda",
@@ -73,30 +79,37 @@ public class CreaRichiesta : PageModel
 
     public async Task<HashSet<BacinoIdrico>> GetBacini()
     {
-        var client = _httpClientFactory.CreateClient();
-        client.DefaultRequestHeaders.Authorization =
-            new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-        var response = await client.GetAsync("http://localhost:8080/api/v1/utils/bacino/get/all");
-
-        if (response.IsSuccessStatusCode)
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
-            var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<HashSet<BacinoIdrico>>(content);
+            var client = _httpClientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/bacino/get/all");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<HashSet<BacinoIdrico>>(content);
+            }
         }
 
         return new HashSet<BacinoIdrico>();
     }
 
-    private int TrovaIdBacinoPerNome(string nomeBacino)
-    {
-        foreach (BacinoIdrico bacino in bacini)
+        private int TrovaIdBacinoPerNome(string nomeBacino)
         {
-            if (bacino.nome.Equals(nomeBacino))
+            if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
             {
-                return bacino.id;
+                foreach (BacinoIdrico bacino in bacini)
+                {
+                    if (bacino.nome.Equals(nomeBacino))
+                    {
+                        return bacino.id;
+                    }
+                }
             }
-        }
 
-        return 0;
+            return 0;
+            }
+        
     }
-}

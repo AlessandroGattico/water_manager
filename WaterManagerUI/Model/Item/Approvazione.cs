@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace WaterManagerUI.Model.Item;
 
 public class Approvazione
@@ -12,6 +14,7 @@ public class Approvazione
     {
     }
 
+    [JsonConstructor]
     public Approvazione(int id, int idRichiesta, int idGestore, bool approvato, string date)
     {
         this.id = id;

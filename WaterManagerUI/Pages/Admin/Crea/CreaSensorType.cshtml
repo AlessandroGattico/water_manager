@@ -1,0 +1,24 @@
+@page
+@model WaterManagerUI.Pages.Crea.CreaSensorType
+
+<link rel="stylesheet" href="~/css/form.css"/>
+<link rel="stylesheet" href="~/css/site.css"/>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>Crea tipologia sensore</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="type">Tipologia sensore</label>
+                    <input asp-for="type" class="form-control"/>
+                    <span asp-validation-for="type" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary form-button">Crea tipologia sensore</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

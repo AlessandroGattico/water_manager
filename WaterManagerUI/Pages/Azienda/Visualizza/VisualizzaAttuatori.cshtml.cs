@@ -1,4 +1,6 @@
 using System.Net.Http.Headers;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using UserInterfaceWaterManager.Model.User;
@@ -9,31 +11,27 @@ namespace WaterManagerUI.Pages;
 public class VisualizzaAttuatori : PageModel
 {
     public Campo campo { get; set; }
-    public GestoreAzienda user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    
-    public VisualizzaAttuatori(IHttpClientFactory httpClientFactory,
-        IHttpContextAccessor httpContextAccessor)
+    private readonly SignInManager<IdentityUser> _signInManager;
+
+
+    public VisualizzaAttuatori(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
-        _httpContextAccessor = httpContextAccessor;
+        _signInManager = signInManager;
     }
 
-    public async Task OnGetAsync(int idCampo)
+    public async Task OnGetAsync(int campoId)
     {
-        var client = _httpClientFactory.CreateClient();
-        var jwtToken = _httpContextAccessor.HttpContext.Session.GetString("JWTToken");
-
-        var userJson = HttpContext.Session.GetString("UserSession");
-        if (!string.IsNullOrEmpty(userJson))
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
+            var client = _httpClientFactory.CreateClient();
             try
             {
                 client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Bearer", jwtToken);
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
                 var response = await client.GetAsync(
-                    $"http://localhost:8080/api/v1/azienda/campo/get/{idCampo}");
+                    $"http://localhost:8080/api/v1/azienda/campo/get/{campoId}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -43,7 +41,6 @@ public class VisualizzaAttuatori : PageModel
             }
             catch (Exception e)
             {
-                
             }
         }
     }

@@ -3,16 +3,13 @@ package pissir.watermanager.controller;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pissir.watermanager.dao.DAO;
-import pissir.watermanager.model.item.BacinoIdrico;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
-
-import java.util.HashSet;
-import java.util.LinkedList;
 
 
 @RequestMapping("/api/v1/utils")
@@ -25,34 +22,66 @@ public class UtilsController {
 	
 	
 	@GetMapping(value = "/raccolto/get/all")
-	public String getRaccolti() {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
+	public String getRaccolti(HttpServletRequest request) {
 		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(this.dao.getRaccolti());
+		if (this.tokenService.validateTokenAndRole(jwt,
+				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			
+			return gson.toJson(this.dao.getRaccolti());
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@GetMapping(value = "/irrigazione/get/all")
-	public String getIrrigazioni() {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
+	public String getIrrigazioni(HttpServletRequest request) {
 		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(this.dao.getIrrigazioni());
+		if (this.tokenService.validateTokenAndRole(jwt,
+				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			
+			return gson.toJson(this.dao.getIrrigazioni());
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@GetMapping(value = "/esigenza/get/all")
-	public String getEsigenze() {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
+	public String getEsigenze(HttpServletRequest request) {
 		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(this.dao.getEsigenze());
+		if (this.tokenService.validateTokenAndRole(jwt,
+				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			
+			return gson.toJson(this.dao.getEsigenze());
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@GetMapping(value = "/sensorTypes/get/all")
-	public String getSensorTypes() {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
+	public String getSensorTypes(HttpServletRequest request) {
 		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(this.dao.getSensorTypes());
+		if (this.tokenService.validateTokenAndRole(jwt,
+				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			
+			return gson.toJson(this.dao.getSensorTypes());
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	

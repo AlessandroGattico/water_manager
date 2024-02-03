@@ -1,0 +1,46 @@
+@page
+@using WaterManagerUI.Model.Item
+@model WaterManagerUI.Pages.Azienda.Aziende
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+<link rel="stylesheet" href="~/css/site.css"/>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Partial("layout/Admin/_SideMenuAdmin")
+        </div>
+        <div class="col-md-8">
+            <div class="main-content">
+                <div class="content">
+                    <h2>Visualizza aziende</h2>
+                </div>
+            </div>
+            @if (Model.aziende.Any())
+            {
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @foreach (Azienda azienda in Model.aziende)
+                    {
+                        <tr>
+                            <td>@azienda.nome</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Non sono presenti aziende</p>
+            }
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>

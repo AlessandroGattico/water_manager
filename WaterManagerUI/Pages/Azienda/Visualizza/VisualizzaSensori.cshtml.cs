@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using UserInterfaceWaterManager.Model.User;
@@ -12,37 +13,42 @@ public class VisualizzaSensori : PageModel
     public Campo campo { get; set; }
     public GestoreAzienda user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
 
-    public VisualizzaSensori(IHttpClientFactory httpClientFactory)
+    public VisualizzaSensori(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
+        _signInManager = signInManager;
     }
 
     public async Task OnGetAsync(int campoId)
     {
-        var client = _httpClientFactory.CreateClient();
-
-        user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
-            User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
-            User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
-            JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
-
-        try
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-            var response = await client.GetAsync(
-                $"http://localhost:8080/api/v1/azienda/campo/get/{campoId}");
+            var client = _httpClientFactory.CreateClient();
 
-            if (response.IsSuccessStatusCode)
+            user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
+                User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
+                User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
+                JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
+
+            try
             {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                this.campo = JsonConvert.DeserializeObject<Campo>(jsonResponse);
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var response = await client.GetAsync(
+                    $"http://localhost:8080/api/v1/azienda/campo/get/{campoId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    this.campo = JsonConvert.DeserializeObject<Campo>(jsonResponse);
+                }
             }
-        }
-        catch (Exception e)
-        {
+            catch (Exception e)
+            {
+            }
         }
     }
 }

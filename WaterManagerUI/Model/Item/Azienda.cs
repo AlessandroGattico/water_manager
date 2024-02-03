@@ -45,7 +45,7 @@ public class Azienda
     {
         Double size = 0;
 
-        if (campagne.Count > 0)
+        if (campagne.Any())
         {
             foreach (Campagna campagna in campagne)
             {
@@ -58,7 +58,7 @@ public class Azienda
 
     public Double dispAttuale()
     {
-        if (this.risorse.Count > 0)
+        if (this.risorse.Any())
         {
             return this.storicoRisorse().First().disponibilita;
         }
@@ -81,7 +81,7 @@ public class Azienda
 
     public List<RichiestaIdrica> richiesteSospeso()
     {
-        if (this.richieste.Count > 0)
+        if (this.richieste.Any())
         {
             List<RichiestaIdrica> richiesteNonApprovate = this.richieste
                 .Where(r => r.approvato == null)
@@ -98,7 +98,7 @@ public class Azienda
     
     public List<RichiestaIdrica> richiesteRifiutate()
     {
-        if (this.richieste.Count > 0)
+        if (this.richieste.Any())
         {
             List<RichiestaIdrica> richiesteNonApprovate = this.richieste
                 .Where(r => r.approvato == false)
@@ -115,7 +115,7 @@ public class Azienda
 
     public List<RichiestaIdrica> richiesteApprovate()
     {
-        if (this.richieste.Count > 0)
+        if (this.richieste.Any())
         {
             List<RichiestaIdrica> richiesteNonApprovate = this.richieste
                 .Where(r => r.approvato == true)

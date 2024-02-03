@@ -6,85 +6,67 @@
 
 <title>Azienda</title>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-            <aside class="flex-container">
-                <span>
-                    <ul>
-                        <div>
-                            <a asp-page="/Admin/Users/UsersAzienda">Gestori Azienda</a>
-                        </div>
-                        <div>
-                            <a asp-page="/Admin/Users/UsersBacino">Gestori Bacino</a>
-                        </div>
-                        <div>
-                            <a asp-page="/Admin/Coltivazione/Raccolto">Raccolto</a>
-                        </div>
-                        <div>
-                            <a asp-page="/Admin/Coltivazione/Esigenza">Esigenza</a>
-                        </div>
-                        <div>
-                            <a asp-page="/Admin/Coltivazione/Irrigazione">Irrigazione</a>
-                        </div>
-                    </ul>
-                </span>
-            </aside>
+            @Html.Partial("layout/Admin/_SideMenuAdmin")
         </div>
         <div class="col-md-8">
-            <div class="content">
-                <h2>Gestione WaterManager </h2>
+            <div class="main-content">
+                <div class="content">
+                    <h2>Gestione WaterManager </h2>
 
-                <div class="elements">
-                    <div class="elemento">
-                        <a asp-page="/Admin/Users/UsersAzienda">
-                            <div class="info-elemento nome">Numero gestori aziende: @Model.count.gestoriAzienda</div>
-                        </a>
-                    </div>
-                    <div class="elemento">
-                        <a asp-page="/Admin/Users/UsersBacino">
-                            <div class="info-elemento nome">Numero gestori idrici: @Model.count.gestoriBacino</div>
-                        </a>
-                    </div>
-                    <div class="elemento">
-                        <a asp-page="/Admin/Users/UsersAzienda">
-                            <div class="info-elemento nome">Numero bacini: @Model.count.gestoriAzienda</div>
-                        </a>
-                    </div>
-                    <div class="elemento">
-                        <a asp-page="/Admin/Users/UsersAzienda">
-                            <div class="info-elemento nome">Numero aziende: @Model.count.aziende</div>
-                        </a>
-                    </div>
-                    <div class="elemento">
-                        <a asp-page="/Admin/Users/UsersAzienda">
-                            <div class="info-elemento nome">Numero campagne: @Model.count.campagne</div>
-                        </a>
-                    </div>
-                    <div class="elemento">
-                        <a asp-page="/Admin/Users/UsersAzienda">
-                            <div class="info-elemento nome">Numero campi: @Model.count.campi</div>
-                        </a>
-                    </div>
-                    <div class="elemento">
-                        <a asp-page="/Admin/Users/UsersAzienda">
-                            <div class="info-elemento nome">Numero tipologie raccolti: @Model.count.raccolti</div>
-                        </a>
-                    </div>
-                    <div class="elemento">
-                        <a asp-page="/Admin/Users/UsersAzienda">
-                            <div class="info-elemento nome">Numero tipologie esigenze: @Model.count.esigenze</div>
-                        </a>
-                    </div>
-                    <div class="elemento">
-                        <a asp-page="/Admin/Users/UsersAzienda">
-                            <div class="info-elemento nome">Numero tipologie irrigazioni: @Model.count.irrigazioni</div>
-                        </a>
-                    </div>
-                    <div class="elemento">
-                        <a asp-page="/Admin/Users/UsersAzienda">
-                            <div class="info-elemento nome">Numero tipologie sensori: @Model.count.sensorTypes</div>
-                        </a>
+                    <div class="elements">
+                        <div class="elemento">
+                            <a asp-page="/Admin/Users/UsersAzienda">
+                                <div class="info-elemento nome">Numero gestori aziende: @Model.count.gestoriAzienda</div>
+                            </a>
+                        </div>
+                        <div class="elemento">
+                            <a asp-page="/Admin/Users/UsersBacino">
+                                <div class="info-elemento nome">Numero gestori idrici: @Model.count.gestoriBacino</div>
+                            </a>
+                        </div>
+                        <div class="elemento">
+                            <a asp-page="/Admin/Bacino/Bacini">
+                                <div class="info-elemento nome">Numero bacini: @Model.count.gestoriAzienda</div>
+                            </a>
+                        </div>
+                        <div class="elemento">
+                            <a asp-page="/Admin/Azienda/Aziende">
+                                <div class="info-elemento nome">Numero aziende: @Model.count.aziende</div>
+                            </a>
+                        </div>
+                        <div class="elemento">
+                            <a asp-page="/Admin/Azienda/Campagne">
+                                <div class="info-elemento nome">Numero campagne: @Model.count.campagne</div>
+                            </a>
+                        </div>
+                        <div class="elemento">
+                            <a asp-page="/Admin/Azienda/Campi">
+                                <div class="info-elemento nome">Numero campi: @Model.count.campi</div>
+                            </a>
+                        </div>
+                        <div class="elemento">
+                            <a asp-page="/Admin/Coltivazione/Raccolto">
+                                <div class="info-elemento nome">Numero tipologie raccolti: @Model.count.raccolti</div>
+                            </a>
+                        </div>
+                        <div class="elemento">
+                            <a asp-page="/Admin/Coltivazione/Esigenza">
+                                <div class="info-elemento nome">Numero tipologie esigenze: @Model.count.esigenze</div>
+                            </a>
+                        </div>
+                        <div class="elemento">
+                            <a asp-page="/Admin/Coltivazione/Esigenza">
+                                <div class="info-elemento nome">Numero tipologie irrigazioni: @Model.count.irrigazioni</div>
+                            </a>
+                        </div>
+                        <div class="elemento">
+                            <a asp-page="/Admin/Sensore/SensorType">
+                                <div class="info-elemento nome">Numero tipologie sensori: @Model.count.sensorTypes</div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -120,6 +120,8 @@ public class Login : PageModel
                                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                                     new ClaimsPrincipal(claimsIdentity),
                                     authProperties);
+
+                                HttpContext.Session.SetString("UserId", $"{userA.id}");
                             }
                         }
                         else
@@ -199,6 +201,7 @@ public class Login : PageModel
                                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                                     new ClaimsPrincipal(claimsIdentity),
                                     authProperties);
+                                HttpContext.Session.SetString("UserId", $"{userI.id}");
                             }
                         }
                         else
@@ -259,6 +262,7 @@ public class Login : PageModel
                                     await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                                         new ClaimsPrincipal(claimsIdentity),
                                         authProperties);
+                                    HttpContext.Session.SetString("UserId", $"{admin.id}");
                                 }
                             }
                             else

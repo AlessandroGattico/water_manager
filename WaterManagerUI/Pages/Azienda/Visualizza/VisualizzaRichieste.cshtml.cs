@@ -22,10 +22,10 @@ public class VisualizzaRichieste : PageModel
 
     public async Task OnGetAsync(int aziendaId)
     {
-        var client = _httpClientFactory.CreateClient();
-
-        if (_signInManager.IsSignedIn(User))
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
+            var client = _httpClientFactory.CreateClient();
+
             try
             {
                 client.DefaultRequestHeaders.Authorization =

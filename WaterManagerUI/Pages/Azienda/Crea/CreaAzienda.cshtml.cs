@@ -16,55 +16,53 @@ public class CreaAzienda : PageModel
 {
     [BindProperty] public String nomeAzienda { get; set; }
     private Model.Item.Azienda azienda { get; set; }
-    private GestoreAzienda user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly UserManager<IdentityUser> _userManager;
 
     public CreaAzienda(IHttpClientFactory httpClientFactory,
-        IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager)
+        IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
-        _httpContextAccessor = httpContextAccessor;
         _signInManager = signInManager;
-        _userManager = userManager;
     }
 
     public async Task<IActionResult> OnPostAsync(int userId)
     {
-        var client = _httpClientFactory.CreateClient();
-        azienda = new Model.Item.Azienda(nomeAzienda, userId);
-
-        String stringaDaInviare = JsonConvert.SerializeObject(azienda);
-
-        try
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+            var client = _httpClientFactory.CreateClient();
+            azienda = new Model.Item.Azienda(nomeAzienda, userId);
 
-            StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/add", stringContent);
+            String stringaDaInviare = JsonConvert.SerializeObject(azienda);
 
-            if (response.IsSuccessStatusCode)
+            try
             {
-                string responseContentStr = await response.Content.ReadAsStringAsync();
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
 
-                azienda.id = JsonConvert.DeserializeObject<int>(responseContentStr);
+                StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/add", stringContent);
 
-                return RedirectToPage("/Azienda/GestoreAzienda", new { userId = user.id });
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContentStr = await response.Content.ReadAsStringAsync();
+
+                    azienda.id = JsonConvert.DeserializeObject<int>(responseContentStr);
+
+                    return RedirectToPage("/Azienda/GestoreAzienda", new { userId = userId });
+                }
+                else
+                {
+                    return RedirectToPage("/Azienda/GestoreAzienda", new { userId = userId });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToPage("/Azienda/GestoreAzienda", new { userId = user.id });
+                Console.WriteLine(ex.StackTrace);
+                return RedirectToPage("/Azienda/GestoreAzienda", new { userId = userId });
             }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.StackTrace);
-            return RedirectToPage("/Azienda/GestoreAzienda", new { userId = user.id });
-        }
 
+        return RedirectToPage("/Azienda/GestoreAzienda", new { userId = userId });
     }
 }

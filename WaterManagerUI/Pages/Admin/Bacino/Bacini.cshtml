@@ -1,0 +1,48 @@
+@page
+@using WaterManagerUI.Model.Item
+@model WaterManagerUI.Pages.Bacino.Bacini
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+<link rel="stylesheet" href="~/css/site.css"/>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Partial("layout/Admin/_SideMenuAdmin")
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-container">
+                <div class="content">
+                    <h2>Visualizza bacini idrici</h2>
+                </div>
+            </div>
+            @if (Model.bacini.Any())
+            {
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @foreach (BacinoIdrico bacino in Model.bacini)
+                    {
+                        <tr>
+                            <td>@bacino.nome</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Non sono presenti bacini idrici</p>
+            }
+        </div >
+        <div class="col-md-2">
+        </div >
+    </div >
+</div >

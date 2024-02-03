@@ -5,7 +5,7 @@
 
 <link rel="stylesheet" href="~/css/Visualizza.css"/>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
             <aside class="flex-container">
@@ -14,22 +14,22 @@
                         @if (Model.user.azienda.campagne.Count == 0)
                         {
                             <div>
-                                <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id">Crea campagna</a>
+                                <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id" class="btn btn-sidebar" asp-page-class="active">Crea campagna</a>
                             </div>
                         }
                         else
                         {
                             <div>
-                                <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
+                                <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">Statistiche Azienda</a>
                             </div>
                             <div>
-                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.user.azienda.id">Campagne</a>
+                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.user.azienda.id" class="btn btn-sidebar" asp-page-class="active">Campagne</a>
                             </div>
                             <div>
-                                <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.user.azienda.id">Campi</a>
+                                <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.user.azienda.id" class="btn btn-sidebar" asp-page-class="active">Campi</a>
                             </div>
                             <div>
-                                <a href="/Azienda/Richiesta">Richieste</a>
+                                <a href="/Azienda/Richiesta" class="btn btn-sidebar" asp-page-class="active">Richieste</a>
                             </div>
                         }
                     </ul>
@@ -37,31 +37,47 @@
             </aside>
         </div>
         <div class="col-md-8">
-            <div class="content">
-                @if (Model.user.azienda != null)
-                {
-                    <h2>Dettagli Azienda</h2>
-                    <p>Nome Azienda: @Model.user.azienda.nome</p>
-                }
-                else
-                {
-                    <p>Nessuna azienda registrata. Utilizza il link a sinistra per aggiungere un'azienda.</p>
-                }
+            <div class="main-container">
+                <div class="content">
+                    @if (Model.user.azienda != null)
+                    {
+                        <h2>Dettagli campagne azienda</h2>
+                        <p>Nome Azienda: @Model.user.azienda.nome</p>
+                    }
+                </div>
             </div>
+
+            @if (Model.campagne.Any())
+            {
+                <div class="bottoni-azione">
+                    <div class="bottone-aggiungi">
+                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id">Aggiungi campagna</a>
+                    </div>
+                    <div class="bottone-aggiungi" style=" border: 2px dashed #ff0000; color: #ff0000">
+                        <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id">Elimina campagna</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="bottone-aggiungi" style="grid-column: span 4">
+                    <a asp-page="/Azienda/Crea/CreaCampagna" asp-route-aziendaId="@Model.user.azienda.id">Aggiungi campagna</a>
+                </div>
+            }
 
             <div class="elements">
                 @if (@Model.campagne.Any())
                 {
-                    @Html.Partial("layout/buttons/addButtons/_addCampagna", Model.user.azienda)
-
                     @foreach (Campagna campagna in Model.campagne)
                     {
-                        @Html.Partial("layout/details/_campagnaDetails", campagna)
+                        <div class="elemento" onclick="this.parentNode.submit()">
+                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagna" asp-route-campagnaId="@campagna.id">
+                                <div class="info-elemento nome">Nome: @campagna.nome</div>
+                                <div class="info-elemento dimensione">Dimensione: @campagna.size()</div>
+                                <div class="info-elemento campi">Numero campi: @campagna.campi.Count</div>
+                            </a>
+                        </div>
                     }
-                }
-                else
-                {
-                    @Html.Partial("layout/buttons/addButtons/_addCampagna", Model.user.azienda)
                 }
             </div>
         </div>

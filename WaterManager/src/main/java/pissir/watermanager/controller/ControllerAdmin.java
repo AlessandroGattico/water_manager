@@ -20,7 +20,6 @@ import java.util.LinkedList;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/admin")
-@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 public class ControllerAdmin {
 	
 	private final DAO dao;
@@ -69,25 +68,6 @@ public class ControllerAdmin {
 			}
 			
 			return gson.toJson(bacini);
-		} else {
-			return gson.toJson("Accesso negato");
-		}
-	}
-	
-	
-	@GetMapping(value = "/azienda/get/all")
-	public String getAziende(HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
-		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			HashSet<Azienda> aziende = this.dao.getAziende();
-			
-			if (aziende == null) {
-				return gson.toJson(new HashSet<Azienda>());
-			}
-			
-			return gson.toJson(aziende);
 		} else {
 			return gson.toJson("Accesso negato");
 		}
@@ -178,7 +158,7 @@ public class ControllerAdmin {
 	}
 	
 	
-	@GetMapping(value = "/raccolto/add")
+	@PostMapping(value = "/raccolto/add")
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String addRaccolto(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
@@ -216,6 +196,107 @@ public class ControllerAdmin {
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
 			this.dao.addIrrigazione(param);
 			return "OK";
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	
+	@DeleteMapping(value = "/sensor/delete/{param}")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
+	public String deleteSensorType(@PathVariable String param, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			this.dao.deleteSensorType(param);
+			return "OK";
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	
+	@DeleteMapping(value = "/sensor/add/{param}")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
+	public String addSensorType(@PathVariable String param, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			this.dao.addSensorType(param);
+			return "OK";
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	/*
+	@GetMapping(value = "/admin/disable/{id}")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
+	public String disableUser(@PathVariable int id) {
+		Gson gson = new Gson();
+		Admin admin = this.daoUser.getAdmin();
+		
+		return gson.toJson(admin);
+	}
+	 */
+	
+	
+	@GetMapping(value = "/aziende/get/all")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
+	public String getAllAziende(HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			
+			return gson.toJson(this.dao.getAllAziende());
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	
+	@GetMapping(value = "/campagne/get/all")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
+	public String getAllCampagne(HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			
+			return gson.toJson(this.dao.getAllCampagne());
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	
+	@GetMapping(value = "/campi/get/all")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
+	public String getAllCampi(HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			
+			return gson.toJson(this.dao.getAllCampi());
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	
+	@GetMapping(value = "/bacini/get/all")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
+	public String getAllBacini(HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			
+			return gson.toJson(this.dao.getAllBacini());
 		} else {
 			return gson.toJson("Accesso negato");
 		}

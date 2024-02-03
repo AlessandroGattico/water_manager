@@ -187,4 +187,53 @@ public class DaoCampagna {
 		return true;
 	}
 	
+	
+	public HashSet<Campagna> getCampagne() {
+		ArrayList<HashMap<String, Object>> list;
+		int columns;
+		HashMap<String, Object> row;
+		ResultSetMetaData resultSetMetaData;
+		HashSet<Campagna> campagne = new HashSet<>();
+		
+		String query = """
+				SELECT *
+				FROM campagna;
+				""";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			
+			
+			try (ResultSet resultSet = statement.executeQuery()) {
+				resultSetMetaData = resultSet.getMetaData();
+				columns = resultSetMetaData.getColumnCount();
+				list = new ArrayList<>();
+				
+				while (resultSet.next()) {
+					row = new HashMap<>(columns);
+					
+					for (int i = 1; i <= columns; ++ i) {
+						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+					}
+					
+					list.add(row);
+				}
+				
+				for (HashMap<String, Object> map : list) {
+					Campagna campagna =
+							new Campagna((int) map.get("id"), (String) map.get("nome"), (int) map.get("id_azienda"));
+					
+					campagne.add(campagna);
+				}
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return campagne;
+		}
+		
+		return campagne;
+	}
+	
 }

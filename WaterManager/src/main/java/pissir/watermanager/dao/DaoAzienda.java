@@ -191,12 +191,7 @@ public class DaoAzienda {
 	
 	
 	public Azienda getAziendaUser(int idGestore) {
-		/*
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
-		*/
-		Azienda azienda = null;
+		Azienda azienda = new Azienda();
 		
 		logger.info("Get azienda user");
 		logger.info("Id: " + idGestore);

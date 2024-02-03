@@ -1,5 +1,7 @@
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,27 +11,35 @@ public class CreaEsigenza : PageModel
 {
     [BindProperty] public String esigenza { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public CreaEsigenza(IHttpClientFactory httpClientFactory)
+
+    public CreaEsigenza(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
+        _signInManager = signInManager;
     }
 
     public async Task<IActionResult> OnPostAsync(int userId)
     {
-        var client = _httpClientFactory.CreateClient();
-
-        try
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("SYSTEMADMIN"))
         {
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+            var client = _httpClientFactory.CreateClient();
 
-            await client.GetAsync($"http://localhost:8080/api/v1/admin/esigenza/add/{esigenza.ToUpper()}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.StackTrace);
-            return RedirectToPage("/Admin/Coltivazione/Esigenza");
+            try
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                StringContent stringContent = new StringContent(esigenza.ToUpper(), Encoding.UTF8, "application/json");
+
+                var response =
+                    await client.PostAsync("http://localhost:8080/api/v1/admin/esigenza/add", stringContent);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                return RedirectToPage("/Admin/Coltivazione/Esigenza");
+            }
         }
 
         return RedirectToPage("/Admin/Coltivazione/Esigenza");

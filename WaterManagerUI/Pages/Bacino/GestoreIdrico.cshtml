@@ -6,7 +6,7 @@
 
 <title>Bacino</title>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
             <aside class="flex-container">
@@ -15,10 +15,10 @@
                         @if (Model.bacino != null)
                         {
                             <div>
-                                <a asp-page="/Bacino/GestoreBacino">Statistiche bacino</a>
+                                <a asp-page="/Bacino/GestoreBacino" class="btn btn-sidebar" asp-page-class="active">Statistiche bacino</a>
                             </div>
                             <div>
-                                <a asp-page="/Bacino/Visualizza/VisualizzaRichieste" asp-route-bacinoId="@Model.bacino.id">Richieste</a>
+                                <a asp-page="/Bacino/Visualizza/VisualizzaRichieste" asp-route-bacinoId="@Model.bacino.id" class="btn btn-sidebar" asp-page-class="active">Richieste</a>
                             </div>
                         }
                     </ul>
@@ -29,8 +29,16 @@
             <div class="content">
                 @if (Model.bacino != null)
                 {
-                    <h2>Dettagli bacino</h2>
-                    <p>Nome bacino: @Model.bacino.nome</p>
+                    <div class="content-header">
+                        <div>
+                            <h2>Dettagli bacino</h2>
+                        </div>
+                        <div class="info-addizionali">
+                            <p>Disponibilità giornaliera: @Model.bacino.storicoRisorse().FirstOrDefault().disponibilita</p>
+                            <p>Consumo giornaliero: @Model.bacino.storicoRisorse().FirstOrDefault().consumo</p>
+                        </div>
+                    </div>
+
 
                     <div class="elemento">
                         <a asp-page="/Bacino/GestoreIdrico" asp-route-bacinoId="@Model.bacino.id">
@@ -56,7 +64,6 @@
                 else
                 {
                     <div class="bottone-aggiungi">
-                        <a asp-page="/Bacino/Crea/CreaBacino" asp-route-userId="@Model.user.id" class="plus-icon">+</a>
                         <a asp-page="/Bacino/Crea/CreaBacino" asp-route-userId="@Model.user.id">Aggiungi bacino</a>
                     </div>
                 }

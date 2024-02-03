@@ -4,20 +4,20 @@
 
 <link rel="stylesheet" href="~/css/Visualizza.css"/>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
             <aside class="flex-container">
                 <span>
                     <ul>
                         <div>
-                            <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
+                            <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">Statistiche Azienda</a>
                         </div>
                         <div>
-                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id">Campagne</a>
+                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id" class="btn btn-sidebar" asp-page-class="active">Campagne</a>
                         </div>
                         <div>
-                            <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.azienda.id">Campi</a>
+                            <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.azienda.id" class="btn btn-sidebar" asp-page-class="active">Campi</a>
                         </div>
                     </ul>
                 </span>
@@ -25,37 +25,85 @@
         </div>
 
         <div class="col-md-8">
-            <div class="content">
-                @if (Model.azienda != null)
-                {
-                    <h2>Dettagli campagna</h2>
-                    <p>Nome campagna: @Model.azienda.nome</p>
-                }
-                else
-                {
-                    <p>Nessuna azienda registrata. Utilizza il link a sinistra per aggiungere un'azienda.</p>
-                }
-            </div>
+            <div class="main-container">
+                <div class="content">
+                    @if (Model.azienda != null)
+                    {
+                        <h2>Dettagli richiesrte</h2>
+                    }
+                </div>
 
-            <div class="elements">
-                <div class="row">
-                    <div class="col-md-4">
-                        @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteSospeso())
-                        {
-                            @Html.Partial("layout/details/_richiestaDetails", richiesta)
-                        }
-                    </div>
-                    <div class="col-md-4">
-                        @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteApprovate())
-                        {
-                            @Html.Partial("layout/details/_richiestaDetails", richiesta)
-                        }
-                    </div>
-                    <div class="col-md-4">
-                        @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteRifiutate())
-                        {
-                            @Html.Partial("layout/details/_richiestaDetails", richiesta)
-                        }
+                <div class="elements">
+                    <div class="row">
+                        <div class="col-md-4">
+                            @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteSospeso())
+                            {
+                                <div class="elemento" onclick="this.parentNode.submit()">
+                                    <a asp-page="/VisualizzaRichiesta" asp-route-richiestaId="@richiesta.id">
+                                        <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
+                                        <div class="info-elemento dimensione">Data: @richiesta.date</div>
+                                        @if (richiesta.approvato)
+                                        {
+                                            <div class="info-elemento coltivazioni">Stato: APPROVATA</div>
+                                        }
+                                        else if (!richiesta.approvato)
+                                        {
+                                            <div class="info-elemento coltivazioni">Stato: RIFIUTATA</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="info-elemento coltivazioni">Stato: IN ATTESA</div>
+                                        }
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-4">
+                            @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteApprovate())
+                            {
+                                <div class="elemento" onclick="this.parentNode.submit()">
+                                    <a asp-page="/VisualizzaRichiesta" asp-route-richiestaId="@richiesta.id">
+                                        <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
+                                        <div class="info-elemento dimensione">Data: @richiesta.date</div>
+                                        @if (richiesta.approvato)
+                                        {
+                                            <div class="info-elemento coltivazioni">Stato: APPROVATA</div>
+                                        }
+                                        else if (!richiesta.approvato)
+                                        {
+                                            <div class="info-elemento coltivazioni">Stato: RIFIUTATA</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="info-elemento coltivazioni">Stato: IN ATTESA</div>
+                                        }
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-md-4">
+                            @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteRifiutate())
+                            {
+                                <div class="elemento" onclick="this.parentNode.submit()">
+                                    <a asp-page="/VisualizzaRichiesta" asp-route-richiestaId="@richiesta.id">
+                                        <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
+                                        <div class="info-elemento dimensione">Data: @richiesta.date</div>
+                                        @if (richiesta.approvato)
+                                        {
+                                            <div class="info-elemento coltivazioni">Stato: APPROVATA</div>
+                                        }
+                                        else if (!richiesta.approvato)
+                                        {
+                                            <div class="info-elemento coltivazioni">Stato: RIFIUTATA</div>
+                                        }
+                                        else
+                                        {
+                                            <div class="info-elemento coltivazioni">Stato: IN ATTESA</div>
+                                        }
+                                    </a>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

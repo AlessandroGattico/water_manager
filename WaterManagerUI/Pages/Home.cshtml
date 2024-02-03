@@ -1,22 +1,6 @@
 @page
 @model HomeModel
-@{
-    ViewData["Title"] = "Home Page";
-}
 
-<style>
-    body {
-        background-image: url('../sfondi/sfondodef.png');
-        background-size: cover;
-        background-position: center;
-    }
-    .login-panel {
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 20px;
-        border-radius: 10px;
-        margin-top: 50px;
-    }
-</style>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -42,12 +26,10 @@
                 <button name="provider" value="Google" title="Accedi usando il tuo account Google" class="btn btn-danger">Login con Google</button>
             </form>
 
-            <!-- Link per la Registrazione -->
             <p>
                 Non hai un account? <a asp-page="/Register">Registrati qui</a>.
             </p>
 
-            <!-- Login OAuth2 con Google -->
 
         </div>
     </div>

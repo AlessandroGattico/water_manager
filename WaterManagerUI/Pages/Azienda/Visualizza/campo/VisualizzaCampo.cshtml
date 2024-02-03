@@ -4,23 +4,23 @@
 
 <link rel="stylesheet" href="~/css/Visualizza.css"/>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
             <aside class="flex-container">
                 <span>
                     <ul>
                         <div>
-                            <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
+                            <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">Statistiche Azienda</a>
                         </div>
                         <div>
-                            <a href="/Azienda/Visualizza/VisualizzaColtivazioni">Coltivazioni</a>
+                            <a asp-page="/Azienda/Visualizza/VisualizzaColtivazioni" class="btn btn-sidebar" asp-page-class="active">Coltivazioni</a>
                         </div>
                         <div>
-                            <a href="/Azienda/Visualizza/VisualizzaAttuatori">Attuatori</a>
+                            <a asp-page="/Azienda/Visualizza/VisualizzaAttuatori" class="btn btn-sidebar" asp-page-class="active">Attuatori</a>
                         </div>
                         <div>
-                            <a asp-page="/Azienda/Visualizza/VisualizzaMisureCampo" asp-route-campoId="@Model.campo.id">Misure</a>
+                            <a asp-page="/Azienda/Visualizza/VisualizzaMisureCampo" asp-route-campoId="@Model.campo.id" class="btn btn-sidebar" asp-page-class="active">Misure</a>
                         </div>
                     </ul>
                 </span>
@@ -28,23 +28,34 @@
         </div>
 
         <div class="col-md-8">
-            <div class="content">
-                @if (Model.campo != null)
-                {
-                    <h2>Dettagli campo</h2>
-                    <p>Nome campo: @Model.campo.nome</p>
-                }
-                <div class="elements">
-                    <a asp-page="/Azienda/Modifica/campo/ModificaNomeCampo" asp-route-campoId="@Model.campo.id" class="btn btn-primary" style="grid-column: span 1">Modifica nome campo</a>
-                    <a asp-page="/Azienda/Modifica/ModificaDimensioneCampo" asp-route-campoId="@Model.campo.id" class="btn btn-primary" style="grid-column: span 1">Modifica dimensione campo</a>
-                    <a asp-page="/Azienda/Modifica/ModificaCampagnaCampo" asp-route-campoId="@Model.campo.id" class="btn btn-primary" style="grid-column: span 1">Modifica campagna campo</a>
+            <div class="main-container">
+                <div class="content">
+                    @if (Model.campo != null)
+                    {
+                        <h2>Dettagli campo</h2>
+                        <p>Nome campo: @Model.campo.nome</p>
+                    }
+                    <div class="modify">
+                        <a asp-page="/Azienda/Modifica/campo/ModificaNomeCampo" asp-route-campoId="@Model.campo.id"
+                           class="btn btn-primary btn-modifica">
+                            Modifica nome campo
+                        </a>
+                        <a asp-page="/Azienda/Modifica/ModificaDimensioneCampo" asp-route-campoId="@Model.campo.id"
+                           class="btn btn-primary btn-modifica">
+                            Modifica dimensione campo
+                        </a>
+                        <a asp-page="/Azienda/Modifica/ModificaCampagnaCampo" asp-route-campoId="@Model.campo.id"
+                           class="btn btn-primary btn-modifica">
+                            Modifica campagna campo
+                        </a>
+                    </div>
+
                 </div>
             </div>
-
-            <div class="elements">
+            <div class="modify">
                 @if (Model.campo.coltivazioni.Any())
                 {
-                    <div class="elemento" style="grid-column: span 3;">
+                    <div class="elemento" style="grid-column: span 4">
                         <a asp-page="/Azienda/Visualizza/Campo/VisualizzaColtivazioni" asp-route-campoId="@Model.campo.id">
                             <div class="info-elemento nome">Coltivazione recente: @Model.campo.storicoColtivazioni().FirstOrDefault().raccolto</div>
                         </a>
@@ -52,26 +63,27 @@
                 }
                 else
                 {
-                    @Html.Partial("layout/buttons/addButtons/_addColtivazione", @Model.campo)
+                    <div class="bottone-aggiungi" style="grid-column: span 4">
+                        <a asp-page="/Azienda/Crea/CreaColtivazione" asp-route-campoId="@Model.campo.id">Aggiungi coltivazione</a>
+                    </div>
                 }
                 @if (Model.campo.attuatori.Any())
                 {
-                    <div class="elemento" style="grid-column: span 3;">
-                        <a asp-page="/Azienda/Visualizza/Campo/VisualizzaAttuatori" asp-route-campoId="@Model.campo.id">
+                    <div class="elemento" style="grid-column: span 4">
+                        <a asp-page="/Azienda/Visualizza/VisualizzaAttuatori" asp-route-campoId="@Model.campo.id">
                             <div class="info-elemento nome">Numero attuatori: @Model.campo.attuatori.Count()</div>
                         </a>
                     </div>
                 }
                 else
                 {
-                    <div class="bottone-aggiungi">
-                        <a asp-page="/Azienda/Crea/CreaAttuatore" asp-route-campoId="@Model.campo.id" class="plus-icon">+</a>
+                    <div class="bottone-aggiungi" style="grid-column: span 4">
                         <a asp-page="/Azienda/Crea/CreaAttuatore" asp-route-campoId="@Model.campo.id">Aggiungi attuatore</a>
                     </div>
                 }
                 @if (Model.campo.sensori.Any())
                 {
-                    <div class="elemento" style="grid-column: span 3;">
+                    <div class="elemento" style="grid-column: span 4">
                         <a asp-page="/Azienda/Visualizza/VisualizzaSensori" asp-route-campoId="@Model.campo.id">
                             <div class="info-elemento nome">Numero sensori: @Model.campo.attuatori.Count()</div>
                         </a>
@@ -79,8 +91,7 @@
                 }
                 else
                 {
-                    <div class="bottone-aggiungi">
-                        <a asp-page="/Azienda/Crea/CreaSensore" asp-route-campoId="@Model.campo.id" class="plus-icon">+</a>
+                    <div class="bottone-aggiungi" style="grid-column: span 4">
                         <a asp-page="/Azienda/Crea/CreaSensore" asp-route-campoId="@Model.campo.id">Aggiungi sensore</a>
                     </div>
                 }

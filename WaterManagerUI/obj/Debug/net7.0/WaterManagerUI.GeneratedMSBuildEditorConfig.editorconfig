@@ -24,6 +24,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQWRtaW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Azienda/Aziende.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQXppZW5kYS9BemllbmRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Azienda/Campagne.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQXppZW5kYS9DYW1wYWduZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Azienda/Campi.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQXppZW5kYS9DYW1waS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Bacino/Bacini.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQmFjaW5vL0JhY2luaS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Coltivazione/Esigenza.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQ29sdGl2YXppb25lL0VzaWdlbnphLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -48,6 +64,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQ3JlYS9DcmVhUmFjY29sdG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Crea/CreaSensorType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQ3JlYS9DcmVhU2Vuc29yVHlwZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Elimina/EliminaEsigenza.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRWxpbWluYS9FbGltaW5hRXNpZ2VuemEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -58,6 +78,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Elimina/EliminaRaccolto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRWxpbWluYS9FbGltaW5hUmFjY29sdG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Elimina/EliminaSensorType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRWxpbWluYS9FbGltaW5hU2Vuc29yVHlwZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Sensore/SensorType.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vU2Vuc29yZS9TZW5zb3JUeXBlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Users/UsersAzienda.cshtml]
@@ -192,6 +220,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/layout/Admin/_SideMenuAdmin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvbGF5b3V0L0FkbWluL19TaWRlTWVudUFkbWluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/layout/buttons/addButtons/_addCampagna.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvbGF5b3V0L2J1dHRvbnMvYWRkQnV0dG9ucy9fYWRkQ2FtcGFnbmEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -260,10 +292,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19Db21tb25MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Shared/_LayoutAzienda.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXRBemllbmRhLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -279,7 +307,3 @@ build_metadata.AdditionalFiles.CssScope =
 [/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-xmp1aylmj9

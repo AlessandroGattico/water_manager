@@ -16,81 +16,94 @@ public class CreaSensore : PageModel
     [BindProperty] public string nome { get; set; }
     private GestoreAzienda user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly SignInManager<IdentityUser> _signInManager;
     private Sensore sensore { get; set; }
     public HashSet<string> types { get; set; }
-    public int campoId { get; set; }
 
-    public CreaSensore(IHttpClientFactory httpClientFactory)
+    public CreaSensore(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
+        _signInManager = signInManager;
     }
 
 
     public async Task OnGetAsync(int campoId)
     {
-        this.types = await GetType();
-        this.campoId = campoId;
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
+        {
+            this.types = await GetType();
+        }
     }
 
     public async Task<IActionResult> OnPostAsync(int campoId)
     {
-        var client = _httpClientFactory.CreateClient();
-
-        user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
-            User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
-            User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
-            JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
-
-
-        sensore = new Sensore()
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
-            idCampo = campoId,
-            type = type,
-            nome = nome
-        };
+            var client = _httpClientFactory.CreateClient();
 
-        String stringaDaInviare = JsonConvert.SerializeObject(sensore);
+            user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
+                User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
+                User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
+                JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
 
-        try
-        {
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
 
-            StringContent stringContent =
-                new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/sensore/add",
-                stringContent);
-
-            if (response.IsSuccessStatusCode)
+            sensore = new Sensore()
             {
-                string responseContentStr = await response.Content.ReadAsStringAsync();
+                idCampo = campoId,
+                type = type,
+                nome = nome
+            };
 
-                sensore.id = JsonConvert.DeserializeObject<int>(responseContentStr);
+            String stringaDaInviare = JsonConvert.SerializeObject(sensore);
 
+            try
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+
+                StringContent stringContent =
+                    new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/sensore/add",
+                    stringContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContentStr = await response.Content.ReadAsStringAsync();
+
+                    sensore.id = JsonConvert.DeserializeObject<int>(responseContentStr);
+
+                    return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
+                }
+                else
+                {
+                    return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
                 return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
             }
-            else
-            {
-                return RedirectToPage("/Azienda/GestoreAzienda", user.id);
-            }
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.StackTrace);
-            return RedirectToPage("/Azienda/GestoreAzienda");
-        }
+
+        return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
     }
 
     public async Task<HashSet<string>> GetType()
     {
-        var client = _httpClientFactory.CreateClient();
-        var response = await client.GetAsync("http://localhost:8080/api/v1/utils/sensorTypes/get/all");
-
-        if (response.IsSuccessStatusCode)
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
-            var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<HashSet<string>>(content);
+            var client = _httpClientFactory.CreateClient();
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/sensorTypes/get/all");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<HashSet<string>>(content);
+            }
         }
 
         return new HashSet<string>();

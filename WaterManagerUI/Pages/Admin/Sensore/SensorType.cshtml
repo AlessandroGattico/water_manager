@@ -1,0 +1,66 @@
+@page
+@model WaterManagerUI.Pages.SensorType
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+<link rel="stylesheet" href="~/css/site.css"/>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Partial("layout/Admin/_SideMenuAdmin")
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-content">
+                <div class="content">
+                    <h2>Visualizza tipologie sensore</h2>
+                </div>
+
+
+                @if (Model.types.Any())
+                {
+                    <div class="bottoni-azione">
+                        <div class="bottone-aggiungi">
+                            <a asp-page="/Admin/Crea/CreaSensorType" class="plus-icon">+</a>
+                            <a asp-page="/Admin/Crea/CreaSensorType">Aggiungi tipologia</a>
+                        </div>
+                        <div class="bottone-aggiungi" style=" border: 2px dashed #ff0000; color: #ff0000">
+                            <a asp-page="/Admin/Elimina/EliminaSensorType" class="plus-icon">-</a>
+                            <a asp-page="/Admin/Elimina/EliminaSensorType">Elimina tipologia</a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="bottone-aggiungi">
+                        <a asp-page="/Admin/Crea/CreaSensorType" class="plus-icon">+</a>
+                        <a asp-page="/Admin/Crea/CreaSensorType">Aggiungi tipologia</a>
+                    </div>
+                }
+                @if (Model.types.Any())
+                {
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Nome</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach (String type in Model.types)
+                        {
+                            <tr>
+                                <td>@type</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

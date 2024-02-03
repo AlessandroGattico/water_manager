@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="~/css/Visualizza.css"/>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
             <aside class="flex-container">
@@ -14,42 +14,43 @@
                     <ul>
                         @if (Model.user.azienda.campagne == null)
                         {
-                            <li>
-                                <a href="/Azienda/CreaCampagna">Aggiungi campagna</a>
-                            </li>
+                            <div>
+                                <a asp-page="/Azienda/CreaCampagna" class="btn btn-sidebar" asp-page-class="active">Aggiungi campagna</a>
+                            </div>
                         }
                         else
                         {
-                            <li>
-                                <a href="/Azienda/GestoreAzienda">Statistiche Azienda</a>
-                            </li>
-                            <li>
-                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagna" asp-route-aziendaId="@Model.campagna.id">Campi</a>
-                            </li>
-                            <li>
-                                <a href="/Azienda/Coltivazioni">Coltivazioni</a>
-                            </li>
-                            <li>
-                                <a href="/Azienda/Richiesta">Richieste</a>
-                            </li>
+                            <div>
+                                <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">Statistiche Azienda</a>
+                            </div>
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagna" asp-route-aziendaId="@Model.campagna.id" class="btn btn-sidebar" asp-page-class="active">Campi</a>
+                            </div>
+                            <div>
+                                <a asp-page="/Azienda/Coltivazioni" class="btn btn-sidebar" asp-page-class="active">Coltivazioni</a>
+                            </div>
+                            <div>
+                                <a asp-page="/Azienda/Richiesta" class="btn btn-sidebar" asp-page-class="active">Richieste</a>
+                            </div>
                         }
                     </ul>
                 </span>
             </aside>
         </div>
         <div class="col-md-8">
-            <div class="content">
-                @if (Model.user.azienda != null)
-                {
-                    <h2>Dettagli Azienda</h2>
-                    <p>Nome Azienda: @Model.user.azienda.nome</p>
-                }
-                else
-                {
-                    <p>Nessuna azienda registrata. Utilizza il link a sinistra per aggiungere un'azienda.</p>
-                }
+            <div class="main-container">
+                <div class="content">
+                    @if (Model.user.azienda != null)
+                    {
+                        <h2>Dettagli Azienda</h2>
+                        <p>Nome Azienda: @Model.user.azienda.nome</p>
+                    }
+                    else
+                    {
+                        <p>Nessuna azienda registrata. Utilizza il link a sinistra per aggiungere un'azienda.</p>
+                    }
+                </div>
             </div>
-
             <div class="elements">
                 @if (Model.campagna.campi.Any())
                 {
@@ -60,7 +61,6 @@
                             @Html.Partial("layout/details/_coltivazioneDetails", campo)
                         }
                     }
-                }
                 }
             </div>
         </div>

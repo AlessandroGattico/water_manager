@@ -2,6 +2,7 @@
 @model WaterManagerUI.Pages.Crea.CreaRaccolto
 
 <link rel="stylesheet" href="~/css/form.css"/>
+<link rel="stylesheet" href="~/css/site.css"/>
 
 
 <div class="container">
@@ -10,7 +11,7 @@
             <h2>Crea azienda</h2>
             <form method="post">
                 <div class="form-group">
-                    <label asp-for="raccolto"></label>
+                    <label asp-for="raccolto">Raccolto</label>
                     <input asp-for="raccolto" class="form-control"/>
                     <span asp-validation-for="raccolto" class="text-danger"></span>
                 </div>

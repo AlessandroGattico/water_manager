@@ -2,76 +2,62 @@
 @model WaterManagerUI.Pages.Admin.Esigenza
 
 <link rel="stylesheet" href="~/css/Visualizza.css"/>
+<link rel="stylesheet" href="~/css/site.css"/>
 
-<div class="container">
+
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-            <aside class="flex-container">
-                <span>
-                    <ul>
-                        <div>
-                            <a asp-page="/Admin/Users/UsersAzienda">Gestori Azienda</a>
-                        </div>
-                        <div>
-                            <a asp-page="/Admin/Users/UsersBacino">Gestori Bacino</a>
-                        </div>
-                        <div>
-                            <a asp-page="/Admin/Coltivazione/Raccolto">Raccolto</a>
-                        </div>
-                        <div>
-                            <a asp-page="/Admin/Coltivazione/Esigenza">Esigenza</a>
-                        </div>
-                        <div>
-                            <a asp-page="/Admin/Coltivazione/Irrigazione">Irrigazione</a>
-                        </div>
-                    </ul>
-                </span>
-            </aside>
+            @Html.Partial("layout/Admin/_SideMenuAdmin")
         </div>
 
         <div class="col-md-8">
-            <div class="content">
-                <h2>Visualizza tipologie irrigazione</h2>
+            <div class="main-container">
+                <div class="content">
+                    <h2>Visualizza tipologie esigenza</h2>
+                </div>
             </div>
 
-            <div class="bottone-aggiungi">
-                <a asp-page="/Admin/Crea/CreaEsigenza" class="plus-icon">+</a>
-                <a asp-page="/Admin/Crea/CreaEsigenza">Aggiungi esigenza</a>
-            </div>
             @if (Model.esigenze.Any())
             {
-                <div class="bottone-elimina">
-                    <a asp-page="/Admin/Elimina/EliminaEsigenza" class="minus-icon">-</a>
-                    <a asp-page="/Admin/Elimina/EliminaEsigenza">Elimina esigenza</a>
+                <div class="bottoni-azione">
+                    <div class="bottone-aggiungi">
+                        <a asp-page="/Admin/Crea/CreaEsigenza" class="plus-icon">+</a>
+                        <a asp-page="/Admin/Crea/CreaEsigenza">Aggiungi esigenza</a>
+                    </div>
+
+                    <div class="bottone-aggiungi" style=" border: 2px dashed #ff0000; color: #ff0000">
+                        <a asp-page="/Admin/Elimina/EliminaEsigenza" class="plus-icon">-</a>
+                        <a asp-page="/Admin/Elimina/EliminaEsigenza">Elimina esigenza</a>
+                    </div>
                 </div>
             }
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Nome</th>
-                </tr>
-                </thead>
-                <tbody>
-                @if (Model.esigenze.Any())
-                {
+            else
+            {
+                <div class="bottone-aggiungi">
+                    <a asp-page="/Admin/Crea/CreaEsigenza" class="plus-icon">+</a>
+                    <a asp-page="/Admin/Crea/CreaEsigenza">Aggiungi esigenza</a>
+                </div>
+            }
+            @if (Model.esigenze.Any())
+            {
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     @foreach (String esigenza in Model.esigenze)
                     {
                         <tr>
                             <td>@esigenza</td>
                         </tr>
                     }
-                }
-                else
-                {
-                    <div class="bottone-aggiungi">
-                        <a asp-page="/Admin/Crea/CreaEsigenza" class="plus-icon">+</a>
-                        <a asp-page="/Admin/Crea/CreaEsigenza">Aggiungi esigenza</a>
-                    </div>
-                }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            }
         </div>
-
         <div class="col-md-2">
         </div>
     </div>

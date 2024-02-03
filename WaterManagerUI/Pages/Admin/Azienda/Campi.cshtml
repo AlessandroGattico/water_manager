@@ -1,0 +1,51 @@
+@page
+@using WaterManagerUI.Model.Item
+@model WaterManagerUI.Pages.Azienda.Campi
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+<link rel="stylesheet" href="~/css/site.css"/>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Partial("layout/Admin/_SideMenuAdmin")
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-container">
+                <div class="content">
+                    <h2>Visualizza campi</h2>
+                </div>
+            </div>
+            @if (Model.campi.Any())
+            {
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Dimensione</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @foreach (Campo campo in Model.campi)
+                    {
+                        <tr>
+                            <td>@campo.nome</td>
+                            <td>@campo.dimensione</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Non sono presenti campi</p>
+            }
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

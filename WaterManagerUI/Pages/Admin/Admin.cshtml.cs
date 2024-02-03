@@ -25,15 +25,14 @@ public class AdminPage : PageModel
 
     public async Task OnGetAsync()
     {
-        var client = _httpClientFactory.CreateClient();
-
-        user = new UserInterfaceWaterManager.Model.User.Admin(Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)),
-            User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
-            User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "");
-
-
-        if (_signInManager.IsSignedIn(User))
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("SYSTEMADMIN"))
         {
+            var client = _httpClientFactory.CreateClient();
+
+            user = new UserInterfaceWaterManager.Model.User.Admin(Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)),
+                User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
+                User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "");
+
             try
             {
                 client.DefaultRequestHeaders.Authorization =

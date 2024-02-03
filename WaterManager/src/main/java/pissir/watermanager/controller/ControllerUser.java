@@ -37,17 +37,6 @@ public class ControllerUser {
 		return gson.toJson(admin);
 	}
 	
-	/*
-	@GetMapping(value = "/admin/disable/{id}")
-	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
-	public String disableUser(@PathVariable int id) {
-		Gson gson = new Gson();
-		Admin admin = this.daoUser.getAdmin();
-		
-		return gson.toJson(admin);
-	}
-	 */
-	
 	
 	@GetMapping(value = "/get")
 	@PreAuthorize("hasAuthority('SYSTTEMADMIN')")

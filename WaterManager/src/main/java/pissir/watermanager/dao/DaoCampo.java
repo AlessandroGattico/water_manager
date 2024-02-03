@@ -223,4 +223,53 @@ public class DaoCampo {
 		return true;
 	}
 	
+	
+	public HashSet<Campo> getCampi() {
+		ArrayList<HashMap<String, Object>> list;
+		int columns;
+		HashMap<String, Object> row;
+		ResultSetMetaData resultSetMetaData;
+		HashSet<Campo> campi = new HashSet<>();
+		
+		String query = """
+				SELECT *
+				FROM campo;
+				""";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			
+			
+			try (ResultSet resultSet = statement.executeQuery()) {
+				resultSetMetaData = resultSet.getMetaData();
+				columns = resultSetMetaData.getColumnCount();
+				list = new ArrayList<>();
+				
+				while (resultSet.next()) {
+					row = new HashMap<>(columns);
+					
+					for (int i = 1; i <= columns; ++ i) {
+						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+					}
+					
+					list.add(row);
+				}
+				
+				for (HashMap<String, Object> map : list) {
+					Campo campo = new Campo((int) map.get("id"), (String) map.get("nome"),
+							(Double) map.get("dimensione"), (int) map.get("id_campagna"));
+					
+					campi.add(campo);
+				}
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return null;
+		}
+		
+		return campi;
+	}
+	
 }
