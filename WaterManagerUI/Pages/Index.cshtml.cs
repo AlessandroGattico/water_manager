@@ -21,7 +21,6 @@ public class IndexModel : PageModel
     public async Task<IActionResult> OnGetAsync()
     {
         var client = _httpClientFactory.CreateClient();
-        var jwtToken = _httpContextAccessor.HttpContext.Session.GetString("JWTToken");
 
         var userSession = HttpContext.Session.GetString("UserSession");
         if (!string.IsNullOrEmpty(userSession))

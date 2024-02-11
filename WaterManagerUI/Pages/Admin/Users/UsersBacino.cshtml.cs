@@ -41,6 +41,7 @@ public class UsersBacino : PageModel
             }
             catch (Exception e)
             {
+                RedirectToPage("/Error/ServerOffline");
             }
         }
     }

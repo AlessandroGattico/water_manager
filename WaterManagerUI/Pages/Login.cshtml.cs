@@ -46,8 +46,7 @@ public class Login : PageModel
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.StackTrace);
-            return Page();
+            RedirectToPage("/Error/ServerOffline");
         }
 
         if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.jwt))
@@ -74,37 +73,16 @@ public class Login : PageModel
                             {
                                 List<Claim> claims;
 
-                                if (userA.azienda != null)
+                                claims = new List<Claim>
                                 {
-                                    String aziendaJson = JsonConvert.SerializeObject(userA.azienda);
-
-
-                                    claims = new List<Claim>
-                                    {
-                                        new Claim(ClaimTypes.Gender, userA.id.ToString()),
-                                        new Claim(ClaimTypes.Surname, userA.cognome),
-                                        new Claim(ClaimTypes.Name, userA.nome),
-                                        new Claim(ClaimTypes.Email, userA.mail),
-                                        new Claim(ClaimTypes.UserData, userA.username),
-                                        new Claim(ClaimTypes.Role, userA.role.ToString()),
-                                        new Claim(ClaimTypes.Authentication, loginResponse.jwt),
-                                        new Claim(ClaimTypes.NameIdentifier, aziendaJson)
-                                    };
-                                }
-                                else
-                                {
-                                    claims = new List<Claim>
-                                    {
-                                        new Claim(ClaimTypes.Gender, userA.id.ToString()),
-                                        new Claim(ClaimTypes.Surname, userA.cognome),
-                                        new Claim(ClaimTypes.Name, userA.nome),
-                                        new Claim(ClaimTypes.Email, userA.mail),
-                                        new Claim(ClaimTypes.UserData, userA.username),
-                                        new Claim(ClaimTypes.Role, userA.role.ToString()),
-                                        new Claim(ClaimTypes.Authentication, loginResponse.jwt),
-                                        new Claim(ClaimTypes.NameIdentifier, "null")
-                                    };
-                                }
+                                    new Claim(ClaimTypes.Gender, userA.id.ToString()),
+                                    new Claim(ClaimTypes.Surname, userA.cognome),
+                                    new Claim(ClaimTypes.Name, userA.nome),
+                                    new Claim(ClaimTypes.Email, userA.mail),
+                                    new Claim(ClaimTypes.UserData, userA.username),
+                                    new Claim(ClaimTypes.Role, userA.role.ToString()),
+                                    new Claim(ClaimTypes.Authentication, loginResponse.jwt),
+                                };
 
                                 var claimsIdentity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
 
@@ -120,8 +98,6 @@ public class Login : PageModel
                                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                                     new ClaimsPrincipal(claimsIdentity),
                                     authProperties);
-
-                                HttpContext.Session.SetString("UserId", $"{userA.id}");
                             }
                         }
                         else
@@ -201,7 +177,6 @@ public class Login : PageModel
                                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                                     new ClaimsPrincipal(claimsIdentity),
                                     authProperties);
-                                HttpContext.Session.SetString("UserId", $"{userI.id}");
                             }
                         }
                         else
@@ -262,7 +237,6 @@ public class Login : PageModel
                                     await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                                         new ClaimsPrincipal(claimsIdentity),
                                         authProperties);
-                                    HttpContext.Session.SetString("UserId", $"{admin.id}");
                                 }
                             }
                             else
@@ -272,7 +246,7 @@ public class Login : PageModel
                         }
                         catch (HttpRequestException e)
                         {
-                            return Page();
+                            RedirectToPage("/Error/ServerOffline");
                         }
                     }
 

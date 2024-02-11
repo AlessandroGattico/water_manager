@@ -17,15 +17,17 @@ public class RichiestaIdrica {
 	private int idColtivazione;
 	private int idBacino;
 	private String date;
-	private Boolean approvato;
+	private Approvazione approvato;
+	private String nomeAzienda;
 	
 	
-	public RichiestaIdrica (int id, Double quantita, int idColtivazione, int idBacino, String date) {
+	public RichiestaIdrica (int id, Double quantita, int idColtivazione, int idBacino, String date, String nomeAzienda) {
 		this.id = id;
 		this.quantita = quantita;
 		this.idColtivazione = idColtivazione;
 		this.idBacino = idBacino;
 		this.date = date;
+		this.nomeAzienda = nomeAzienda;
 	}
 	
 }

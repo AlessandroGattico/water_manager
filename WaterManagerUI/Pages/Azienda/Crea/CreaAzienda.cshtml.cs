@@ -26,12 +26,13 @@ public class CreaAzienda : PageModel
         _signInManager = signInManager;
     }
 
-    public async Task<IActionResult> OnPostAsync(int userId)
+    public async Task<IActionResult> OnPostAsync()
     {
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
+            int id = int.Parse(User.FindFirstValue(ClaimTypes.Gender));
             var client = _httpClientFactory.CreateClient();
-            azienda = new Model.Item.Azienda(nomeAzienda, userId);
+            azienda = new Model.Item.Azienda(nomeAzienda, id);
 
             String stringaDaInviare = JsonConvert.SerializeObject(azienda);
 
@@ -49,20 +50,19 @@ public class CreaAzienda : PageModel
 
                     azienda.id = JsonConvert.DeserializeObject<int>(responseContentStr);
 
-                    return RedirectToPage("/Azienda/GestoreAzienda", new { userId = userId });
-                }
-                else
-                {
-                    return RedirectToPage("/Azienda/GestoreAzienda", new { userId = userId });
+                    return RedirectToPage("/Azienda/GestoreAzienda");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
-                return RedirectToPage("/Azienda/GestoreAzienda", new { userId = userId });
+                RedirectToPage("/Error/ServerOffline");
             }
         }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
+        }
 
-        return RedirectToPage("/Azienda/GestoreAzienda", new { userId = userId });
+        return RedirectToPage("/Azienda/GestoreAzienda");
     }
 }

@@ -9,21 +9,99 @@
 
     <ItemGroup>
         <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
-        <None Include="wwwroot\css\form.css" />
-        <None Include="wwwroot\css\Profilo.css" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.15" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.15" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.14"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.14"/>
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.14"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.15" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.14"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.3.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Oauth2Login" Version="1.2.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Pages\Azienda\Crea\CreaAttuatore.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Crea\CreaAzienda.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Crea\CreaCampagna.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Crea\CreaCampo.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Crea\CreaColtivazione.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Crea\CreaRichiesta.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Crea\CreaSensore.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Elimina\EliminaAttuatore.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Elimina\EliminaCampagna.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Elimina\EliminaCampo.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Elimina\EliminaSensore.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Modifica\campo\ModificaCampagnaCampo.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Modifica\campo\ModificaDimensioneCampo.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Modifica\campo\ModificaNomeCampo.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Visualizza\campagna\VisualizzaCampagna.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Visualizza\campagna\VisualizzaCampagne.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Visualizza\campagna\VisualizzaColtivazioneCampagna.cshtml" />
+      <AdditionalFiles Include="Pages\Azienda\Visualizza\VisualizzaRichieste.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Crea\CreaAttuatore.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Crea\CreaAzienda.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Crea\CreaCampagna.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Crea\CreaCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Crea\CreaColtivazione.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Crea\CreaRichiesta.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Crea\CreaSensore.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Elimina\EliminaAttuatore.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Elimina\EliminaCampagna.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Elimina\EliminaCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Elimina\EliminaSensore.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Modifica\campo\ModificaCampagnaCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Modifica\campo\ModificaDimensioneCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Modifica\campo\ModificaNomeCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\campagna\VisualizzaCampagna.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\campagna\VisualizzaCampagne.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\campagna\VisualizzaColtivazioneCampagna.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\campo\VisualizzaCampiAzienda.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\campo\VisualizzaCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\campo\VisualizzaColtivazione.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\campo\VisualizzaColtivazioni.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\coltivazione\VisualizzaColtivazioniAzienda.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\VisualizzaAttuatori.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\VisualizzaMisureCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\VisualizzaRichieste.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\fix\Azienda\Visualizza\VisualizzaSensori.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\attuatori\VisualizzaAttuatori.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\coltivazione\VisualizzaColtivazione.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\coltivazione\VisualizzaColtivazioneCampagna.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\coltivazione\VisualizzaColtivazioni.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\coltivazione\VisualizzaColtivazioniAzienda.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\misure\VisualizzaMisureCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\sensori\misure\VisualizzaMisureCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\sensori\VisualizzaSensori.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\campo\attuatori\VisualizzaAttuatori.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\campo\coltivazione\VisualizzaColtivazione.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\campo\coltivazione\VisualizzaColtivazioneCampagna.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\campo\coltivazione\VisualizzaColtivazioni.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\campo\coltivazione\VisualizzaColtivazioniAzienda.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\campo\sensori\misure\VisualizzaMisureCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\campo\sensori\VisualizzaSensori.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\campo\VisualizzaCampiAzienda.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Visualizza\campo\VisualizzaCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\layout\buttons\addButtons\_addCampagna.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\layout\buttons\addButtons\_addCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\layout\buttons\addButtons\_addColtivazione.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\layout\buttons\addButtons\_addSensore.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\layout\details\_campagnaDetails.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\layout\details\_campoDetails.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\layout\details\_coltivazione.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\layout\details\_coltivazioneDetails.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\layout\details\_richiestaDetails.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\layout\details\_sensoreDetails.cshtml" />
     </ItemGroup>
 
 </Project>

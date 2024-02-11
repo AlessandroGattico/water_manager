@@ -4,11 +4,14 @@ html body {
     font-size: 16px;
 }
 
-
 @media (min-width: 768px) {
     html {
         font-size: 16px;
     }
+}
+
+.error {
+    color: #ff0000;
 }
 
 .content {
@@ -138,21 +141,26 @@ a {
     padding: 20px;
     text-align: center;
     grid-column: span 1;
+    font-size: 20px;
+    margin: 10px;
 }
 
 
 .bottone-aggiungi {
-    display: block;
     text-decoration: none;
     background-color: transparent;
-    border: 2px dashed #7bff00;
+    border: 2px dashed #13b400;
     border-radius: 10px;
     padding: 20px;
     font-size: 24px;
-    color: #7bff00;
+    color: #13b400;
     text-align: center;
     cursor: pointer;
     grid-column: span 2;
+    flex-basis: 45%;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
 }
 
 .bottoni-azione {
@@ -161,18 +169,6 @@ a {
     margin-bottom: 20px;
 }
 
-.bottone-aggiungi {
-    flex-basis: 45%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.plus-icon {
-    display: block;
-    font-size: 48px;
-}
 
 .info-elemento {
     margin: 10px 0;
@@ -216,6 +212,7 @@ a {
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 15px;
     margin: 20px 0;
+    font-size: 18px;
 }
 
 .btn-modifica {

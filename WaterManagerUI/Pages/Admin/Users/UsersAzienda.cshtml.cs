@@ -42,7 +42,12 @@ public class UsersAzienda : PageModel
             }
             catch (Exception e)
             {
+                RedirectToPage("/Error/ServerOffline");
             }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 }

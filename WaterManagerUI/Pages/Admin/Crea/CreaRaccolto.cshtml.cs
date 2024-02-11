@@ -37,9 +37,12 @@ public class CreaRaccolto : PageModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
-                return RedirectToPage("/Admin/Coltivazione/Raccolto");
+                RedirectToPage("/Error/ServerOffline");
             }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
 
         return RedirectToPage("/Admin/Coltivazione/Raccolto");

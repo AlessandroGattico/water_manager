@@ -15,8 +15,7 @@ namespace UserInterfaceWaterManager.Model.User
         public String password { get; set; }
         public UserRole role { get; set; }
 
-        public UserProfile(String nome, String cognome, String username, String mail, String password,
-            UserRole role)
+        public UserProfile(String nome, String cognome, String username, String mail, String password, UserRole role)
         {
             this.nome = nome;
             this.cognome = cognome;

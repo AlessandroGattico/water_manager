@@ -29,11 +29,6 @@ public class CreaCampo : PageModel
         {
             var client = _httpClientFactory.CreateClient();
 
-            user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
-                User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
-                User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
-                JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
-
             campo.idCampagna = campagnaId;
 
             String stringaDaInviare = JsonConvert.SerializeObject(campo);
@@ -48,24 +43,19 @@ public class CreaCampo : PageModel
 
                 if (response.IsSuccessStatusCode)
                 {
-                    string responseContentStr = await response.Content.ReadAsStringAsync();
-
-                    var idcampo = JsonConvert.DeserializeObject<int>(responseContentStr);
-                    return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna",
-                        new { campagnaId = campagnaId });
-                }
-                else
-                {
-                    return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna",
-                        new { campagnaId = campagnaId });
+                    
                 }
             }
             catch (Exception ex)
             {
-                return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna", new { campagnaId = campagnaId });
+                RedirectToPage("/Error/ServerOffline");
             }
         }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
+        }
 
-        return RedirectToPage("/Azienda/Visualizza/VisualizzaCampagna", new { campagnaId = campagnaId });
+        return RedirectToPage("/Azienda/Visualizza/campagna/VisualizzaCampagna", new { campagnaId = campagnaId });
     }
 }

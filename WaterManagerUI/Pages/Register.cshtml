@@ -2,7 +2,7 @@
 @using UserInterfaceWaterManager.Model.User
 @model WaterManagerUI.Pages.Register
 
-<link rel="stylesheet" href="css/form.css"/>
+<link rel="stylesheet" href="css/site.css"/>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -30,19 +30,6 @@
                     <input asp-for="registration.mail" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
                     <span asp-validation-for="registration.mail" class="text-danger"></span>
                 </div>
-
-                <!-- 
-                <div class="form-group">
-                    <label asp-for="registration.username">Username</label>
-                    <input type="text" id="username" class="form-control" placeholder="Username" onblur="verificaDisponibilita('username', this.value)">
-                    <span id="usernameError" class="text-danger" style="display: none;">Username già in uso</span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="registration.mail">Email address</label>
-                    <input type="email" id="email" class="form-control" placeholder="Email" onblur="verificaDisponibilita('email', this.value)">
-                    <span id="mailError" class="text-danger" style="display: none;">Mail già in uso</span>
-                </div>
-                -->
                 <div class="form-group">
                     <label asp-for="registration.password">Password</label>
                     <input asp-for="registration.password" type="password" class="form-control" id="password" placeholder="Password">

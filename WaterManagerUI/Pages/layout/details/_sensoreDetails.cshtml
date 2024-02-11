@@ -1,8 +1,0 @@
-@model WaterManagerUI.Model.Item.Sensore
-
-<div class="elemento" onclick="this.parentNode.submit()">
-    <a asp-page="/Azienda/Visualizza/VisualizzaSensore" asp-route-sensoreId="@Model.id">
-        <div class="info-elemento raccolto">Nome: @Model.nome</div>
-        <div class="info-elemento nome">Tipologia: @Model.type</div>
-    </a>
-</div>

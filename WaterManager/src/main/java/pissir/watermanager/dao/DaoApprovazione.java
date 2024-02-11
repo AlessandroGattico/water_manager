@@ -71,7 +71,6 @@ public class DaoApprovazione {
 			return null;
 		}
 		
-		
 		return approvazione;
 	}
 	

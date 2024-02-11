@@ -108,7 +108,7 @@ public class DaoRisorseBacino {
 				for (HashMap<String, Object> map : list) {
 					RisorsaIdrica risorsaIdrica = new RisorsaIdrica((int) map.get("id"), (String) map.get(
 							"time"), (Double) map.get("disponibilita"), (Double) map.get("consumo"),
-							(int) map.get("id_azienda"));
+							(int) map.get("id_bacino"));
 					
 					risorse.add(risorsaIdrica);
 				}

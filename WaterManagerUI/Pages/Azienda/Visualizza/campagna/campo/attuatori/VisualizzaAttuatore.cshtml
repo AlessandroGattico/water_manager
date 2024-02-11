@@ -1,0 +1,45 @@
+@page
+@model WaterManagerUI.Pages.VisualizzaAttuatore
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <div>
+                            <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">Statistiche Azienda</a>
+                        </div>
+                    </ul>
+                </span>
+            </aside>
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-container">
+                <div class="content">
+                    @if (Model.attuatore != null)
+                    {
+                        <h2>Dettagli attuatore</h2>
+                    }
+                </div>
+            </div>
+            <div class="elemento">
+                <div class="info-elemento nome">Nome: @Model.attuatore.nome</div>
+                <div class="info-elemento nome">Stato: @Model.attuatore.storicoAttivazioni().FirstOrDefault().current</div>
+            </div>
+            <form method="post" asp-page-handler="ToggleAttuatore">
+                <input type="hidden" asp-route-attuatoreId="attuatoreId" value="@Model.attuatore.id"/>
+                <button type="submit" class="btn btn-primary">
+                    @(Model.attuatore.storicoAttivazioni().FirstOrDefault().current ? "Disattiva" : "Attiva")
+                </button>
+            </form>
+        </div>
+
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+@page
+@model WaterManagerUI.Pages.disponibilita.ModificaDisponibilita
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2>Modifica disponibilità bacino</h2>
+            <form method="post">
+                <div class="form-group">
+                    <p>Disponibilità corrente: @Model.user.bacinoIdrico.storicoRisorse().FirstOrDefault().disponibilita (l)</p>
+                    <label asp-for="dimNew">Nuova disponibilità bacino</label>
+                    <input asp-for="dimNew" type="number" step="0.5" class="form-control"/>
+                    <span asp-validation-for="dimNew" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Modifica disponibilità</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+@page
+@using WaterManagerUI.Model.Item
+@model WaterManagerUI.Pages.VisualizzaRichiesteBacino
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-container">
+                <div class="content">
+                    <h2>Visualizza richieste idriche</h2>
+                </div>
+            </div>
+
+            @if (Model.user.bacinoIdrico.richieste.Any())
+            {
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Quantità</th>
+                        <th>Nome azienda</th>
+                        <th>Data</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (RichiestaIdrica richiesta in Model.user.bacinoIdrico.richieste)
+                    {
+                        <tr>
+                            <td>@richiesta.quantita</td>
+                            <td>@richiesta.nomeAzienda</td>
+                            <td>@richiesta.date</td>
+                            <td>
+                                <form asp-page="/Bacino/Approva" asp-route-richiestaId="@richiesta.id" method="post">
+                                    <button type="submit">Accept</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-page="/Bacino/Rifiuta" asp-route-richiestaId="@richiesta.id" method="post">
+                                    <button type="submit">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Non sono presenti richieste da visualizzare</p>
+            }
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

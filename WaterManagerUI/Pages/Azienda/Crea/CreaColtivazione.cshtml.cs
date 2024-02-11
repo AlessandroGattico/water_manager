@@ -22,7 +22,6 @@ public class CreaColtivazione : PageModel
     [BindProperty] public Double temperatura { get; set; }
     [BindProperty] public Double umidita { get; set; }
     private Coltivazione coltivazione { get; set; }
-    private GestoreAzienda user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly SignInManager<IdentityUser> _signInManager;
     public HashSet<string> raccolti { get; set; }
@@ -30,8 +29,7 @@ public class CreaColtivazione : PageModel
     public HashSet<string> esigenze { get; set; }
     public int campoId { get; set; }
 
-    public CreaColtivazione(IHttpClientFactory httpClientFactory, IHttpContextAccessor httpContextAccessor,
-        SignInManager<IdentityUser> signInManager)
+    public CreaColtivazione(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
         _signInManager = signInManager;
@@ -40,10 +38,54 @@ public class CreaColtivazione : PageModel
 
     public async Task OnGetAsync(int campoId)
     {
-        this.raccolti = await GetRaccolti();
-        this.irrigazioni = await GetIrrigazioni();
-        this.esigenze = await GetEsigenze();
-        this.campoId = campoId;
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
+        {
+            var client = _httpClientFactory.CreateClient();
+
+            try
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var responseRaccolti = await client.GetAsync("http://localhost:8080/api/v1/utils/raccolto/get/all");
+
+                if (responseRaccolti.IsSuccessStatusCode)
+                {
+                    var content = await responseRaccolti.Content.ReadAsStringAsync();
+                    this.raccolti = JsonConvert.DeserializeObject<HashSet<string>>(content);
+                }
+
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var responseIrrigazioni =
+                    await client.GetAsync("http://localhost:8080/api/v1/utils/irrigazione/get/all");
+
+                if (responseIrrigazioni.IsSuccessStatusCode)
+                {
+                    var content = await responseIrrigazioni.Content.ReadAsStringAsync();
+                    this.irrigazioni = JsonConvert.DeserializeObject<HashSet<string>>(content);
+                }
+
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var responseEsigenze = await client.GetAsync("http://localhost:8080/api/v1/utils/esigenza/get/all");
+
+                if (responseEsigenze.IsSuccessStatusCode)
+                {
+                    var content = await responseEsigenze.Content.ReadAsStringAsync();
+                    this.esigenze = JsonConvert.DeserializeObject<HashSet<string>>(content);
+                }
+            }
+            catch (Exception e)
+            {
+                RedirectToPage("/Error/ServerOffline");
+            }
+
+            this.campoId = campoId;
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
+        }
     }
 
     public async Task<IActionResult> OnPostAsync(int campoId)
@@ -52,117 +94,49 @@ public class CreaColtivazione : PageModel
         {
             var client = _httpClientFactory.CreateClient();
 
-            if (_signInManager.IsSignedIn(User))
+
+            coltivazione = new Coltivazione
             {
-                user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
-                    User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
-                    User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
-                    JsonConvert.DeserializeObject<Model.Item.Azienda>(
-                        User.FindFirstValue((ClaimTypes.NameIdentifier))));
+                idCampo = campoId,
+                semina = Data.Add(Ora).ToString("yyyy-MM-dd HH:mm:ss"),
+                raccolto = raccolto,
+                irrigazione = raccolto.Equals("INCOLTO") ? null : irrigazione,
+                esigenza = raccolto.Equals("INCOLTO") ? null : esigenza,
+                temperatura = raccolto.Equals("INCOLTO") ? null : temperatura,
+                umidita = raccolto.Equals("INCOLTO") ? null : umidita
+            };
 
+            String stringaDaInviare = JsonConvert.SerializeObject(coltivazione);
 
-                coltivazione = new Coltivazione
+            try
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+
+                StringContent stringContent =
+                    new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/coltivazione/add",
+                    stringContent);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    idCampo = campoId,
-                    semina = Data.Add(Ora).ToString("yyyy-MM-dd HH:mm:ss"),
-                    raccolto = raccolto,
-                    irrigazione = raccolto.Equals("INCOLTO") ? null : irrigazione,
-                    esigenza = raccolto.Equals("INCOLTO") ? null : esigenza,
-                    temperatura = raccolto.Equals("INCOLTO") ? null : temperatura,
-                    umidita = raccolto.Equals("INCOLTO") ? null : umidita
-                };
+                    string responseContentStr = await response.Content.ReadAsStringAsync();
 
-                String stringaDaInviare = JsonConvert.SerializeObject(coltivazione);
-
-                try
-                {
-                    client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-
-                    StringContent stringContent =
-                        new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
-
-                    var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/coltivazione/add",
-                        stringContent);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string responseContentStr = await response.Content.ReadAsStringAsync();
-
-                        coltivazione.id = JsonConvert.DeserializeObject<int>(responseContentStr);
-
-                        return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
-                    }
-                    else
-                    {
-                        return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.StackTrace);
-                    return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
+                    coltivazione.id = JsonConvert.DeserializeObject<int>(responseContentStr);
                 }
             }
-        }
-
-        return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
-    }
-
-    public async Task<HashSet<string>> GetRaccolti()
-    {
-        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
-        {
-            var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/raccolto/get/all");
-
-            if (response.IsSuccessStatusCode)
+            catch (Exception ex)
             {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<HashSet<string>>(content);
+                RedirectToPage("/Error/ServerOffline");
             }
         }
-
-        return new HashSet<string>();
-    }
-
-    public async Task<HashSet<string>> GetIrrigazioni()
-    {
-        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
+        else
         {
-            var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/irrigazione/get/all");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<HashSet<string>>(content);
-            }
+            RedirectToPage("/Error/UserNotLogged");
         }
 
-        return new HashSet<string>();
-    }
-
-    public async Task<HashSet<string>> GetEsigenze()
-    {
-        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
-        {
-            var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/esigenza/get/all");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<HashSet<string>>(content);
-            }
-        }
-
-        return new HashSet<string>();
+        return RedirectToPage("/Azienda/Visualizza/campagna/campo/coltivazione/VisualizzaColtivazioni",
+            new { campoId = campoId });
     }
 }

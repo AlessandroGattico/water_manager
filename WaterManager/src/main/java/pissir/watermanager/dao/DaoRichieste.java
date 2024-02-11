@@ -59,7 +59,8 @@ public class DaoRichieste {
 					}
 					
 					richiestaIdrica = new RichiestaIdrica((int) row.get("id"), (Double) row.get("quantita"),
-							(int) row.get("id_coltivazione"), (int) row.get("id_bacino"), (String) row.get("date"));
+							(int) row.get("id_coltivazione"), (int) row.get("id_bacino"), (String) row.get("date"),
+							(String) row.get("nome_azienda"));
 				}
 			}
 		} catch (SQLException e) {
@@ -113,7 +114,7 @@ public class DaoRichieste {
 					RichiestaIdrica richiestaIdrica =
 							new RichiestaIdrica((int) map.get("id"), (Double) map.get("quantita"),
 									(int) map.get("id_coltivazione"), (int) map.get("id_bacino"),
-									(String) map.get("date"));
+									(String) map.get("date"), (String) map.get("nome_azienda"));
 					
 					richieste.add(richiestaIdrica);
 				}
@@ -169,7 +170,7 @@ public class DaoRichieste {
 					RichiestaIdrica richiestaIdrica =
 							new RichiestaIdrica((int) map.get("id"), (Double) map.get("quantita"),
 									(int) map.get("id_coltivazione"), (int) map.get("id_bacino"),
-									(String) map.get("date"));
+									(String) map.get("date"), (String) map.get("nome_azienda"));
 					
 					richieste.add(richiestaIdrica);
 				}
@@ -185,7 +186,7 @@ public class DaoRichieste {
 	}
 	
 	
-	public HashSet<RichiestaIdrica> getRichiesteAzienda(int idAzienda) {
+	public HashSet<RichiestaIdrica> getRichiesteAzienda(String idAzienda) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -194,18 +195,14 @@ public class DaoRichieste {
 		
 		String query = """
 				SELECT *
-				FROM richiesta r
-				INNER JOIN coltivazione c ON r.id_coltivazione = c.id
-				INNER JOIN campo cmp ON c.id_campo = cmp.id
-				INNER JOIN campagna cam ON cmp.id_campagna = cam.id
-				INNER JOIN azienda a ON cam.id_azienda = a.id
-				WHERE a.id = ? ;
+				FROM richiesta
+				WHERE nome_azienda = ? ;
 				""";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
-			statement.setInt(1, idAzienda);
+			statement.setString(1, idAzienda);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				resultSetMetaData = resultSet.getMetaData();
@@ -224,9 +221,9 @@ public class DaoRichieste {
 				
 				for (HashMap<String, Object> map : list) {
 					RichiestaIdrica RichiestaIdrica =
-							new RichiestaIdrica((int) map.get("id_richiesta"), (Double) map.get("quantita"),
+							new RichiestaIdrica((int) map.get("id"), (Double) map.get("quantita"),
 									(int) map.get("id_coltivazione"), (int) map.get("id_bacino"),
-									(String) map.get("date"));
+									(String) map.get("date"), (String) map.get("nome_azienda"));
 					
 					richieste.add(RichiestaIdrica);
 				}
@@ -321,8 +318,8 @@ public class DaoRichieste {
 	public int addRichiesta(RichiestaIdrica richiesta) {
 		int id = 0;
 		String query = """
-				INSERT INTO richiesta (quantita, id_coltivazione, id_bacino, date)
-				VALUES (?, ?, ?, ?);
+				INSERT INTO richiesta (quantita, id_coltivazione, id_bacino, date, nome_azienda)
+				VALUES (?, ?, ?, ?, ?);
 				SELECT last_insert_rowid() AS newId;
 				""";
 		
@@ -340,6 +337,7 @@ public class DaoRichieste {
 			statement.setInt(2, richiesta.getIdColtivazione());
 			statement.setInt(3, richiesta.getIdBacino());
 			statement.setString(4, richiesta.getDate());
+			statement.setString(5, richiesta.getNomeAzienda());
 			
 			statement.executeUpdate();
 			

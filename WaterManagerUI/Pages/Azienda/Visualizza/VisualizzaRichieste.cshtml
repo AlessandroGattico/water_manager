@@ -2,7 +2,7 @@
 @using WaterManagerUI.Model.Item
 @model WaterManagerUI.Pages.VisualizzaRichieste
 
-<link rel="stylesheet" href="~/css/Visualizza.css"/>
+<link rel="stylesheet" href="~/css/site.css"/>
 
 <div class="container-fluid">
     <div class="row">
@@ -29,82 +29,70 @@
                 <div class="content">
                     @if (Model.azienda != null)
                     {
-                        <h2>Dettagli richiesrte</h2>
+                        <h2>Dettagli richieste</h2>
                     }
                 </div>
-
-                <div class="elements">
-                    <div class="row">
-                        <div class="col-md-4">
-                            @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteSospeso())
-                            {
-                                <div class="elemento" onclick="this.parentNode.submit()">
-                                    <a asp-page="/VisualizzaRichiesta" asp-route-richiestaId="@richiesta.id">
-                                        <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
-                                        <div class="info-elemento dimensione">Data: @richiesta.date</div>
-                                        @if (richiesta.approvato)
-                                        {
-                                            <div class="info-elemento coltivazioni">Stato: APPROVATA</div>
-                                        }
-                                        else if (!richiesta.approvato)
-                                        {
-                                            <div class="info-elemento coltivazioni">Stato: RIFIUTATA</div>
-                                        }
-                                        else
-                                        {
-                                            <div class="info-elemento coltivazioni">Stato: IN ATTESA</div>
-                                        }
-                                    </a>
-                                </div>
-                            }
-                        </div>
-                        <div class="col-md-4">
-                            @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteApprovate())
-                            {
-                                <div class="elemento" onclick="this.parentNode.submit()">
-                                    <a asp-page="/VisualizzaRichiesta" asp-route-richiestaId="@richiesta.id">
-                                        <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
-                                        <div class="info-elemento dimensione">Data: @richiesta.date</div>
-                                        @if (richiesta.approvato)
-                                        {
-                                            <div class="info-elemento coltivazioni">Stato: APPROVATA</div>
-                                        }
-                                        else if (!richiesta.approvato)
-                                        {
-                                            <div class="info-elemento coltivazioni">Stato: RIFIUTATA</div>
-                                        }
-                                        else
-                                        {
-                                            <div class="info-elemento coltivazioni">Stato: IN ATTESA</div>
-                                        }
-                                    </a>
-                                </div>
-                            }
-                        </div>
-                        <div class="col-md-4">
-                            @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteRifiutate())
-                            {
-                                <div class="elemento" onclick="this.parentNode.submit()">
-                                    <a asp-page="/VisualizzaRichiesta" asp-route-richiestaId="@richiesta.id">
-                                        <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
-                                        <div class="info-elemento dimensione">Data: @richiesta.date</div>
-                                        @if (richiesta.approvato)
-                                        {
-                                            <div class="info-elemento coltivazioni">Stato: APPROVATA</div>
-                                        }
-                                        else if (!richiesta.approvato)
-                                        {
-                                            <div class="info-elemento coltivazioni">Stato: RIFIUTATA</div>
-                                        }
-                                        else
-                                        {
-                                            <div class="info-elemento coltivazioni">Stato: IN ATTESA</div>
-                                        }
-                                    </a>
-                                </div>
-                            }
-                        </div>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>In attesa</h3>
+                    @if (Model.azienda.richiesteSospeso().Any())
+                    {
+                        @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteSospeso())
+                        {
+                            <div class="elemento">
+                                <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
+                                <div class="info-elemento dimensione">Data: @richiesta.date</div>
+                                <div class="info-elemento coltivazioni">Stato: IN ATTESA</div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Non ci sono richieste in attesa</p>
+                    }
+                </div>
+                <div class="col-md-4">
+                    <h3>Approvate</h3>
+                    @if (Model.azienda.richiesteApprovate().Any())
+                    {
+                        @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteApprovate())
+                        {
+                            <div class="elemento">
+                                <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
+                                <div class="info-elemento dimensione">Data: @richiesta.date</div>
+                                @if (richiesta.approvato.approvato)
+                                {
+                                    <div class="info-elemento coltivazioni">Stato: APPROVATA</div>
+                                }
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Non ci sono richieste approvate</p>
+                    }
+                </div>
+                <div class="col-md-4">
+                    <h3>Rifiutate</h3>
+                    @if (Model.azienda.richiesteRifiutate().Any())
+                    {
+                        @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteRifiutate())
+                        {
+                            <div class="elemento">
+                                <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
+                                <div class="info-elemento dimensione">Data: @richiesta.date</div>
+                                @if (!richiesta.approvato.approvato)
+                                {
+                                    <div class="info-elemento coltivazioni">Stato: RIFIUTATA</div>
+                                }
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Non ci sono richieste rifiutate</p>
+                    }
                 </div>
             </div>
         </div>

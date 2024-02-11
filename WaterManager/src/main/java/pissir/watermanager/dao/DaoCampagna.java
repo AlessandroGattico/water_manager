@@ -236,4 +236,33 @@ public class DaoCampagna {
 		return campagne;
 	}
 	
+	
+	public boolean existsCampagnaAzienda(int id, String campagna) {
+		String sql = """
+				SELECT COUNT(*)
+				FROM campagna
+				WHERE nome = ?
+				AND id_azienda = ?;
+				""";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, campagna);
+			statement.setInt(2, id);
+			
+			ResultSet rs = statement.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getInt(1) > 0;
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return false;
+		}
+		
+		return false;
+	}
+	
 }

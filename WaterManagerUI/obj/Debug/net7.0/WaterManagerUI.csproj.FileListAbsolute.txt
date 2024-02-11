@@ -83,3 +83,10 @@
 /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Newtonsoft.Json.dll
 /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Oauth2Login.dll
 /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.Google.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.AspNetCore.Authorization.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.AspNetCore.Components.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.AspNetCore.Components.Authorization.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.AspNetCore.Metadata.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.IdentityModel.Logging.dll
+/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/bin/Debug/net7.0/Microsoft.IdentityModel.Tokens.dll

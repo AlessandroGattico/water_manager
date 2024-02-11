@@ -30,11 +30,6 @@ public class CreaAttuatore : PageModel
         {
             var client = _httpClientFactory.CreateClient();
 
-            user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
-                User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
-                User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
-                JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
-
             attuatore.idCampo = campoId;
 
             String stringaDaInviare = JsonConvert.SerializeObject(attuatore);
@@ -56,20 +51,20 @@ public class CreaAttuatore : PageModel
 
                     attuatore.id = JsonConvert.DeserializeObject<int>(responseContentStr);
 
-                    return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
-                }
-                else
-                {
-                    return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
+                    return RedirectToPage("/Azienda/Visualizza/campagna/campo/VisualizzaCampo",
+                        new { campoId = campoId });
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
-                return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
+                RedirectToPage("/Error/ServerOffline");
             }
         }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
+        }
 
-        return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
+        return RedirectToPage("/Azienda/Visualizza/campagna/campo/VisualizzaCampo", new { campoId = campoId });
     }
 }

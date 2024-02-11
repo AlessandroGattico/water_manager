@@ -27,15 +27,27 @@ public class EliminaRaccolto : PageModel
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("SYSTEMADMIN"))
         {
             var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/raccolto/get/all");
 
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var content = await response.Content.ReadAsStringAsync();
-                this.raccolti = JsonConvert.DeserializeObject<HashSet<string>>(content);
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var response = await client.GetAsync("http://localhost:8080/api/v1/utils/raccolto/get/all");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    this.raccolti = JsonConvert.DeserializeObject<HashSet<string>>(content);
+                }
             }
+            catch (Exception e)
+            {
+                RedirectToPage("/Error/ServerOffline");
+            }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 
@@ -45,21 +57,22 @@ public class EliminaRaccolto : PageModel
         {
             var client = _httpClientFactory.CreateClient();
 
-            if (_signInManager.IsSignedIn(User))
+            try
             {
-                try
-                {
-                    client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
 
-                    await client.DeleteAsync($"http://localhost:8080/api/v1/admin/raccolto/delete/{raccolto}");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.StackTrace);
-                    return RedirectToPage("/Admin/Coltivazione/Raccolto");
-                }
+                await client.DeleteAsync($"http://localhost:8080/api/v1/admin/raccolto/delete/{raccolto}");
             }
+            catch (Exception ex)
+            {
+                RedirectToPage("/Error/ServerOffline");
+            }
+        }
+
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
 
         return RedirectToPage("/Admin/Coltivazione/Raccolto");

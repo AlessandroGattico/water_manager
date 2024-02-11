@@ -3,7 +3,6 @@ package pissir.watermanager.controller;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
@@ -75,26 +74,46 @@ public class ControllerCampo {
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
-	public void deleteCampo(@PathVariable int id) {
-		this.daoCampo.deleteCampo(id);
+	public String deleteCampo(@PathVariable int id, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			this.daoCampo.deleteCampo(id);
+			return "OK";
+		} else {
+			return gson.toJson(0);
+		}
 	}
 	
 	
 	@PostMapping(value = "/modifica/nome")
-	public String modificaNome(@RequestBody String param) {
+	public String modificaNome(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		CambioString cambio = gson.fromJson(param, CambioString.class);
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(this.daoCampo.cambiaNomeCampo(cambio));
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			CambioString cambio = gson.fromJson(param, CambioString.class);
+			
+			return gson.toJson(this.daoCampo.cambiaNomeCampo(cambio));
+		} else {
+			return gson.toJson(0);
+		}
 	}
 	
 	
-	@PostMapping(value = "/modifica/campagna")
-	public String modificaCampagna(@RequestBody String param) {
+	@PostMapping(value =  "/modifica/campagna")
+	public String modificaCampagna(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		CambioInt cambio = gson.fromJson(param, CambioInt.class);
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(this.daoCampo.cambiaCampagnaCampo(cambio));
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			CambioInt cambio = gson.fromJson(param, CambioInt.class);
+			
+			return gson.toJson(this.daoCampo.cambiaCampagnaCampo(cambio));
+		} else {
+			return gson.toJson(0);
+		}
 	}
 	
 	

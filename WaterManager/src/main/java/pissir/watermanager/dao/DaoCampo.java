@@ -272,4 +272,34 @@ public class DaoCampo {
 		return campi;
 	}
 	
+	
+	public boolean existsCampoCampagna(int id, String campo) {
+		String sql = """
+				SELECT COUNT(*)
+				FROM campo
+				WHERE nome = ?
+				AND id_campagna = ?;
+				""";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(sql)) {
+			statement.setString(1, campo);
+			statement.setInt(2, id);
+			
+			ResultSet rs = statement.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getInt(1) > 0;
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+			loggerSql.error(e.getMessage(), e);
+			
+			return false;
+		}
+		
+		return false;
+		
+	}
+	
 }

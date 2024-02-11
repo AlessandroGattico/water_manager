@@ -24,17 +24,29 @@ public class Campi : PageModel
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("SYSTEMADMIN"))
         {
             var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-            var response = await client.GetAsync("http://localhost:8080/api/v1/admin/campi/get/all");
 
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var content = await response.Content.ReadAsStringAsync();
-                var campiList = JsonConvert.DeserializeObject<HashSet<Campo>>(content);
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var response = await client.GetAsync("http://localhost:8080/api/v1/admin/campi/get/all");
 
-                this.campi = campiList.OrderBy(c => c.nome).ToList();
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var campiList = JsonConvert.DeserializeObject<HashSet<Campo>>(content);
+
+                    this.campi = campiList.OrderBy(c => c.nome).ToList();
+                }
             }
+            catch (Exception e)
+            {
+                RedirectToPage("/Error/ServerOffline");
+            }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 }

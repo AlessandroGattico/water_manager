@@ -36,6 +36,7 @@ public class RisorsaIdrica
     public DateTime RisorsaAsDateTime()
     {
         DateTime seminaDate;
+        
         if (DateTime.TryParse(data, out seminaDate))
         {
             return seminaDate;

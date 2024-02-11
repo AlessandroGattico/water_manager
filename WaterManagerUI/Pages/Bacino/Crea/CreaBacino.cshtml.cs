@@ -14,46 +14,52 @@ public class CreaBacino : PageModel
 {
     [BindProperty] public String nomeBacino { get; set; }
     private BacinoIdrico bacino { get; set; }
-    private GestoreIdrico user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public CreaBacino(IHttpClientFactory httpClientFactory)
+    public CreaBacino(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
+        _signInManager = signInManager;
     }
 
-    public async Task<IActionResult> OnPostAsync(int userId)
+    public async Task<IActionResult> OnPostAsync()
     {
-        var client = _httpClientFactory.CreateClient();
-        bacino = new BacinoIdrico(nomeBacino, userId);
-
-        String stringaDaInviare = JsonConvert.SerializeObject(bacino);
-
-        try
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREIDRICO"))
         {
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+            int id = int.Parse(User.FindFirstValue(ClaimTypes.Gender));
+            var client = _httpClientFactory.CreateClient();
+            bacino = new BacinoIdrico(nomeBacino, id);
 
-            StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync("http://localhost:8080/api/v1/bacino/add", stringContent);
+            String stringaDaInviare = JsonConvert.SerializeObject(bacino);
 
-            if (response.IsSuccessStatusCode)
+            try
             {
-                string responseContentStr = await response.Content.ReadAsStringAsync();
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
 
-                bacino.id = JsonConvert.DeserializeObject<int>(responseContentStr);
+                StringContent stringContent = new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("http://localhost:8080/api/v1/bacino/add", stringContent);
 
-                return RedirectToPage("/Bacino/GestoreIdrico");
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseContentStr = await response.Content.ReadAsStringAsync();
+
+                    bacino.id = JsonConvert.DeserializeObject<int>(responseContentStr);
+
+                    return RedirectToPage("/Bacino/GestoreIdrico");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return RedirectToPage("/Bacino/GestoreIdrico");
+                RedirectToPage("/Error/ServerOffline");
             }
         }
-        catch (Exception ex)
+        else
         {
-            Console.WriteLine(ex.StackTrace);
-            return RedirectToPage("/Bacino/GestoreIdrico");
+            RedirectToPage("/Error/UserNotLogged");
         }
+
+        return RedirectToPage("/Bacino/GestoreIdrico");
     }
 }

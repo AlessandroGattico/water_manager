@@ -38,6 +38,21 @@ public class Azienda
         this.risorse = risorse;
         this.richieste = richieste;
         this.idGestore = idGestore;
+
+        if (this.risorse == null)
+        {
+            this.risorse = new HashSet<RisorsaIdrica>();
+        }
+
+        if (this.campagne == null)
+        {
+            this.campagne = new HashSet<Campagna>();
+        }
+
+        if (this.richieste == null)
+        {
+            this.richieste = new HashSet<RichiestaIdrica>();
+        }
     }
 
 
@@ -58,14 +73,7 @@ public class Azienda
 
     public Double dispAttuale()
     {
-        if (this.risorse.Any())
-        {
-            return this.storicoRisorse().First().disponibilita;
-        }
-        else
-        {
-            return 0;
-        }
+        return this.storicoRisorse().FirstOrDefault().disponibilita;
     }
 
     public List<RisorsaIdrica> storicoRisorse()
@@ -81,7 +89,7 @@ public class Azienda
 
     public List<RichiestaIdrica> richiesteSospeso()
     {
-        if (this.richieste.Any())
+        if (this.richieste.Count > 0)
         {
             List<RichiestaIdrica> richiesteNonApprovate = this.richieste
                 .Where(r => r.approvato == null)
@@ -95,13 +103,14 @@ public class Azienda
             return new List<RichiestaIdrica>();
         }
     }
-    
+
+
     public List<RichiestaIdrica> richiesteRifiutate()
     {
-        if (this.richieste.Any())
+        if (this.richieste.Count > 0)
         {
             List<RichiestaIdrica> richiesteNonApprovate = this.richieste
-                .Where(r => r.approvato == false)
+                .Where(r => r.approvato?.approvato == false)
                 .OrderBy(r => r.date)
                 .ToList();
 
@@ -115,10 +124,10 @@ public class Azienda
 
     public List<RichiestaIdrica> richiesteApprovate()
     {
-        if (this.richieste.Any())
+        if (this.richieste.Count > 0)
         {
             List<RichiestaIdrica> richiesteNonApprovate = this.richieste
-                .Where(r => r.approvato == true)
+                .Where(r => r.approvato?.approvato == true)
                 .OrderBy(r => r.date)
                 .ToList();
 

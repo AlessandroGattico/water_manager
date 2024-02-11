@@ -9,13 +9,16 @@
       "WaterManagerUI/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.Google": "7.0.15",
+          "Microsoft.AspNetCore.Components.Authorization": "7.0.15",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "7.0.14",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "7.0.14",
           "Microsoft.AspNetCore.Identity.UI": "7.0.14",
           "Microsoft.EntityFrameworkCore": "7.0.15",
           "Microsoft.EntityFrameworkCore.Sqlite": "7.0.14",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.14",
+          "Microsoft.Extensions.Configuration": "7.0.0",
           "Microsoft.Extensions.Logging": "8.0.0",
+          "Microsoft.IdentityModel.Tokens": "7.3.1",
           "Newtonsoft.Json": "13.0.3",
           "Oauth2Login": "1.2.1"
         },
@@ -35,6 +38,44 @@
         "runtime": {
           "lib/net7.0/Microsoft.AspNetCore.Authentication.Google.dll": {
             "assemblyVersion": "7.0.15.0",
+            "fileVersion": "7.0.1523.60110"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Authorization/7.0.15": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Metadata": "7.0.15",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Options": "8.0.0"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.AspNetCore.Authorization.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.1523.60110"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Components/7.0.15": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Authorization": "7.0.15",
+          "Microsoft.AspNetCore.Components.Analyzers": "7.0.15"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.AspNetCore.Components.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.1523.60110"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Components.Analyzers/7.0.15": {},
+      "Microsoft.AspNetCore.Components.Authorization/7.0.15": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Authorization": "7.0.15",
+          "Microsoft.AspNetCore.Components": "7.0.15"
+        },
+        "runtime": {
+          "lib/net7.0/Microsoft.AspNetCore.Components.Authorization.dll": {
+            "assemblyVersion": "7.0.0.0",
             "fileVersion": "7.0.1523.60110"
           }
         }
@@ -90,6 +131,14 @@
           "lib/net7.0/Microsoft.AspNetCore.Identity.UI.dll": {
             "assemblyVersion": "7.0.14.0",
             "fileVersion": "7.0.1423.52316"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Metadata/7.0.15": {
+        "runtime": {
+          "lib/net7.0/Microsoft.AspNetCore.Metadata.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.1523.60110"
           }
         }
       },
@@ -189,6 +238,12 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
           "Microsoft.Extensions.Options": "8.0.0",
+          "Microsoft.Extensions.Primitives": "8.0.0"
+        }
+      },
+      "Microsoft.Extensions.Configuration/7.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "7.0.0",
           "Microsoft.Extensions.Primitives": "8.0.0"
         }
       },
@@ -311,6 +366,36 @@
           "lib/net7.0/Microsoft.Extensions.Primitives.dll": {
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.23.53103"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Abstractions/7.3.1": {
+        "runtime": {
+          "lib/net6.0/Microsoft.IdentityModel.Abstractions.dll": {
+            "assemblyVersion": "7.3.1.0",
+            "fileVersion": "7.3.1.50203"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Logging/7.3.1": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Abstractions": "7.3.1"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.IdentityModel.Logging.dll": {
+            "assemblyVersion": "7.3.1.0",
+            "fileVersion": "7.3.1.50203"
+          }
+        }
+      },
+      "Microsoft.IdentityModel.Tokens/7.3.1": {
+        "dependencies": {
+          "Microsoft.IdentityModel.Logging": "7.3.1"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.IdentityModel.Tokens.dll": {
+            "assemblyVersion": "7.3.1.0",
+            "fileVersion": "7.3.1.50203"
           }
         }
       },
@@ -534,6 +619,34 @@
       "path": "microsoft.aspnetcore.authentication.google/7.0.15",
       "hashPath": "microsoft.aspnetcore.authentication.google.7.0.15.nupkg.sha512"
     },
+    "Microsoft.AspNetCore.Authorization/7.0.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EnxeDNeVPqdK2jkCktAVFgVYSlBRFVRK7BJ7YiHCqZ1nrYmWw/fDzVrykwN0gb4ws2JItTXSxae4zp6iyAknRw==",
+      "path": "microsoft.aspnetcore.authorization/7.0.15",
+      "hashPath": "microsoft.aspnetcore.authorization.7.0.15.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Components/7.0.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OgXUjCTX8PDDZgTCLtePAbMTpo6YBHvXabWO6pCdFGeXa7t8f/J/Yjj+bPIiRzaa04DZX2Hd1FXHG6+WLKmXSw==",
+      "path": "microsoft.aspnetcore.components/7.0.15",
+      "hashPath": "microsoft.aspnetcore.components.7.0.15.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Components.Analyzers/7.0.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HSsLAB/njLOe/qBLiKeOhOb9i/eqn0wOOGkTj31HNbN1Z0Qa06fUvYbS8IAQgcZiVpBiZYeA7FpT5I2yuixV/A==",
+      "path": "microsoft.aspnetcore.components.analyzers/7.0.15",
+      "hashPath": "microsoft.aspnetcore.components.analyzers.7.0.15.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Components.Authorization/7.0.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+VO+0YZKhyBrtQFQeUkefKMw7bUtucocAzqKwQrPiXqofVcxlVp7uzqMFVOGHeF1Zf4CRHUMWWmFE66ep/oGww==",
+      "path": "microsoft.aspnetcore.components.authorization/7.0.15",
+      "hashPath": "microsoft.aspnetcore.components.authorization.7.0.15.nupkg.sha512"
+    },
     "Microsoft.AspNetCore.Cryptography.Internal/7.0.14": {
       "type": "package",
       "serviceable": true,
@@ -568,6 +681,13 @@
       "sha512": "sha512-46wY0SQy2yUj/G0VaW5vjY8FkCRVsOyDakYUlEGkMA+/L2Niu7oLZBZ7EYRe6erk6kZHoNZ990N7Pkmal7UJsw==",
       "path": "microsoft.aspnetcore.identity.ui/7.0.14",
       "hashPath": "microsoft.aspnetcore.identity.ui.7.0.14.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Metadata/7.0.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-i7h/iVlUqNshiQ92TrgC2IuGOeU/qDZatD/YYuXgqh1uUclpyVWvxPDeugqVpqJNhE0gpOCM7cnqbyhCptOf0A==",
+      "path": "microsoft.aspnetcore.metadata/7.0.15",
+      "hashPath": "microsoft.aspnetcore.metadata.7.0.15.nupkg.sha512"
     },
     "Microsoft.Data.Sqlite.Core/7.0.14": {
       "type": "package",
@@ -645,6 +765,13 @@
       "sha512": "sha512-xpidBs2KCE2gw1JrD0quHE72kvCaI3xFql5/Peb2GRtUuZX+dYPoK/NTdVMiM67Svym0M0Df9A3xyU0FbMQhHw==",
       "path": "microsoft.extensions.caching.memory/7.0.0",
       "hashPath": "microsoft.extensions.caching.memory.7.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Configuration/7.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tldQUBWt/xeH2K7/hMPPo5g8zuLc3Ro9I5d4o/XrxvxOCA2EZBtW7bCHHTc49fcBtvB8tLAb/Qsmfrq+2SJ4vA==",
+      "path": "microsoft.extensions.configuration/7.0.0",
+      "hashPath": "microsoft.extensions.configuration.7.0.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration.Abstractions/7.0.0": {
       "type": "package",
@@ -729,6 +856,27 @@
       "sha512": "sha512-bXJEZrW9ny8vjMF1JV253WeLhpEVzFo1lyaZu1vQ4ZxWUlVvknZ/+ftFgVheLubb4eZPSwwxBeqS1JkCOjxd8g==",
       "path": "microsoft.extensions.primitives/8.0.0",
       "hashPath": "microsoft.extensions.primitives.8.0.0.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Abstractions/7.3.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gIw8Sr5ZpuzKFBTfJonh2F54DivTzm5IIK15QB4Y6uE30uQdEO1NnCojTC/b6sWZoZzD0sdBa6SqwMXhucD+nA==",
+      "path": "microsoft.identitymodel.abstractions/7.3.1",
+      "hashPath": "microsoft.identitymodel.abstractions.7.3.1.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Logging/7.3.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uPt2aiRUCbcOc0Wk+dDCSClFfPNs3S3Z7fmy50MoxJ1mGmtVUDMpyRJeYzZ/16x4rL19T+g2zrzjcWoitp5+gQ==",
+      "path": "microsoft.identitymodel.logging/7.3.1",
+      "hashPath": "microsoft.identitymodel.logging.7.3.1.nupkg.sha512"
+    },
+    "Microsoft.IdentityModel.Tokens/7.3.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/c/p8/3CAH706c0ii5uTgSb/8M/jwyuurtdMeKTBeKFU9aA+EZrLu1M8aaS3CSlGaxoxsoaxr4/+KXykgQ4VgQ==",
+      "path": "microsoft.identitymodel.tokens/7.3.1",
+      "hashPath": "microsoft.identitymodel.tokens.7.3.1.nupkg.sha512"
     },
     "Mono.TextTemplating/2.2.1": {
       "type": "package",

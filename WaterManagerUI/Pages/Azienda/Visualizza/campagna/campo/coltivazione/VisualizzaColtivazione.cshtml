@@ -1,0 +1,51 @@
+@page
+@model WaterManagerUI.Pages.VisualizzaColtivazione
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <div>
+                            <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">Statistiche Azienda</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Azienda/Visualizza/VisualizzaColtivazioni" class="btn btn-sidebar" asp-page-class="active" asp-route-coltivazioneId="@Model.coltivazione.id">Richieste coltivazione</a>
+                        </div>
+                    </ul>
+                </span>
+            </aside>
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-container">
+                <div class="content">
+                    @if (Model.coltivazione != null)
+                    {
+                        <h2>Dettagli coltivazione</h2>
+                    }
+                </div>
+            </div>
+            <a asp-page="/Azienda/Crea/CreaRichiesta" asp-route-coltivazioneId="@Model.coltivazione.id" style="text-decoration: none; color: inherit;">
+                <div class="bottone-aggiungi" style="grid-column: span 4; margin: 30px">
+                    <p>Aggiungi richiesta</p>
+                </div>
+            </a>
+            <div class="elemento">
+                <div class="info-elemento raccolto">Raccolto: @Model.coltivazione.raccolto</div>
+                <div class="info-elemento nome">Irrigazione: @Model.coltivazione.irrigazione</div>
+                <div class="info-elemento nome">Esigenza: @Model.coltivazione.esigenza</div>
+                <div class="info-elemento nome">Semina: @Model.coltivazione.semina</div>
+                <div class="info-elemento nome">Temperatura ideale: @Model.coltivazione.temperatura</div>
+                <div class="info-elemento nome">Umidità ideale: @Model.coltivazione.umidita</div>
+            </div>
+        </div>
+
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

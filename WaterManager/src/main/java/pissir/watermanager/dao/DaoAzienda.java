@@ -191,10 +191,7 @@ public class DaoAzienda {
 	
 	
 	public Azienda getAziendaUser(int idGestore) {
-		Azienda azienda = new Azienda();
-		
-		logger.info("Get azienda user");
-		logger.info("Id: " + idGestore);
+		Azienda azienda = null;
 		
 		String query = """
 				SELECT *
@@ -204,10 +201,6 @@ public class DaoAzienda {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id_user = " + idGestore);
 			
 			statement.setInt(1, idGestore);
 			

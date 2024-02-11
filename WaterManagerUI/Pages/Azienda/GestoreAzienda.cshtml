@@ -1,10 +1,10 @@
 @page
-@model WaterManagerUI.Pages.GestoreAziendaPage
+@model WaterManagerUI.Pages.Azienda.GestoreAzienda
 
 <link rel="stylesheet" href="~/css/site.css"/>
-<link rel="stylesheet" href="~/css/Visualizza.css"/>
 
-<title>Azienda</title>
+
+<title>Gestione Azienda</title>
 
 <div class="container-fluid">
     <div class="row">
@@ -12,19 +12,19 @@
             <aside class="flex-container">
                 <span>
                     <ul>
-                        @if (Model.azienda != null)
+                        @if (Model.gestore.azienda != null)
                         {
                             <div>
                                 <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">Statistiche Azienda</a>
                             </div>
                             <div>
-                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id" class="btn btn-sidebar" asp-page-class="active">Campagne</a>
+                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.gestore.azienda.id" class="btn btn-sidebar" asp-page-class="active">Campagne</a>
                             </div>
                             <div>
-                                <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.azienda.id" class="btn btn-sidebar" asp-page-class="active">Campi</a>
+                                <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.gestore.azienda.id" class="btn btn-sidebar" asp-page-class="active">Campi</a>
                             </div>
                             <div>
-                                <a asp-page="/Azienda/Visualizza/VisualizzaRichieste" asp-route-aziendaId="@Model.azienda.id" class="btn btn-sidebar" asp-page-class="active">Richieste</a>
+                                <a asp-page="/Azienda/Visualizza/VisualizzaRichieste" asp-route-aziendaId="@Model.gestore.azienda.id" class="btn btn-sidebar" asp-page-class="active">Richieste</a>
                             </div>
                         }
                     </ul>
@@ -34,51 +34,54 @@
         <div class="col-md-8">
             <div class="main-container">
                 <div class="content">
-                    @if (Model.azienda != null)
+                    @if (Model.gestore.azienda != null)
                     {
-                        <h2>Dettagli Azienda</h2>
-                        <p>Nome Azienda: @Model.azienda.nome</p>
-
-                        <div class="elemento">
-                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id">
-                                <div class="info-elemento nome">Disponibilità idrica: @Model.azienda.dispAttuale()</div>
-                            </a>
-                        </div>
-                        <div class="elemento">
-                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id">
-                                <div class="info-elemento nome">Dimensione: @Model.azienda.size()</div>
-                            </a>
-                        </div>
-                        <div class="elemento">
-                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.azienda.id">
-                                <div class="info-elemento nome">Campagne: @Model.azienda.campagne.Count</div>
-                            </a>
-                        </div>
-                        <div class="elemento">
-                            <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.azienda.id">
-                                <div class="info-elemento nome">Campi: @Model.azienda.campagne.Count</div>
-                            </a>
+                        <div class="content-header">
+                            <div>
+                                <h2>Dettagli azienda</h2>
+                                <p>Nome Azienda: @Model.gestore.azienda.nome</p>
+                            </div>
+                            <div class="info-addizionali">
+                                <p>Disponibilità giornaliera: @Model.gestore.azienda.storicoRisorse().FirstOrDefault().disponibilita</p>
+                                <p>Consumo giornaliero: @Model.gestore.azienda.storicoRisorse().FirstOrDefault().consumo</p>
+                            </div>
                         </div>
 
-                        @if (Model.azienda.richieste.Any())
+                        <div class="elemento" style="margin: 20px">
+                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.gestore.azienda.id">
+                                <div class="info-elemento nome">Dimensione: @Model.gestore.azienda.size()</div>
+                            </a>
+                        </div>
+                        <div class="elemento" style="margin: 20px">
+                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaCampagne" asp-route-aziendaId="@Model.gestore.azienda.id">
+                                <div class="info-elemento nome">Campagne: @Model.gestore.azienda.campagne.Count</div>
+                            </a>
+                        </div>
+                        <div class="elemento" style="margin: 20px">
+                            <a asp-page="/Azienda/Visualizza/campagna/campo/VisualizzaCampiAzienda" asp-route-aziendaId="@Model.gestore.azienda.id">
+                                <div class="info-elemento nome">Campi: @Model.gestore.azienda.campagne.Count</div>
+                            </a>
+                        </div>
+
+                        @if (Model.gestore.azienda.richieste.Any())
                         {
-                            <div class="elemento">
+                            <div class="elemento" style="margin: 20px">
                                 <a href="/Azienda/Visualizza/VisualizzaCampagna">
-                                    <div class="info-elemento nome">Richieste in sospeso: @Model.azienda.richiesteSospeso()</div>
+                                    <div class="info-elemento nome">Richieste in sospeso: @Model.gestore.azienda.richiesteSospeso()</div>
                                 </a>
                             </div>
                         }
                     }
                     else
                     {
-                        <div class="bottone-aggiungi" style="grid-column: span 4">
-                            <a asp-page="/Azienda/Crea/CreaAzienda" asp-route-userId="@Model.user.id">Aggiungi Azienda</a>
-                        </div>
+                        <a asp-page="/Azienda/Crea/CreaAzienda" asp-route-userId="@Model.gestore.id" style="text-decoration: none; color: inherit; grid-column: span 4">
+                            <div class="bottone-aggiungi">
+                                Aggiungi azienda
+                            </div>
+                        </a>
                     }
                 </div>
             </div>
-        </div>
-        <div class="col-md-2">
         </div>
     </div>
 </div>

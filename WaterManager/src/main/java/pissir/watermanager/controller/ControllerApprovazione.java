@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.cambio.CambioBool;
 import pissir.watermanager.model.item.Approvazione;
+import pissir.watermanager.model.user.UserRole;
+import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
 
@@ -17,12 +19,13 @@ import java.util.HashSet;
  */
 
 @RestController
-@RequestMapping("/api/v1/azienda/approvazione")
+@RequestMapping("/api/v1/bacino/approvazione")
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('GESTOREIDRICO') or hasAuthority('SYSTEMADMIN')")
 public class ControllerApprovazione {
 	
 	private final DAO daoApprovazione;
+	private final TokenService tokenService;
 	
 	
 	@GetMapping(value = "/get/{id}")
@@ -44,11 +47,19 @@ public class ControllerApprovazione {
 	
 	
 	@PostMapping(value = "/add")
-	public ResponseEntity<Integer> addApprovazione(@RequestBody String param) {
+	public String addApprovazione(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		Approvazione approvazione = gson.fromJson(param, Approvazione.class);
+		String jwt = extractTokenFromRequest(request);
 		
-		return ResponseEntity.ok(this.daoApprovazione.addApprovazione(approvazione));
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
+			Approvazione approvazione = gson.fromJson(param, Approvazione.class);
+			
+			this.daoApprovazione.addApprovazione(approvazione);
+			
+			return "OK";
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
@@ -74,4 +85,5 @@ public class ControllerApprovazione {
 		}
 		return null;
 	}
+	
 }

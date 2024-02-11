@@ -74,7 +74,7 @@ public class BacinoIdrico
         if (this.richieste.Count > 0)
         {
             List<RichiestaIdrica> richiesteNonApprovate = this.richieste
-                .Where(r => r.approvato == false)
+                .Where(r => r.approvato?.approvato == false)
                 .OrderBy(r => r.date)
                 .ToList();
 
@@ -91,7 +91,7 @@ public class BacinoIdrico
         if (this.richieste.Count > 0)
         {
             List<RichiestaIdrica> richiesteNonApprovate = this.richieste
-                .Where(r => r.approvato == true)
+                .Where(r => r.approvato?.approvato == true)
                 .OrderBy(r => r.date)
                 .ToList();
 

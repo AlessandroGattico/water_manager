@@ -1,0 +1,86 @@
+@page
+@using WaterManagerUI.Model.Item
+@model WaterManagerUI.Pages.VisualizzaSensori
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <div>
+                            <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">Statistiche Azienda</a>
+                        </div>
+                        @if (Model.campo.coltivazioni.Any())
+                        {
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/campo/coltivazione/VisualizzaColtivazioni" class="btn btn-sidebar" asp-page-class="active" asp-route-campoId="@Model.campo.id">Coltivazioni</a>
+                            </div>
+                        }
+                        @if (Model.campo.sensori.Any())
+                        {
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/campo/sensori/VisualizzaSensori" class="btn btn-sidebar" asp-page-class="active" asp-route-campoId="@Model.campo.id">Sensori</a>
+                            </div>
+                        }
+                        @if (Model.campo.attuatori.Any())
+                        {
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/campo/attuatori/VisualizzaAttuatori" class="btn btn-sidebar" asp-page-class="active" asp-route-campoId="@Model.campo.id">Attuatori</a>
+                            </div>
+                        }
+                    </ul>
+                </span>
+            </aside>
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-container">
+                <div class="content">
+                    @if (Model.campo != null)
+                    {
+                        <h2>Dettagli sensori campo</h2>
+                        <p>Nome campo: @Model.campo.nome</p>
+                    }
+                </div>
+            </div>
+            @if (Model.campo.sensori.Any())
+            {
+                <div class="bottoni-azione">
+                    <a asp-page="/Azienda/Crea/CreaSensore" asp-route-campoId="@Model.campo.id" class="bottone-aggiungi" style="text-decoration: none; color: inherit; color: #13b400">
+                        Aggiungi sensore
+                    </a>
+                    <a asp-page="/Azienda/Elimina/EliminaSensore" asp-route-campoId="@Model.campo.id" class="bottone-aggiungi" style="text-decoration: none; color: inherit; border: 2px dashed #ff0000; color: #ff0000">
+                        Elimina sensore
+                    </a>
+                </div>
+
+                <div class="elements">
+                    @foreach (Sensore sensore in Model.campo.sensori)
+                    {
+                        <div class="elemento" onclick="this.parentNode.submit()">
+                            <a asp-page="/Azienda/Visualizza/campagna/campo/sensori/misure/VisualizzaMisureSensore" asp-route-sensoreId="@sensore.id">
+                                <div class="info-elemento raccolto">Nome: @sensore.nome</div>
+                                <div class="info-elemento nome">Tipologia: @sensore.type</div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <a asp-page="/Azienda/Crea/CreaSensore" asp-route-campoId="@Model.campo.id" style="text-decoration: none; color: inherit; grid-column: span 4">
+                    <div class="bottone-aggiungi">
+                        Aggiungi sensore
+                    </div>
+                </a>
+            }
+
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

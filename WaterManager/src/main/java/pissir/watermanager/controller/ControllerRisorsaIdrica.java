@@ -2,12 +2,12 @@ package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.access.prepost.PreAuthorize;
-import pissir.watermanager.dao.DAO;
-import pissir.watermanager.model.item.RisorsaIdrica;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pissir.watermanager.dao.DAO;
+import pissir.watermanager.model.item.RisorsaIdrica;
 
 import java.util.HashSet;
 
@@ -25,7 +25,7 @@ public class ControllerRisorsaIdrica {
 	
 	
 	@GetMapping(value = "/azienda/get/{id}")
-	public String getRisorsaAziendaId (@PathVariable int id) {
+	public String getRisorsaAziendaId(@PathVariable int id) {
 		Gson gson = new Gson();
 		RisorsaIdrica risorsaIdrica = this.dao.getRisorsaAziendaId(id);
 		
@@ -34,7 +34,7 @@ public class ControllerRisorsaIdrica {
 	
 	
 	@GetMapping(value = "/azienda/getStorico/{id}")
-	public String getStoricoRisorseAzienda (@PathVariable int id) {
+	public String getStoricoRisorseAzienda(@PathVariable int id) {
 		Gson gson = new Gson();
 		HashSet<RisorsaIdrica> risorse = this.dao.getStoricoRisorseAzienda(id);
 		
@@ -43,7 +43,7 @@ public class ControllerRisorsaIdrica {
 	
 	
 	@PostMapping(value = "/azienda/add")
-	public ResponseEntity<Integer> addRisorsaAzienda (@RequestBody String param) {
+	public ResponseEntity<Integer> addRisorsaAzienda(@RequestBody String param) {
 		Gson gson = new Gson();
 		RisorsaIdrica risorsaIdrica = gson.fromJson(param, RisorsaIdrica.class);
 		
@@ -52,13 +52,13 @@ public class ControllerRisorsaIdrica {
 	
 	
 	@DeleteMapping(value = "/azienda/delete/{id}")
-	public void deleteRisorsaAzienda (@PathVariable int id) {
+	public void deleteRisorsaAzienda(@PathVariable int id) {
 		this.dao.deleteRisorsaAzienda(id);
 	}
 	
 	
 	@GetMapping(value = "/bacino/get/{id}")
-	public String getRisorsaBacinoId (@PathVariable int id) {
+	public String getRisorsaBacinoId(@PathVariable int id) {
 		Gson gson = new Gson();
 		RisorsaIdrica risorsaIdrica = this.dao.getRisorsaBacinoId(id);
 		
@@ -67,7 +67,7 @@ public class ControllerRisorsaIdrica {
 	
 	
 	@GetMapping(value = "/bacino/getStorico/{id}")
-	public String getStoricoRisorseBacino (@PathVariable int id) {
+	public String getStoricoRisorseBacino(@PathVariable int id) {
 		Gson gson = new Gson();
 		HashSet<RisorsaIdrica> risorse = this.dao.getStoricoRisorseBacino(id);
 		
@@ -76,7 +76,7 @@ public class ControllerRisorsaIdrica {
 	
 	
 	@PostMapping(value = "/bacino/add")
-	public ResponseEntity<Integer> addRisorsaBacino (@RequestBody String param) {
+	public ResponseEntity<Integer> addRisorsaBacino(@RequestBody String param) {
 		Gson gson = new Gson();
 		RisorsaIdrica risorsaIdrica = gson.fromJson(param, RisorsaIdrica.class);
 		
@@ -85,7 +85,7 @@ public class ControllerRisorsaIdrica {
 	
 	
 	@DeleteMapping(value = "/bacino/delete/{id}")
-	public void deleteRisorsaBacino (@PathVariable int id) {
+	public void deleteRisorsaBacino(@PathVariable int id) {
 		this.dao.deleteRisorsaBacino(id);
 	}
 	
@@ -97,4 +97,5 @@ public class ControllerRisorsaIdrica {
 		}
 		return null;
 	}
+	
 }

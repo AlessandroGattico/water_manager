@@ -11,48 +11,44 @@ namespace WaterManagerUI.Pages;
 public class GestoreIdricoPage : PageModel
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    public GestoreIdrico user { get; set; }
-    public BacinoIdrico bacino { get; set; }
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public GestoreIdricoPage(IHttpClientFactory httpClientFactory)
+    public GestoreIdrico user { get; set; }
+
+    public GestoreIdricoPage(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
+        _signInManager = signInManager;
     }
 
     public async Task OnGetAsync()
     {
-        var client = _httpClientFactory.CreateClient();
-
-        if (ClaimTypes.NameIdentifier != "null")
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREIDRICO"))
         {
-            user = new GestoreIdrico(Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)),
-                User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
-                User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
-                JsonConvert.DeserializeObject<BacinoIdrico>(
-                    User.FindFirstValue((ClaimTypes.NameIdentifier))));
+            var client = _httpClientFactory.CreateClient();
+            int id = int.Parse(User.FindFirstValue(ClaimTypes.Gender));
+
+            try
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var response = await client.GetAsync(
+                    $"http://localhost:8080/api/v1/user/get/gi/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    this.user = JsonConvert.DeserializeObject<GestoreIdrico>(jsonResponse);
+                }
+            }
+            catch (Exception e)
+            {
+                RedirectToPage("/Error/ServerOffline");
+            }
         }
         else
         {
-            user = new GestoreIdrico(Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)),
-                User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
-                User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "", null);
-        }
-
-        try
-        {
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-            var response = await client.GetAsync(
-                $"http://localhost:8080/api/v1/bacino/get/gestore/{user.id}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var jsonResponse = await response.Content.ReadAsStringAsync();
-                this.bacino = JsonConvert.DeserializeObject<BacinoIdrico>(jsonResponse);
-            }
-        }
-        catch (Exception e)
-        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 }

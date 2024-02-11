@@ -41,7 +41,12 @@ public class VisualizzaRichieste : PageModel
             }
             catch (HttpRequestException e)
             {
+                RedirectToPage("/Error/ServerOffline");
             }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 }

@@ -537,7 +537,10 @@ public class DaoUser {
 	
 	
 	public boolean existsUsername(String username) {
-		String sql = "SELECT COUNT(*) FROM users WHERE username = ?";
+		String sql = """
+				SELECT COUNT(*)
+				FROM users
+				WHERE username = ?;""";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -560,7 +563,11 @@ public class DaoUser {
 	
 	
 	public boolean existsMail(String email) {
-		String sql = "SELECT COUNT(*) FROM users WHERE mail = ?";
+		String sql = """
+				SELECT COUNT(*)
+				FROM users
+				WHERE mail = ?
+				""";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(sql)) {

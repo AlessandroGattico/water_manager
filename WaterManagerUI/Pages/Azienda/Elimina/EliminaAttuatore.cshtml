@@ -1,0 +1,28 @@
+@page
+@using WaterManagerUI.Model.Item
+@model WaterManagerUI.Pages.Elimina.EliminaAttuatore
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2>Elimina attuatore</h2>
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="attuatoreDel">Campagna</label>
+                    <select asp-for="attuatoreDel" class="form-control">
+                        @foreach (Attuatore attuatore in Model.attuatori.OrderBy(c => c.nome).ToList())
+                        {
+                            <option value="@attuatore.id">@attuatore.nome</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary form-button">Elimina attuatore</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

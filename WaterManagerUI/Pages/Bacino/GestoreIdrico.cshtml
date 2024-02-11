@@ -2,9 +2,6 @@
 @model WaterManagerUI.Pages.GestoreIdricoPage
 
 <link rel="stylesheet" href="~/css/site.css"/>
-<link rel="stylesheet" href="~/css/Visualizza.css"/>
-
-<title>Bacino</title>
 
 <div class="container-fluid">
     <div class="row">
@@ -12,13 +9,13 @@
             <aside class="flex-container">
                 <span>
                     <ul>
-                        @if (Model.bacino != null)
+                        @if (Model.user.bacinoIdrico != null)
                         {
                             <div>
                                 <a asp-page="/Bacino/GestoreBacino" class="btn btn-sidebar" asp-page-class="active">Statistiche bacino</a>
                             </div>
                             <div>
-                                <a asp-page="/Bacino/Visualizza/VisualizzaRichieste" asp-route-bacinoId="@Model.bacino.id" class="btn btn-sidebar" asp-page-class="active">Richieste</a>
+                                <a asp-page="/Bacino/richieste/VisualizzaRichiesteBacino" asp-route-bacinoId="@Model.user.bacinoIdrico.id" class="btn btn-sidebar" asp-page-class="active">Richieste</a>
                             </div>
                         }
                     </ul>
@@ -27,44 +24,45 @@
         </div>
         <div class="col-md-8">
             <div class="content">
-                @if (Model.bacino != null)
+                @if (Model.user.bacinoIdrico != null)
                 {
                     <div class="content-header">
                         <div>
                             <h2>Dettagli bacino</h2>
+                            <p>Nome bacino: @Model.user.bacinoIdrico.nome</p>
                         </div>
                         <div class="info-addizionali">
-                            <p>Disponibilità giornaliera: @Model.bacino.storicoRisorse().FirstOrDefault().disponibilita</p>
-                            <p>Consumo giornaliero: @Model.bacino.storicoRisorse().FirstOrDefault().consumo</p>
+                            <p>Disponibilità giornaliera: @Model.user.bacinoIdrico.storicoRisorse().FirstOrDefault().disponibilita</p>
+                            <p>Consumo giornaliero: @Model.user.bacinoIdrico.storicoRisorse().FirstOrDefault().consumo</p>
                         </div>
                     </div>
 
 
-                    <div class="elemento">
-                        <a asp-page="/Bacino/GestoreIdrico" asp-route-bacinoId="@Model.bacino.id">
-                            <div class="info-elemento nome">Disponibilità idrica: @Model.bacino.dispAttuale()</div>
+                    <div class="elemento" style="margin: 20px">
+                        <a asp-page="/Bacino/disponibilita/ModificaDisponibilita">
+                            <div class="info-elemento nome">Disponibilità idrica: @Model.user.bacinoIdrico.dispAttuale()</div>
                         </a>
                     </div>
-                    <div class="elemento">
-                        <a asp-page="/Bacino/VisualizzaRichiesteBacino" asp-route-bacinoId="@Model.bacino.id">
-                            <div class="info-elemento nome">Richieste in sospeso: @Model.bacino.richiesteSospeso().Count</div>
+                    <div class="elemento" style="margin: 20px">
+                        <a asp-page="/Bacino/richieste/RichiesteSospeso" asp-route-bacinoId="@Model.user.bacinoIdrico.id">
+                            <div class="info-elemento nome">Richieste in sospeso: @Model.user.bacinoIdrico.richiesteSospeso().Count</div>
                         </a>
                     </div>
-                    <div class="elemento">
-                        <a asp-page="/Bacino/VisualizzaRichiesteBacino" asp-route-bacinoId="@Model.bacino.id">
-                            <div class="info-elemento nome">Richieste approvate: @Model.bacino.richiesteApprovate().Count</div>
+                    <div class="elemento" style="margin: 20px">
+                        <a asp-page="/Bacino/richieste/RichiesteApprovate" asp-route-bacinoId="@Model.user.bacinoIdrico.id">
+                            <div class="info-elemento nome">Richieste approvate: @Model.user.bacinoIdrico.richiesteApprovate().Count</div>
                         </a>
                     </div>
-                    <div class="elemento">
-                        <a asp-page="/Bacino/VisualizzaRichiesteBacino" asp-route-bacinoId="@Model.bacino.id">
-                            <div class="info-elemento nome">Richieste rifiutate: @Model.bacino.richiesteRifiutate().Count</div>
+                    <div class="elemento" style="margin: 20px">
+                        <a asp-page="/Bacino/richieste/RichiesteRifiutate" asp-route-bacinoId="@Model.user.bacinoIdrico.id">
+                            <div class="info-elemento nome">Richieste rifiutate: @Model.user.bacinoIdrico.richiesteRifiutate().Count</div>
                         </a>
                     </div>
                 }
                 else
                 {
                     <div class="bottone-aggiungi">
-                        <a asp-page="/Bacino/Crea/CreaBacino" asp-route-userId="@Model.user.id">Aggiungi bacino</a>
+                        <a asp-page="/Bacino/Crea/CreaBacino">Aggiungi bacino</a>
                     </div>
                 }
             </div>

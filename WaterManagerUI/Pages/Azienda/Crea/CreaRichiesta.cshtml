@@ -2,8 +2,6 @@
 @using WaterManagerUI.Model.Item
 @model WaterManagerUI.Pages.CreaRichiesta
 
-
-<link rel="stylesheet" href="~/css/form.css"/>
 <link rel="stylesheet" href="~/css/site.css"/>
 
 
@@ -22,12 +20,12 @@
                     <select asp-for="nomeBacino" class="form-control">
                         @foreach (BacinoIdrico element in Model.bacini)
                         {
-                            <option>@element.nome</option>
+                            <option value="@element.id">@element.nome</option>
                         }
                     </select>
                 </div>
                 <div>
-                    <input type="submit" value="Crea richiesta" class="btn btn-primary form-button"/>
+                    <input type="submit" value="Crea richiesta" asp-route-coltivazioneId="@Model.coltivazioneId" class="btn btn-primary form-button"/>
                 </div>
             </form>
         </div>

@@ -49,7 +49,12 @@ public class AdminPage : PageModel
             }
             catch (HttpRequestException e)
             {
+                RedirectToPage("/Error/ServerOffline");
             }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 }

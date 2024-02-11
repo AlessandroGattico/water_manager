@@ -14,8 +14,7 @@ public class VisualizzaCampagna : PageModel
     private readonly SignInManager<IdentityUser> _signInManager;
 
 
-    public VisualizzaCampagna(IHttpClientFactory httpClientFactory,
-        IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager,
+    public VisualizzaCampagna(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager)
     {
         _httpClientFactory = httpClientFactory;
@@ -27,7 +26,7 @@ public class VisualizzaCampagna : PageModel
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
             var client = _httpClientFactory.CreateClient();
-            
+
             try
             {
                 client.DefaultRequestHeaders.Authorization =
@@ -44,7 +43,12 @@ public class VisualizzaCampagna : PageModel
             }
             catch (HttpRequestException e)
             {
+                RedirectToPage("/Error/ServerOffline");
             }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 }

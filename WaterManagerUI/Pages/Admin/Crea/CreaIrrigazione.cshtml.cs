@@ -37,11 +37,14 @@ public class CreaIrrigazione : PageModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
-                return RedirectToPage("/Admin/Coltivazione/Irrigazione");
+                RedirectToPage("/Error/ServerOffline");
             }
-
         }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
+        }
+        
         return RedirectToPage("/Admin/Coltivazione/Irrigazione");
     }
 }

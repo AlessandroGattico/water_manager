@@ -37,9 +37,12 @@ public class CreaEsigenza : PageModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
-                return RedirectToPage("/Admin/Coltivazione/Esigenza");
+                RedirectToPage("/Error/ServerOffline");
             }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
 
         return RedirectToPage("/Admin/Coltivazione/Esigenza");

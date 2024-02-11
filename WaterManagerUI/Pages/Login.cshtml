@@ -1,8 +1,7 @@
 @page
 @model WaterManagerUI.Pages.Login
 
-
-<link rel="stylesheet" href="~/css/form.css"/>
+<link rel="stylesheet" href="~/css/site.css"/>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -22,15 +21,15 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary form-button">Login</button>
                 </div>
-                <div class="form-group">
-                    <form method="post" asp-page="/OauthLogin" asp-route-returnUrl="/">
-                        <button name="provider" value="Google" title="Accedi usando il tuo account Google" class="btn btn-danger form-button">Login con Google</button>
-                    </form>
-                </div>
-                <p>
-                    Non hai un account? <a asp-page="/Register">Registrati qui</a>.
-                </p>
+
+
             </form>
+            <div class="form-group">
+                <a href="/signin" class="btn btn-secondary">Login con GitHub</a>
+            </div>
+            <p>
+                Non hai un account? <a asp-page="/Register">Registrati qui</a>.
+            </p>
         </div>
     </div>
 </div>

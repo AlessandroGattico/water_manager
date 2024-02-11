@@ -50,18 +50,17 @@ public class CreaCampagna : PageModel
 
                     idCampagna = JsonConvert.DeserializeObject<int>(responseContentStr);
                 }
-                else
-                {
-                    return RedirectToPage("/Azienda/GestoreAzienda", new { userId = user.id });
-                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
-                return RedirectToPage("/Azienda/GestoreAzienda", new { userId = user.id });
+                RedirectToPage("/Error/ServerOffline");
             }
         }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
+        }
 
-        return RedirectToPage("/Azienda/GestoreAzienda", new { userId = user.id });
+        return RedirectToPage("/Azienda/Visualizza/campagna/VisualizzaCampagne", new { aziendaId = aziendaId });
     }
 }

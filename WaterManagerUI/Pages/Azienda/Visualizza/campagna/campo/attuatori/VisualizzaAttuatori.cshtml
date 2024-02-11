@@ -1,0 +1,91 @@
+@page
+@using WaterManagerUI.Model.Item
+@model WaterManagerUI.Pages.VisualizzaAttuatori
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <div>
+                            <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">Statistiche Azienda</a>
+                        </div>
+                        @if (Model.campo.coltivazioni.Any())
+                        {
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/campo/coltivazione/VisualizzaColtivazioni" class="btn btn-sidebar" asp-page-class="active" asp-route-campoId="@Model.campo.id">Coltivazioni</a>
+                            </div>
+                        }
+                        @if (Model.campo.sensori.Any())
+                        {
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/campo/sensori/VisualizzaSensori" class="btn btn-sidebar" asp-page-class="active" asp-route-campoId="@Model.campo.id">Sensori</a>
+                            </div>
+                        }
+                        @if (Model.campo.attuatori.Any())
+                        {
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/campo/attuatori/VisualizzaAttuatori" class="btn btn-sidebar" asp-page-class="active" asp-route-campoId="@Model.campo.id">Attuatori</a>
+                            </div>
+                        }
+                    </ul>
+                </span>
+            </aside>
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-container">
+                <div class="content">
+                    <h2>Dettagli attuatori campo @Model.campo.nome</h2>
+                    <p>Nome campo: @Model.campo.nome</p>
+                </div>
+            </div>
+            @if (Model.campo.attuatori.Any())
+            {
+                <div class="bottoni-azione">
+                    <a asp-page="/Azienda/Crea/CreaAttuatore" asp-route-campoId="@Model.campo.id" class="bottone-aggiungi" style="text-decoration: none; color: inherit; color: #13b400">
+                        Aggiungi attuatore
+                    </a>
+                    <a asp-page="/Azienda/Elimina/EliminaAttuatore" asp-route-campoId="@Model.campo.id" class="bottone-aggiungi" style="text-decoration: none; color: inherit; border: 2px dashed #ff0000; color: #ff0000">
+                        Elimina attuatore
+                    </a>
+                </div>
+
+
+                <div class="elements">
+                    @foreach (Attuatore attuatore in Model.campo.attuatori)
+                    {
+                        <div class="elemento" onclick="this.parentNode.submit()">
+                            <a asp-page="/Azienda/Visualizza/campagna/campo/attuatori/VisualizzaAttuatore" asp-route-attuatoreId="@attuatore.id">
+                                <div class="info-elemento nome">Nome: @attuatore.nome</div>
+                                @if (attuatore.storicoAttivazioni().Any())
+                                {
+                                    <div class="info-elemento coltivazioni">Stato corrente: @attuatore.storicoAttivazioni().FirstOrDefault().current</div>
+                                }
+                                else
+                                {
+                                    <div class="info-elemento coltivazioni">Stato corrente: false</div>
+                                }
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+
+            else
+            {
+                <a asp-page="/Azienda/Crea/CreaAttuatore" asp-route-campoId="@Model.campo.id" style="text-decoration: none; color: inherit; grid-column: span 4">
+                    <div class="bottone-aggiungi">
+                        Aggiungi attuatore
+                    </div>
+                </a>
+            }
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

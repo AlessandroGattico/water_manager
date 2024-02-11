@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
+import pissir.watermanager.model.item.BacinoIdrico;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+
+import java.util.HashSet;
+import java.util.LinkedList;
 
 
 @RequestMapping("/api/v1/utils")
@@ -20,6 +22,23 @@ public class UtilsController {
 	private final DAO dao;
 	private final TokenService tokenService;
 	
+	@GetMapping(value = "/bacino/get/all")
+	public String getBacini(HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			HashSet<BacinoIdrico> bacini = this.dao.getBaciniSelect();
+			
+			if (bacini == null) {
+				return gson.toJson(new LinkedList<BacinoIdrico>());
+			}
+			
+			return gson.toJson(bacini);
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}
 	
 	@GetMapping(value = "/raccolto/get/all")
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
@@ -83,6 +102,73 @@ public class UtilsController {
 			return gson.toJson("Accesso negato");
 		}
 	}
+	
+	
+	@GetMapping(value = "/check/username")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('GESTOREIDRICO')")
+	public String checkUsername(@RequestBody String param, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt,
+				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			String username = gson.fromJson(param, String.class);
+			
+			return gson.toJson(this.dao.existsByUsername(username));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	
+	@GetMapping(value = "/check/email")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('GESTOREIDRICO')")
+	public String checkMail(@RequestBody String param, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt,
+				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			String mail = gson.fromJson(param, String.class);
+			
+			return gson.toJson(this.dao.existsByEmail(mail));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	
+	@GetMapping(value = "/check/campagnaNome/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('GESTOREIDRICO')")
+	public String checkCampagnaNome(@RequestBody String param, @PathVariable int id, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt,
+				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			String campagna = gson.fromJson(param, String.class);
+			
+			return gson.toJson(this.dao.existsCampagnaAzienda(id, campagna));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}@GetMapping(value = "/check/campoNome/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('GESTOREIDRICO')")
+	public String checkCampoNome(@RequestBody String param, @PathVariable int id, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt,
+				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			String campo = gson.fromJson(param, String.class);
+			
+			return gson.toJson(this.dao.existsCampoCampagna(id, campo));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	
 	
 	
 	private String extractTokenFromRequest(HttpServletRequest request) {

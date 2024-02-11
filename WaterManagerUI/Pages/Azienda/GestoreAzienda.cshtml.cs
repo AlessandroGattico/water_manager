@@ -3,25 +3,21 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using UserInterfaceWaterManager.Model.User;
-using WaterManagerUI.Model.Item;
 
-namespace WaterManagerUI.Pages;
+namespace WaterManagerUI.Pages.Azienda;
 
-public class GestoreAziendaPage : PageModel
+public class GestoreAzienda : PageModel
 {
-    public GestoreAzienda user { get; set; }
+    public UserInterfaceWaterManager.Model.User.GestoreAzienda gestore { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly SignInManager<IdentityUser> _signInManager;
 
-    public Model.Item.Azienda azienda { get; set; }
-
-
-    public GestoreAziendaPage(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
+    public GestoreAzienda(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
         _signInManager = signInManager;
     }
+
 
     public async Task OnGetAsync()
     {
@@ -29,8 +25,8 @@ public class GestoreAziendaPage : PageModel
         {
             var client = _httpClientFactory.CreateClient();
 
-            int id = Int32.Parse(HttpContext.Session.GetString("UserId"));
-            
+            int id = int.Parse(User.FindFirstValue(ClaimTypes.Gender));
+
             try
             {
                 client.DefaultRequestHeaders.Authorization =
@@ -41,21 +37,19 @@ public class GestoreAziendaPage : PageModel
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    this.user = JsonConvert.DeserializeObject<GestoreAzienda>(jsonResponse);
-
-                    var responseaz = await client.GetAsync(
-                        $"http://localhost:8080/api/v1/azienda/get/gestore/{user.id}");
-
-                    if (responseaz.IsSuccessStatusCode)
-                    {
-                        var jsonResponseaz = await response.Content.ReadAsStringAsync();
-                        this.azienda = JsonConvert.DeserializeObject<Model.Item.Azienda>(jsonResponse);
-                    }
+                    this.gestore =
+                        JsonConvert
+                            .DeserializeObject<UserInterfaceWaterManager.Model.User.GestoreAzienda>(jsonResponse);
                 }
             }
             catch (Exception e)
             {
+                RedirectToPage("/Error/ServerOffline");
             }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 }

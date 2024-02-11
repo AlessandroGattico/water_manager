@@ -47,7 +47,11 @@ public class ModificaDimensioneCampo : PageModel
             }
             catch (Exception e)
             {
+                RedirectToPage("/Error/ServerOffline");
             }
+        } else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 
@@ -55,7 +59,7 @@ public class ModificaDimensioneCampo : PageModel
     {
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
-            cambioDim = new CambioDouble(campoId, dimNew, "dimensnine");
+            cambioDim = new CambioDouble(campoId, dimNew, "dimensione");
 
             var client = _httpClientFactory.CreateClient();
 
@@ -74,19 +78,20 @@ public class ModificaDimensioneCampo : PageModel
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     bool esito = JsonConvert.DeserializeObject<bool>(jsonResponse);
-
-                    if (esito)
-                    {
-                    }
+                    
                 }
             }
             catch (Exception e)
             {
+                RedirectToPage("/Error/ServerOffline");
             }
 
-            return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
+            return RedirectToPage("/Azienda/Visualizza/campagna/campo/VisualizzaCampo", new { campoId = campoId });
+        } else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
 
-        return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
+        return RedirectToPage("/Azienda/Visualizza/campagna/campo/VisualizzaCampo", new { campoId = campoId });
     }
 }

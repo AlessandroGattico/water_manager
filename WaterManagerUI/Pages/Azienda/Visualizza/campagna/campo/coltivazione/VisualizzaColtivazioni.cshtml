@@ -1,0 +1,80 @@
+@page
+@using WaterManagerUI.Model.Item
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model WaterManagerUI.Pages.VisualizzaColtivazioni
+
+<link rel="stylesheet" href="~/css/Visualizza.css"/>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <div>
+                            <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">Statistiche Azienda</a>
+                        </div>
+                        @if (Model.campo.coltivazioni.Any())
+                        {
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/campo/coltivazione/VisualizzaColtivazioni" class="btn btn-sidebar" asp-page-class="active" asp-route-campoId="@Model.campo.id">Coltivazioni</a>
+                            </div>
+                        }
+                        @if (Model.campo.sensori.Any())
+                        {
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/campo/sensori/VisualizzaSensori" class="btn btn-sidebar" asp-page-class="active" asp-route-campoId="@Model.campo.id">Sensori</a>
+                            </div>
+                        }
+                        @if (Model.campo.attuatori.Any())
+                        {
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/campo/attuatori/VisualizzaAttuatori" class="btn btn-sidebar" asp-page-class="active" asp-route-campoId="@Model.campo.id">Attuatori</a>
+                            </div>
+                        }
+                    </ul>
+                </span>
+            </aside>
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-container">
+                <div class="content">
+                    @if (Model.campo != null)
+                    {
+                        <h2>Coltivazioni campo</h2>
+                        <p>Nome campo: @Model.campo.nome</p>
+                    }
+                </div>
+            </div>
+
+            <a asp-page="/Azienda/Crea/CreaColtivazione" asp-route-campoId="@Model.campo.id" style="text-decoration: none; color: inherit;">
+                <div class="bottone-aggiungi" style="grid-column: span 4">
+                    Aggiungi coltivazione
+                </div>
+            </a>
+
+            <div class="elements">
+                @if (Model.campo.coltivazioni.Any())
+                {
+                    @foreach (Coltivazione coltivazione in Model.campo.storicoColtivazioni())
+                    {
+                        <div class="elemento" onclick="this.parentNode.submit()">
+                            <a asp-page="/Azienda/Visualizza/campagna/campo/coltivazione/VisualizzaColtivazione" asp-route-coltivazioneId="@coltivazione.id">
+                                <div class="info-elemento raccolto">Raccolto: @coltivazione.raccolto</div>
+                                <div class="info-elemento nome">Irrigazione: @coltivazione.irrigazione</div>
+                                <div class="info-elemento nome">Esigenza: @coltivazione.esigenza</div>
+                                <div class="info-elemento nome">Semina: @coltivazione.semina</div>
+                                <div class="info-elemento nome">Temperatura ideale: @coltivazione.temperatura</div>
+                                <div class="info-elemento nome">Umidità ideale: @coltivazione.umidita</div>
+                            </a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

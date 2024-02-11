@@ -1,17 +1,15 @@
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using UserInterfaceWaterManager.Model.User;
 using WaterManagerUI.Model.Item;
 
 namespace WaterManagerUI.Pages;
 
 public class VisualizzaCampagne : PageModel
 {
-    public GestoreAzienda user { get; set; }
+    public Model.Item.Azienda azienda { get; set; }
     public List<Campagna> campagne { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly SignInManager<IdentityUser> _signInManager;
@@ -25,33 +23,40 @@ public class VisualizzaCampagne : PageModel
 
     public async Task OnGetAsync(int aziendaId)
     {
-        var client = _httpClientFactory.CreateClient();
-
         if (_signInManager.IsSignedIn(User))
         {
-            user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
-                User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
-                User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
-                JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
+            var client = _httpClientFactory.CreateClient();
 
             try
             {
                 client.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
                 var response = await client.GetAsync(
-                    $"http://localhost:8080/api/v1/azienda/campagna/get/all/{aziendaId}");
+                    $"http://localhost:8080/api/v1/azienda/get/{aziendaId}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    var campagneList = JsonConvert.DeserializeObject<HashSet<Campagna>>(jsonResponse);
-                    
-                    this.campagne = campagneList.OrderBy(c => c.nome).ToList();
+                    azienda = JsonConvert.DeserializeObject<Model.Item.Azienda>(jsonResponse);
+
+                    if (azienda.campagne.Any())
+                    {
+                        this.campagne = azienda.campagne.OrderBy(c => c.nome).ToList();
+                    }
+                    else
+                    {
+                        this.campagne = new List<Campagna>();
+                    }
                 }
             }
             catch (HttpRequestException e)
             {
+                RedirectToPage("/Error/ServerOffline");
             }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 }

@@ -31,7 +31,28 @@ public class CreaSensore : PageModel
     {
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
-            this.types = await GetType();
+            var client = _httpClientFactory.CreateClient();
+
+            try
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var response = await client.GetAsync("http://localhost:8080/api/v1/utils/sensorTypes/get/all");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    this.types = JsonConvert.DeserializeObject<HashSet<string>>(content);
+                }
+            }
+            catch (Exception e)
+            {
+                RedirectToPage("/Error/ServerOffline");
+            }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 
@@ -40,12 +61,6 @@ public class CreaSensore : PageModel
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
             var client = _httpClientFactory.CreateClient();
-
-            user = new GestoreAzienda(Convert.ToInt32(User.FindFirstValue(ClaimTypes.Gender)),
-                User.FindFirstValue(ClaimTypes.Name), User.FindFirstValue(ClaimTypes.Surname),
-                User.FindFirstValue(ClaimTypes.UserData), User.FindFirstValue(ClaimTypes.Email), "",
-                JsonConvert.DeserializeObject<Model.Item.Azienda>(User.FindFirstValue((ClaimTypes.NameIdentifier))));
-
 
             sensore = new Sensore()
             {
@@ -72,40 +87,19 @@ public class CreaSensore : PageModel
                     string responseContentStr = await response.Content.ReadAsStringAsync();
 
                     sensore.id = JsonConvert.DeserializeObject<int>(responseContentStr);
-
-                    return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
-                }
-                else
-                {
-                    return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
-                return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
+                RedirectToPage("/Error/ServerOffline");
             }
         }
-
-        return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
-    }
-
-    public async Task<HashSet<string>> GetType()
-    {
-        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
+        else
         {
-            var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/sensorTypes/get/all");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<HashSet<string>>(content);
-            }
+            RedirectToPage("/Error/UserNotLogged");
         }
 
-        return new HashSet<string>();
+        return RedirectToPage("/Azienda/Visualizza/campagna/campo/sensori/VisualizzaSensori",
+            new { campoId = campoId });
     }
 }

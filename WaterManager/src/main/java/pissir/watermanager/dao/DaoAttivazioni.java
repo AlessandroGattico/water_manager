@@ -61,7 +61,7 @@ public class DaoAttivazioni {
 					 */
 					
 					attivazione = new Attivazione(resultSet.getInt("id"), resultSet.getString("data"),
-							resultSet.getBoolean("stato"), resultSet.getInt("id_attuatore"));
+							resultSet.getInt("stato"), resultSet.getInt("id_attuatore"));
 				}
 			}
 			
@@ -110,7 +110,7 @@ public class DaoAttivazioni {
 				
 				for (HashMap<String, Object> map : list) {
 					Attivazione attivazione =
-							new Attivazione((int) map.get("id"), (String) map.get("data"), (boolean) map.get("stato"),
+							new Attivazione((int) map.get("id"), (String) map.get("time"), (Integer) map.get("current"),
 									(Integer) map.get("id_attuatore"));
 					
 					attivazioni.add(attivazione);

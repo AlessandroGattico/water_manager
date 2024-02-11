@@ -78,7 +78,7 @@ public class DAO {
 		
 		if (bacinoIdrico != null) {
 			HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseBacino(bacinoIdrico.getId());
-			HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(bacinoIdrico.getId());
+			HashSet<RichiestaIdrica> richieste = this.getRichiesteBacino(bacinoIdrico.getId());
 			
 			if (richieste != null) {
 				bacinoIdrico.setRichieste(richieste);
@@ -103,11 +103,6 @@ public class DAO {
 		if (azienda != null) {
 			HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseAzienda(azienda.getId());
 			HashSet<Campagna> campagne = this.getCampagnaAzienda(azienda.getId());
-			HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(azienda.getId());
-			
-			if (richieste != null) {
-				gestoreAzienda.setRichieste(richieste);
-			}
 			
 			if (risorse != null) {
 				azienda.setRisorse(risorse);
@@ -125,12 +120,50 @@ public class DAO {
 	
 	
 	public Azienda getAziendaGestore(int idGestore) {
-		return this.daoAzienda.getAziendaUser(idGestore);
+		Azienda azienda = this.daoAzienda.getAziendaUser(idGestore);
+		
+		if (azienda != null) {
+			HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseAzienda(azienda.getId());
+			HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(azienda.getNome());
+			
+			if (risorse != null) {
+				azienda.setRisorse(risorse);
+			}
+			
+			if (richieste != null) {
+				for (RichiestaIdrica richiesta : richieste) {
+					Approvazione approvazione = this.daoApprovazione.getApprovazioneIdRichiesta(richiesta.getId());
+					
+					if (approvazione != null) {
+						richiesta.setApprovato(approvazione);
+					} else {
+						richiesta.setApprovato(null);
+					}
+				}
+			}
+		}
+		
+		return azienda;
 	}
 	
 	
 	public BacinoIdrico getBacinoGestore(int idGestore) {
-		return this.daoBacinoIdrico.getBacinoUser(idGestore);
+		BacinoIdrico bacino = this.daoBacinoIdrico.getBacinoUser(idGestore);
+		
+		if (bacino != null) {
+			HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseBacino(bacino.getId());
+			HashSet<RichiestaIdrica> richieste = this.getRichiesteBacino(bacino.getId());
+			
+			if (risorse != null) {
+				bacino.setRisorse(risorse);
+			}
+			
+			if (richieste != null) {
+				bacino.setRichieste(richieste);
+			}
+		}
+		
+		return bacino;
 	}
 	
 	
@@ -145,10 +178,7 @@ public class DAO {
 	
 	
 	public Admin getAdmin(int id) {
-		Admin admin = this.daoUser.getAdmin(id);
-		
-		
-		return admin;
+		return this.daoUser.getAdmin(id);
 	}
 	
 	
@@ -204,10 +234,18 @@ public class DAO {
 	public BacinoIdrico getBacinoId(int idBacino) {
 		BacinoIdrico bacino = this.daoBacinoIdrico.getBacinoId(idBacino);
 		
-		HashSet<RichiestaIdrica> richieste = this.daoRichieste.getRichiesteBacino(idBacino);
-		
-		if (richieste != null) {
-			bacino.setRichieste(richieste);
+		if (bacino != null) {
+			HashSet<RichiestaIdrica> richieste = this.daoRichieste.getRichiesteBacino(idBacino);
+			
+			if (richieste != null) {
+				bacino.setRichieste(richieste);
+			}
+			
+			HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseBacino(bacino.getId());
+			
+			if (! risorse.isEmpty()) {
+				bacino.setRisorse(risorse);
+			}
 		}
 		
 		return bacino;
@@ -215,29 +253,13 @@ public class DAO {
 	
 	
 	public HashSet<BacinoIdrico> getBacini() {
-		HashSet<BacinoIdrico> bacini = this.daoBacinoIdrico.getBacini();
 		
-		for (BacinoIdrico bacino : bacini) {
-			HashSet<RichiestaIdrica> richieste = this.daoRichieste.getRichiesteBacino(bacino.getId());
-			
-			if (richieste != null) {
-				bacino.setRichieste(richieste);
-			}
-		}
-		
-		return bacini;
+		return this.daoBacinoIdrico.getBacini();
 	}
 	
 	
 	public HashSet<BacinoIdrico> getBaciniSelect() {
-		HashSet<BacinoIdrico> baciniAll = this.daoBacinoIdrico.getBacini();
-		
-		if (baciniAll != null) {
-			
-			return baciniAll;
-		}
-		
-		return baciniAll;
+		return this.daoBacinoIdrico.getBacini();
 	}
 	
 	
@@ -272,7 +294,7 @@ public class DAO {
 		if (azienda != null) {
 			HashSet<Campagna> campagne = this.getCampagnaAzienda(idAzienda);
 			HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseAzienda(idAzienda);
-			HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(idAzienda);
+			HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(azienda.getNome());
 			
 			if (campagne != null) {
 				azienda.setCampagne(campagne);
@@ -307,7 +329,7 @@ public class DAO {
 					azienda.setCampagne(campagne);
 				}
 				
-				HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(azienda.getId());
+				HashSet<RichiestaIdrica> richieste = this.getRichiesteAzienda(azienda.getNome());
 				
 				if (richieste != null) {
 					azienda.setRichieste(richieste);
@@ -582,7 +604,13 @@ public class DAO {
 	
 	
 	public Integer addAttuatore(Attuatore attuatore) {
-		return this.daoAttuatore.addAttuatore(attuatore);
+		Integer id = this.daoAttuatore.addAttuatore(attuatore);
+		
+		this.daoAttivazioni.addAttivazione(
+				new Attivazione(false, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
+						id));
+		
+		return id;
 	}
 	
 	
@@ -634,7 +662,7 @@ public class DAO {
 		if (richiestaIdrica != null) {
 			Approvazione approvazione = this.daoApprovazione.getApprovazioneIdRichiesta(idRichiesta);
 			if (approvazione != null) {
-				richiestaIdrica.setApprovato(approvazione.isApprovato());
+				richiestaIdrica.setApprovato(approvazione);
 			}
 		}
 		
@@ -652,7 +680,7 @@ public class DAO {
 	}
 	
 	
-	public HashSet<RichiestaIdrica> getRichiesteAzienda(int idAzienda) {
+	public HashSet<RichiestaIdrica> getRichiesteAzienda(String idAzienda) {
 		HashSet<RichiestaIdrica> richieste = this.daoRichieste.getRichiesteAzienda(idAzienda);
 		
 		if (richieste != null) {
@@ -661,7 +689,7 @@ public class DAO {
 					Approvazione approvazione =
 							this.daoApprovazione.getApprovazioneIdRichiesta(richiestaIdrica.getId());
 					if (approvazione != null) {
-						richiestaIdrica.setApprovato(approvazione.isApprovato());
+						richiestaIdrica.setApprovato(approvazione);
 					}
 				}
 			}
@@ -804,7 +832,7 @@ public class DAO {
 	
 	
 	public boolean existsByUsername(String username) {
-		return this.daoUser.existsUsername(username);
+		return !this.daoUser.existsUsername(username);
 	}
 	
 	
@@ -933,6 +961,16 @@ public class DAO {
 	
 	public HashSet<BacinoIdrico> getAllBacini() {
 		return this.daoBacinoIdrico.getBacini();
+	}
+	
+	
+	public boolean existsCampagnaAzienda(int id, String campagna) {
+		return this.daoCampagna.existsCampagnaAzienda(id, campagna);
+	}
+	
+	
+	public boolean existsCampoCampagna(int id, String campo) {
+		return this.daoCampo.existsCampoCampagna(id, campo);
 	}
 	
 }

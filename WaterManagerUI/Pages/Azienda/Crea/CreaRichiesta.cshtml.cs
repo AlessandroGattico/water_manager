@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using UserInterfaceWaterManager.Model.User;
 using WaterManagerUI.Model.Item;
 
 namespace WaterManagerUI.Pages;
@@ -12,12 +13,13 @@ namespace WaterManagerUI.Pages;
 public class CreaRichiesta : PageModel
 {
     [BindProperty] public Double quantita { get; set; }
-    [BindProperty] public string nomeBacino { get; set; }
-
+    [BindProperty] public int nomeBacino { get; set; }
+    public int coltivazioneId { get; set; }
     private RichiestaIdrica richiesta { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly SignInManager<IdentityUser> _signInManager;
     public HashSet<BacinoIdrico> bacini { get; set; }
+    private GestoreAzienda gestore { get; set; }
 
     public CreaRichiesta(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
@@ -27,21 +29,52 @@ public class CreaRichiesta : PageModel
 
     public async Task OnGetAsync(int coltivazioneId)
     {
-        this.bacini = await GetBacini();
+        if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
+        {
+            this.coltivazioneId = coltivazioneId;
+            this.bacini = await GetBacini();
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
+        }
     }
 
 
-    public async Task<IActionResult> OnPostAsync(int idColtivazione)
+    public async Task<IActionResult> OnPostAsync(int coltivazioneId)
     {
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
             var client = _httpClientFactory.CreateClient();
+
+            int id = int.Parse(User.FindFirstValue(ClaimTypes.Gender));
+
+            try
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var response = await client.GetAsync(
+                    $"http://localhost:8080/api/v1/user/get/ga/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonResponse = await response.Content.ReadAsStringAsync();
+                    this.gestore =
+                        JsonConvert
+                            .DeserializeObject<UserInterfaceWaterManager.Model.User.GestoreAzienda>(jsonResponse);
+                }
+            }
+            catch (Exception e)
+            {
+                RedirectToPage("/Error/ServerOffline");
+            }
+
             string formattedDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
             this.bacini = await GetBacini();
-            int idBacino = TrovaIdBacinoPerNome(nomeBacino);
 
-            richiesta = new RichiestaIdrica(quantita, idColtivazione, idBacino, formattedDateTime);
+            richiesta = new RichiestaIdrica(quantita, coltivazioneId, nomeBacino, formattedDateTime,
+                gestore.azienda.nome);
 
             try
             {
@@ -58,22 +91,18 @@ public class CreaRichiesta : PageModel
 
                     richiesta.id = JsonConvert.DeserializeObject<int>(responseContentStr);
                 }
-                else
-                {
-                    return RedirectToPage("/Azienda/GestoreAzienda",
-                        new { userId = Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)) });
-                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.StackTrace);
-                return RedirectToPage("/Azienda/GestoreAzienda",
-                    new { userId = Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)) });
+                RedirectToPage("/Error/ServerOffline");
             }
         }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
+        }
 
-        return RedirectToPage("/Azienda/GestoreAzienda",
-            new { userId = Int32.Parse(User.FindFirstValue(ClaimTypes.Gender)) });
+        return RedirectToPage("/Azienda/GestoreAzienda");
     }
 
 
@@ -82,34 +111,29 @@ public class CreaRichiesta : PageModel
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
             var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-            var response = await client.GetAsync("http://localhost:8080/api/v1/utils/bacino/get/all");
 
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<HashSet<BacinoIdrico>>(content);
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+                var response = await client.GetAsync("http://localhost:8080/api/v1/utils/bacino/get/all");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<HashSet<BacinoIdrico>>(content);
+                }
             }
+            catch (Exception e)
+            {
+                RedirectToPage("/Error/ServerOffline");
+            }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
 
         return new HashSet<BacinoIdrico>();
     }
-
-        private int TrovaIdBacinoPerNome(string nomeBacino)
-        {
-            if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
-            {
-                foreach (BacinoIdrico bacino in bacini)
-                {
-                    if (bacino.nome.Equals(nomeBacino))
-                    {
-                        return bacino.id;
-                    }
-                }
-            }
-
-            return 0;
-            }
-        
-    }
+}

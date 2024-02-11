@@ -1,0 +1,67 @@
+@page
+@using WaterManagerUI.Model.Item
+@using Humanizer
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model WaterManagerUI.Pages.VisualizzaMisureSensore
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <aside class="flex-container">
+                <span>
+                    <ul>
+                        <div>
+                            <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">Statistiche Azienda</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Azienda/Visualizza/VisualizzaColtivazioni" class="btn btn-sidebar" asp-page-class="active">Coltivazioni</a>
+                        </div>
+                        <div>
+                            <a asp-page="/Azienda/Visualizza/VisualizzaAttuatori" class="btn btn-sidebar" asp-page-class="active">Attuatori</a>
+                        </div>
+                    </ul>
+                </span>
+            </aside>
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-container">
+                <div class="content">
+                    <h2>Visualizza Misure</h2>
+                    @if (Model.sensore != null)
+                    {
+                        <h2>Misure sensore</h2>
+                        <p>Nome sensore: @Model.sensore.nome</p>
+                    }
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Misura</th>
+                    <th>Data</th>
+                    <th>Tipologia Sensore</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (Model.sensore.misure.Any())
+                {
+                    @foreach (Misura misura in Model.sensore.storicoMisure())
+                    {
+                        <tr>
+                            <td>@misura.value</td>
+                            <td>@misura.time.FormatWith("yyyy-MM-dd HH:mm:ss")</td>
+                            <td>@Model.sensore.type</td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

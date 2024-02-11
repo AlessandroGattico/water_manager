@@ -1,9 +1,9 @@
 @page
 @using WaterManagerUI.Model.Item
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@model VisualizzaCampagna
+@model WaterManagerUI.Pages.Azienda.Visualizza.campagna.VisualizzaCampagna
 
-<link rel="stylesheet" href="~/css/Visualizza.css"/>
+<link rel="stylesheet" href="~/css/site.css"/>
 
 <div class="container-fluid">
     <div class="row">
@@ -12,23 +12,25 @@
                 <span>
                     <ul>
                         <div>
-                            <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar"
-                               asp-page-class="active">
+                            <a asp-page="/Azienda/GestoreAzienda" class="btn btn-sidebar" asp-page-class="active">
                                 Statistiche Azienda
                             </a>
                         </div>
-                        <div>
-                            <a asp-page="/Azienda/Visualizza/campagna/VisualizzaColtivazioneCampagna" asp-route-aziendaId="@Model.campagna.id"
-                               class="btn btn-sidebar" asp-page-class="active">
-                                Coltivazioni
-                            </a>
-                        </div>
-                        <div>
-                            <a asp-page="/Azienda/Visualizza/Richiesta" class="btn btn-sidebar"
-                               asp-page-class="active">
-                                Richieste
-                            </a>
-                        </div>
+                        @if (Model.campagna.campi.Any())
+                        {
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/campagna/VisualizzaColtivazioneCampagna" asp-route-aziendaId="@Model.campagna.id"
+                                   class="btn btn-sidebar" asp-page-class="active">
+                                    Coltivazioni
+                                </a>
+                            </div>
+                            <div>
+                                <a asp-page="/Azienda/Visualizza/Richiesta" class="btn btn-sidebar"
+                                   asp-page-class="active">
+                                    Richieste
+                                </a>
+                            </div>
+                        }
 
                     </ul>
                 </span>
@@ -49,19 +51,21 @@
             @if (Model.campagna.campi.Any())
             {
                 <div class="bottoni-azione">
-                    <div class="bottone-aggiungi">
-                        <a asp-page="/Azienda/Crea/CreaCampo" asp-route-campagnaId="@Model.campagna.id">Aggiungi campo</a>
-                    </div>
-                    <div class="bottone-aggiungi" style=" border: 2px dashed #ff0000; color: #ff0000">
-                        <a asp-page="/Azienda/Crea/CreaCampo" asp-route-campagnaId="@Model.campagna.id">Elimina campo</a>
-                    </div>
+                    <a asp-page="/Azienda/Crea/CreaCampo" asp-route-campagnaId="@Model.campagna.id" class="bottone-aggiungi" style="text-decoration: none; color: inherit; color: #13b400">
+                        Aggiungi campo
+                    </a>
+                    <a asp-page="/Azienda/Elimina/EliminaCampo" asp-route-campagnaId="@Model.campagna.id" class="bottone-aggiungi" style="text-decoration: none; color: inherit; border: 2px dashed #ff0000; color: #ff0000">
+                        Elimina campo
+                    </a>
                 </div>
             }
             else
             {
-                <div class="bottone-aggiungi">
-                    <a asp-page="/Azienda/Crea/CreaCampo" asp-route-campagnaId="@Model.campagna.id">Aggiungi campo</a>
-                </div>
+                <a asp-page="/Azienda/Crea/CreaCampo" asp-route-campagnaId="@Model.campagna.id" style="text-decoration: none; color: inherit; grid-column: span 4">
+                    <div class="bottone-aggiungi">
+                        Aggiungi campo
+                    </div>
+                </a>
             }
 
             <div class="elements">
@@ -70,7 +74,7 @@
                     @foreach (Campo campo in Model.campagna.campi.OrderBy(c => c.nome).ToList())
                     {
                         <div class="elemento" onclick="this.parentNode.submit()">
-                            <a asp-page="/Azienda/Visualizza/campo/VisualizzaCampo" asp-route-campoId="@campo.id">
+                            <a asp-page="/Azienda/Visualizza/campagna/campo/VisualizzaCampo" asp-route-campoId="@campo.id">
                                 <div class="info-elemento nome">Nome: @campo.nome</div>
                                 <div class="info-elemento dimensione">Dimensione: @campo.dimensione</div>
                                 @if (campo.storicoColtivazioni().Any())

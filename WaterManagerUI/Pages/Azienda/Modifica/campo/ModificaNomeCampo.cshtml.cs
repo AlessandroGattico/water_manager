@@ -47,7 +47,12 @@ public class ModificaNomeCampo : PageModel
             }
             catch (Exception e)
             {
+                RedirectToPage("/Error/ServerOffline");
             }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
     }
 
@@ -77,12 +82,18 @@ public class ModificaNomeCampo : PageModel
 
                     if (esito)
                     {
+                        return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
                     }
                 }
             }
             catch (Exception e)
             {
+                RedirectToPage("/Error/ServerOffline");
             }
+        }
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
         }
 
         return RedirectToPage("/Azienda/Visualizza/campo/VisualizzaCampo", new { campoId = campoId });
