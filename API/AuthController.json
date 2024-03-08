@@ -37,29 +37,6 @@
 				}
 			}
 		},
-		"/auth/login/oauth2/code/github": {
-			"get": {
-				"summary": "Callback per autenticazione GitHub OAuth2",
-				"responses": {
-					"200": {
-						"description": "Autenticazione GitHub riuscita"
-					},
-					"401": {
-						"description": "Autenticazione GitHub non riuscita"
-					}
-				}
-			}
-		},
-		"/auth/oauth2/authorization/github": {
-			"get": {
-				"summary": "Inizia il processo di autenticazione OAuth2 con GitHub",
-				"responses": {
-					"302": {
-						"description": "Reindirizzamento alla pagina di autenticazione di GitHub"
-					}
-				}
-			}
-		},
 		"/auth/verify/mail/{email}": {
 			"get": {
 				"summary": "Verifica dell'esistenza di una mail",

@@ -23,12 +23,6 @@ public class AuthenticationController {
 	private final Gson gson;
 	private final DAO dao;
 	
-	//@Value("${github.clientId}")
-	private String githubClientId;
-	
-	//@Value("${github.clientSecret}")
-	private String githubClientSecret;
-	
 	
 	@PostMapping("/register")
 	public String registerUser(@RequestBody String body) {
@@ -59,70 +53,6 @@ public class AuthenticationController {
 		boolean esiste = this.dao.existsByEmail(email);
 		
 		return ResponseEntity.ok(! esiste);
-	}
-	
-	
-	@GetMapping("/oauth2/authorization/github")
-	public String redirectToGithubOAuth() {
-		String registrationId = "github";
-		String redirectUri =
-				OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI + "/" + registrationId;
-		// Redirigere l'utente al provider OAuth
-		return "redirect:" + redirectUri;
-	}
-	
-	
-	@GetMapping("/login/oauth2/code/github")
-	public String handleGithubOAuth2Callback(@RequestParam("code") String code) {
-		String accessToken = getAccessTokenFromGithub(code);
-		
-		GithubUser githubUser = fetchUserDetailsFromGithub(accessToken);
-		
-		LoginResponseDTO response = authenticationService.authenticateGithubUser(githubUser);
-		
-		return gson.toJson(response);
-	}
-	
-	
-	private String getAccessTokenFromGithub(String code) {
-		RestTemplate restTemplate = new RestTemplate();
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		
-		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-		params.add("client_id", githubClientId); // Sostituisci con il tuo client ID
-		params.add("client_secret", githubClientSecret); // Sostituisci con il tuo client secret
-		params.add("code", code);
-		
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
-		
-		String accessTokenUrl = "https://github.com/login/oauth/access_token";
-		ResponseEntity<AccessTokenResponse> response =
-				restTemplate.postForEntity(accessTokenUrl, request, AccessTokenResponse.class);
-		
-		if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-			return response.getBody().getAccessToken();
-		} else {
-			throw new RuntimeException("Failed to retrieve access token from GitHub.");
-		}
-	}
-	
-	
-	private GithubUser fetchUserDetailsFromGithub(String accessToken) {
-		// Utilizza RestTemplate per ottenere i dettagli dell'utente da GitHub
-		RestTemplate restTemplate = new RestTemplate();
-		String userInfoUrl = "https://api.github.com/user";
-		
-		// Aggiungi l'header di autorizzazione con il token di accesso
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "token " + accessToken);
-		HttpEntity<?> entity = new HttpEntity<>(headers);
-		
-		ResponseEntity<GithubUser> response =
-				restTemplate.exchange(userInfoUrl, HttpMethod.GET, entity, GithubUser.class);
-		
-		// Restituisci i dettagli dell'utente
-		return response.getBody(); // Assicurati che GithubUser abbia i campi necessari per l'utente GitHub
 	}
 	
 }

@@ -43,6 +43,7 @@ public class ControllerAdmin {
 	
 	
 	@GetMapping(value = "/count")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String getCount(HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -56,6 +57,7 @@ public class ControllerAdmin {
 	
 	
 	@GetMapping(value = "/bacino/get/all")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String getBacini(HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -75,6 +77,7 @@ public class ControllerAdmin {
 	
 	
 	@GetMapping(value = "/gi/get/all")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String getGestoriBacino(HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -189,6 +192,7 @@ public class ControllerAdmin {
 	
 	
 	@PostMapping(value = "/irrigazione/add/{param}")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String addIrrigazione(@PathVariable String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);

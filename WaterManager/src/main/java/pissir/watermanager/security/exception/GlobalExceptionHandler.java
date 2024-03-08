@@ -46,7 +46,9 @@ public class GlobalExceptionHandler {
 	}
 	
 	// Qui puoi aggiungere altri gestori di eccezioni, se necessario
-	
+
+	@Getter
+	@Setter
 	public static class ErrorMessage {
 		
 		private int statusCode;
