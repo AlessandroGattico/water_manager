@@ -128,7 +128,7 @@ public class ControllerAdmin {
 	}
 	
 	
-	@DeleteMapping(value = "/esigenza/add/{param}")
+	@PostMapping(value = "/esigenza/add/{param}")
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String addEsigenza(@PathVariable String param, HttpServletRequest request) {
 		Gson gson = new Gson();
@@ -188,7 +188,7 @@ public class ControllerAdmin {
 	}
 	
 	
-	@DeleteMapping(value = "/irrigazione/add/{param}")
+	@PostMapping(value = "/irrigazione/add/{param}")
 	public String addIrrigazione(@PathVariable String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);

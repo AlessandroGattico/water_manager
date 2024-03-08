@@ -29,12 +29,12 @@ public class Bacini : PageModel
             {
                 client.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-                var response = await client.GetAsync("http://localhost:8080/api/v1/admin/bacini/get/all");
+                var response = await client.GetAsync("http://localhost:8080/api/v1/admin/bacino/get/all");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    var baciniList = JsonConvert.DeserializeObject<HashSet<BacinoIdrico>>(content);
+                    HashSet<BacinoIdrico> baciniList = JsonConvert.DeserializeObject<HashSet<BacinoIdrico>>(content);
 
                     this.bacini = baciniList.OrderBy(b => b.nome).ToList();
                 }

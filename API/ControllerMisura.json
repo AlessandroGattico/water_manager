@@ -1,0 +1,99 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "API Gestione Misura",
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8080/api/v1",
+			"description": "Server di sviluppo locale"
+		}
+	],
+	"paths": {
+		"/misura/add/{id}": {
+			"post": {
+				"summary": "Aggiungi una nuova misura",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della misura da aggiungere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Misura aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/misura/delete/{id}": {
+			"delete": {
+				"summary": "Elimina una misura",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della misura da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Misura eliminata con successo"
+					}
+				}
+			}
+		},
+		"/misura/get/all/{id}": {
+			"get": {
+				"summary": "Ottieni tutte le misure",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID per filtrare le misure"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Lista di tutte le misure"
+					}
+				}
+			}
+		},
+		"/misura/get/{id}": {
+			"get": {
+				"summary": "Ottieni una misura specifica",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della misura da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli della misura richiesta"
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,273 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "API Amministrative",
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8080/api/v1",
+			"description": "Server di sviluppo locale per le funzionalità amministrative"
+		}
+	],
+	"paths": {
+		"/admin/aziende/get/all": {
+			"get": {
+				"summary": "Ottieni un elenco di tutte le aziende",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le aziende disponibili"
+					}
+				}
+			}
+		},
+		"/admin/bacini/get/all": {
+			"get": {
+				"summary": "Ottieni un elenco di tutti i bacini",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i bacini disponibili"
+					}
+				}
+			}
+		},
+		"/admin/bacino/get/all": {
+			"get": {
+				"summary": "Ottieni un elenco dettagliato dei bacini",
+				"responses": {
+					"200": {
+						"description": "Elenco dettagliato di tutti i bacini"
+					}
+				}
+			}
+		},
+		"/admin/campagne/get/all": {
+			"get": {
+				"summary": "Ottieni un elenco di tutte le campagne",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le campagne disponibili"
+					}
+				}
+			}
+		},
+		"/admin/campi/get/all": {
+			"get": {
+				"summary": "Ottieni un elenco di tutti i campi",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i campi disponibili"
+					}
+				}
+			}
+		},
+		"/admin/count": {
+			"get": {
+				"summary": "Ottieni conteggio totale di diverse entità",
+				"responses": {
+					"200": {
+						"description": "Conteggio totale delle entità"
+					}
+				}
+			}
+		},
+		"/admin/esigenza/add/{param}": {
+			"post": {
+				"summary": "Aggiungi una nuova esigenza",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare l'esigenza da aggiungere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Esigenza aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/admin/esigenza/delete/{param}": {
+			"delete": {
+				"summary": "Elimina un'esigenza esistente",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare l'esigenza da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Esigenza eliminata con successo"
+					}
+				}
+			}
+		},
+		"/admin/ga/get/all": {
+			"get": {
+				"summary": "Ottieni un elenco di tutte le GA",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le GA disponibili"
+					}
+				}
+			}
+		},
+		"/admin/get/{id}": {
+			"get": {
+				"summary": "Ottieni dettagli di una specifica entità amministrativa",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'entità amministrativa da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli dell'entità amministrativa richiesta"
+					}
+				}
+			}
+		},
+		"/admin/gi/get/all": {
+			"get": {
+				"summary": "Ottieni un elenco di tutte le GI",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le GI disponibili"
+					}
+				}
+			}
+		},
+		"/admin/irrigazione/add/{param}": {
+			"post": {
+				"summary": "Aggiungi un nuovo tipo di irrigazione",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare il tipo di irrigazione da aggiungere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Tipo di irrigazione aggiunto con successo"
+					}
+				}
+			}
+		},
+		"/admin/irrigazione/delete/{param}": {
+			"delete": {
+				"summary": "Elimina un tipo di irrigazione esistente",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare il tipo di irrigazione da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Tipo di irrigazione eliminato con successo"
+					}
+				}
+			}
+		},
+		"/admin/raccolto/delete/{param}": {
+			"delete": {
+				"summary": "Elimina un tipo di raccolto esistente",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare il tipo di raccolto da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Tipo di raccolto eliminato con successo"
+					}
+				}
+			}
+		},
+		"/admin/sensor/add/{param}": {
+			"post": {
+				"summary": "Aggiungi un nuovo sensore",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare il sensore da aggiungere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Sensore aggiunto con successo"
+					}
+				}
+			}
+		},
+		"/admin/sensor/delete/{param}": {
+			"delete": {
+				"summary": "Elimina un sensore esistente",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare il sensore da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Sensore eliminato con successo"
+					}
+				}
+			}
+		},
+		"/admin/raccolto/add": {
+			"post": {
+				"summary": "Aggiungi un nuovo tipo di raccolto",
+				"responses": {
+					"200": {
+						"description": "Tipo di raccolto aggiunto con successo"
+					}
+				}
+			}
+		}
+	}
+}

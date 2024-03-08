@@ -1,0 +1,109 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "API Gestione Richiesta",
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8080/api/v1",
+			"description": "Server di sviluppo locale per la gestione delle richieste"
+		}
+	],
+	"paths": {
+		"/richiesta/add": {
+			"post": {
+				"summary": "Aggiungi una nuova richiesta",
+				"responses": {
+					"200": {
+						"description": "Richiesta aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/richiesta/delete/{id}": {
+			"delete": {
+				"summary": "Elimina una richiesta",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della richiesta da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Richiesta eliminata con successo"
+					}
+				}
+			}
+		},
+		"/richiesta/get/allBacino/{id}": {
+			"get": {
+				"summary": "Ottieni tutte le richieste per un specifico bacino",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del bacino per filtrare le richieste"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le richieste per il bacino specificato"
+					}
+				}
+			}
+		},
+		"/richiesta/get/allColtivazione/{id}": {
+			"get": {
+				"summary": "Ottieni tutte le richieste per una specifica coltivazione",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della coltivazione per filtrare le richieste"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le richieste per la coltivazione specificata"
+					}
+				}
+			}
+		},
+		"/richiesta/get/{id}": {
+			"get": {
+				"summary": "Ottieni i dettagli di una specifica richiesta",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della richiesta da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli della richiesta richiesta"
+					}
+				}
+			}
+		}
+	}
+}

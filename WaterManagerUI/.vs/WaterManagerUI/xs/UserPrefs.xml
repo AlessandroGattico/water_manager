@@ -1,36 +1,44 @@
 ﻿<Properties StartupConfiguration="{DBD1C928-96CE-400A-8772-99970DDB9292}|http">
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.WaterManagerUI PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="../../../../.microsoft/usersecrets/aspnet-WaterManagerUI-64C1F7F7-729C-45C1-B373-9CDDA6B4BB01/secrets.json">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Pages/Admin/Bacino/Bacini.cshtml.cs">
     <Files>
-      <File FileName="../../../../.microsoft/usersecrets/aspnet-WaterManagerUI-64C1F7F7-729C-45C1-B373-9CDDA6B4BB01/secrets.json" Line="2" Column="44" />
       <File FileName="Areas/Identity/Pages/_ViewStart.cshtml" Line="1" Column="1" />
-      <File FileName="Properties/launchSettings.json" Line="1" Column="1" />
+      <File FileName="Pages/layout/Admin/_SideMenuAdmin.cshtml" Line="1" Column="1" />
+      <File FileName="Pages/Admin/Bacino/Bacini.cshtml" Line="1" Column="1" />
+      <File FileName="Pages/Admin/Bacino/Bacini.cshtml.cs" Line="27" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="WaterManagerUI">
-            <Node name="WaterManagerUI" expanded="True">
+            <Node name="WaterManagerUI">
               <Node name="Areas" expanded="True">
                 <Node name="Identity" expanded="True">
                   <Node name="Pages" expanded="True" />
                 </Node>
               </Node>
               <Node name="Pages" expanded="True">
-                <Node name="Login.cshtml" selected="True" />
+                <Node name="Admin" expanded="True">
+                  <Node name="Bacino" expanded="True">
+                    <Node name="Bacini.cshtml" expanded="True">
+                      <Node name="Bacini.cshtml.cs" selected="True" />
+                    </Node>
+                  </Node>
+                </Node>
+                <Node name="layout" expanded="True">
+                  <Node name="Admin" expanded="True" />
+                </Node>
               </Node>
-              <Node name="Properties" expanded="True" />
-              <Node name="wwwroot" expanded="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

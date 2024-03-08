@@ -1,0 +1,127 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "API di Utilità",
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8080/api/v1",
+			"description": "Server di sviluppo locale per servizi di utilità"
+		}
+	],
+	"paths": {
+		"/utils/bacino/get/all": {
+			"get": {
+				"summary": "Ottieni tutti i bacini",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i bacini"
+					}
+				}
+			}
+		},
+		"/utils/esigenza/get/all": {
+			"get": {
+				"summary": "Ottieni tutte le esigenze",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le esigenze"
+					}
+				}
+			}
+		},
+		"/utils/irrigazione/get/all": {
+			"get": {
+				"summary": "Ottieni tutti i tipi di irrigazione",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i tipi di irrigazione"
+					}
+				}
+			}
+		},
+		"/utils/raccolto/get/all": {
+			"get": {
+				"summary": "Ottieni tutti i tipi di raccolto",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i tipi di raccolto"
+					}
+				}
+			}
+		},
+		"/utils/sensorTypes/get/all": {
+			"get": {
+				"summary": "Ottieni tutti i tipi di sensori",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i tipi di sensori"
+					}
+				}
+			}
+		},
+		"/utils/check/campagnaNome/{id}": {
+			"get": {
+				"summary": "Verifica l'esistenza di un nome di campagna",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della campagna da verificare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Esito della verifica del nome della campagna"
+					}
+				}
+			}
+		},
+		"/utils/check/campoNome/{id}": {
+			"get": {
+				"summary": "Verifica l'esistenza di un nome di campo",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del campo da verificare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Esito della verifica del nome del campo"
+					}
+				}
+			}
+		},
+		"/utils/check/email": {
+			"get": {
+				"summary": "Verifica l'esistenza di un indirizzo email",
+				"responses": {
+					"200": {
+						"description": "Esito della verifica dell'indirizzo email"
+					}
+				}
+			}
+		},
+		"/utils/check/username": {
+			"get": {
+				"summary": "Verifica l'esistenza di un nome utente",
+				"responses": {
+					"200": {
+						"description": "Esito della verifica del nome utente"
+					}
+				}
+			}
+		}
+	}
+}

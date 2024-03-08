@@ -23,10 +23,10 @@ public class AuthenticationController {
 	private final Gson gson;
 	private final DAO dao;
 	
-	@Value("${github.clientId}")
+	//@Value("${github.clientId}")
 	private String githubClientId;
 	
-	@Value("${github.clientSecret}")
+	//@Value("${github.clientSecret}")
 	private String githubClientSecret;
 	
 	
@@ -74,16 +74,12 @@ public class AuthenticationController {
 	
 	@GetMapping("/login/oauth2/code/github")
 	public String handleGithubOAuth2Callback(@RequestParam("code") String code) {
-		// Scambia il codice di autorizzazione con un token di accesso
 		String accessToken = getAccessTokenFromGithub(code);
 		
-		// Ottieni i dettagli dell'utente da GitHub usando il token di accesso
 		GithubUser githubUser = fetchUserDetailsFromGithub(accessToken);
 		
-		// Autentica l'utente nel tuo sistema e genera un JWT
 		LoginResponseDTO response = authenticationService.authenticateGithubUser(githubUser);
 		
-		// Restituisci la risposta appropriata con il JWT
 		return gson.toJson(response);
 	}
 	

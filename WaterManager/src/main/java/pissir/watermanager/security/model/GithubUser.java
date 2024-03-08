@@ -13,8 +13,6 @@ public class GithubUser {
 	private String avatarUrl;
 	private String profileUrl;
 	
-	// Costruttori, getters e setters
-	
 	public GithubUser() {
 	}
 }

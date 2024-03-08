@@ -26,7 +26,7 @@ public class AuthenticationService {
 	private final AuthenticationManager authenticationManager;
 	private final TokenService tokenService;
 	private final RestTemplate restTemplate;
-	private final String githubUserApiUrl = "https://api.github.com/user";
+	//private final String githubUserApiUrl = "https://api.github.com/user";
 	
 	
 	public AuthenticationService(UserRepository userRepository, PasswordEncoder encoder,
@@ -39,6 +39,7 @@ public class AuthenticationService {
 		this.restTemplate = restTemplate;
 	}
 	
+	/*
 	public LoginResponseDTO authenticateWithGithub(String accessToken) {
 		// Richiedi i dettagli dell'utente da GitHub
 		HttpHeaders headers = new HttpHeaders();
@@ -56,19 +57,18 @@ public class AuthenticationService {
 		return authenticateGithubUser(githubUser);
 	}
 	
+	 */
+	
 	public LoginResponseDTO authenticateGithubUser(GithubUser githubUser) {
-		// Verifica se l'utente esiste nel database
 		UserProfile existingUser = userRepository.findByUsername(githubUser.getLogin());
 		
 		if (existingUser == null) {
-			// Crea un nuovo utente
 			UserProfile newUser = new UserProfile(githubUser.getName(), "", githubUser.getLogin(),
 					githubUser.getEmail(), "", null);
 			userRepository.saveUser(newUser);
 			existingUser = newUser;
 		}
 		
-		// Genera JWT per l'utente
 		String token = tokenService.generateJwt(existingUser);
 		
 		return new LoginResponseDTO(existingUser, token);

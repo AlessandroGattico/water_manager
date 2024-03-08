@@ -1,0 +1,108 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "API Gestione Bacino",
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8080/api/v1",
+			"description": "Server di sviluppo locale per la gestione dei bacini"
+		}
+	],
+	"paths": {
+		"/bacino/add": {
+			"post": {
+				"summary": "Aggiungi un nuovo bacino",
+				"responses": {
+					"200": {
+						"description": "Bacino aggiunto con successo"
+					}
+				}
+			}
+		},
+		"/bacino/delete/{id}": {
+			"delete": {
+				"summary": "Elimina un bacino",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del bacino da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Bacino eliminato con successo"
+					}
+				}
+			}
+		},
+		"/bacino/modifica/nome": {
+			"post": {
+				"summary": "Modifica il nome di un bacino",
+				"responses": {
+					"200": {
+						"description": "Nome del bacino modificato con successo"
+					}
+				}
+			}
+		},
+		"/bacino/get/all": {
+			"get": {
+				"summary": "Ottieni tutti i bacini",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i bacini"
+					}
+				}
+			}
+		},
+		"/bacino/get/gestore/{id}": {
+			"get": {
+				"summary": "Ottieni bacini gestiti da un specifico gestore",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del gestore per filtrare i bacini"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Lista dei bacini gestiti dal gestore specificato"
+					}
+				}
+			}
+		},
+		"/bacino/get/{id}": {
+			"get": {
+				"summary": "Ottieni un specifico bacino",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del bacino da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli del bacino richiesto"
+					}
+				}
+			}
+		}
+	}
+}

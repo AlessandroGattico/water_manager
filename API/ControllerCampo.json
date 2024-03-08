@@ -1,0 +1,108 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "API Gestione Campo Aziendale",
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8080/api/v1",
+			"description": "Server di sviluppo locale per la gestione dei campi aziendali"
+		}
+	],
+	"paths": {
+		"/azienda/campo/add": {
+			"post": {
+				"summary": "Aggiungi un nuovo campo all'azienda",
+				"responses": {
+					"200": {
+						"description": "Campo aggiunto con successo"
+					}
+				}
+			}
+		},
+		"/azienda/campo/modifica/campagna": {
+			"post": {
+				"summary": "Modifica la campagna di un campo esistente",
+				"responses": {
+					"200": {
+						"description": "Campagna del campo modificata con successo"
+					}
+				}
+			}
+		},
+		"/azienda/campo/modifica/nome": {
+			"post": {
+				"summary": "Modifica il nome di un campo esistente",
+				"responses": {
+					"200": {
+						"description": "Nome del campo modificato con successo"
+					}
+				}
+			}
+		},
+		"/azienda/campo/delete/{id}": {
+			"delete": {
+				"summary": "Elimina un campo",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del campo da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Campo eliminato con successo"
+					}
+				}
+			}
+		},
+		"/azienda/campo/get/all/{id}": {
+			"get": {
+				"summary": "Ottieni tutti i campi per un'azienda specifica",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'azienda per filtrare i campi"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i campi per l'azienda specificata"
+					}
+				}
+			}
+		},
+		"/azienda/campo/get/{id}": {
+			"get": {
+				"summary": "Ottieni i dettagli di un campo specifico",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del campo da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli del campo richiesto"
+					}
+				}
+			}
+		}
+	}
+}

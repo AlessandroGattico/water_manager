@@ -102,20 +102,6 @@ public class ControllerBacinoIdrico {
 	}
 	
 	
-	@PostMapping(value = "/modifica/nome")
-	public String modificaNome(@RequestBody String param, HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
-		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			CambioString cambio = gson.fromJson(param, CambioString.class);
-			
-			return gson.toJson(this.daoBacino.cambiaNomeBacino(cambio));
-		} else {
-			return gson.toJson("Accesso negato");
-		}
-	}
-	
 	
 	private String extractTokenFromRequest(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");

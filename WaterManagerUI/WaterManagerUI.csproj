@@ -7,19 +7,21 @@
         <UserSecretsId>aspnet-WaterManagerUI-64C1F7F7-729C-45C1-B373-9CDDA6B4BB01</UserSecretsId>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+    <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
     <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true"/>
+        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.15" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.15" />
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.14"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.14"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.14"/>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.14" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.14" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.14" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.15" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.14"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.14" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.14" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
         <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.3.1" />
@@ -44,7 +46,6 @@
       <AdditionalFiles Include="Pages\Azienda\Modifica\campo\ModificaNomeCampo.cshtml" />
       <AdditionalFiles Include="Pages\Azienda\Visualizza\campagna\VisualizzaCampagna.cshtml" />
       <AdditionalFiles Include="Pages\Azienda\Visualizza\campagna\VisualizzaCampagne.cshtml" />
-      <AdditionalFiles Include="Pages\Azienda\Visualizza\campagna\VisualizzaColtivazioneCampagna.cshtml" />
       <AdditionalFiles Include="Pages\Azienda\Visualizza\VisualizzaRichieste.cshtml" />
     </ItemGroup>
 
