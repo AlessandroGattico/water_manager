@@ -11,8 +11,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class Publisher {
 	
-	@Value("${mqtt.connection.url}")
-	private String url;
+	private final String url = "tcp://127.0.0.1:1883";
 	private MqttClient client;
 	
 	

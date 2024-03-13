@@ -3,15 +3,14 @@ package org.example.mqtt.subscriber;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * @author Alessandro Gattico
  */
 public class Subscriber {
 	
-	@Value("${mqtt.connection.url}")
-	private String url;
+	private final String url = "tcp://127.0.0.1:1883";
+	
 	private MqttClient mqttClient;
 	private SubscribeCallback callback;
 	

@@ -12,8 +12,7 @@ import org.springframework.web.client.RestTemplate;
  */
 public class SubscribeCallback implements MqttCallback {
 	
-	@Value("${api.add.misura}")
-	private String apiUrl;
+	private String apiUrl = "http://localhost:8080/api/v1/misura/add";
 	
 	
 	@Override

@@ -7,7 +7,6 @@ import org.example.mqtt.model.TopicCreator;
 import org.example.mqtt.model.Topics;
 import org.example.mqtt.publisher.Publisher;
 import org.example.mqtt.subscriber.Subscriber;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
@@ -24,8 +23,7 @@ public class Simulazione {
 	private final Publisher publisher;
 	private final Subscriber subscriber;
 	
-	@Value("${api.get.topics}")
-	private String urltopics;
+	private final String urlTopics = "http://localhost:8080/api/v1/utils/topics/get/all";
 	
 	
 	public Simulazione() {
@@ -43,7 +41,7 @@ public class Simulazione {
 	public void start() throws MqttException {
 		Gson gson = new Gson();
 		RestTemplate restTemplate = new RestTemplate();
-		String result = restTemplate.getForObject(urltopics, String.class);
+		String result = restTemplate.getForObject(urlTopics, String.class);
 		
 		Topics topics = gson.fromJson(result, Topics.class);
 		
