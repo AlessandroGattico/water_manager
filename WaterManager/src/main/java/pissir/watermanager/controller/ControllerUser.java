@@ -3,13 +3,11 @@ package pissir.watermanager.controller;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import pissir.watermanager.dao.DAO;
-import pissir.watermanager.model.cambio.CambioString;
+import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.model.user.*;
 import pissir.watermanager.security.services.TokenService;
 

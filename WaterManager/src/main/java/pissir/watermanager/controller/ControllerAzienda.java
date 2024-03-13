@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
-import pissir.watermanager.model.cambio.CambioString;
+import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.model.item.Azienda;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
@@ -62,6 +62,7 @@ public class ControllerAzienda {
 		}
 	}
 	
+	
 	@GetMapping(value = "/get/gestore/{id}")
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getAziendaGa(@PathVariable int id, HttpServletRequest request) {
@@ -83,18 +84,12 @@ public class ControllerAzienda {
 	
 	
 	@GetMapping(value = "/get/all")
-	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
-	public String getAziende(HttpServletRequest request) {
+	public String getAziende() {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
 		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			HashSet<Azienda> aziende = this.daoAzienda.getAziende();
-			
-			return gson.toJson(aziende);
-		} else {
-			return gson.toJson("Accesso negato");
-		}
+		HashSet<Azienda> aziende = this.daoAzienda.getAziende();
+		
+		return gson.toJson(aziende);
 	}
 	
 	

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
-import pissir.watermanager.model.cambio.CambioString;
+import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.model.item.Campagna;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;

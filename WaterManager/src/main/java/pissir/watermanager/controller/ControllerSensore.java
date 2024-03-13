@@ -4,11 +4,12 @@ import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import pissir.watermanager.dao.DAO;
-import pissir.watermanager.model.cambio.*;
 import pissir.watermanager.model.item.Sensore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pissir.watermanager.model.utils.cambio.CambioInt;
+import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;

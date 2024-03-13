@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.BacinoIdrico;
 import pissir.watermanager.model.user.UserRole;
+import pissir.watermanager.model.utils.Topics;
 import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
@@ -21,6 +22,21 @@ public class UtilsController {
 	
 	private final DAO dao;
 	private final TokenService tokenService;
+	
+	
+	@GetMapping(value = "/topics/get/all")
+	public String getTopics() {
+		Gson gson = new Gson();
+		
+		Topics topics = this.dao.getTopics();
+		
+		if (topics == null) {
+			return gson.toJson(new Topics());
+		}
+		
+		return gson.toJson(topics);
+	}
+	
 	
 	@GetMapping(value = "/bacino/get/all")
 	public String getBacini(HttpServletRequest request) {
@@ -39,6 +55,7 @@ public class UtilsController {
 			return gson.toJson("Accesso negato");
 		}
 	}
+	
 	
 	@GetMapping(value = "/raccolto/get/all")
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
@@ -152,7 +169,10 @@ public class UtilsController {
 		} else {
 			return gson.toJson("Accesso negato");
 		}
-	}@GetMapping(value = "/check/campoNome/{id}")
+	}
+	
+	
+	@GetMapping(value = "/check/campoNome/{id}")
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('GESTOREIDRICO')")
 	public String checkCampoNome(@RequestBody String param, @PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
@@ -167,8 +187,6 @@ public class UtilsController {
 			return gson.toJson("Accesso negato");
 		}
 	}
-	
-	
 	
 	
 	private String extractTokenFromRequest(HttpServletRequest request) {

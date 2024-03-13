@@ -1,12 +1,14 @@
 package pissir.watermanager.dao;
 
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.model.ElementsCount;
-import pissir.watermanager.model.cambio.CambioBool;
-import pissir.watermanager.model.cambio.CambioInt;
-import pissir.watermanager.model.cambio.CambioString;
 import pissir.watermanager.model.item.*;
 import pissir.watermanager.model.user.*;
+import pissir.watermanager.model.utils.ElementsCount;
+import pissir.watermanager.model.utils.TopicCreator;
+import pissir.watermanager.model.utils.Topics;
+import pissir.watermanager.model.utils.cambio.CambioBool;
+import pissir.watermanager.model.utils.cambio.CambioInt;
+import pissir.watermanager.model.utils.cambio.CambioString;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -338,6 +340,43 @@ public class DAO {
 		}
 		
 		return aziende;
+	}
+	
+	
+	public Topics getTopics() {
+		HashSet<Azienda> aziende = this.daoAzienda.getAziende();
+		Topics topics = new Topics();
+		
+		if (! aziende.isEmpty()) {
+			for (Azienda azienda : aziende) {
+				
+				HashSet<Campagna> campagne = this.getCampagnaAzienda(azienda.getId());
+				
+				for (Campagna campagna : campagne) {
+					if (! campagna.getCampi().isEmpty()) {
+						for (Campo campo : campagna.getCampi()) {
+							if (! campo.getSensori().isEmpty()) {
+								for (Sensore sensore : campo.getSensori()) {
+									TopicCreator creator = new TopicCreator();
+									
+									creator.setIdAzienda(azienda.getId());
+									creator.setIdCampagna(campagna.getId());
+									creator.setIdCampo(campo.getId());
+									creator.setNomeSensore(sensore.getNome());
+									creator.setIdSensore(sensore.getId());
+									creator.setTypeSensore(sensore.getType());
+									creator.createTopic();
+									
+									topics.addTopic(creator);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return topics;
 	}
 	
 	
@@ -832,7 +871,7 @@ public class DAO {
 	
 	
 	public boolean existsByUsername(String username) {
-		return !this.daoUser.existsUsername(username);
+		return ! this.daoUser.existsUsername(username);
 	}
 	
 	

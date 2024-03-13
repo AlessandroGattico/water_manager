@@ -1,4 +1,4 @@
-package pissir.watermanager.model.cambio;
+package pissir.watermanager.model.utils.cambio;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CambioString {
+public class CambioInt {
 	
 	private int id;
-	private String newString;
+	private int newInt;
 	private String property;
 	
 }

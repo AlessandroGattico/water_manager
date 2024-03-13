@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Misura;
+import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
@@ -18,7 +19,6 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/v1/misura")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 public class ControllerMisura {
 	
 	private final DAO daoMisura;
@@ -35,26 +35,52 @@ public class ControllerMisura {
 	
 	
 	@GetMapping(value = "/get/{id}")
-	public String getMisuraId(@PathVariable int id) {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String getMisuraId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		Misura misura = this.daoMisura.getMisuraId(id);
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(misura);
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			Misura misura = this.daoMisura.getMisuraId(id);
+			
+			return gson.toJson(misura);
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@GetMapping(value = "/get/all/{id}")
-	public String getMisureSensore(@PathVariable int id) {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String getMisureSensore(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		HashSet<Misura> misure = this.daoMisura.getMisureSensore(id);
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(misure);
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			HashSet<Misura> misure = this.daoMisura.getMisureSensore(id);
+			
+			return gson.toJson(misure);
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
-	public void deleteMisura(@PathVariable int id) {
-		this.daoMisura.deleteMisura(id);
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String deleteMisura(@PathVariable int id, HttpServletRequest request) {
+		Gson gson = new Gson();
+		
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			
+			this.daoMisura.deleteMisura(id);
+			return "OK";
+		} else {
+			return gson.toJson("Accesso negato");
+		}
+		
 	}
 	
 	
@@ -64,5 +90,7 @@ public class ControllerMisura {
 			return bearerToken.substring(7);
 		}
 		return null;
+		
 	}
+	
 }

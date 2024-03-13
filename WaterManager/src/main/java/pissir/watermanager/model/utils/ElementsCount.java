@@ -1,4 +1,4 @@
-package pissir.watermanager.model;
+package pissir.watermanager.model.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
