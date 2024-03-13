@@ -6,8 +6,13 @@
       <sourceFolder url="file://$MODULE_DIR$/WaterManagerBackend/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/WaterManagerBackend/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/WaterManagerBackend/src/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/MQTT/MQTT/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MQTT/MQTT/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/MQTT/MQTT/src/test" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-autoconfigure:3.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:3.2.1" level="project" />
   </component>
 </module>

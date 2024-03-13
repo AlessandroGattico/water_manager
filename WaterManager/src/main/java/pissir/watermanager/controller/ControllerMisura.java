@@ -25,7 +25,7 @@ public class ControllerMisura {
 	private final TokenService tokenService;
 	
 	
-	@PostMapping(value = "/add/{id}")
+	@PostMapping(value = "/add")
 	public void addMisura(@RequestBody String param) {
 		Gson gson = new Gson();
 		Misura misura = gson.fromJson(param, Misura.class);

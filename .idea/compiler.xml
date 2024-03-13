@@ -12,11 +12,13 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="MQTT" target="17" />
+      <module name="WaterManagerBackend" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="WaterManager" options="-parameters" />
+      <module name="WaterManagerBackend" options="-parameters" />
     </option>
   </component>
 </project>
