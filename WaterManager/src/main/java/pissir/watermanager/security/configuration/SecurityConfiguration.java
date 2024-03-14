@@ -69,6 +69,7 @@ public class SecurityConfiguration {
 					auth
 							.requestMatchers("/api/v1/auth/**").permitAll()
 							.requestMatchers("/api/v1/utils/**").permitAll()
+							.requestMatchers("/api/v1/misura/add").permitAll()
 							.anyRequest().authenticated();
 				})
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer :: jwt)

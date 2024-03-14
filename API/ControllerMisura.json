@@ -11,7 +11,7 @@
 		}
 	],
 	"paths": {
-		"/misura/add/{id}": {
+		"/misura/add": {
 			"post": {
 				"summary": "Aggiungi una nuova misura",
 				"parameters": [
@@ -55,7 +55,7 @@
 		},
 		"/misura/get/all/{id}": {
 			"get": {
-				"summary": "Ottieni tutte le misure",
+				"summary": "Ottieni tutte le misure diun sensore",
 				"parameters": [
 					{
 						"name": "id",

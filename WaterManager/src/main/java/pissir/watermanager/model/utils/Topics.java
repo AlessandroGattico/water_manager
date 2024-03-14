@@ -8,10 +8,15 @@ import java.util.LinkedList;
 
 @Getter
 @Setter
-@NoArgsConstructor
+
 public class Topics {
 	LinkedList<TopicCreator> topics;
-	
+
+
+	public Topics(){
+		this.topics = new LinkedList<>();
+	}
+
 	public void addTopic(TopicCreator topic){
 		this.topics.add(topic);
 	}

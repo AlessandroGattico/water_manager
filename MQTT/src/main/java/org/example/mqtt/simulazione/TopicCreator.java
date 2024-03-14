@@ -1,4 +1,4 @@
-package org.example.mqtt.model;
+package org.example.mqtt.simulazione;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

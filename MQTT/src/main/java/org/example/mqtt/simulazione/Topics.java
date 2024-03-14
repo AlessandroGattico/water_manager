@@ -1,8 +1,8 @@
-package org.example.mqtt.model;
+package org.example.mqtt.simulazione;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.mqtt.simulazione.TopicCreator;
 
 import java.util.LinkedList;
 
@@ -13,11 +13,13 @@ import java.util.LinkedList;
 
 @Getter
 @Setter
-@NoArgsConstructor
+
 public class Topics {
 	
 	LinkedList<TopicCreator> topics;
-	
+	public Topics(){
+		this.topics = new LinkedList<>();
+	}
 	
 	public void addTopic(TopicCreator topic) {
 		this.topics.add(topic);

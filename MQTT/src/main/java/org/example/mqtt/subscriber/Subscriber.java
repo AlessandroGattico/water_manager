@@ -19,16 +19,20 @@ public class Subscriber {
 		try {
 			this.mqttClient = new MqttClient(url, MqttClient.generateClientId());
 			
-			String password = "password1";
+			String password = "roger";
 			char[] pwd = password.toCharArray();
 			MqttConnectOptions options = new MqttConnectOptions();
-			
-			options.setUserName("upouser1");
-			options.setPassword(pwd);
-			this.callback = new SubscribeCallback();
-			
-			this.mqttClient.setCallback(this.callback);
+
+			options.setAutomaticReconnect(true);
 			this.mqttClient.connect(options);
+			options.setUserName("roger");
+			options.setPassword(pwd);
+
+			this.callback = new SubscribeCallback();
+			this.mqttClient.setCallback(this.callback);
+
+
+
 		} catch (MqttException e) {
 			e.printStackTrace();
 		}
@@ -38,7 +42,9 @@ public class Subscriber {
 	
 	
 	public void subscribe(String topic) throws MqttException {
-		this.mqttClient.subscribe(topic);
+		this.mqttClient.subscribe(topic,  (s, mqttMessage) -> {
+			this.callback.messageArrived(topic, mqttMessage);
+		});
 	}
 	
 }
