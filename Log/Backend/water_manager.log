@@ -1,0 +1,3 @@
+2024-04-17 15:03:51 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - Starting WaterManagerApplication using Java 17.0.10 with PID 32380 (/Users/alessandrogattico/Desktop/water/pissir/WaterManager/target/classes started by alessandrogattico in /Users/alessandrogattico/Desktop/water/pissir)
+2024-04-17 15:03:51 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - No active profile set, falling back to 1 default profile: "default"
+2024-04-17 15:03:59 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - Started WaterManagerApplication in 10.353 seconds (process running for 13.676)

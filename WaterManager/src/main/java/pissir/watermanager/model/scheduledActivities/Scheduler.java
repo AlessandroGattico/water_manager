@@ -1,4 +1,4 @@
-package pissir.watermanager.model.risorseManager;
+package pissir.watermanager.model.scheduledActivities;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -8,15 +8,16 @@ import org.springframework.stereotype.Component;
  * @author Borova Dritan
  * @author Gattico Alessandro
  */
-
 @Component
-public class RisorsaComponent {
+public class Scheduler {
 	
 	private final RisorsaService risorsaService;
+	private final DatabaseCleaner cleaner;
 	
 	
-	public RisorsaComponent(RisorsaService risorsaIdricaService) {
+	public Scheduler(RisorsaService risorsaIdricaService, DatabaseCleaner cleaner) {
 		this.risorsaService = risorsaIdricaService;
+		this.cleaner = cleaner;
 	}
 	
 	

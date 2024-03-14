@@ -676,14 +676,6 @@ public class DAO {
 		RichiestaIdrica richiesta = this.daoRichieste.getRichiestaId(approvazione.getIdRichiesta());
 		RisorsaIdrica risorsa = new RisorsaIdrica();
 		RisorsaIdrica lastBacino = this.daoRisorseBacino.ultimaRisorsa(richiesta.getIdBacino());
-		RisorsaIdrica lastAzienda = this.daoRisorseAzienda.ultimaRisorsa(
-				this.daoAzienda.getAziendaNome(richiesta.getNomeAzienda()).getId());
-		RisorsaIdrica newAzienda = new RisorsaIdrica();
-		
-		newAzienda.setData(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
-		newAzienda.setConsumo(lastAzienda.getConsumo());
-		newAzienda.setDisponibilita(lastAzienda.getDisponibilita() + richiesta.getQuantita());
-		newAzienda.setIdSource(lastAzienda.getIdSource());
 		
 		risorsa.setData(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
 		risorsa.setConsumo(lastBacino.getConsumo() + richiesta.getQuantita());
@@ -692,7 +684,8 @@ public class DAO {
 		
 		
 		this.daoRisorseBacino.addRisorsaBacino(risorsa);
-		this.daoRisorseAzienda.addRisorsaAzienda(newAzienda);
+		this.daoRichieste.addWaiting(this.daoAzienda.getAziendaNome(richiesta.getNomeAzienda()).getId(),
+				approvazione.getIdRichiesta());
 		
 		this.daoApprovazione.addApprovazione(approvazione);
 	}

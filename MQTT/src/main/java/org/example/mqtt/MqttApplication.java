@@ -6,6 +6,7 @@ import org.example.mqtt.simulazione.Simulazione;
 import org.example.mqtt.subscriber.Subscriber;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author Almasio Luca
@@ -14,13 +15,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
+@EnableScheduling
 public class MqttApplication {
 	
 	public static void main(String[] args) throws MqttException {
 		SpringApplication.run(MqttApplication.class, args);
 		Simulazione simulazione = new Simulazione(new Publisher(), new Subscriber());
-		
-		simulazione.start();
 	}
 	
 }
