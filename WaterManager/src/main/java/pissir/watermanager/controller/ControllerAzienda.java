@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
-import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.model.item.Azienda;
 import pissir.watermanager.model.user.UserRole;
+import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
@@ -19,7 +19,6 @@ import java.util.HashSet;
 
 @RestController
 @RequestMapping("/api/v1/azienda")
-@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 @RequiredArgsConstructor
 public class ControllerAzienda {
 	

@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pissir.watermanager.model.user.UserRole;
 
+/**
+ * @author alessandrogattico
+ */
+
 @Getter
 @Setter
 @NoArgsConstructor

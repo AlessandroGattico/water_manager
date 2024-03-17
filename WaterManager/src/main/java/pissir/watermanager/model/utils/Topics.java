@@ -6,6 +6,10 @@ import lombok.Setter;
 
 import java.util.LinkedList;
 
+/**
+ * @author Alessandro Gattico
+ */
+
 @Getter
 @Setter
 

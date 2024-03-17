@@ -15,7 +15,6 @@ import java.util.HashSet;
 @Repository
 public class DaoMisura {
 	
-	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -38,7 +37,6 @@ public class DaoMisura {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setInt(1, idMisura);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -58,7 +56,6 @@ public class DaoMisura {
 			}
 			
 		} catch (SQLException e) {
-			
 			return null;
 		}
 		
@@ -81,7 +78,6 @@ public class DaoMisura {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setInt(1, idSensore);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -124,13 +120,13 @@ public class DaoMisura {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setDouble(1, misura.getValue());
 			statement.setString(2, misura.getTime());
 			statement.setInt(3, misura.getIdSensore());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
+			return;
 		}
 	}
 	
@@ -148,6 +144,7 @@ public class DaoMisura {
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
+			return;
 		}
 		
 	}

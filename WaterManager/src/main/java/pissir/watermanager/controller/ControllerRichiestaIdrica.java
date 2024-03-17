@@ -3,6 +3,7 @@ package pissir.watermanager.controller;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.RichiestaIdrica;
@@ -25,13 +26,12 @@ public class ControllerRichiestaIdrica {
 	
 	
 	@PostMapping(value = "/add")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String addRichiesta(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO) ||
-				this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA) ||
-				this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			RichiestaIdrica richiesta = gson.fromJson(param, RichiestaIdrica.class);
 			
 			return gson.toJson(this.daoRichieste.addRichiesta(richiesta));
@@ -42,13 +42,13 @@ public class ControllerRichiestaIdrica {
 	
 	
 	@GetMapping(value = "/get/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('GESTOREIDRICO')")
 	public String getRichiestaId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO) ||
-				this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA) ||
-				this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+				this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			RichiestaIdrica richiestaIdrica = this.daoRichieste.getRichiestaId(id);
 			
 			return gson.toJson(richiestaIdrica);
@@ -59,13 +59,12 @@ public class ControllerRichiestaIdrica {
 	
 	
 	@GetMapping(value = "/get/allBacino/{id}")
+	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String getRichiesteBacino(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO) ||
-				this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA) ||
-				this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
 			HashSet<RichiestaIdrica> richieste = this.daoRichieste.getRichiesteBacino(id);
 			
 			return gson.toJson(richieste);
@@ -73,27 +72,15 @@ public class ControllerRichiestaIdrica {
 			return gson.toJson("Accesso negato");
 		}
 	}
-
-	/*
-	@GetMapping(value = "/get/allCampo/{id}")
-	public String getRichiesteCampo(@PathVariable int id) {
-		Gson gson = new Gson();
-		HashSet<RichiestaIdrica> richieste = this.daoRichieste.getRichiesteCampo(id);
-
-		return gson.toJson(richieste);
-	}
-	
-	 */
 	
 	
 	@GetMapping(value = "/get/allColtivazione/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getRichiesteColtivazione(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO) ||
-				this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA) ||
-				this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			HashSet<RichiestaIdrica> richieste = this.daoRichieste.getRichiesteColtivazione(id);
 			
 			return gson.toJson(richieste);
@@ -101,15 +88,6 @@ public class ControllerRichiestaIdrica {
 			return gson.toJson("Accesso negato");
 		}
 	}
-
-	/*
-	@GetMapping("/get/allAzienda/{id}")
-	public String getRichiesteAzienda(@PathVariable int id) {
-		Gson gson = new Gson();
-		HashSet<RichiestaIdrica> richieste = this.daoRichieste.getRichiesteAzienda(id);
-
-		return gson.toJson(richieste);
-	}*/
 	
 	
 	@DeleteMapping("/delete/{id}")
@@ -117,11 +95,9 @@ public class ControllerRichiestaIdrica {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO) ||
-				this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA) ||
-				this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
 			this.daoRichieste.deleteRichiesta(id);
-			return "OK";
+			return gson.toJson("OK");
 		} else {
 			return gson.toJson("Accesso negato");
 		}

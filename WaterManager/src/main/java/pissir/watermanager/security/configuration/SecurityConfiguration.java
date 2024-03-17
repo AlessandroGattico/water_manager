@@ -14,13 +14,11 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -28,6 +26,10 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestTemplate;
 import pissir.watermanager.security.utils.RsaKeyProperties;
+
+/**
+ * @author alessandrogattico
+ */
 
 @Configuration
 public class SecurityConfiguration {
@@ -47,19 +49,24 @@ public class SecurityConfiguration {
 	
 	
 	@Bean
-	public AuthenticationManager authenticationManager(UserDetailsService service) {
+	public AuthenticationManager authenticationManager() {
 		DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
-		daoProvider.setUserDetailsService(service);
+		daoProvider.setUserDetailsService(new UserDetailsService() {
+			@Override
+			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+				return null;
+			}
+		});
 		
 		return new ProviderManager(daoProvider);
 	}
-
-
+	
+	
 	@Bean
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-
+	
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

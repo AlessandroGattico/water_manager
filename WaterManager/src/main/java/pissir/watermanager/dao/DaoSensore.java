@@ -1,11 +1,9 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.model.item.Sensore;
 import pissir.watermanager.model.utils.cambio.CambioInt;
 import pissir.watermanager.model.utils.cambio.CambioString;
-import pissir.watermanager.model.item.Sensore;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,8 +17,6 @@ import java.util.HashSet;
 @Repository
 public class DaoSensore {
 	
-	private final Logger logger = LogManager.getLogger(DaoSensore.class.getName());
-	private final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -43,7 +39,6 @@ public class DaoSensore {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setInt(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -63,9 +58,6 @@ public class DaoSensore {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -89,7 +81,6 @@ public class DaoSensore {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setLong(1, idCampo);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -116,9 +107,6 @@ public class DaoSensore {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -149,8 +137,7 @@ public class DaoSensore {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return id;
 		}
 		
 		return id;
@@ -170,8 +157,7 @@ public class DaoSensore {
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 		
 	}
@@ -182,18 +168,11 @@ public class DaoSensore {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + cambio.getProperty());
-			
 			statement.setString(1, cambio.getNewString());
 			statement.setInt(2, cambio.getId());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		
@@ -206,25 +185,16 @@ public class DaoSensore {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + cambio.getProperty());
-			
 			statement.setInt(1, cambio.getNewInt());
 			statement.setInt(2, cambio.getId());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		
 		return true;
 	}
-	
-	
 	
 	
 }

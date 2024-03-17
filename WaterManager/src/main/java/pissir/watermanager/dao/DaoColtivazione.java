@@ -1,7 +1,5 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Coltivazione;
 
@@ -17,8 +15,6 @@ import java.util.HashSet;
 @Repository
 public class DaoColtivazione {
 	
-	private final Logger logger = LogManager.getLogger(DaoColtivazione.class.getName());
-	private final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -41,7 +37,6 @@ public class DaoColtivazione {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setInt(1, idColtivazione);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -62,9 +57,6 @@ public class DaoColtivazione {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -87,7 +79,6 @@ public class DaoColtivazione {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setLong(1, idCampo);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -115,9 +106,6 @@ public class DaoColtivazione {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -151,9 +139,6 @@ public class DaoColtivazione {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return id;
 		}
 		
@@ -174,8 +159,7 @@ public class DaoColtivazione {
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 	}
 	

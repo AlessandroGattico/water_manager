@@ -8,6 +8,9 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
+/**
+ * @author alessandrogattico
+ */
 
 @Getter
 @Setter

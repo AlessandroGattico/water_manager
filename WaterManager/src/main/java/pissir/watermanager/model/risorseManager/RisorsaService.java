@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 
+/**
+ * @author Alessandro Gattico
+ */
+
 @Service
 public class RisorsaService {
 	
@@ -42,11 +46,11 @@ public class RisorsaService {
 	
 	private void aggiungiRisorsaIdricaBacino(int idBacino) {
 		RisorsaIdrica ultimaRisorsa = this.dao.ultimaRisorsaBacino(idBacino);
-		double nuovaDisponibilita = calcolaNuovaDisponibilita(ultimaRisorsa);
 		
 		RisorsaIdrica nuovaRisorsa = new RisorsaIdrica();
-		nuovaRisorsa.setDisponibilita(nuovaDisponibilita);
+		nuovaRisorsa.setDisponibilita(ultimaRisorsa.getDisponibilita());
 		nuovaRisorsa.setData(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+		nuovaRisorsa.setConsumo(0.0);
 		
 		this.dao.addRisorsaBacino(nuovaRisorsa);
 	}
@@ -54,18 +58,13 @@ public class RisorsaService {
 	
 	private void aggiungiRisorsaIdricaAzienda(int idAzienda) {
 		RisorsaIdrica ultimaRisorsa = this.dao.ultimaRisorsaAzienda(idAzienda);
-		double nuovaDisponibilita = calcolaNuovaDisponibilita(ultimaRisorsa);
 		
 		RisorsaIdrica nuovaRisorsa = new RisorsaIdrica();
-		nuovaRisorsa.setDisponibilita(nuovaDisponibilita);
+		nuovaRisorsa.setDisponibilita(ultimaRisorsa.getDisponibilita());
 		nuovaRisorsa.setData(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+		nuovaRisorsa.setConsumo(0.0);
 		
 		this.dao.addRisorsaAzienda(nuovaRisorsa);
-	}
-	
-	
-	private double calcolaNuovaDisponibilita(RisorsaIdrica ultimaRisorsa) {
-		return ultimaRisorsa.getDisponibilita();
 	}
 	
 }

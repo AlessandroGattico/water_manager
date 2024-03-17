@@ -1,10 +1,8 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.model.item.Azienda;
+import pissir.watermanager.model.utils.cambio.CambioString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,8 +16,6 @@ import java.util.HashSet;
 @Repository
 public class DaoAzienda {
 	
-	private final Logger logger = LogManager.getLogger(DaoAzienda.class.getName());
-	private final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -29,15 +25,6 @@ public class DaoAzienda {
 	
 	
 	public Azienda getAziendaId(int id) {
-		logger.info("Get azienda per id");
-		logger.info("Id: " + id);
-		
-		/*int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
-		Azienda azienda = new Azienda();
-		 */
-		
 		Azienda azienda = null;
 		
 		String query = """
@@ -48,11 +35,6 @@ public class DaoAzienda {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + id);
-			
 			statement.setLong(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -64,9 +46,6 @@ public class DaoAzienda {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -81,8 +60,6 @@ public class DaoAzienda {
 		ResultSetMetaData resultSetMetaData;
 		HashSet<Azienda> aziende = new HashSet<>();
 		
-		logger.info("Get all aziende");
-		
 		String query = """
 				SELECT *
 				FROM azienda;
@@ -91,9 +68,6 @@ public class DaoAzienda {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
-			
-			loggerSql.debug("Executing sql " + query);
-			
 			resultSetMetaData = resultSet.getMetaData();
 			columns = resultSetMetaData.getColumnCount();
 			list = new ArrayList<>();
@@ -114,9 +88,6 @@ public class DaoAzienda {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -128,10 +99,6 @@ public class DaoAzienda {
 	public int addAzienda(Azienda azienda) {
 		int id = 0;
 		
-		logger.info("Add azienda");
-		logger.info("nome: " + azienda.getNome());
-		logger.info("user: " + azienda.getIdGestore());
-		
 		String query = """
 				INSERT INTO azienda (nome, id_user)
 				VALUES (?, ?);
@@ -140,12 +107,6 @@ public class DaoAzienda {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 nome = " + azienda.getNome());
-			loggerSql.debug("?2 id_user = " + azienda.getIdGestore());
-			
 			statement.setString(1, azienda.getNome());
 			statement.setInt(2, azienda.getIdGestore());
 			
@@ -157,9 +118,6 @@ public class DaoAzienda {
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return id;
 		}
 		
@@ -175,17 +133,11 @@ public class DaoAzienda {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + id);
-			
 			statement.setInt(1, id);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 	}
 	
@@ -215,9 +167,6 @@ public class DaoAzienda {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -230,18 +179,11 @@ public class DaoAzienda {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + cambio.getProperty());
-			
 			statement.setString(1, cambio.getNewString());
 			statement.setInt(2, cambio.getId());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		

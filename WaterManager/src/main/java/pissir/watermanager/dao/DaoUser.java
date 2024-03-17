@@ -1,10 +1,8 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.model.user.*;
+import pissir.watermanager.model.utils.cambio.CambioString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,25 +16,12 @@ import java.util.HashSet;
 @Repository
 public class DaoUser {
 	
-	private final Logger logger = LogManager.getLogger(DaoUser.class.getName());
-	private final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
 	public DaoUser() {
 	}
-	
-	
-	public Admin getAdmin(String username, String password) {
-		Admin admin = (Admin) this.getUser(username, password);
-		
-		admin.setGestoriAziende(this.getGestoriAzienda());
-		admin.setGestoriIdrici(this.getGestoriIdrici());
-		
-		return admin;
-	}
-	
 	
 	public Admin getAdmin(int id) {
 		Admin admin = null;
@@ -53,7 +38,6 @@ public class DaoUser {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setInt(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -73,9 +57,6 @@ public class DaoUser {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -123,9 +104,6 @@ public class DaoUser {
 				utenti.add(user);
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -149,7 +127,6 @@ public class DaoUser {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
-			
 			resultSetMetaData = resultSet.getMetaData();
 			columns = resultSetMetaData.getColumnCount();
 			list = new ArrayList<>();
@@ -172,9 +149,6 @@ public class DaoUser {
 				utenti.add(user);
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -197,7 +171,6 @@ public class DaoUser {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setString(1, username);
 			statement.setString(2, password);
 			
@@ -217,9 +190,6 @@ public class DaoUser {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -241,7 +211,6 @@ public class DaoUser {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setString(1, username);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -260,9 +229,6 @@ public class DaoUser {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -286,7 +252,6 @@ public class DaoUser {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
-			
 			resultSetMetaData = resultSet.getMetaData();
 			columns = resultSetMetaData.getColumnCount();
 			list = new ArrayList<>();
@@ -310,9 +275,6 @@ public class DaoUser {
 				utenti.add(user);
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -346,8 +308,7 @@ public class DaoUser {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return id;
 		}
 		
 		return id;
@@ -362,13 +323,11 @@ public class DaoUser {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setString(1, user.getUsername());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 	}
 	
@@ -387,7 +346,6 @@ public class DaoUser {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setInt(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -407,9 +365,6 @@ public class DaoUser {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -432,7 +387,6 @@ public class DaoUser {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setInt(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -453,9 +407,6 @@ public class DaoUser {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -469,18 +420,11 @@ public class DaoUser {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + cambio.getProperty());
-			
 			statement.setString(1, cambio.getNewString());
 			statement.setInt(2, cambio.getId());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		
@@ -493,18 +437,11 @@ public class DaoUser {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + cambio.getProperty());
-			
 			statement.setString(1, cambio.getNewString());
 			statement.setInt(2, cambio.getId());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		
@@ -517,18 +454,11 @@ public class DaoUser {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + cambio.getProperty());
-			
 			statement.setString(1, cambio.getNewString());
 			statement.setInt(2, cambio.getId());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		
@@ -546,15 +476,12 @@ public class DaoUser {
 			 PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setString(1, username);
 			
-			ResultSet rs = statement.executeQuery();
+			ResultSet resultSet = statement.executeQuery();
 			
-			if (rs.next()) {
-				return rs.getInt(1) > 0;
+			if (resultSet.next()) {
+				return resultSet.getInt(1) > 0;
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		
@@ -579,9 +506,6 @@ public class DaoUser {
 				return rs.getInt(1) > 0;
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		

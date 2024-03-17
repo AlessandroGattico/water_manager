@@ -7,6 +7,10 @@ import org.example.mqtt.subscriber.Subscriber;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author alessandrogattico
+ */
+
 @SpringBootApplication
 public class MqttApplication {
 	

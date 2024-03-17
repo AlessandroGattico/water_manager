@@ -24,12 +24,4 @@ public class Admin extends UserProfile {
 		this.gestoriIdrici = new HashSet<>();
 	}
 	
-	
-	public Admin(int id, String nome, String cognome, String username, String mail, String password,
-				 HashSet<GestoreAzienda> gestoriAziende, HashSet<GestoreIdrico> gestoriIdrici) {
-		super(id, nome, cognome, username, mail, password, UserRole.SYSTEMADMIN);
-		this.gestoriAziende = gestoriAziende;
-		this.gestoriIdrici = gestoriIdrici;
-	}
-	
 }

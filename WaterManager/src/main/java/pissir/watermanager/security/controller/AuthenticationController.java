@@ -13,6 +13,11 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.security.model.*;
 import pissir.watermanager.security.services.AuthenticationService;
 
+
+/**
+ * @author alessandrogattico
+ */
+
 @RestController
 @RequestMapping("/api/v1/auth")
 @CrossOrigin("*")

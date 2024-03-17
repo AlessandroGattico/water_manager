@@ -12,6 +12,10 @@ import pissir.watermanager.security.model.LoginResponseDTO;
 import pissir.watermanager.security.model.RegistrationDTO;
 import pissir.watermanager.security.repository.UserRepository;
 
+/**
+ * @author alessandrogattico
+ */
+
 @Service
 @Transactional
 public class AuthenticationService {

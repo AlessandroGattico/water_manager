@@ -1,7 +1,5 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.model.item.BacinoIdrico;
@@ -18,8 +16,6 @@ import java.util.HashSet;
 @Repository
 public class DaoBacinoIdrico {
 	
-	private final Logger logger = LogManager.getLogger(DaoBacinoIdrico.class.getName());
-	private final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -62,9 +58,6 @@ public class DaoBacinoIdrico {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -87,7 +80,6 @@ public class DaoBacinoIdrico {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
-			
 			resultSetMetaData = resultSet.getMetaData();
 			columns = resultSetMetaData.getColumnCount();
 			list = new ArrayList<>();
@@ -110,9 +102,6 @@ public class DaoBacinoIdrico {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -132,7 +121,6 @@ public class DaoBacinoIdrico {
 		try (
 				Connection connection = DriverManager.getConnection(this.url);
 				PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setString(1, bacinoIdrico.getNome());
 			statement.setInt(2, bacinoIdrico.getIdGestore());
 			
@@ -144,9 +132,6 @@ public class DaoBacinoIdrico {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return id;
 		}
 		
@@ -167,8 +152,7 @@ public class DaoBacinoIdrico {
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 		
 	}
@@ -188,7 +172,6 @@ public class DaoBacinoIdrico {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setInt(1, idGestore);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -207,9 +190,6 @@ public class DaoBacinoIdrico {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -222,18 +202,11 @@ public class DaoBacinoIdrico {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + cambio.getProperty());
-			
 			statement.setString(1, cambio.getNewString());
 			statement.setInt(2, cambio.getId());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		

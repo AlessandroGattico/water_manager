@@ -3,6 +3,10 @@ package pissir.watermanager.model.risorseManager;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author Alessandro Gattico
+ */
+
 @Component
 public class RisorsaComponent {
 	
@@ -16,7 +20,7 @@ public class RisorsaComponent {
 	
 	@Scheduled(cron = "0 0 0 * * ?")
 	public void aggiornaRisorseIdriche() {
-		risorsaService.aggiornaRisorse();
+		this.risorsaService.aggiornaRisorse();
 	}
 	
 }

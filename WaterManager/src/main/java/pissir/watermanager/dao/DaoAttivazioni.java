@@ -1,10 +1,8 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.model.utils.cambio.CambioBool;
 import pissir.watermanager.model.item.Attivazione;
+import pissir.watermanager.model.utils.cambio.CambioBool;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,8 +16,6 @@ import java.util.HashSet;
 @Repository
 public class DaoAttivazioni {
 	
-	private static final Logger logger = LogManager.getLogger(DaoAttivazioni.class.getName());
-	private static final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -29,11 +25,6 @@ public class DaoAttivazioni {
 	
 	
 	public Attivazione getAttivazioneId(int uuidAttivazione) {
-		/*int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
-		
-		 */
 		Attivazione attivazione = null;
 		
 		String query = """
@@ -44,34 +35,18 @@ public class DaoAttivazioni {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setLong(1, uuidAttivazione);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				//resultSetMetaData = resultSet.getMetaData();
-				//columns = resultSetMetaData.getColumnCount();
-				
 				while (resultSet.next()) {
-					/*row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					 */
-					
 					attivazione = new Attivazione(resultSet.getInt("id"), resultSet.getString("data"),
 							resultSet.getInt("stato"), resultSet.getInt("id_attuatore"));
 				}
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
-		
 		
 		return attivazione;
 	}
@@ -92,7 +67,6 @@ public class DaoAttivazioni {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setLong(1, uuidAttuatore);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -117,9 +91,6 @@ public class DaoAttivazioni {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -138,7 +109,6 @@ public class DaoAttivazioni {
 		try (
 				Connection connection = DriverManager.getConnection(this.url);
 				PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setBoolean(1, attivazione.isCurrent());
 			statement.setString(2, attivazione.getTime());
 			statement.setLong(3, attivazione.getIdAttuatore());
@@ -151,8 +121,7 @@ public class DaoAttivazioni {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return id;
 		}
 		
 		return id;
@@ -167,13 +136,11 @@ public class DaoAttivazioni {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setLong(1, attivazione);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 	}
 	
@@ -183,18 +150,11 @@ public class DaoAttivazioni {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + cambio.getProperty());
-			
 			statement.setBoolean(1, cambio.isNewBool());
 			statement.setInt(2, cambio.getId());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		

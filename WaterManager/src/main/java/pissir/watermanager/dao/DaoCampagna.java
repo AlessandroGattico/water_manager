@@ -1,10 +1,8 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.model.item.Campagna;
+import pissir.watermanager.model.utils.cambio.CambioString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,8 +16,6 @@ import java.util.HashSet;
 @Repository
 public class DaoCampagna {
 	
-	private final Logger logger = LogManager.getLogger(DaoCampagna.class.getName());
-	private final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -40,7 +36,6 @@ public class DaoCampagna {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setInt(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -50,9 +45,6 @@ public class DaoCampagna {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return campagna;
 		}
 		
@@ -76,7 +68,6 @@ public class DaoCampagna {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			statement.setInt(1, idAzienda);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -102,9 +93,6 @@ public class DaoCampagna {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return campagne;
 		}
 		
@@ -121,7 +109,6 @@ public class DaoCampagna {
 				SELECT  last_insert_rowid() AS newId;
 				""";
 		
-		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setString(1, campagna.getNome());
@@ -135,9 +122,6 @@ public class DaoCampagna {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return id;
 		}
 		
@@ -158,8 +142,7 @@ public class DaoCampagna {
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 	}
 	
@@ -169,18 +152,11 @@ public class DaoCampagna {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + cambio.getProperty());
-			
 			statement.setString(1, cambio.getNewString());
 			statement.setInt(2, cambio.getId());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		
@@ -202,7 +178,6 @@ public class DaoCampagna {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				resultSetMetaData = resultSet.getMetaData();
@@ -227,9 +202,6 @@ public class DaoCampagna {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return campagne;
 		}
 		
@@ -256,9 +228,6 @@ public class DaoCampagna {
 				return rs.getInt(1) > 0;
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		

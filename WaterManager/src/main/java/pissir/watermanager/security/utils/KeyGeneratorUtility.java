@@ -3,6 +3,10 @@ package pissir.watermanager.security.utils;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 
+/**
+ * @author alessandrogattico
+ */
+
 public class KeyGeneratorUtility {
 	
 	public static KeyPair generateKey(){

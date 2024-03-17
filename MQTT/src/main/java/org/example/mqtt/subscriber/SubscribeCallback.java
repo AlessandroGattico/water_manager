@@ -3,7 +3,6 @@ package org.example.mqtt.subscriber;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -12,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
  */
 public class SubscribeCallback implements MqttCallback {
 	
-	private String apiUrl = "http://localhost:8080/api/v1/misura/add";
+	private final String apiUrl = "http://localhost:8080/api/v1/misura/add";
 	
 	
 	@Override
@@ -21,7 +20,7 @@ public class SubscribeCallback implements MqttCallback {
 	
 	
 	@Override
-	public void messageArrived(String topic, MqttMessage message) throws Exception {
+	public void messageArrived(String topic, MqttMessage message) {
 		String misura = new String(message.getPayload());
 		RestTemplate restTemplate = new RestTemplate();
 		

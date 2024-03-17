@@ -1,7 +1,5 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import pissir.watermanager.model.user.UserRole;
 
 import java.sql.*;
@@ -9,10 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * @author alessandrogattico
+ */
+
+
 public class DaoUtils {
 	
-	private final Logger logger = LogManager.getLogger(DaoUser.class.getName());
-	private final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -37,8 +38,6 @@ public class DaoUtils {
 			 PreparedStatement statement = connection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
 			
-			loggerSql.debug("Executing sql " + query);
-			
 			resultSetMetaData = resultSet.getMetaData();
 			columns = resultSetMetaData.getColumnCount();
 			list = new ArrayList<>();
@@ -57,9 +56,6 @@ public class DaoUtils {
 				raccolti.add((String) map.get("nome"));
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -75,15 +71,11 @@ public class DaoUtils {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(queryInsert)) {
-			loggerSql.debug("Executing sql " + queryInsert);
-			loggerSql.debug("Parameters: ");
-			
 			statement.setString(1, string);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 	}
 	
@@ -95,17 +87,11 @@ public class DaoUtils {
 				""";
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 UUID = " + nome);
-			
 			statement.setString(1, nome);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 	}
 	
@@ -125,9 +111,6 @@ public class DaoUtils {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
-			
-			loggerSql.debug("Executing sql " + query);
-			
 			resultSetMetaData = resultSet.getMetaData();
 			columns = resultSetMetaData.getColumnCount();
 			list = new ArrayList<>();
@@ -146,9 +129,6 @@ public class DaoUtils {
 				esigenze.add((String) map.get("nome"));
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -164,16 +144,11 @@ public class DaoUtils {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 nome = " + esigenza);
-			
 			statement.setString(1, esigenza);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 	}
 	
@@ -186,17 +161,11 @@ public class DaoUtils {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 UUID = " + nome);
-			
 			statement.setString(1, nome);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 	}
 	
@@ -216,9 +185,6 @@ public class DaoUtils {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
-			
-			loggerSql.debug("Executing sql " + query);
-			
 			resultSetMetaData = resultSet.getMetaData();
 			columns = resultSetMetaData.getColumnCount();
 			list = new ArrayList<>();
@@ -237,9 +203,6 @@ public class DaoUtils {
 				irrigazioni.add((String) map.get("nome"));
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -255,18 +218,12 @@ public class DaoUtils {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(queryInsert)) {
-			loggerSql.debug("Executing sql " + queryInsert);
-			loggerSql.debug("Parameters: ");
-			
 			statement.setString(1, nome);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
-		
-		
 	}
 	
 	
@@ -278,17 +235,11 @@ public class DaoUtils {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 nome = " + nome);
-			
 			statement.setString(1, nome);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 		
 	}
@@ -309,9 +260,6 @@ public class DaoUtils {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
-			
-			loggerSql.debug("Executing sql " + query);
-			
 			resultSetMetaData = resultSet.getMetaData();
 			columns = resultSetMetaData.getColumnCount();
 			list = new ArrayList<>();
@@ -330,9 +278,6 @@ public class DaoUtils {
 				types.add((String) map.get("type"));
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -348,15 +293,11 @@ public class DaoUtils {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(queryInsert)) {
-			loggerSql.debug("Executing sql " + queryInsert);
-			loggerSql.debug("Parameters: ");
-			
 			statement.setString(1, nome);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 	}
 	
@@ -364,22 +305,16 @@ public class DaoUtils {
 	public void deleteSensorType(String nome) {
 		String query = """
 				DELETE FROM sensor_type
-				WHERE nome = ? ;
+				WHERE type = ? ;
 				""";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 nome = " + nome);
-			
 			statement.setString(1, nome);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 		
 	}
@@ -398,7 +333,7 @@ public class DaoUtils {
 			 PreparedStatement pstmt = conn.prepareStatement(query)) {
 			ResultSet rs = pstmt.executeQuery();
 			
-			pstmt.setString(1, userRole.toString());
+			pstmt.setString(1, String.valueOf(userRole));
 			
 			if (rs.next()) {
 				count = rs.getInt("total");

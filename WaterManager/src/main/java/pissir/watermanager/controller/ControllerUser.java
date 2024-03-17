@@ -7,11 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
+import pissir.watermanager.model.user.GestoreAzienda;
+import pissir.watermanager.model.user.GestoreIdrico;
+import pissir.watermanager.model.user.UserProfile;
+import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.model.utils.cambio.CambioString;
-import pissir.watermanager.model.user.*;
 import pissir.watermanager.security.services.TokenService;
-
-import java.util.HashSet;
 
 /**
  * @author alessandrogattico
@@ -24,26 +25,6 @@ public class ControllerUser {
 	
 	private final DAO daoUser;
 	private final TokenService tokenService;
-	
-	
-	@GetMapping(value = "/admin")
-	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
-	public String getAdmin(@RequestBody String username, String password) {
-		Gson gson = new Gson();
-		Admin admin = this.daoUser.getAdmin(username, password);
-		
-		return gson.toJson(admin);
-	}
-	
-	
-	@GetMapping(value = "/get")
-	@PreAuthorize("hasAuthority('SYSTTEMADMIN')")
-	public String getUser(@RequestBody String username, String password) {
-		Gson gson = new Gson();
-		UserProfile userProfile = this.daoUser.getUser(username, password);
-		
-		return gson.toJson(userProfile);
-	}
 	
 	
 	@GetMapping(value = "/get/ga/{id}")
@@ -79,16 +60,6 @@ public class ControllerUser {
 	}
 	
 	
-	@GetMapping(value = "/getAll")
-	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
-	public String getUtenti() {
-		Gson gson = new Gson();
-		HashSet<UserProfile> users = this.daoUser.getUtenti();
-		
-		return gson.toJson(users);
-	}
-	
-	
 	@PostMapping(value = "/add")
 	public ResponseEntity<Integer> addUser(@RequestBody String param) {
 		Gson gson = new Gson();
@@ -108,29 +79,50 @@ public class ControllerUser {
 	
 	
 	@PostMapping(value = "/modifica/nome")
-	public ResponseEntity<Boolean> modificaNome(@RequestBody String param) {
+	public String modificaNome(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		CambioString cambio = gson.fromJson(param, CambioString.class);
+		String jwtToken = extractTokenFromRequest(request);
 		
-		return ResponseEntity.ok(this.daoUser.cambiaNomeUser(cambio));
+		if (tokenService.validateTokenAndRole(jwtToken,
+				UserRole.GESTOREIDRICO) || this.tokenService.validateTokenAndRole(jwtToken, UserRole.GESTOREAZIENDA)) {
+			CambioString cambio = gson.fromJson(param, CambioString.class);
+			
+			return gson.toJson(this.daoUser.cambiaNomeUser(cambio));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@PostMapping(value = "/modifica/cognome")
-	public ResponseEntity<Boolean> modificaCognome(@RequestBody String param) {
+	public String modificaCognome(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		CambioString cambio = gson.fromJson(param, CambioString.class);
+		String jwtToken = extractTokenFromRequest(request);
 		
-		return ResponseEntity.ok(this.daoUser.cambiaCognomeUser(cambio));
+		if (tokenService.validateTokenAndRole(jwtToken,
+				UserRole.GESTOREIDRICO) || this.tokenService.validateTokenAndRole(jwtToken, UserRole.GESTOREAZIENDA)) {
+			CambioString cambio = gson.fromJson(param, CambioString.class);
+			
+			return gson.toJson(this.daoUser.cambiaCognomeUser(cambio));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@PostMapping(value = "/modifica/password")
-	public ResponseEntity<Boolean> modificaPassword(@RequestBody String param) {
+	public String modificaPassword(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		CambioString cambio = gson.fromJson(param, CambioString.class);
+		String jwtToken = extractTokenFromRequest(request);
 		
-		return ResponseEntity.ok(this.daoUser.cambiaPasswordUser(cambio));
+		if (tokenService.validateTokenAndRole(jwtToken,
+				UserRole.GESTOREIDRICO) || this.tokenService.validateTokenAndRole(jwtToken, UserRole.GESTOREAZIENDA)) {
+			CambioString cambio = gson.fromJson(param, CambioString.class);
+			
+			return gson.toJson(this.daoUser.cambiaPasswordUser(cambio));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	

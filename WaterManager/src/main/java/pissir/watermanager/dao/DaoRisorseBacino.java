@@ -1,7 +1,5 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.RisorsaIdrica;
 
@@ -17,8 +15,6 @@ import java.util.HashSet;
 @Repository
 public class DaoRisorseBacino {
 	
-	private final Logger logger = LogManager.getLogger(DaoRichieste.class.getName());
-	private final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -62,9 +58,6 @@ public class DaoRisorseBacino {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -114,9 +107,6 @@ public class DaoRisorseBacino {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -147,8 +137,7 @@ public class DaoRisorseBacino {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return id;
 		}
 		
 		return id;
@@ -168,8 +157,7 @@ public class DaoRisorseBacino {
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 		
 	}
@@ -211,9 +199,6 @@ public class DaoRisorseBacino {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		

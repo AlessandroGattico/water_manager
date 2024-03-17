@@ -1,10 +1,8 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.model.utils.cambio.CambioBool;
 import pissir.watermanager.model.item.Approvazione;
+import pissir.watermanager.model.utils.cambio.CambioBool;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,8 +16,6 @@ import java.util.HashSet;
 @Repository
 public class DaoApprovazione {
 	
-	private static final Logger logger = LogManager.getLogger(DaoApprovazione.class.getName());
-	private static final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -39,25 +35,12 @@ public class DaoApprovazione {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id_richiesta = " + idRichiesta);
 			
 			statement.setInt(1, idRichiesta);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				//resultSetMetaData = resultSet.getMetaData();
-				//columns = resultSetMetaData.getColumnCount();
 				
 				while (resultSet.next()) {
-					/*row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					 */
-					
 					approvazione = new Approvazione(resultSet.getInt("id"), resultSet.getInt("id_richiesta"),
 							resultSet.getInt("id_gestore"), resultSet.getBoolean("approvato"),
 							resultSet.getString("date"));
@@ -65,9 +48,6 @@ public class DaoApprovazione {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -90,10 +70,6 @@ public class DaoApprovazione {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id_gestore = " + idGestore);
-			
 			statement.setInt(1, idGestore);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -119,9 +95,6 @@ public class DaoApprovazione {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -139,13 +112,6 @@ public class DaoApprovazione {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id_richiesta = " + approvazione.getIdRichiesta());
-			loggerSql.debug("?2 id_gestore = " + approvazione.getIdGestore());
-			loggerSql.debug("?3 approvato = " + approvazione.isApprovato());
-			loggerSql.debug("?4 date = " + approvazione.getDate());
-			
 			statement.setInt(1, approvazione.getIdRichiesta());
 			statement.setInt(2, approvazione.getIdGestore());
 			statement.setBoolean(3, approvazione.isApprovato());
@@ -160,8 +126,7 @@ public class DaoApprovazione {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return id;
 		}
 		
 		return id;
@@ -176,16 +141,11 @@ public class DaoApprovazione {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + idApprovazione);
-			
 			statement.setLong(1, idApprovazione);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 	}
 	
@@ -195,18 +155,11 @@ public class DaoApprovazione {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + cambio.getProperty());
-			
 			statement.setBoolean(1, cambio.isNewBool());
 			statement.setInt(2, cambio.getId());
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return false;
 		}
 		

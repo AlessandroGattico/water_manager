@@ -21,7 +21,6 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/v1/azienda/campagna")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 public class ControllerCampagna {
 	
 	private final DAO daoCampagna;
@@ -29,6 +28,7 @@ public class ControllerCampagna {
 	
 	
 	@PostMapping(value = "/add")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String addCampagna(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -45,6 +45,7 @@ public class ControllerCampagna {
 	
 	
 	@GetMapping(value = "/get/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getCampagnaId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -60,6 +61,7 @@ public class ControllerCampagna {
 	
 	
 	@GetMapping(value = "/get/all/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getCampagneAzienda(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -75,12 +77,14 @@ public class ControllerCampagna {
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public void deleteCampagna(@PathVariable int id) {
 		this.daoCampagna.deleteCampagna(id);
 	}
 	
 	
 	@PostMapping(value = "/modifica/nome")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public ResponseEntity<Boolean> modificaNome(@RequestBody String param) {
 		Gson gson = new Gson();
 		CambioString cambio = gson.fromJson(param, CambioString.class);

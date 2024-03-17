@@ -2,12 +2,12 @@ package pissir.watermanager.controller;
 
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Sensore;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.model.utils.cambio.CambioInt;
 import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.security.services.TokenService;
@@ -21,7 +21,6 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/v1/azienda/sensore")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 public class ControllerSensore {
 	
 	private final DAO daoSensore;
@@ -29,53 +28,101 @@ public class ControllerSensore {
 	
 	
 	@GetMapping(value = "/get/{id}")
-	public String getSensoreId (@PathVariable int id) {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String getSensoreId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		Sensore sensore = this.daoSensore.getSensoreId(id);
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(sensore);
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			Sensore sensore = this.daoSensore.getSensoreId(id);
+			
+			return gson.toJson(sensore);
+			
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@GetMapping(value = "/getCampo/{id}")
-	public String getSensoriCampo (@PathVariable int id) {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String getSensoriCampo(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		HashSet<Sensore> sensori = this.daoSensore.getSensoriCampo(id);
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(sensori);
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			HashSet<Sensore> sensori = this.daoSensore.getSensoriCampo(id);
+			
+			return gson.toJson(sensori);
+			
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@PostMapping(value = "/add")
-	public ResponseEntity<Integer> addSensore (@RequestBody String param) {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String addSensore(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		Sensore sensore = gson.fromJson(param, Sensore.class);
+		String jwt = extractTokenFromRequest(request);
 		
-		return ResponseEntity.ok(this.daoSensore.addSensore(sensore));
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			Sensore sensore = gson.fromJson(param, Sensore.class);
+			
+			return gson.toJson(this.daoSensore.addSensore(sensore));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
-	public void deleteSensore (@PathVariable int id) {
-		this.daoSensore.deleteSensore(id);
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String deleteSensore(@PathVariable int id, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			this.daoSensore.deleteSensore(id);
+			
+			return gson.toJson("Ok");
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@PostMapping(value = "/modifica/nome")
-	public ResponseEntity<Boolean> modificaNome (@RequestBody String param) {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String modificaNome(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		CambioString cambio = gson.fromJson(param, CambioString.class);
+		String jwt = extractTokenFromRequest(request);
 		
-		return ResponseEntity.ok(this.daoSensore.cambiaNomeSensore(cambio));
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			CambioString cambio = gson.fromJson(param, CambioString.class);
+			
+			return gson.toJson(this.daoSensore.cambiaNomeSensore(cambio));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@PostMapping(value = "/modifica/campo")
-	public ResponseEntity<Boolean> modificaCampo (@RequestBody String param) {
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String modificaCampo(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		CambioInt cambio = gson.fromJson(param, CambioInt.class);
+		String jwt = extractTokenFromRequest(request);
 		
-		return ResponseEntity.ok(this.daoSensore.cambiaCampoSensore(cambio));
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			CambioInt cambio = gson.fromJson(param, CambioInt.class);
+			
+			return gson.toJson(this.daoSensore.cambiaCampoSensore(cambio));
+			
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
@@ -86,4 +133,5 @@ public class ControllerSensore {
 		}
 		return null;
 	}
+	
 }

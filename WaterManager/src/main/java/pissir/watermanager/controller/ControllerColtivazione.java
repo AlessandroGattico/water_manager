@@ -19,7 +19,6 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/v1/azienda/coltivazione")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 public class ControllerColtivazione {
 	
 	private final DAO daoColtivazione;
@@ -27,6 +26,7 @@ public class ControllerColtivazione {
 	
 	
 	@PostMapping(value = "/add")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String addColtivazione(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -42,6 +42,7 @@ public class ControllerColtivazione {
 	
 	
 	@GetMapping(value = "/get/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getColtivazioneId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -57,6 +58,7 @@ public class ControllerColtivazione {
 	
 	
 	@GetMapping(value = "/get/all/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getColtivazioniCampo(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -72,8 +74,18 @@ public class ControllerColtivazione {
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
-	public void deleteColtivazione(@PathVariable int id) {
-		this.daoColtivazione.deleteColtivazione(id);
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
+	public String deleteColtivazione(@PathVariable int id, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			this.daoColtivazione.deleteColtivazione(id);
+			
+			return gson.toJson("OK");
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	

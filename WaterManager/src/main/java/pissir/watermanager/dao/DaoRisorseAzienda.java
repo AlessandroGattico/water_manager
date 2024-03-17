@@ -1,7 +1,5 @@
 package pissir.watermanager.dao;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.RisorsaIdrica;
 
@@ -17,8 +15,6 @@ import java.util.HashSet;
 @Repository
 public class DaoRisorseAzienda {
 	
-	private final Logger logger = LogManager.getLogger(DaoRisorseAzienda.class.getName());
-	private final Logger loggerSql = LogManager.getLogger("sql");
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
@@ -41,10 +37,6 @@ public class DaoRisorseAzienda {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + idRisorsa);
-			
 			statement.setInt(1, idRisorsa);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -65,9 +57,6 @@ public class DaoRisorseAzienda {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -90,10 +79,6 @@ public class DaoRisorseAzienda {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id_azienda = " + idAzienda);
-			
 			statement.setInt(1, idAzienda);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
@@ -120,9 +105,6 @@ public class DaoRisorseAzienda {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		
@@ -142,13 +124,6 @@ public class DaoRisorseAzienda {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 consumo = " + risorsaIdrica.getConsumo());
-			loggerSql.debug("?2 disponibilita = " + risorsaIdrica.getDisponibilita());
-			loggerSql.debug("?3 time = " + risorsaIdrica.getData());
-			loggerSql.debug("?4 id_azienda = " + risorsaIdrica.getIdSource());
-			
 			statement.setDouble(1, risorsaIdrica.getConsumo());
 			statement.setDouble(2, risorsaIdrica.getDisponibilita());
 			statement.setString(3, risorsaIdrica.getData());
@@ -162,9 +137,6 @@ public class DaoRisorseAzienda {
 				}
 			}
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return id;
 		}
 		
@@ -180,16 +152,11 @@ public class DaoRisorseAzienda {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			loggerSql.debug("Executing sql " + query);
-			loggerSql.debug("Parameters: ");
-			loggerSql.debug("?1 id = " + id);
-			
 			statement.setLong(1, id);
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
+			return;
 		}
 		
 	}
@@ -231,9 +198,6 @@ public class DaoRisorseAzienda {
 			}
 			
 		} catch (SQLException e) {
-			logger.error(e.getMessage());
-			loggerSql.error(e.getMessage(), e);
-			
 			return null;
 		}
 		

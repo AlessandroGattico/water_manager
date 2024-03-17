@@ -19,7 +19,6 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/v1/bacino")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('GESTOREIDRICO') or hasAuthority('SYSTEMADMIN')")
 public class ControllerBacinoIdrico {
 	
 	private final DAO daoBacino;
@@ -49,6 +48,7 @@ public class ControllerBacinoIdrico {
 		return gson.toJson(bacini);
 	}
 	
+	
 	@GetMapping(value = "/get/gestore/{id}")
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String getBacinoGi(@PathVariable int id, HttpServletRequest request) {
@@ -70,6 +70,7 @@ public class ControllerBacinoIdrico {
 	
 	
 	@PostMapping(value = "/add")
+	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String addBacino(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -85,6 +86,7 @@ public class ControllerBacinoIdrico {
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
+	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String deleteBacino(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -98,7 +100,6 @@ public class ControllerBacinoIdrico {
 			return gson.toJson("Accesso negato");
 		}
 	}
-	
 	
 	
 	private String extractTokenFromRequest(HttpServletRequest request) {

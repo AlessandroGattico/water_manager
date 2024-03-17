@@ -3,13 +3,12 @@ package pissir.watermanager.controller;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
-import pissir.watermanager.model.utils.cambio.CambioBool;
 import pissir.watermanager.model.item.Approvazione;
 import pissir.watermanager.model.user.UserRole;
+import pissir.watermanager.model.utils.cambio.CambioBool;
 import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
@@ -21,7 +20,6 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/v1/bacino/approvazione")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('GESTOREIDRICO') or hasAuthority('SYSTEMADMIN')")
 public class ControllerApprovazione {
 	
 	private final DAO daoApprovazione;
@@ -29,24 +27,39 @@ public class ControllerApprovazione {
 	
 	
 	@GetMapping(value = "/get/{id}")
-	public String getApprovazioneId(@PathVariable int id) {
+	public String getApprovazioneId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		Approvazione approvazione = this.daoApprovazione.getApprovazioneId(id);
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(approvazione);
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
+			Approvazione approvazione = this.daoApprovazione.getApprovazioneId(id);
+			
+			return gson.toJson(approvazione);
+			
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@GetMapping(value = "/getGestore/{id}")
-	public String getApprovazioniGestore(@PathVariable int id) {
-		HashSet<Approvazione> approvazioni = this.daoApprovazione.getApprovazioniGestore(id);
+	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
+	public String getApprovazioniGestore(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
 		
-		return gson.toJson(approvazioni);
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
+			HashSet<Approvazione> approvazioni = this.daoApprovazione.getApprovazioniGestore(id);
+			
+			return gson.toJson(approvazioni);
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@PostMapping(value = "/add")
+	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String addApprovazione(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -64,17 +77,33 @@ public class ControllerApprovazione {
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
-	public void deleteApprovazione(@PathVariable int id) {
-		this.daoApprovazione.deleteApprovazione(id);
+	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
+	public String deleteApprovazione(@PathVariable int id, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = extractTokenFromRequest(request);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
+			this.daoApprovazione.deleteApprovazione(id);
+			
+			return gson.toJson("OK");
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	
 	@PostMapping(value = "/modifica/app")
-	public ResponseEntity<Boolean> modificaApprovato(@RequestBody String param) {
+	public String modificaApprovato(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		CambioBool cambio = gson.fromJson(param, CambioBool.class);
+		String jwt = extractTokenFromRequest(request);
 		
-		return ResponseEntity.ok(this.daoApprovazione.cambiaApprovazione(cambio));
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
+			CambioBool cambio = gson.fromJson(param, CambioBool.class);
+			
+			return gson.toJson(this.daoApprovazione.cambiaApprovazione(cambio));
+		} else {
+			return gson.toJson("Accesso negato");
+		}
 	}
 	
 	

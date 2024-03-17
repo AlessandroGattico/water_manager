@@ -4,6 +4,10 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.user.UserProfile;
 
+/**
+ * @author alessandrogattico
+ */
+
 
 @Repository
 public class UserRepository {

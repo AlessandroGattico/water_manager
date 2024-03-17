@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import java.util.HashSet;
 
+/**
+ * @author Alessandro Gattico
+ */
 @Setter
 @Getter
 @NoArgsConstructor

@@ -184,39 +184,6 @@ public class DAO {
 	}
 	
 	
-	public Admin getAdmin(String username, String password) {
-		Admin admin = this.daoUser.getAdmin(username, password);
-		
-		if (! admin.getGestoriAziende().isEmpty()) {
-			for (GestoreAzienda gestoreAzienda : admin.getGestoriAziende()) {
-				Azienda azienda = this.getAziendaGestore(gestoreAzienda.getId());
-				
-				if (azienda != null) {
-					gestoreAzienda.setAzienda(azienda);
-				}
-			}
-		}
-		
-		if (! admin.getGestoriIdrici().isEmpty()) {
-			for (GestoreIdrico gestoreIdrico : admin.getGestoriIdrici()) {
-				BacinoIdrico bacinoIdrico = this.getBacinoGestore(gestoreIdrico.getId());
-				
-				if (bacinoIdrico != null) {
-					HashSet<RisorsaIdrica> risorse = this.getStoricoRisorseBacino(bacinoIdrico.getId());
-					
-					if (! risorse.isEmpty()) {
-						bacinoIdrico.setRisorse(risorse);
-					}
-					
-					gestoreIdrico.setBacinoIdrico(bacinoIdrico);
-				}
-			}
-		}
-		
-		return admin;
-	}
-	
-	
 	public Boolean cambiaNomeUser(CambioString cambio) {
 		return this.daoUser.cambiaNome(cambio);
 	}
@@ -282,11 +249,6 @@ public class DAO {
 	
 	public void deleteBacino(BacinoIdrico bacino) {
 		this.daoBacinoIdrico.deleteBacino(bacino);
-	}
-	
-	
-	public Boolean cambiaNomeBacino(CambioString cambio) {
-		return this.daoBacinoIdrico.cambiaNome(cambio);
 	}
 	
 	
@@ -642,8 +604,8 @@ public class DAO {
 	}
 	
 	
-	public Integer addAttuatore(Attuatore attuatore) {
-		Integer id = this.daoAttuatore.addAttuatore(attuatore);
+	public int addAttuatore(Attuatore attuatore) {
+		int id = this.daoAttuatore.addAttuatore(attuatore);
 		
 		this.daoAttivazioni.addAttivazione(
 				new Attivazione(false, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
@@ -738,14 +700,6 @@ public class DAO {
 	}
 	
 	
-	/*
-	public HashSet<RichiestaIdrica> getRichiesteCampo (int idCampo) {
-		return this.daoRichieste.getRichiesteCampo(idCampo);
-	}
-	
-	
-	
-	 */
 	public int addRichiesta(RichiestaIdrica richiesta) {
 		return this.daoRichieste.addRichiesta(richiesta);
 	}
@@ -767,8 +721,8 @@ public class DAO {
 	}
 	
 	
-	public Integer addApprovazione(Approvazione approvazione) {
-		return this.daoApprovazione.addApprovazione(approvazione);
+	public void addApprovazione(Approvazione approvazione) {
+		this.daoApprovazione.addApprovazione(approvazione);
 	}
 	
 	

@@ -21,7 +21,6 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/v1/azienda/campo")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 public class ControllerCampo {
 	
 	private final DAO daoCampo;
@@ -29,6 +28,7 @@ public class ControllerCampo {
 	
 	
 	@PostMapping(value = "/add")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String addCampo(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -44,6 +44,7 @@ public class ControllerCampo {
 	
 	
 	@GetMapping(value = "/get/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getCampoId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -59,6 +60,7 @@ public class ControllerCampo {
 	
 	
 	@GetMapping(value = "/get/all/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getCampiCampagna(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -74,6 +76,7 @@ public class ControllerCampo {
 	
 	
 	@DeleteMapping(value = "/delete/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String deleteCampo(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -88,6 +91,7 @@ public class ControllerCampo {
 	
 	
 	@PostMapping(value = "/modifica/nome")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String modificaNome(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
@@ -103,6 +107,7 @@ public class ControllerCampo {
 	
 	
 	@PostMapping(value =  "/modifica/campagna")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String modificaCampagna(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
