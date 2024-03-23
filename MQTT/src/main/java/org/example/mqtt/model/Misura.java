@@ -18,14 +18,6 @@ public class Misura {
 	private int idSensore;
 	
 	
-	public Misura (int id, Double value, String time, int idSensore) {
-		this.id = id;
-		this.value = value;
-		this.time = time;
-		this.idSensore = idSensore;
-	}
-	
-	
 	public Misura(Double value, String time, int idSensore) {
 		this.value = value;
 		this.time = time;

@@ -1,5 +1,8 @@
 package pissir.watermanager.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.user.UserRole;
 
 import java.sql.*;
@@ -16,13 +19,14 @@ public class DaoUtils {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
 	
 	
 	public DaoUtils() {
 	}
 	
 	
-	public HashSet<String> getRaccolti() {
+	protected HashSet<String> getRaccolti() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -31,12 +35,13 @@ public class DaoUtils {
 		
 		String query = """
 				SELECT *
-				FROM raccolto;
-				""";
+				FROM raccolto;""";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query);
-			 ResultSet resultSet = statement.executeQuery()) {
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			logger.info("Inizio della procedura di recupero dei raccolti dal database");
+			
+			ResultSet resultSet = statement.executeQuery();
 			
 			resultSetMetaData = resultSet.getMetaData();
 			columns = resultSetMetaData.getColumnCount();
@@ -53,9 +58,14 @@ public class DaoUtils {
 			}
 			
 			for (HashMap<String, Object> map : list) {
-				raccolti.add((String) map.get("nome"));
+				String raccolto = (String) map.get("nome");
+				raccolti.add(raccolto);
 			}
+			
+			logger.info("Completato il recupero di {} raccolti", raccolti.size());
 		} catch (SQLException e) {
+			logger.error("Errore durante il recupero dei raccolti", e);
+			
 			return null;
 		}
 		
@@ -63,24 +73,57 @@ public class DaoUtils {
 	}
 	
 	
-	public void addRaccolto(String string) {
+	protected void addRaccolto(String string) {
 		String queryInsert = """
 				INSERT INTO raccolto (nome)
-				VALUES (?);
-				""";
+				VALUES (?);""";
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(queryInsert)) {
-			statement.setString(1, string);
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
+			try (PreparedStatement statement = connection.prepareStatement(queryInsert)) {
+				statement.setString(1, string);
+				
+				logger.info("Inserimento del raccolto '{}' nel database", string);
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				connection.commit();
+				
+				logger.info("Inserimento raccolto completato");
+			} catch (SQLException e) {
+				logger.error("Errore durante l'inserimento del raccolto: {}", string, e);
+				
+				if (connection != null) {
+					try {
+						connection.rollback();
+						
+						logger.info("Rollback eseguito a seguito di un errore");
+					} catch (SQLException ex) {
+						logger.error("Errore durante il rollback", ex);
+					}
+				}
+				throw e;
+			}
 		} catch (SQLException e) {
-			return;
+			logger.error("Errore durante la connessione al database", e);
+			
+			throw new RuntimeException("Errore durante la connessione al database", e);
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					logger.error("Errore durante la chiusura della connessione", e);
+				}
+			}
 		}
 	}
 	
 	
-	public void deleteRaccolto(String nome) {
+	protected void deleteRaccolto(String nome) {
 		String query = """
 				DELETE FROM raccolto
 				WHERE nome = ? ;
@@ -96,7 +139,7 @@ public class DaoUtils {
 	}
 	
 	
-	public HashSet<String> getEsigenze() {
+	protected HashSet<String> getEsigenze() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -136,7 +179,7 @@ public class DaoUtils {
 	}
 	
 	
-	public void addEsigenza(String esigenza) {
+	protected void addEsigenza(String esigenza) {
 		String query = """
 				INSERT INTO esigenza (nome)
 				VALUES (?);
@@ -153,7 +196,7 @@ public class DaoUtils {
 	}
 	
 	
-	public void deleteEsigenza(String nome) {
+	protected void deleteEsigenza(String nome) {
 		String query = """
 				DELETE FROM esigenza
 				WHERE nome = ? ;
@@ -170,7 +213,7 @@ public class DaoUtils {
 	}
 	
 	
-	public HashSet<String> getIrrigazioni() {
+	protected HashSet<String> getIrrigazioni() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -210,7 +253,7 @@ public class DaoUtils {
 	}
 	
 	
-	public void addIrrigazione(String nome) {
+	protected void addIrrigazione(String nome) {
 		String queryInsert = """
 				INSERT INTO irrigazione (nome)
 				VALUES (?);
@@ -227,7 +270,7 @@ public class DaoUtils {
 	}
 	
 	
-	public void deleteIrrigazione(String nome) {
+	protected void deleteIrrigazione(String nome) {
 		String query = """
 				DELETE FROM irrigazione
 				WHERE nome = ? ;
@@ -245,7 +288,7 @@ public class DaoUtils {
 	}
 	
 	
-	public HashSet<String> getSensorTypes() {
+	protected HashSet<String> getSensorTypes() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -285,7 +328,7 @@ public class DaoUtils {
 	}
 	
 	
-	public void addSensorType(String nome) {
+	protected void addSensorType(String nome) {
 		String queryInsert = """
 				INSERT INTO sensor_type (type)
 				VALUES (?);
@@ -302,7 +345,7 @@ public class DaoUtils {
 	}
 	
 	
-	public void deleteSensorType(String nome) {
+	protected void deleteSensorType(String nome) {
 		String query = """
 				DELETE FROM sensor_type
 				WHERE type = ? ;
@@ -320,7 +363,7 @@ public class DaoUtils {
 	}
 	
 	
-	public int countGestori(UserRole userRole) {
+	protected int countGestori(UserRole userRole) {
 		int count = 0;
 		String query = """
 				SELECT COUNT(*)
@@ -346,7 +389,7 @@ public class DaoUtils {
 	}
 	
 	
-	public int countRaccolti() {
+	protected int countRaccolti() {
 		int count = 0;
 		String query = """
 				SELECT COUNT(*)
@@ -369,7 +412,7 @@ public class DaoUtils {
 	}
 	
 	
-	public int countEsigenze() {
+	protected int countEsigenze() {
 		int count = 0;
 		String query = """
 				SELECT COUNT(*)
@@ -392,7 +435,7 @@ public class DaoUtils {
 	}
 	
 	
-	public int countIrrigazioni() {
+	protected int countIrrigazioni() {
 		int count = 0;
 		String query = """
 				SELECT COUNT(*)
@@ -415,7 +458,7 @@ public class DaoUtils {
 	}
 	
 	
-	public int countSensorTypes() {
+	protected int countSensorTypes() {
 		int count = 0;
 		String query = """
 				SELECT COUNT(*)

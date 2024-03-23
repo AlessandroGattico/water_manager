@@ -1,6 +1,9 @@
 package pissir.watermanager.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.item.Sensore;
 import pissir.watermanager.model.utils.cambio.CambioInt;
 import pissir.watermanager.model.utils.cambio.CambioString;
@@ -19,6 +22,7 @@ public class DaoSensore {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
 	
 	
 	public DaoSensore() {
@@ -41,26 +45,33 @@ public class DaoSensore {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, id);
 			
+			logger.info("Esecuzione della query per ottenere il sensore con ID {}", id);
+			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				resultSetMetaData = resultSet.getMetaData();
 				columns = resultSetMetaData.getColumnCount();
 				
-				while (resultSet.next()) {
+				if (resultSet.next()) {
 					row = new HashMap<>(columns);
 					
 					for (int i = 1; i <= columns; ++ i) {
 						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 					}
 					
-					sensore = new Sensore((int) row.get("id"), (String) row.get("nome"), (String) row.get("type"),
-							(int) row.get("id_campo"));
+					sensore = new Sensore((int) row.get("id"), (String) row.get("nome"),
+							(String) row.get("type"), (int) row.get("id_campo"));
+					
+					logger.debug("Trovato sensore: {}", sensore.getNome());
+				} else {
+					logger.info("Nessun sensore trovato con ID {}", id);
 				}
 			}
 			
 		} catch (SQLException e) {
+			logger.error("Errore durante il recupero del sensore con ID {}", id, e);
+			
 			return null;
 		}
-		
 		
 		return sensore;
 	}
@@ -83,6 +94,8 @@ public class DaoSensore {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, idCampo);
 			
+			logger.info("Esecuzione della query per ottenere i sensori del campo con ID {}", idCampo);
+			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				resultSetMetaData = resultSet.getMetaData();
 				columns = resultSetMetaData.getColumnCount();
@@ -99,14 +112,18 @@ public class DaoSensore {
 				}
 				
 				for (HashMap<String, Object> map : list) {
-					Sensore sensore =
-							new Sensore((int) map.get("id"), (String) map.get("nome"), (String) map.get("type"),
-									(int) map.get("id_campo"));
+					Sensore sensore = new Sensore((int) map.get("id"), (String) map.get("nome"),
+							(String) map.get("type"), (int) map.get("id_campo"));
 					
 					sensori.add(sensore);
 				}
+				
+				logger.debug("Trovati {} sensori per il campo con ID {}", sensori.size(), idCampo);
 			}
+			
 		} catch (SQLException e) {
+			logger.error("Errore durante il recupero dei sensori per il campo con ID {}", idCampo, e);
+			
 			return null;
 		}
 		
@@ -116,28 +133,56 @@ public class DaoSensore {
 	
 	public int addSensore(Sensore sensore) {
 		int id = 0;
-		
-		String query = """
+		String queryInsert = """
 				INSERT INTO sensore (nome, type, id_campo)
 				VALUES (?, ?, ?);
-				SELECT last_insert_rowid() AS newId;
 				""";
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setString(1, sensore.getNome());
-			statement.setString(2, sensore.getType());
-			statement.setInt(3, sensore.getIdCampo());
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
-			
-			try (ResultSet resultSet = statement.getGeneratedKeys();) {
-				if (resultSet.next()) {
-					id = resultSet.getInt(1);
+			try (PreparedStatement statement = connection.prepareStatement(queryInsert,
+					Statement.RETURN_GENERATED_KEYS)) {
+				statement.setString(1, sensore.getNome());
+				statement.setString(2, sensore.getType());
+				statement.setInt(3, sensore.getIdCampo());
+				
+				logger.info("Inserimento del sensore: {}", sensore.getNome());
+				
+				statement.executeUpdate();
+				
+				try (ResultSet resultSet = statement.getGeneratedKeys()) {
+					if (resultSet.next()) {
+						id = resultSet.getInt(1);
+						
+						logger.debug("Sensore inserito con ID: {}", id);
+					}
 				}
+				
+				connection.commit();
+			} catch (SQLException e) {
+				if (connection != null) {
+					connection.rollback();
+					
+					logger.error("Rollback effettuato durante l'inserimento del sensore", e);
+				}
+				
+				throw e;
 			}
 		} catch (SQLException e) {
+			logger.error("Errore durante l'inserimento del sensore", e);
+			
 			return id;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
 		}
 		
 		return id;
@@ -147,53 +192,140 @@ public class DaoSensore {
 	public void deleteSensore(int idSensore) {
 		String query = """
 				DELETE FROM sensore
-				WHERE id = ? ;
+				WHERE id = ?;
 				""";
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			statement.setInt(1, idSensore);
-			
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			return;
-		}
+		Connection connection = null;
 		
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
+			
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setInt(1, idSensore);
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					logger.info("Sensore con ID {} eliminato con successo", idSensore);
+				} else {
+					logger.warn("Nessun sensore trovato con ID {}", idSensore);
+				}
+				
+				connection.commit();
+			} catch (SQLException e) {
+				if (connection != null) {
+					connection.rollback();
+					logger.error("Rollback effettuato durante l'eliminazione del sensore", e);
+				}
+				
+				throw e;
+			}
+		} catch (SQLException e) {
+			logger.error("Errore durante l'eliminazione del sensore", e);
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
+		}
 	}
 	
 	
 	public Boolean cambiaNome(CambioString cambio) {
-		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
+		String query = "UPDATE sensore SET " + cambio.getProperty() + " = ? WHERE id = ?;";
+		Connection connection = null;
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setString(1, cambio.getNewString());
-			statement.setInt(2, cambio.getId());
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setString(1, cambio.getNewString());
+				statement.setInt(2, cambio.getId());
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					logger.info("Aggiornamento nome per ID {} eseguito con successo", cambio.getId());
+				} else {
+					logger.warn("Nessun record aggiornato per ID {}", cambio.getId());
+				}
+				
+				connection.commit();
+				
+				return true;
+			} catch (SQLException e) {
+				if (connection != null) {
+					connection.rollback();
+					
+					logger.error("Rollback effettuato durante l'aggiornamento del nome", e);
+				}
+				throw e;
+			}
 		} catch (SQLException e) {
+			logger.error("Errore durante l'aggiornamento del nome", e);
+			
 			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
 		}
-		
-		return true;
 	}
 	
 	
 	public Boolean cambiaCampo(CambioInt cambio) {
-		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
+		String query = "UPDATE sensore SET " + cambio.getProperty() + " = ? WHERE id = ?;";
+		Connection connection = null;
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setInt(1, cambio.getNewInt());
-			statement.setInt(2, cambio.getId());
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setInt(1, cambio.getNewInt());
+				statement.setInt(2, cambio.getId());
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					logger.info("Cambiamento del campo per ID {} eseguito con successo", cambio.getId());
+				} else {
+					logger.warn("Nessun record aggiornato per ID {}", cambio.getId());
+				}
+				
+				connection.commit();
+				
+				return true;
+			} catch (SQLException e) {
+				if (connection != null) {
+					connection.rollback();
+					
+					logger.error("Rollback effettuato durante il cambiamento del campo", e);
+				}
+				throw e;
+			}
 		} catch (SQLException e) {
+			logger.error("Errore durante il cambiamento del campo", e);
+			
 			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
 		}
-		
-		return true;
 	}
 	
 	

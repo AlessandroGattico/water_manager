@@ -1,0 +1,1856 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "API di gestione di un sistema idrico",
+		"version": "1.0.0"
+	},
+	"tags": [
+		{
+			"name": "Autenticazione",
+			"description": "Operazioni relative all'autenticazione degli utenti"
+		},
+		{
+			"name": "Admin",
+			"description": "Operazioni di gestione da parte dell'amministratore"
+		},
+		{
+			"name": "Approvazione",
+			"description": "Operazioni di gestione delle approvazioni delle richieste idriche"
+		},
+		{
+			"name": "Attivazione",
+			"description": "Operazioni di gestione delle attivaizoni degli attuatori"
+		},
+		{
+			"name": "Azienda",
+			"description": "Operazioni relative alle aziende"
+		},
+		{
+			"name": "Bacino idrico",
+			"description": "Operazioni relative ai bacini idrici"
+		},
+		{
+			"name": "Campagna",
+			"description": "Operazioni relative alle campagne"
+		},
+		{
+			"name": "Campo",
+			"description": "Operazioni relative ai campi"
+		},
+		{
+			"name": "Coltivazione",
+			"description": "Operazioni relative alle coltivazioni"
+		},
+		{
+			"name": "Misura",
+			"description": "Operazioni relative alle misure"
+		},
+		{
+			"name": "Richiesta idrica",
+			"description": "Operazioni relative alle richieste idriche"
+		},
+		{
+			"name": "Risorsa idrica",
+			"description": "Operazioni relative alle risorse idriche delle aziende e dei bacini idrici"
+		},
+		{
+			"name": "Sensore",
+			"description": "Operazioni relative ai sensori"
+		},
+		{
+			"name": "User",
+			"description": "Operazioni legate ai dati degli utenti"
+		},
+		{
+			"name": "Utils",
+			"description": "Operazioni relative ai bacini idrici"
+		}
+	],
+	"servers": [
+		{
+			"url": "http://localhost:8080/api/v1",
+			"description": "Server di sviluppo locale per servizi di gestione del sistema idrico"
+		}
+	],
+	"paths": {
+		"/auth/verify/mail/{email}": {
+			"get": {
+				"tags": [
+					"Autenticazione"
+				],
+				"summary": "Verifica dell'esistenza di una mail",
+				"parameters": [
+					{
+						"name": "email",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string",
+							"format": "email"
+						},
+						"description": "Indirizzo email da verificare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Email esistente/non esistente"
+					}
+				}
+			}
+		},
+		"/auth/verify/username/{username}": {
+			"get": {
+				"tags": [
+					"Autenticazione"
+				],
+				"summary": "Verifica dell'esistenza di un nome utente",
+				"parameters": [
+					{
+						"name": "username",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Nome utente da verificare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Nome utente esistente/non esistente"
+					}
+				}
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"tags": [
+					"Autenticazione"
+				],
+				"summary": "Login utente",
+				"responses": {
+					"200": {
+						"description": "Login riuscito"
+					},
+					"401": {
+						"description": "Credenziali non valide"
+					}
+				}
+			}
+		},
+		"/auth/register": {
+			"post": {
+				"tags": [
+					"Autenticazione"
+				],
+				"summary": "Registrazione nuovo utente",
+				"responses": {
+					"200": {
+						"description": "Registrazione riuscita"
+					},
+					"400": {
+						"description": "Richiesta non valida"
+					}
+				}
+			}
+		},
+		"/admin/aziende/get/all": {
+			"get": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Ottieni un elenco di tutte le aziende",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le aziende disponibili"
+					}
+				}
+			}
+		},
+		"/admin/bacino/get/all": {
+			"get": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Ottieni un elenco dettagliato dei bacini",
+				"responses": {
+					"200": {
+						"description": "Elenco dettagliato di tutti i bacini"
+					}
+				}
+			}
+		},
+		"/admin/campagne/get/all": {
+			"get": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Ottieni un elenco di tutte le campagne",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le campagne disponibili"
+					}
+				}
+			}
+		},
+		"/admin/campi/get/all": {
+			"get": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Ottieni un elenco di tutti i campi",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i campi disponibili"
+					}
+				}
+			}
+		},
+		"/admin/count": {
+			"get": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Ottieni conteggio totale di diverse entità",
+				"responses": {
+					"200": {
+						"description": "Conteggio totale delle entità"
+					}
+				}
+			}
+		},
+		"/admin/ga/get/all": {
+			"get": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Ottieni un elenco di tutte le GA",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le GA disponibili"
+					}
+				}
+			}
+		},
+		"/admin/get/{id}": {
+			"get": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Ottieni dettagli di una specifica entità amministrativa",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'entità amministrativa da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli dell'entità amministrativa richiesta"
+					}
+				}
+			}
+		},
+		"/admin/gi/get/all": {
+			"get": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Ottieni un elenco di tutte le GI",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le GI disponibili"
+					}
+				}
+			}
+		},
+		"/admin/esigenza/add/{param}": {
+			"post": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Aggiungi una nuova esigenza",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare l'esigenza da aggiungere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Esigenza aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/admin/irrigazione/add/{param}": {
+			"post": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Aggiungi un nuovo tipo di irrigazione",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare il tipo di irrigazione da aggiungere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Tipo di irrigazione aggiunto con successo"
+					}
+				}
+			}
+		},
+		"/admin/sensor/add/{param}": {
+			"post": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Aggiungi una nuova tipologia di sensore",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare il tipo sensore da aggiungere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Tipologia sensore aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/admin/raccolto/add": {
+			"post": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Aggiungi un nuovo tipo di raccolto",
+				"responses": {
+					"200": {
+						"description": "Tipo di raccolto aggiunto con successo"
+					}
+				}
+			}
+		},
+		"/admin/irrigazione/delete/{param}": {
+			"delete": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Elimina un tipo di irrigazione esistente",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare il tipo di irrigazione da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Tipo di irrigazione eliminato con successo"
+					}
+				}
+			}
+		},
+		"/admin/raccolto/delete/{param}": {
+			"delete": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Elimina un tipo di raccolto esistente",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare il tipo di raccolto da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Tipo di raccolto eliminato con successo"
+					}
+				}
+			}
+		},
+		"/admin/sensor/delete/{param}": {
+			"delete": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Elimina una tipologia di sensore esistente",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare la tipologia di sensore da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Tipologia di sensore eliminata con successo"
+					}
+				}
+			}
+		},
+		"/admin/esigenza/delete/{param}": {
+			"delete": {
+				"tags": [
+					"Admin"
+				],
+				"summary": "Elimina un'esigenza esistente",
+				"parameters": [
+					{
+						"name": "param",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "Parametro per identificare l'esigenza da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Esigenza eliminata con successo"
+					}
+				}
+			}
+		},
+		"/bacino/approvazione/get/{id}": {
+			"get": {
+				"tags": [
+					"Approvazione"
+				],
+				"summary": "Ottieni i dettagli di un'approvazione specifica del bacino",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'approvazione del bacino da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli dell'approvazione del bacino richiesta"
+					}
+				}
+			}
+		},
+		"/bacino/approvazione/getGestore/{id}": {
+			"get": {
+				"tags": [
+					"Approvazione"
+				],
+				"summary": "Ottieni approvazioni di bacini per un determinato gestore",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del gestore per ottenere le approvazioni dei bacini"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Lista delle approvazioni di bacini per il gestore specificato"
+					}
+				}
+			}
+		},
+		"/bacino/approvazione/add": {
+			"post": {
+				"tags": [
+					"Approvazione"
+				],
+				"summary": "Aggiungi una nuova approvazione per il bacino",
+				"responses": {
+					"200": {
+						"description": "Approvazione del bacino aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/bacino/approvazione/modifica/app": {
+			"post": {
+				"tags": [
+					"Approvazione"
+				],
+				"summary": "Modifica un'approvazione esistente per il bacino",
+				"responses": {
+					"200": {
+						"description": "Approvazione del bacino modificata con successo"
+					}
+				}
+			}
+		},
+		"/bacino/approvazione/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Approvazione"
+				],
+				"summary": "Elimina un'approvazione del bacino",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'approvazione del bacino da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Approvazione del bacino eliminata con successo"
+					}
+				}
+			}
+		},
+		"/azienda/attivazione/get/{id}": {
+			"get": {
+				"tags": [
+					"Attivazione"
+				],
+				"summary": "Ottieni i dettagli di un'attivazione aziendale",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'attivazione aziendale da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli dell'attivazione aziendale richiesta"
+					}
+				}
+			}
+		},
+		"/azienda/attivazione/getAttuatore/{id}": {
+			"get": {
+				"tags": [
+					"Attivazione"
+				],
+				"summary": "Ottieni attivazioni aziendali per un dato attuatore",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'attuatore per filtrare le attivazioni aziendali"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Lista delle attivazioni aziendali per l'attuatore specificato"
+					}
+				}
+			}
+		},
+		"/azienda/attivazione/add": {
+			"post": {
+				"tags": [
+					"Attivazione"
+				],
+				"summary": "Aggiungi una nuova attivazione aziendale",
+				"responses": {
+					"200": {
+						"description": "Attivazione aziendale aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/azienda/attivazione/modifica/att": {
+			"post": {
+				"tags": [
+					"Attivazione"
+				],
+				"summary": "Modifica un'attivazione aziendale",
+				"responses": {
+					"200": {
+						"description": "Attivazione aziendale modificata con successo"
+					}
+				}
+			}
+		},
+		"/azienda/attivazione/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Attivazione"
+				],
+				"summary": "Elimina un'attivazione aziendale",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'attivazione aziendale da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Attivazione aziendale eliminata con successo"
+					}
+				}
+			}
+		},
+		"/azienda/get/gestore/{id}": {
+			"get": {
+				"tags": [
+					"Azienda"
+				],
+				"summary": "Ottieni l'azienda gestita da uno specifico gestore",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del gestore per filtrare le aziende"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Lista delle aziende gestite dal gestore specificato"
+					}
+				}
+			}
+		},
+		"/azienda/get/{id}": {
+			"get": {
+				"tags": [
+					"Azienda"
+				],
+				"summary": "Ottieni una specifica azienda",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'azienda da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli dell'azienda richiesta"
+					}
+				}
+			}
+		},
+		"/azienda/add": {
+			"post": {
+				"tags": [
+					"Azienda"
+				],
+				"summary": "Aggiungi una nuova azienda",
+				"responses": {
+					"200": {
+						"description": "Azienda aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/azienda/modifica/nome": {
+			"post": {
+				"tags": [
+					"Azienda"
+				],
+				"summary": "Modifica il nome di un'azienda",
+				"responses": {
+					"200": {
+						"description": "Nome dell'azienda modificato con successo"
+					}
+				}
+			}
+		},
+		"/azienda/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Azienda"
+				],
+				"summary": "Elimina un'azienda",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'azienda da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Azienda eliminata con successo"
+					}
+				}
+			}
+		},
+		"/bacino/get/gestore/{id}": {
+			"get": {
+				"tags": [
+					"Bacino idrico"
+				],
+				"summary": "Ottieni bacini gestiti da un specifico gestore",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del gestore per filtrare i bacini"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Lista dei bacini gestiti dal gestore specificato"
+					}
+				}
+			}
+		},
+		"/bacino/get/{id}": {
+			"get": {
+				"tags": [
+					"Bacino idrico"
+				],
+				"summary": "Ottieni un specifico bacino",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del bacino da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli del bacino richiesto"
+					}
+				}
+			}
+		},
+		"/bacino/modifica/nome": {
+			"post": {
+				"tags": [
+					"Bacino idrico"
+				],
+				"summary": "Modifica il nome di un bacino",
+				"responses": {
+					"200": {
+						"description": "Nome del bacino modificato con successo"
+					}
+				}
+			}
+		},
+		"/bacino/add": {
+			"post": {
+				"tags": [
+					"Bacino idrico"
+				],
+				"summary": "Aggiungi un nuovo bacino",
+				"responses": {
+					"200": {
+						"description": "Bacino aggiunto con successo"
+					}
+				}
+			}
+		},
+		"/bacino/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Bacino idrico"
+				],
+				"summary": "Elimina un bacino",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del bacino da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Bacino eliminato con successo"
+					}
+				}
+			}
+		},
+		"/azienda/campagna/get/all/{id}": {
+			"get": {
+				"tags": [
+					"Campagna"
+				],
+				"summary": "Ottieni tutte le campagne di una determinata azienda",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID per filtrare le campagne"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Lista di tutte le campagne"
+					}
+				}
+			}
+		},
+		"/azienda/campagna/get/{id}": {
+			"get": {
+				"tags": [
+					"Campagna"
+				],
+				"summary": "Ottieni una campagna specifica",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della campagna da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli della campagna richiesta"
+					}
+				}
+			}
+		},
+		"/azienda/campagna/add": {
+			"post": {
+				"tags": [
+					"Campagna"
+				],
+				"summary": "Aggiungi una nuova campagna",
+				"responses": {
+					"200": {
+						"description": "Campagna aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/azienda/campagna/modifica/nome": {
+			"post": {
+				"tags": [
+					"Campagna"
+				],
+				"summary": "Modifica il nome di una campagna",
+				"responses": {
+					"200": {
+						"description": "Nome della campagna modificato con successo"
+					}
+				}
+			}
+		},
+		"/azienda/campagna/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Campagna"
+				],
+				"summary": "Elimina una campagna",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della campagna da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Campagna eliminata con successo"
+					}
+				}
+			}
+		},
+		"/azienda/campo/get/all/{id}": {
+			"get": {
+				"tags": [
+					"Campo"
+				],
+				"summary": "Ottieni tutti i campi per un'azienda specifica",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'azienda per filtrare i campi"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i campi per l'azienda specificata"
+					}
+				}
+			}
+		},
+		"/azienda/campo/get/{id}": {
+			"get": {
+				"tags": [
+					"Campo"
+				],
+				"summary": "Ottieni i dettagli di un campo specifico",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del campo da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli del campo richiesto"
+					}
+				}
+			}
+		},
+		"/azienda/campo/add": {
+			"post": {
+				"tags": [
+					"Campo"
+				],
+				"summary": "Aggiungi un nuovo campo",
+				"responses": {
+					"200": {
+						"description": "Campo aggiunto con successo"
+					}
+				}
+			}
+		},
+		"/azienda/campo/modifica/campagna": {
+			"post": {
+				"tags": [
+					"Campo"
+				],
+				"summary": "Modifica la campagna di un campo esistente",
+				"responses": {
+					"200": {
+						"description": "Campagna del campo modificata con successo"
+					}
+				}
+			}
+		},
+		"/azienda/campo/modifica/nome": {
+			"post": {
+				"tags": [
+					"Campo"
+				],
+				"summary": "Modifica il nome di un campo esistente",
+				"responses": {
+					"200": {
+						"description": "Nome del campo modificato con successo"
+					}
+				}
+			}
+		},
+		"/azienda/campo/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Campo"
+				],
+				"summary": "Elimina un campo",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del campo da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Campo eliminato con successo"
+					}
+				}
+			}
+		},
+		"/azienda/coltivazione/get/all/{id}": {
+			"get": {
+				"tags": [
+					"Coltivazione"
+				],
+				"summary": "Ottieni tutte le coltivazioni per un campo specifico",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del campo per filtrare le coltivazioni"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le coltivazioni per il campo specificato"
+					}
+				}
+			}
+		},
+		"/azienda/coltivazione/get/{id}": {
+			"get": {
+				"tags": [
+					"Coltivazione"
+				],
+				"summary": "Ottieni i dettagli di una coltivazione specifica",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della coltivazione da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli della coltivazione richiesta"
+					}
+				}
+			}
+		},
+		"/azienda/coltivazione/add": {
+			"post": {
+				"tags": [
+					"Coltivazione"
+				],
+				"summary": "Aggiungi una nuova coltivazione per un campo",
+				"responses": {
+					"200": {
+						"description": "Coltivazione aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/azienda/coltivazione/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Coltivazione"
+				],
+				"summary": "Elimina una coltivazione",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della coltivazione da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Coltivazione eliminata con successo"
+					}
+				}
+			}
+		},
+		"/misura/get/all/{id}": {
+			"get": {
+				"tags": [
+					"Misura"
+				],
+				"summary": "Ottieni tutte le misure di un sensore",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del sensore per filtrare le misure"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Lista di tutte le misure di un dato sensore"
+					}
+				}
+			}
+		},
+		"/misura/get/{id}": {
+			"get": {
+				"tags": [
+					"Misura"
+				],
+				"summary": "Ottieni una misura specifica",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della misura da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli della misura richiesta"
+					}
+				}
+			}
+		},
+		"/misura/add": {
+			"post": {
+				"tags": [
+					"Misura"
+				],
+				"summary": "Aggiungi una nuova misura",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della misura da aggiungere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Misura aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/misura/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Misura"
+				],
+				"summary": "Elimina una misura",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della misura da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Misura eliminata con successo"
+					}
+				}
+			}
+		},
+		"/richiesta/get/allBacino/{id}": {
+			"get": {
+				"tags": [
+					"Richiesta idrica"
+				],
+				"summary": "Ottieni tutte le richieste per un specifico bacino",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del bacino per filtrare le richieste"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le richieste per il bacino specificato"
+					}
+				}
+			}
+		},
+		"/richiesta/get/allColtivazione/{id}": {
+			"get": {
+				"tags": [
+					"Richiesta idrica"
+				],
+				"summary": "Ottieni tutte le richieste per una specifica coltivazione",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della coltivazione per filtrare le richieste"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le richieste per la coltivazione specificata"
+					}
+				}
+			}
+		},
+		"/richiesta/get/{id}": {
+			"get": {
+				"tags": [
+					"Richiesta idrica"
+				],
+				"summary": "Ottieni i dettagli di una specifica richiesta",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della richiesta da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli della richiesta richiesta"
+					}
+				}
+			}
+		},
+		"/richiesta/add": {
+			"post": {
+				"tags": [
+					"Richiesta idrica"
+				],
+				"summary": "Aggiungi una nuova richiesta",
+				"responses": {
+					"200": {
+						"description": "Richiesta aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/richiesta/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Richiesta idrica"
+				],
+				"summary": "Elimina una richiesta",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della richiesta da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Richiesta eliminata con successo"
+					}
+				}
+			}
+		},
+		"/risorsa/azienda/get/{id}": {
+			"get": {
+				"tags": [
+					"Risorsa idrica"
+				],
+				"summary": "Ottieni i dettagli di una risorsa aziendale specifica",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della risorsa aziendale da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli della risorsa aziendale richiesta"
+					}
+				}
+			}
+		},
+		"/risorsa/azienda/getStorico/{id}": {
+			"get": {
+				"tags": [
+					"Risorsa idrica"
+				],
+				"summary": "Ottieni lo storico delle risorse per un'azienda specifica",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'azienda per ottenere lo storico delle risorse"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Storico delle risorse aziendali per l'ID specificato"
+					}
+				}
+			}
+		},
+		"/risorsa/bacino/get/{id}": {
+			"get": {
+				"tags": [
+					"Risorsa idrica"
+				],
+				"summary": "Ottieni i dettagli di una risorsa di un bacino specifico",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della risorsa del bacino da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli della risorsa del bacino richiesta"
+					}
+				}
+			}
+		},
+		"/risorsa/bacino/getStorico/{id}": {
+			"get": {
+				"tags": [
+					"Risorsa idrica"
+				],
+				"summary": "Ottieni lo storico delle risorse per un bacino specifico",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del bacino per ottenere lo storico delle risorse"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Storico delle risorse del bacino per l'ID specificato"
+					}
+				}
+			}
+		},
+		"/risorsa/azienda/add": {
+			"post": {
+				"tags": [
+					"Risorsa idrica"
+				],
+				"summary": "Aggiungi una nuova risorsa ad un'azienda",
+				"responses": {
+					"200": {
+						"description": "Risorsa aziendale aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/risorsa/bacino/add": {
+			"post": {
+				"tags": [
+					"Risorsa idrica"
+				],
+				"summary": "Aggiungi una nuova risorsa a un bacino",
+				"responses": {
+					"200": {
+						"description": "Risorsa del bacino aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/risorsa/azienda/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Risorsa idrica"
+				],
+				"summary": "Elimina una risorsa aziendale",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della risorsa aziendale da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Risorsa aziendale eliminata con successo"
+					}
+				}
+			}
+		},
+		"/risorsa/bacino/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Risorsa idrica"
+				],
+				"summary": "Elimina una risorsa di un bacino",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della risorsa del bacino da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Risorsa del bacino eliminata con successo"
+					}
+				}
+			}
+		},
+		"/azienda/sensore/get/{id}": {
+			"get": {
+				"tags": [
+					"Sensore"
+				],
+				"summary": "Ottieni i dettagli di un sensore specifico",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del sensore da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli del sensore richiesto"
+					}
+				}
+			}
+		},
+		"/azienda/sensore/getCampo/{id}": {
+			"get": {
+				"tags": [
+					"Sensore"
+				],
+				"summary": "Ottieni sensori per un determinato campo",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del campo per filtrare i sensori"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Lista dei sensori per il campo specificato"
+					}
+				}
+			}
+		},
+		"/azienda/sensore/add": {
+			"post": {
+				"tags": [
+					"Sensore"
+				],
+				"summary": "Aggiungi un nuovo sensore al campo",
+				"responses": {
+					"200": {
+						"description": "Sensore aggiunto con successo"
+					}
+				}
+			}
+		},
+		"/azienda/sensore/modifica/campo": {
+			"post": {
+				"tags": [
+					"Sensore"
+				],
+				"summary": "Modifica il campo di un sensore esistente",
+				"responses": {
+					"200": {
+						"description": "Campo del sensore modificato con successo"
+					}
+				}
+			}
+		},
+		"/azienda/sensore/modifica/nome": {
+			"post": {
+				"tags": [
+					"Sensore"
+				],
+				"summary": "Modifica il nome di un sensore esistente",
+				"responses": {
+					"200": {
+						"description": "Nome del sensore modificato con successo"
+					}
+				}
+			}
+		},
+		"/azienda/sensore/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Sensore"
+				],
+				"summary": "Elimina un sensore",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del sensore da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Sensore eliminato con successo"
+					}
+				}
+			}
+		},
+		"/user/admin": {
+			"get": {
+				"tags": [
+					"User"
+				],
+				"summary": "Ottieni dettagli dell'utente admin",
+				"responses": {
+					"200": {
+						"description": "Dettagli dell'utente admin"
+					}
+				}
+			}
+		},
+		"/user/get": {
+			"get": {
+				"tags": [
+					"User"
+				],
+				"summary": "Ottieni elenco utenti",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti gli utenti"
+					}
+				}
+			}
+		},
+		"/user/add": {
+			"post": {
+				"tags": [
+					"User"
+				],
+				"summary": "Aggiungi un nuovo utente",
+				"responses": {
+					"200": {
+						"description": "Utente aggiunto con successo"
+					}
+				}
+			}
+		},
+		"/user/modifica/cognome": {
+			"post": {
+				"tags": [
+					"User"
+				],
+				"summary": "Modifica il cognome di un utente",
+				"responses": {
+					"200": {
+						"description": "Cognome modificato con successo"
+					}
+				}
+			}
+		},
+		"/user/modifica/nome": {
+			"post": {
+				"tags": [
+					"User"
+				],
+				"summary": "Modifica il nome di un utente",
+				"responses": {
+					"200": {
+						"description": "Nome modificato con successo"
+					}
+				}
+			}
+		},
+		"/user/modifica/password": {
+			"post": {
+				"tags": [
+					"User"
+				],
+				"summary": "Modifica la password di un utente",
+				"responses": {
+					"200": {
+						"description": "Password modificata con successo"
+					}
+				}
+			}
+		},
+		"/user/delete": {
+			"delete": {
+				"tags": [
+					"User"
+				],
+				"summary": "Elimina un utente",
+				"responses": {
+					"200": {
+						"description": "Utente eliminato con successo"
+					}
+				}
+			}
+		},
+		"/utils/bacino/get/all": {
+			"get": {
+				"tags": [
+					"Utils"
+				],
+				"summary": "Ottieni tutti i bacini",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i bacini"
+					}
+				}
+			}
+		},
+		"/utils/esigenza/get/all": {
+			"get": {
+				"tags": [
+					"Utils"
+				],
+				"summary": "Ottieni tutte le esigenze",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutte le esigenze"
+					}
+				}
+			}
+		},
+		"/utils/irrigazione/get/all": {
+			"get": {
+				"tags": [
+					"Utils"
+				],
+				"summary": "Ottieni tutti i tipi di irrigazione",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i tipi di irrigazione"
+					}
+				}
+			}
+		},
+		"/utils/raccolto/get/all": {
+			"get": {
+				"tags": [
+					"Utils"
+				],
+				"summary": "Ottieni tutti i tipi di raccolto",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i tipi di raccolto"
+					}
+				}
+			}
+		},
+		"/utils/sensorTypes/get/all": {
+			"get": {
+				"tags": [
+					"Utils"
+				],
+				"summary": "Ottieni tutti i tipi di sensori",
+				"responses": {
+					"200": {
+						"description": "Elenco di tutti i tipi di sensori"
+					}
+				}
+			}
+		},
+		"/utils/check/campagnaNome/{id}": {
+			"get": {
+				"tags": [
+					"Utils"
+				],
+				"summary": "Verifica l'esistenza di un nome di campagna",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID della campagna da verificare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Esito della verifica del nome della campagna"
+					}
+				}
+			}
+		},
+		"/utils/check/campoNome/{id}": {
+			"get": {
+				"tags": [
+					"Utils"
+				],
+				"summary": "Verifica l'esistenza di un nome di campo",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del campo da verificare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Esito della verifica del nome del campo"
+					}
+				}
+			}
+		},
+		"/utils/check/email": {
+			"get": {
+				"tags": [
+					"Utils"
+				],
+				"summary": "Verifica l'esistenza di un indirizzo email",
+				"responses": {
+					"200": {
+						"description": "Esito della verifica dell'indirizzo email"
+					}
+				}
+			}
+		},
+		"/utils/check/username": {
+			"get": {
+				"tags": [
+					"Utils"
+				],
+				"summary": "Verifica l'esistenza di un nome utente",
+				"responses": {
+					"200": {
+						"description": "Esito della verifica del nome utente"
+					}
+				}
+			}
+		}
+	}
+}

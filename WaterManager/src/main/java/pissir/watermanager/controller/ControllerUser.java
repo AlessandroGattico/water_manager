@@ -3,6 +3,8 @@ package pissir.watermanager.controller;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,7 @@ public class ControllerUser {
 	
 	private final DAO daoUser;
 	private final TokenService tokenService;
+	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
 	
 	
 	@GetMapping(value = "/get/ga/{id}")
@@ -87,7 +90,7 @@ public class ControllerUser {
 				UserRole.GESTOREIDRICO) || this.tokenService.validateTokenAndRole(jwtToken, UserRole.GESTOREAZIENDA)) {
 			CambioString cambio = gson.fromJson(param, CambioString.class);
 			
-			return gson.toJson(this.daoUser.cambiaNomeUser(cambio));
+			return gson.toJson(this.daoUser.cambiaStringUser(cambio));
 		} else {
 			return gson.toJson("Accesso negato");
 		}
@@ -103,7 +106,7 @@ public class ControllerUser {
 				UserRole.GESTOREIDRICO) || this.tokenService.validateTokenAndRole(jwtToken, UserRole.GESTOREAZIENDA)) {
 			CambioString cambio = gson.fromJson(param, CambioString.class);
 			
-			return gson.toJson(this.daoUser.cambiaCognomeUser(cambio));
+			return gson.toJson(this.daoUser.cambiaStringUser(cambio));
 		} else {
 			return gson.toJson("Accesso negato");
 		}
@@ -119,7 +122,7 @@ public class ControllerUser {
 				UserRole.GESTOREIDRICO) || this.tokenService.validateTokenAndRole(jwtToken, UserRole.GESTOREAZIENDA)) {
 			CambioString cambio = gson.fromJson(param, CambioString.class);
 			
-			return gson.toJson(this.daoUser.cambiaPasswordUser(cambio));
+			return gson.toJson(this.daoUser.cambiaStringUser(cambio));
 		} else {
 			return gson.toJson("Accesso negato");
 		}

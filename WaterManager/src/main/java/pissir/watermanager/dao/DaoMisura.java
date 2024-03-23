@@ -1,5 +1,7 @@
 package pissir.watermanager.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Misura;
 
@@ -17,6 +19,7 @@ public class DaoMisura {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	public static final Logger logger = LogManager.getLogger(DaoMisura.class.getName());
 	
 	
 	public DaoMisura() {
@@ -39,11 +42,13 @@ public class DaoMisura {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, idMisura);
 			
+			logger.info("Esecuzione della query per ottenere la misura con ID: {}", idMisura);
+			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				resultSetMetaData = resultSet.getMetaData();
 				columns = resultSetMetaData.getColumnCount();
 				
-				while (resultSet.next()) {
+				if (resultSet.next()) {
 					row = new HashMap<>(columns);
 					
 					for (int i = 1; i <= columns; ++ i) {
@@ -52,10 +57,16 @@ public class DaoMisura {
 					
 					misura = new Misura((int) row.get("id"), (Double) row.get("value"), (String) row.get("time"),
 							(int) row.get("id_sensore"));
+					
+					logger.debug("Trovata misura: ID {} con valore {}", misura.getId(), misura.getValue());
+				} else {
+					logger.info("Nessuna misura trovata con ID: {}", idMisura);
 				}
 			}
 			
 		} catch (SQLException e) {
+			logger.error("Errore durante il recupero della misura con ID: {}", idMisura, e);
+			
 			return null;
 		}
 		
@@ -80,10 +91,11 @@ public class DaoMisura {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, idSensore);
 			
+			logger.info("Esecuzione della query per ottenere le misure del sensore con ID: {}", idSensore);
+			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				resultSetMetaData = resultSet.getMetaData();
 				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
 				
 				while (resultSet.next()) {
 					row = new HashMap<>(columns);
@@ -92,18 +104,19 @@ public class DaoMisura {
 						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 					}
 					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> hash : list) {
-					Misura misura =
-							new Misura((int) hash.get("id"), (Double) hash.get("value"), (String) hash.get("time"),
-									(int) hash.get("id_sensore"));
+					Misura misura = new Misura((int) row.get("id"), (Double) row.get("value"),
+							(String) row.get("time"), (int) row.get("id_sensore"));
 					
 					misure.add(misura);
 				}
+				
+				if (misure.isEmpty()) {
+					logger.info("Nessuna misura trovata per il sensore con ID: {}", idSensore);
+				}
 			}
+			
 		} catch (SQLException e) {
+			logger.error("Errore durante il recupero delle misure per il sensore con ID: {}", idSensore, e);
 			
 			return null;
 		}
@@ -118,15 +131,41 @@ public class DaoMisura {
 				VALUES (?, ?, ?);
 				""";
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setDouble(1, misura.getValue());
-			statement.setString(2, misura.getTime());
-			statement.setInt(3, misura.getIdSensore());
+		Connection connection = null;
+		
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setDouble(1, misura.getValue());
+				statement.setString(2, misura.getTime());
+				statement.setInt(3, misura.getIdSensore());
+				
+				statement.executeUpdate();
+				
+				logger.debug("Misura aggiunta con successo: {}", misura);
+				
+				connection.commit();
+			}
 		} catch (SQLException e) {
-			return;
+			try {
+				if (connection != null) {
+					connection.rollback();
+				}
+				
+				logger.error("Errore durante l'aggiunta della misura: {}", misura, e);
+			} catch (SQLException ex) {
+				logger.error("Errore durante il rollback", ex);
+			}
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					logger.error("Errore durante la chiusura della connessione", e);
+				}
+			}
 		}
 	}
 	
@@ -137,16 +176,43 @@ public class DaoMisura {
 				WHERE id = ? ;
 				""";
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.setInt(1, idMisura);
-			
-			statement.executeUpdate();
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setInt(1, idMisura);
+				
+				int affectedRows = statement.executeUpdate();
+				
+				if (affectedRows > 0) {
+					logger.debug("Misura con ID {} eliminata correttamente", idMisura);
+				} else {
+					logger.info("Nessuna misura trovata con ID {}", idMisura);
+				}
+				
+				connection.commit();
+			}
 		} catch (SQLException e) {
-			return;
+			try {
+				if (connection != null) {
+					connection.rollback();
+				}
+				
+				logger.error("Errore durante l'eliminazione della misura con ID {}", idMisura, e);
+			} catch (SQLException ex) {
+				logger.error("Errore durante il rollback", ex);
+			}
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					logger.error("Errore durante la chiusura della connessione", e);
+				}
+			}
 		}
-		
 	}
 	
 }

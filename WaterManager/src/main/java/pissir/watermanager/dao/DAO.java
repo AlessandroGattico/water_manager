@@ -1,6 +1,9 @@
 package pissir.watermanager.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
+import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.item.*;
 import pissir.watermanager.model.user.*;
 import pissir.watermanager.model.utils.ElementsCount;
@@ -36,6 +39,8 @@ public class DAO {
 	private final DaoRisorseAzienda daoRisorseAzienda;
 	private final DaoRisorseBacino daoRisorseBacino;
 	private final DaoUtils daoUtils;
+	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	
 	
 	
 	public DAO() {
@@ -184,18 +189,8 @@ public class DAO {
 	}
 	
 	
-	public Boolean cambiaNomeUser(CambioString cambio) {
-		return this.daoUser.cambiaNome(cambio);
-	}
-	
-	
-	public Boolean cambiaCognomeUser(CambioString cambio) {
-		return this.daoUser.cambiaCognome(cambio);
-	}
-	
-	
-	public Boolean cambiaPasswordUser(CambioString cambio) {
-		return this.daoUser.cambiaPassword(cambio);
+	public Boolean cambiaStringUser(CambioString cambio) {
+		return this.daoUser.cambiaString(cambio);
 	}
 	
 	
@@ -247,7 +242,7 @@ public class DAO {
 	}
 	
 	
-	public void deleteBacino(BacinoIdrico bacino) {
+	public void deleteBacino(int bacino) {
 		this.daoBacinoIdrico.deleteBacino(bacino);
 	}
 	

@@ -36,24 +36,14 @@ public class Simulazione {
 			throws MqttException {
 		Gson gson = new Gson();
 		RestTemplate restTemplate = new RestTemplate();
-		String result = restTemplate.getForObject(urlTopics, String.class);
+		String result = restTemplate.getForObject(this.urlTopics, String.class);
 		
 		Topics topics = gson.fromJson(result, Topics.class);
 		
 		for (TopicCreator topic : topics.getTopics()) {
-			subscriber.subscribe(topic.getTopic());
+			this.subscriber.subscribe(topic.getTopic());
 			
 			if (topic.getTypeSensore().equals("TEMPERATURA")) {
-				String time =
-						LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
-				double randomValue = new Random().nextDouble() * 100;
-				
-				BigDecimal bd = new BigDecimal(randomValue).setScale(2, RoundingMode.HALF_UP);
-				double roundedValue = bd.doubleValue();
-				
-				publisher.publish(topic.getTopic(),
-						gson.toJson(new Misura(roundedValue, time, topic.getIdSensore())));
-			} else if (topic.getTypeSensore().equals("UMIDITA")) {
 				String time =
 						LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
 				double randomValue = new Random().nextDouble() * 50;
@@ -61,7 +51,17 @@ public class Simulazione {
 				BigDecimal bd = new BigDecimal(randomValue).setScale(2, RoundingMode.HALF_UP);
 				double roundedValue = bd.doubleValue();
 				
-				publisher.publish(topic.getTopic(),
+				this.publisher.publish(topic.getTopic(),
+						gson.toJson(new Misura(roundedValue, time, topic.getIdSensore())));
+			} else if (topic.getTypeSensore().equals("UMIDITA")) {
+				String time =
+						LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
+				double randomValue = new Random().nextDouble() * 100;
+				
+				BigDecimal bd = new BigDecimal(randomValue).setScale(2, RoundingMode.HALF_UP);
+				double roundedValue = bd.doubleValue();
+				
+				this.publisher.publish(topic.getTopic(),
 						gson.toJson(new Misura(roundedValue, time, topic.getIdSensore())));
 			}
 			

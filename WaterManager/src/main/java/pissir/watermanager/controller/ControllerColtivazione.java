@@ -3,6 +3,8 @@ package pissir.watermanager.controller;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
@@ -23,6 +25,7 @@ public class ControllerColtivazione {
 	
 	private final DAO daoColtivazione;
 	private final TokenService tokenService;
+	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
 	
 	
 	@PostMapping(value = "/add")
