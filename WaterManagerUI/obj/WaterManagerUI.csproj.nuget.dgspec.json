@@ -1,32 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Alessandro Gattico\\Desktop\\wat\\WaterManagerUI\\WaterManagerUI.csproj": {}
+    "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/WaterManagerUI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Alessandro Gattico\\Desktop\\wat\\WaterManagerUI\\WaterManagerUI.csproj": {
+    "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/WaterManagerUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alessandro Gattico\\Desktop\\wat\\WaterManagerUI\\WaterManagerUI.csproj",
+        "projectUniqueName": "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/WaterManagerUI.csproj",
         "projectName": "WaterManagerUI",
-        "projectPath": "C:\\Users\\Alessandro Gattico\\Desktop\\wat\\WaterManagerUI\\WaterManagerUI.csproj",
-        "packagesPath": "C:\\Users\\Alessandro Gattico\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alessandro Gattico\\Desktop\\wat\\WaterManagerUI\\obj\\",
+        "projectPath": "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/WaterManagerUI.csproj",
+        "packagesPath": "/Users/alessandrogattico/.nuget/packages/",
+        "outputPath": "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Alessandro Gattico\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/alessandrogattico/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
+          "/usr/local/share/dotnet/sdk/7.0.312/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -129,7 +123,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.312/RuntimeIdentifierGraph.json"
         }
       }
     }
