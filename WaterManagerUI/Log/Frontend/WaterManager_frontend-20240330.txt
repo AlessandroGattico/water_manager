@@ -1,0 +1,81 @@
+2024-03-30 15:46:48.519 +01:00 [INF] User profile is available. Using '/Users/alessandrogattico/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-03-30 15:46:48.791 +01:00 [INF] Now listening on: https://localhost:5210
+2024-03-30 15:46:48.792 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-30 15:46:48.793 +01:00 [INF] Hosting environment: Development
+2024-03-30 15:46:48.793 +01:00 [INF] Content root path: /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI
+2024-03-30 15:46:49.031 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/ - -
+2024-03-30 15:46:49.051 +01:00 [INF] Executing endpoint '/Index'
+2024-03-30 15:46:49.069 +01:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-03-30 15:46:49.077 +01:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:46:49.082 +01:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:46:49.312 +01:00 [INF] Executed page /Index in 240.4284ms
+2024-03-30 15:46:49.313 +01:00 [INF] Executed endpoint '/Index'
+2024-03-30 15:46:49.315 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/ - - - 200 - text/html;+charset=utf-8 285.8270ms
+2024-03-30 15:46:51.281 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Login - -
+2024-03-30 15:46:51.287 +01:00 [INF] Executing endpoint '/Login'
+2024-03-30 15:46:51.304 +01:00 [INF] Route matched with {page = "/Login", area = ""}. Executing page /Login
+2024-03-30 15:46:51.317 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:46:51.318 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:46:51.364 +01:00 [INF] Executed page /Login in 59.263ms
+2024-03-30 15:46:51.364 +01:00 [INF] Executed endpoint '/Login'
+2024-03-30 15:46:51.364 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Login - - - 200 - text/html;+charset=utf-8 82.7813ms
+2024-03-30 15:46:56.098 +01:00 [INF] Request starting HTTP/1.1 POST https://localhost:5210/Login application/x-www-form-urlencoded 220
+2024-03-30 15:46:56.103 +01:00 [INF] Executing endpoint '/Login'
+2024-03-30 15:46:56.103 +01:00 [INF] Route matched with {page = "/Login", area = ""}. Executing page /Login
+2024-03-30 15:46:56.136 +01:00 [INF] Executing handler method WaterManagerUI.Pages.Login.OnPostAsync - ModelState is "Valid"
+2024-03-30 15:46:56.144 +01:00 [INF] Login user: dri
+2024-03-30 15:46:56.382 +01:00 [INF] Login dri succsessful
+2024-03-30 15:46:56.415 +01:00 [INF] User role GESTOREIDRICO
+2024-03-30 15:46:56.418 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2024-03-30 15:46:56.419 +01:00 [INF] Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.RedirectToPageResult.
+2024-03-30 15:46:56.421 +01:00 [INF] Executing RedirectToPageResult, redirecting to /Bacino/GestoreIdrico.
+2024-03-30 15:46:56.422 +01:00 [INF] Executed page /Login in 319.2059ms
+2024-03-30 15:46:56.423 +01:00 [INF] Executed endpoint '/Login'
+2024-03-30 15:46:56.426 +01:00 [INF] Request finished HTTP/1.1 POST https://localhost:5210/Login application/x-www-form-urlencoded 220 - 302 0 - 328.2704ms
+2024-03-30 15:46:56.430 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Bacino/GestoreIdrico - -
+2024-03-30 15:46:56.433 +01:00 [INF] Executing endpoint '/Bacino/GestoreIdrico'
+2024-03-30 15:46:56.434 +01:00 [INF] Route matched with {page = "/Bacino/GestoreIdrico", area = ""}. Executing page /Bacino/GestoreIdrico
+2024-03-30 15:46:56.434 +01:00 [INF] Executing handler method WaterManagerUI.Pages.GestoreIdricoPage.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:46:56.436 +01:00 [INF] Start processing HTTP request GET http://localhost:8080/api/v1/user/get/gi/3
+2024-03-30 15:46:56.438 +01:00 [INF] Sending HTTP request GET http://localhost:8080/api/v1/user/get/gi/3
+2024-03-30 15:46:56.457 +01:00 [INF] Received HTTP response headers after 16.8675ms - 200
+2024-03-30 15:46:56.457 +01:00 [INF] End processing HTTP request after 22.0601ms - 200
+2024-03-30 15:46:56.458 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2024-03-30 15:46:56.458 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:46:56.458 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:46:56.526 +01:00 [INF] Executed page /Bacino/GestoreIdrico in 92.5676ms
+2024-03-30 15:46:56.526 +01:00 [INF] Executed endpoint '/Bacino/GestoreIdrico'
+2024-03-30 15:46:56.527 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Bacino/GestoreIdrico - - - 200 - text/html;+charset=utf-8 96.6818ms
+2024-03-30 15:46:57.780 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Bacino/richieste/RichiesteSospeso?bacinoId=2 - -
+2024-03-30 15:46:57.783 +01:00 [INF] Executing endpoint '/Bacino/richieste/RichiesteSospeso'
+2024-03-30 15:46:57.787 +01:00 [INF] Route matched with {page = "/Bacino/richieste/RichiesteSospeso", area = ""}. Executing page /Bacino/richieste/RichiesteSospeso
+2024-03-30 15:46:57.793 +01:00 [INF] Executing handler method WaterManagerUI.Pages.richieste.RichiesteSospeso.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:46:57.796 +01:00 [INF] Start processing HTTP request GET http://localhost:8080/api/v1/user/get/gi/3
+2024-03-30 15:46:57.796 +01:00 [INF] Sending HTTP request GET http://localhost:8080/api/v1/user/get/gi/3
+2024-03-30 15:46:57.841 +01:00 [INF] Received HTTP response headers after 44.9512ms - 200
+2024-03-30 15:46:57.842 +01:00 [INF] End processing HTTP request after 45.5624ms - 200
+2024-03-30 15:46:57.844 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2024-03-30 15:46:57.845 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:46:57.845 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:46:57.864 +01:00 [INF] Executed page /Bacino/richieste/RichiesteSospeso in 77.0424ms
+2024-03-30 15:46:57.864 +01:00 [INF] Executed endpoint '/Bacino/richieste/RichiesteSospeso'
+2024-03-30 15:46:57.864 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Bacino/richieste/RichiesteSospeso?bacinoId=2 - - - 200 - text/html;+charset=utf-8 84.0500ms
+2024-03-30 15:46:59.387 +01:00 [INF] Request starting HTTP/1.1 POST https://localhost:5210/Logout application/x-www-form-urlencoded 225
+2024-03-30 15:46:59.389 +01:00 [INF] Executing endpoint '/Logout'
+2024-03-30 15:46:59.392 +01:00 [INF] Route matched with {page = "/Logout", area = ""}. Executing page /Logout
+2024-03-30 15:46:59.393 +01:00 [INF] Executing handler method WaterManagerUI.Pages.Logout.OnPostAsync - ModelState is "Valid"
+2024-03-30 15:46:59.397 +01:00 [INF] AuthenticationScheme: Identity.Application signed out.
+2024-03-30 15:46:59.398 +01:00 [INF] Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.RedirectToPageResult.
+2024-03-30 15:46:59.398 +01:00 [INF] Executing RedirectToPageResult, redirecting to /Index.
+2024-03-30 15:46:59.398 +01:00 [INF] Executed page /Logout in 5.6087ms
+2024-03-30 15:46:59.398 +01:00 [INF] Executed endpoint '/Logout'
+2024-03-30 15:46:59.399 +01:00 [INF] Request finished HTTP/1.1 POST https://localhost:5210/Logout application/x-www-form-urlencoded 225 - 302 0 - 11.3669ms
+2024-03-30 15:46:59.402 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/ - -
+2024-03-30 15:46:59.403 +01:00 [INF] Executing endpoint '/Index'
+2024-03-30 15:46:59.403 +01:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-03-30 15:46:59.403 +01:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:46:59.404 +01:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:46:59.406 +01:00 [INF] Executed page /Index in 3.4799ms
+2024-03-30 15:46:59.406 +01:00 [INF] Executed endpoint '/Index'
+2024-03-30 15:46:59.407 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/ - - - 200 - text/html;+charset=utf-8 4.4990ms
+2024-03-30 15:47:01.162 +01:00 [INF] Application is shutting down...

@@ -32,7 +32,7 @@ builder.Services.AddHttpClient();
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.File(
-        path: "./../Log/Frontend/WaterManager_frontend-.txt",
+        path: "./Log/Frontend/WaterManager_frontend-.txt",
         rollingInterval: RollingInterval.Day
     )
     .CreateLogger();
@@ -51,14 +51,6 @@ else
     app.UseHsts();
 }
 
-app.MapGet("/signin", () =>
-{
-    return Results.Challenge(new AuthenticationProperties()
-        {
-            RedirectUri = "https://localhost:5210/Index"
-        }
-        , authenticationSchemes: new List<string>() { "github" });
-});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
