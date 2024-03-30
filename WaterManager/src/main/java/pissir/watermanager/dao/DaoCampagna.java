@@ -3,9 +3,7 @@ package pissir.watermanager.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.item.Campagna;
-import pissir.watermanager.model.utils.cambio.CambioString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,7 +11,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -21,15 +21,15 @@ public class DaoCampagna {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(DaoCampagna.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoCampagna.class.getName());
 	
 	
-	public DaoCampagna() {
+	protected DaoCampagna() {
 		
 	}
 	
 	
-	public Campagna getCampagnaId(int id) {
+	protected Campagna getCampagnaId(int id) {
 		Campagna campagna = null;
 		
 		String query = """
@@ -65,7 +65,7 @@ public class DaoCampagna {
 	}
 	
 	
-	public HashSet<Campagna> getCampagnaAzienda(int idAzienda) {
+	protected HashSet<Campagna> getCampagnaAzienda(int idAzienda) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -122,7 +122,7 @@ public class DaoCampagna {
 	}
 	
 	
-	public int addCampagna(Campagna campagna) {
+	protected int addCampagna(Campagna campagna) {
 		int id = 0;
 		Connection connection = null;
 		
@@ -139,29 +139,29 @@ public class DaoCampagna {
 				statement.setString(1, campagna.getNome());
 				statement.setInt(2, campagna.getIdAzienda());
 				
-				logger.info("Inserimento di una nuova campagna: {}", campagna.getNome());
-				
 				statement.executeUpdate();
 				
-				try (ResultSet resultSet = statement.getGeneratedKeys()) {
+				try (ResultSet resultSet = statement.getGeneratedKeys();) {
 					if (resultSet.next()) {
 						id = resultSet.getInt(1);
-						
-						logger.debug("Campagna inserita con successo. ID generato: {}", id);
 					}
 				}
-				
-				connection.commit();
-			} catch (Exception e) {
-				if (connection != null) {
-					connection.rollback();
-					
-					logger.error("Rollback eseguito a causa di un errore nell'inserimento della campagna", e);
-				}
-				throw e;
 			}
-		} catch (SQLException e) {
+			connection.commit();
+			
+			logger.info("Campagna aggiunta con ID {}", id);
+			
+		} catch (Exception e) {
 			logger.error("Errore durante l'aggiunta della campagna", e);
+			
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
 			
 			throw new RuntimeException("Errore durante l'aggiunta della campagna", e);
 		} finally {
@@ -169,7 +169,7 @@ public class DaoCampagna {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					logger.error("Errore durante la chiusura della connessione", e);
+					logger.error("Errore nella chiusura della connessione", e);
 				}
 			}
 		}
@@ -178,7 +178,7 @@ public class DaoCampagna {
 	}
 	
 	
-	public void deleteCampagna(int id) {
+	protected void deleteCampagna(int id) {
 		String query = """
 				DELETE FROM campagna
 				WHERE id = ? ;
@@ -223,51 +223,7 @@ public class DaoCampagna {
 	}
 	
 	
-	public Boolean cambiaNome(CambioString cambio) {
-		String query = "UPDATE campagna SET " + cambio.getProperty() + " = ? WHERE id = ?;";
-		Connection connection = null;
-		
-		try {
-			connection = DriverManager.getConnection(this.url);
-			connection.setAutoCommit(false);
-			
-			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				statement.setString(1, cambio.getNewString());
-				statement.setInt(2, cambio.getId());
-				
-				logger.info("Tentativo di aggiornare il nome dell'approvazione con ID: {}", cambio.getId());
-				
-				statement.executeUpdate();
-				
-				logger.info("Approvazione con ID {} aggiornata con successo", cambio.getId());
-				
-				connection.commit();
-				return true;
-			} catch (SQLException e) {
-				if (connection != null) {
-					connection.rollback();
-					
-					logger.error("Rollback eseguito a causa di un errore durante l'aggiornamento dell'approvazione", e);
-				}
-				throw e;
-			}
-		} catch (SQLException e) {
-			logger.error("Errore durante l'aggiornamento dell'approvazione", e);
-			
-			return false;
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					logger.error("Errore durante la chiusura della connessione", e);
-				}
-			}
-		}
-	}
-	
-	
-	public HashSet<Campagna> getCampagne() {
+	protected HashSet<Campagna> getCampagne() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -316,7 +272,7 @@ public class DaoCampagna {
 	}
 	
 	
-	public boolean existsCampagnaAzienda(int id, String campagna) {
+	protected boolean existsCampagnaAzienda(int id, String campagna) {
 		String sql = """
 				SELECT COUNT(*)
 				FROM campagna

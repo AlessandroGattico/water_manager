@@ -13,7 +13,9 @@ import pissir.watermanager.security.services.AuthenticationService;
 
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @RestController

@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -19,14 +21,14 @@ public class DaoMisura {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(DaoMisura.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoMisura.class.getName());
 	
 	
-	public DaoMisura() {
+	protected DaoMisura() {
 	}
 	
 	
-	public Misura getMisuraId(int idMisura) {
+	protected Misura getMisuraId(int idMisura) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -74,7 +76,7 @@ public class DaoMisura {
 	}
 	
 	
-	public HashSet<Misura> getMisureSensore(int idSensore) {
+	protected HashSet<Misura> getMisureSensore(int idSensore) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -125,7 +127,7 @@ public class DaoMisura {
 	}
 	
 	
-	public void addMisura(Misura misura) {
+	protected void addMisura(Misura misura) {
 		String query = """
 				INSERT INTO misura (value, time, id_sensore)
 				VALUES (?, ?, ?);
@@ -170,7 +172,7 @@ public class DaoMisura {
 	}
 	
 	
-	public void deleteMisura(int idMisura) {
+	protected void deleteMisura(int idMisura) {
 		String query = """
 				DELETE FROM misura
 				WHERE id = ? ;

@@ -13,7 +13,9 @@ import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @RestController
@@ -23,7 +25,7 @@ public class ControllerBacinoIdrico {
 	
 	private final DAO daoBacino;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	public static final Logger logger = LogManager.getLogger(ControllerBacinoIdrico.class.getName());
 	
 	
 	@GetMapping(value = "/get/{id}")

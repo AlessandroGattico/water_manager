@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Azienda;
-import pissir.watermanager.model.utils.cambio.CambioString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,22 +11,24 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
 public class DaoAzienda {
 	
+	private static final Logger logger = LogManager.getLogger(DaoAzienda.class.getName());
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(DaoAzienda.class.getName());
 	
 	
-	public DaoAzienda() {
+	protected DaoAzienda() {
 	}
 	
 	
-	public Azienda getAziendaId(int id) {
+	protected Azienda getAziendaId(int id) {
 		Azienda azienda = null;
 		
 		String query = """
@@ -63,7 +64,43 @@ public class DaoAzienda {
 	}
 	
 	
-	public HashSet<Azienda> getAziende() {
+	protected Azienda getAziendaNome(String nome) {
+		Azienda azienda = null;
+		
+		String query = """
+				SELECT *
+				FROM azienda
+				WHERE nome = ? ;
+				""";
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			
+			statement.setString(1, nome);
+			logger.info("Esecuzione query per ottenere l'azienda con nome {}", nome);
+			
+			try (ResultSet resultSet = statement.executeQuery()) {
+				if (resultSet.next()) {
+					azienda = new Azienda(resultSet.getInt("id"), resultSet.getString("nome"),
+							resultSet.getInt("id_user"));
+					
+					logger.info("Azienda trovata: {}", azienda.getNome());
+				} else {
+					logger.info("Nessuna azienda trovata con nome {}", nome);
+				}
+			}
+			
+		} catch (SQLException e) {
+			logger.error("Errore durante il recupero dell'azienda con nome {}", nome, e);
+			
+			return null;
+		}
+		
+		return azienda;
+	}
+	
+	
+	protected HashSet<Azienda> getAziende() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -116,7 +153,7 @@ public class DaoAzienda {
 	}
 	
 	
-	public int addAzienda(Azienda azienda) {
+	protected int addAzienda(Azienda azienda) {
 		int id = 0;
 		String query = """
 				INSERT INTO azienda (nome, id_user)
@@ -124,6 +161,7 @@ public class DaoAzienda {
 				""";
 		
 		Connection connection = null;
+		
 		try {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
@@ -134,7 +172,7 @@ public class DaoAzienda {
 				
 				statement.executeUpdate();
 				
-				try (ResultSet resultSet = statement.getGeneratedKeys();) {
+				try (ResultSet resultSet = statement.getGeneratedKeys()) {
 					if (resultSet.next()) {
 						id = resultSet.getInt(1);
 					}
@@ -169,7 +207,7 @@ public class DaoAzienda {
 	}
 	
 	
-	public void deleteAzienda(int id) {
+	protected void deleteAzienda(int id) {
 		String query = """
 				DELETE FROM azienda
 				WHERE id = ? ;
@@ -221,7 +259,7 @@ public class DaoAzienda {
 	}
 	
 	
-	public Azienda getAziendaUser(int idGestore) {
+	protected Azienda getAziendaUser(int idGestore) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -271,47 +309,5 @@ public class DaoAzienda {
 		return azienda;
 	}
 	
-	
-	public Boolean cambiaNome(CambioString cambio) {
-		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
-		
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection(this.url);
-			connection.setAutoCommit(false);
-			
-			logger.info("Inizio transazione per cambiare {} con ID {}", cambio.getProperty(), cambio.getId());
-			
-			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				statement.setString(1, cambio.getNewString());
-				statement.setInt(2, cambio.getId());
-				
-				int rowsAffected = statement.executeUpdate();
-				connection.commit();
-				
-				logger.info("Transazione confermata. {} righe modificate.", rowsAffected);
-				
-				return true;
-			}
-		} catch (SQLException e) {
-			logger.error("Errore durante la modifica di {}. Effettuando il rollback...", cambio.getProperty(), e);
-			if (connection != null) {
-				try {
-					connection.rollback();
-				} catch (SQLException ex) {
-					logger.error("Errore durante l'esecuzione del rollback", ex);
-				}
-			}
-			return false;
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					logger.error("Errore nella chiusura della connessione", e);
-				}
-			}
-		}
-	}
 	
 }

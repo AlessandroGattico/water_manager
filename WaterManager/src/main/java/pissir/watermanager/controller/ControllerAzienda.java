@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Azienda;
 import pissir.watermanager.model.user.UserRole;
-import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.security.services.TokenService;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @RestController
@@ -24,7 +25,7 @@ public class ControllerAzienda {
 	
 	private final DAO daoAzienda;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	public static final Logger logger = LogManager.getLogger(ControllerAzienda.class.getName());
 	
 	
 	@PostMapping(value = "/add")
@@ -117,29 +118,6 @@ public class ControllerAzienda {
 			return gson.toJson("OK");
 		} else {
 			logger.info("Azienda | elimina | " + id + " | negato");
-			
-			return "Accesso negato";
-		}
-	}
-	
-	
-	@PostMapping(value = "/modifica/nome")
-	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
-	public String modificaNome(@RequestBody String param, HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
-		
-		logger.info("Azienda | modifica | nome");
-		
-		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Azienda | modifica | nome | concesso");
-			
-			CambioString cambio = gson.fromJson(param, CambioString.class);
-			
-			return gson.toJson(this.daoAzienda.cambiaNomeAzienda(cambio));
-		} else {
-			logger.info("Azienda | modifica | nome | concesso");
 			
 			return "Accesso negato";
 		}

@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Getter

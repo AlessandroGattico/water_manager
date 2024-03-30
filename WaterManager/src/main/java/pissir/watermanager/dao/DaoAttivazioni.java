@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Attivazione;
-import pissir.watermanager.model.utils.cambio.CambioBool;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,22 +11,24 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
 public class DaoAttivazioni {
 	
-	public static final Logger logger = LogManager.getLogger(DaoAttivazioni.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoAttivazioni.class.getName());
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
-	public DaoAttivazioni() {
+	protected DaoAttivazioni() {
 	}
 	
 	
-	public Attivazione getAttivazioneId(int id) {
+	protected Attivazione getAttivazioneId(int id) {
 		Attivazione attivazione = null;
 		String query = """
 				SELECT *
@@ -58,7 +59,7 @@ public class DaoAttivazioni {
 	}
 	
 	
-	public HashSet<Attivazione> getAttivazioniAttuatore(int id) {
+	protected HashSet<Attivazione> getAttivazioniAttuatore(int id) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -94,9 +95,19 @@ public class DaoAttivazioni {
 				}
 				
 				for (HashMap<String, Object> map : list) {
-					Attivazione attivazione =
-							new Attivazione((int) map.get("id"), (String) map.get("time"), (Boolean) map.get("current"),
-									(Integer) map.get("id_attuatore"));
+					Attivazione attivazione;
+					int attivo = (int) map.get("current");
+					
+					if (attivo == 0) {
+						attivazione =
+								new Attivazione((int) map.get("id"), (String) map.get("time"), false,
+										(Integer) map.get("id_attuatore"));
+					} else {
+						attivazione =
+								new Attivazione((int) map.get("id"), (String) map.get("time"), true,
+										(Integer) map.get("id_attuatore"));
+					}
+					
 					
 					attivazioni.add(attivazione);
 				}
@@ -113,7 +124,7 @@ public class DaoAttivazioni {
 	}
 	
 	
-	public int addAttivazione(Attivazione attivazione) {
+	protected int addAttivazione(Attivazione attivazione) {
 		int id = 0;
 		String query = """
 				INSERT INTO attivazione (current, time, id_attuatore)
@@ -168,7 +179,7 @@ public class DaoAttivazioni {
 	}
 	
 	
-	public void deleteAttivazione(int idAttivazione) {
+	protected void deleteAttivazione(int idAttivazione) {
 		String query = """
 				DELETE FROM attivazione
 				WHERE id = ? ;
@@ -211,47 +222,5 @@ public class DaoAttivazioni {
 		}
 	}
 	
-	
-	public Boolean cambiaAttivazione(CambioBool cambio) {
-		String query = "UPDATE attivazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
-		
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection(this.url);
-			connection.setAutoCommit(false);
-			
-			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				statement.setBoolean(1, cambio.isNewBool());
-				statement.setInt(2, cambio.getId());
-				
-				logger.info("Aggiornamento dell'attivazione con ID {}", cambio.getId());
-				statement.executeUpdate();
-				
-				connection.commit();
-				
-				return true;
-			} catch (SQLException e) {
-				logger.error("Errore durante l'aggiornamento dell'attivazione, eseguo rollback", e);
-				
-				if (connection != null) {
-					connection.rollback();
-				}
-				
-				return false;
-			}
-		} catch (SQLException e) {
-			logger.error("Errore di connessione durante l'aggiornamento dell'attivazione", e);
-			
-			return false;
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					logger.error("Errore nella chiusura della connessione", e);
-				}
-			}
-		}
-	}
 	
 }

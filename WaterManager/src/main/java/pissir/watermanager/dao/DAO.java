@@ -3,22 +3,20 @@ package pissir.watermanager.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.item.*;
 import pissir.watermanager.model.user.*;
 import pissir.watermanager.model.utils.ElementsCount;
 import pissir.watermanager.model.utils.TopicCreator;
 import pissir.watermanager.model.utils.Topics;
-import pissir.watermanager.model.utils.cambio.CambioBool;
-import pissir.watermanager.model.utils.cambio.CambioInt;
-import pissir.watermanager.model.utils.cambio.CambioString;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -39,8 +37,7 @@ public class DAO {
 	private final DaoRisorseAzienda daoRisorseAzienda;
 	private final DaoRisorseBacino daoRisorseBacino;
 	private final DaoUtils daoUtils;
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
-	
+	public static final Logger logger = LogManager.getLogger(DAO.class.getName());
 	
 	
 	public DAO() {
@@ -63,18 +60,8 @@ public class DAO {
 	
 	
 	//------ USER ------
-	public UserProfile getUser(String username, String password) {
-		return this.daoUser.getUser(username, password);
-	}
-	
-	
 	public UserProfile getUserByUsername(String username) {
 		return this.daoUser.getUserByUsername(username);
-	}
-	
-	
-	public HashSet<UserProfile> getUtenti() {
-		return this.daoUser.getUtenti();
 	}
 	
 	
@@ -88,6 +75,16 @@ public class DAO {
 			HashSet<RichiestaIdrica> richieste = this.getRichiesteBacino(bacinoIdrico.getId());
 			
 			if (richieste != null) {
+				for (RichiestaIdrica richiesta : richieste) {
+					Approvazione approvazione = this.daoApprovazione.getApprovazioneIdRichiesta(richiesta.getId());
+					
+					if (approvazione != null) {
+						richiesta.setApprovato(approvazione);
+					} else {
+						richiesta.setApprovato(null);
+					}
+				}
+				
 				bacinoIdrico.setRichieste(richieste);
 			}
 			
@@ -147,6 +144,8 @@ public class DAO {
 						richiesta.setApprovato(null);
 					}
 				}
+				
+				azienda.setRichieste(richieste);
 			}
 		}
 		
@@ -186,11 +185,6 @@ public class DAO {
 	
 	public Admin getAdmin(int id) {
 		return this.daoUser.getAdmin(id);
-	}
-	
-	
-	public Boolean cambiaStringUser(CambioString cambio) {
-		return this.daoUser.cambiaString(cambio);
 	}
 	
 	
@@ -354,11 +348,6 @@ public class DAO {
 	}
 	
 	
-	public Boolean cambiaNomeAzienda(CambioString cambio) {
-		return this.daoAzienda.cambiaNome(cambio);
-	}
-	
-	
 	//------ CAMPAGNA ------
 	public Campagna getCampagnaId(int idCampagna) {
 		Campagna campagna = this.daoCampagna.getCampagnaId(idCampagna);
@@ -398,11 +387,6 @@ public class DAO {
 	
 	public void deleteCampagna(int uuidCampagna) {
 		this.daoCampagna.deleteCampagna(uuidCampagna);
-	}
-	
-	
-	public Boolean cambiaNomeCampagna(CambioString cambio) {
-		return this.daoCampagna.cambiaNome(cambio);
 	}
 	
 	
@@ -468,15 +452,6 @@ public class DAO {
 	}
 	
 	
-	public Boolean cambiaNomeCampo(CambioString cambio) {
-		return this.daoCampo.cambiaNome(cambio);
-	}
-	
-	
-	public Boolean cambiaCampagnaCampo(CambioInt cambio) {
-		return this.daoCampo.cambiaCampagna(cambio);
-	}
-	
 	//------ COLTIVAZIONE ------
 	
 	
@@ -535,16 +510,6 @@ public class DAO {
 	
 	public void deleteSensore(int idSensore) {
 		this.daoSensore.deleteSensore(idSensore);
-	}
-	
-	
-	public Boolean cambiaNomeSensore(CambioString cambio) {
-		return this.daoSensore.cambiaNome(cambio);
-	}
-	
-	
-	public Boolean cambiaCampoSensore(CambioInt cambio) {
-		return this.daoSensore.cambiaCampo(cambio);
 	}
 	
 	
@@ -615,16 +580,6 @@ public class DAO {
 	}
 	
 	
-	public Boolean cambiaNomeAttuatore(CambioString cambio) {
-		return this.daoAttuatore.cambiaNome(cambio);
-	}
-	
-	
-	public Boolean cambiaCampoAttuatore(CambioInt cambio) {
-		return this.daoAttuatore.cambiaCampo(cambio);
-	}
-	
-	
 	//------ ATTIVAZIONE ------
 	public Attivazione getAttivazioneId(int idAttivazione) {
 		return this.daoAttivazioni.getAttivazioneId(idAttivazione);
@@ -643,11 +598,6 @@ public class DAO {
 	
 	public void deleteAttivazione(int idAttivazione) {
 		this.daoAttivazioni.deleteAttivazione(idAttivazione);
-	}
-	
-	
-	public Boolean cambiaAttivazione(CambioBool cambio) {
-		return this.daoAttivazioni.cambiaAttivazione(cambio);
 	}
 	
 	
@@ -717,17 +667,28 @@ public class DAO {
 	
 	
 	public void addApprovazione(Approvazione approvazione) {
+		RichiestaIdrica richiesta = this.daoRichieste.getRichiestaId(approvazione.getIdRichiesta());
+		RisorsaIdrica risorsa = new RisorsaIdrica();
+		RisorsaIdrica lastBacino = this.daoRisorseBacino.ultimaRisorsa(richiesta.getIdBacino());
+		RisorsaIdrica lastAzienda = this.daoRisorseAzienda.ultimaRisorsa(
+				this.daoAzienda.getAziendaNome(richiesta.getNomeAzienda()).getId());
+		RisorsaIdrica newAzienda = new RisorsaIdrica();
+		
+		newAzienda.setData(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+		
+		risorsa.setData(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+		risorsa.setConsumo(lastBacino.getConsumo() + richiesta.getQuantita());
+		risorsa.setDisponibilita(lastBacino.getDisponibilita() - richiesta.getQuantita());
+		risorsa.setIdSource(richiesta.getIdBacino());
+		
+		this.daoRisorseBacino.addRisorsaBacino(risorsa);
+		
 		this.daoApprovazione.addApprovazione(approvazione);
 	}
 	
 	
 	public void deleteApprovazione(int idApprovazione) {
 		this.daoApprovazione.deleteApprovazione(idApprovazione);
-	}
-	
-	
-	public Boolean cambiaApprovazione(CambioBool cambio) {
-		return this.daoApprovazione.cambiaApprovazione(cambio);
 	}
 	
 	
@@ -944,11 +905,6 @@ public class DAO {
 	
 	public HashSet<Campo> getAllCampi() {
 		return this.daoCampo.getCampi();
-	}
-	
-	
-	public HashSet<BacinoIdrico> getAllBacini() {
-		return this.daoBacinoIdrico.getBacini();
 	}
 	
 	

@@ -4,7 +4,9 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 public class KeyGeneratorUtility {

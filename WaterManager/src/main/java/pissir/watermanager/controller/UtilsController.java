@@ -16,6 +16,11 @@ import pissir.watermanager.security.services.TokenService;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+/**
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
+ */
 
 @RequestMapping("/api/v1/utils")
 @RestController
@@ -24,7 +29,7 @@ public class UtilsController {
 	
 	private final DAO dao;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	public static final Logger logger = LogManager.getLogger(UtilsController.class.getName());
 	
 	
 	@GetMapping(value = "/topics/get/all")

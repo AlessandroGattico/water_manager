@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * @author Alessandro Gattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 @Getter
 @RequiredArgsConstructor

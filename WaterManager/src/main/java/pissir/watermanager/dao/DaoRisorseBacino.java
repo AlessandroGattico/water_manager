@@ -12,7 +12,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -20,14 +22,14 @@ public class DaoRisorseBacino {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(DaoRisorseBacino.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoRisorseBacino.class.getName());
 	
 	
-	public DaoRisorseBacino() {
+	protected DaoRisorseBacino() {
 	}
 	
 	
-	public RisorsaIdrica getRisorsaBacinoId(int idRisorsa) {
+	protected RisorsaIdrica getRisorsaBacinoId(int idRisorsa) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -81,7 +83,7 @@ public class DaoRisorseBacino {
 	}
 	
 	
-	public HashSet<RisorsaIdrica> getStoricoRisorseBacino(int idBacino) {
+	protected HashSet<RisorsaIdrica> getStoricoRisorseBacino(int idBacino) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -145,7 +147,7 @@ public class DaoRisorseBacino {
 	}
 	
 	
-	public int addRisorsaBacino(RisorsaIdrica risorsaIdrica) {
+	protected int addRisorsaBacino(RisorsaIdrica risorsaIdrica) {
 		int id = 0;
 		
 		String queryInsert = """
@@ -205,7 +207,7 @@ public class DaoRisorseBacino {
 	}
 	
 	
-	public void deleteRisorsaBacino(int id) {
+	protected void deleteRisorsaBacino(int id) {
 		String query = """
 				DELETE FROM risorsa_bacino
 				WHERE id = ? ;
@@ -249,7 +251,7 @@ public class DaoRisorseBacino {
 	}
 	
 	
-	public RisorsaIdrica ultimaRisorsa(int idBacino) {
+	protected RisorsaIdrica ultimaRisorsa(int idBacino) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;

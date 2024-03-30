@@ -5,7 +5,9 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.user.UserProfile;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 

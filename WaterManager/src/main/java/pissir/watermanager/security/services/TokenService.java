@@ -10,7 +10,9 @@ import java.time.Instant;
 import java.util.List;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Service

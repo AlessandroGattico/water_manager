@@ -28,7 +28,9 @@ import org.springframework.web.client.RestTemplate;
 import pissir.watermanager.security.utils.RsaKeyProperties;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Configuration

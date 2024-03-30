@@ -16,7 +16,6 @@ public class InsertData {
 	public static void main(String[] args) throws Exception {
 		
 		InsertData data = new InsertData();
-		DaoMisura daoMisura = new DaoMisura();
 		
 		Misura misura = new Misura(83.5,
 				LocalDateTime.now().minusMonths(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")), 2);

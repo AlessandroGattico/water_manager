@@ -13,7 +13,9 @@ import pissir.watermanager.security.model.RegistrationDTO;
 import pissir.watermanager.security.repository.UserRepository;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Service

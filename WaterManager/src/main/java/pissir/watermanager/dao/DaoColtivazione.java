@@ -12,7 +12,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -20,14 +22,14 @@ public class DaoColtivazione {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(DaoColtivazione.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoColtivazione.class.getName());
 	
 	
-	public DaoColtivazione() {
+	protected DaoColtivazione() {
 	}
 	
 	
-	public Coltivazione getColtivazioneId(int idColtivazione) {
+	protected Coltivazione getColtivazioneId(int idColtivazione) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -77,7 +79,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public HashSet<Coltivazione> getColtivazioniCampo(int idCampo) {
+	protected HashSet<Coltivazione> getColtivazioniCampo(int idCampo) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -139,7 +141,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public int addColtivazione(Coltivazione coltivazione) {
+	protected int addColtivazione(Coltivazione coltivazione) {
 		int id = 0;
 		String queryInsert = """
 				INSERT INTO coltivazione (raccolto, esigenza, irrigazione, temperatura, umidita, semina, id_campo)
@@ -204,7 +206,7 @@ public class DaoColtivazione {
 	}
 	
 	
-	public void deleteColtivazione(int idColtivazione) {
+	protected void deleteColtivazione(int idColtivazione) {
 		String query = """
 				DELETE FROM coltivazione
 				WHERE id = ? ;

@@ -3,10 +3,7 @@ package pissir.watermanager.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.item.Campo;
-import pissir.watermanager.model.utils.cambio.CambioInt;
-import pissir.watermanager.model.utils.cambio.CambioString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +11,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -22,14 +21,14 @@ public class DaoCampo {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(DaoCampo.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoCampo.class.getName());
 	
 	
-	public DaoCampo() {
+	protected DaoCampo() {
 	}
 	
 	
-	public Campo getCampoId(int idCampo) {
+	protected Campo getCampoId(int idCampo) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -79,7 +78,7 @@ public class DaoCampo {
 	}
 	
 	
-	public HashSet<Campo> getCampiCampagna(int idCampagna) {
+	protected HashSet<Campo> getCampiCampagna(int idCampagna) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -136,7 +135,7 @@ public class DaoCampo {
 	}
 	
 	
-	public int addCampo(Campo campo) {
+	protected int addCampo(Campo campo) {
 		int id = 0;
 		String query = """
 				INSERT INTO campo (nome, id_campagna, dimensione)
@@ -194,7 +193,7 @@ public class DaoCampo {
 	}
 	
 	
-	public void deleteCampo(int idCampo) {
+	protected void deleteCampo(int idCampo) {
 		String query = """
 				DELETE FROM campo
 				WHERE id = ? ;
@@ -244,113 +243,7 @@ public class DaoCampo {
 	}
 	
 	
-	public Boolean cambiaNome(CambioString cambio) {
-		String query = "UPDATE campo SET " + cambio.getProperty() + " = ? WHERE id = ?;";
-		Connection connection = null;
-		
-		try {
-			connection = DriverManager.getConnection(this.url);
-			connection.setAutoCommit(false);
-			
-			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				statement.setString(1, cambio.getNewString());
-				statement.setInt(2, cambio.getId());
-				
-				logger.info("Aggiornamento del nome del campo con ID {}", cambio.getId());
-				
-				int rowsAffected = statement.executeUpdate();
-				
-				if (rowsAffected > 0) {
-					logger.debug("Nome del campo con ID {} aggiornato con successo", cambio.getId());
-					
-					connection.commit();
-					return true;
-				} else {
-					logger.info("Nessun campo trovato con ID {}", cambio.getId());
-					
-					connection.rollback();
-					return false;
-				}
-			}
-		} catch (SQLException e) {
-			logger.error("Errore durante l'aggiornamento del nome del campo con ID {}", cambio.getId(), e);
-			
-			if (connection != null) {
-				try {
-					connection.rollback();
-				} catch (SQLException ex) {
-					logger.error("Errore durante il rollback", ex);
-				}
-			}
-			
-			return false;
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					logger.error("Errore durante la chiusura della connessione", e);
-				}
-			}
-		}
-	}
-	
-	
-	public Boolean cambiaCampagna(CambioInt cambio) {
-		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
-		Connection connection = null;
-		
-		try {
-			connection = DriverManager.getConnection(this.url);
-			connection.setAutoCommit(false);
-			
-			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				statement.setInt(1, cambio.getNewInt());
-				statement.setInt(2, cambio.getId());
-				
-				logger.info("Modifica del valore di '{}' per la campagna con ID {}", cambio.getProperty(),
-						cambio.getId());
-				
-				int rowsAffected = statement.executeUpdate();
-				
-				if (rowsAffected > 0) {
-					logger.debug("Valore '{}' modificato con successo per la campagna con ID {}", cambio.getProperty(),
-							cambio.getId());
-					
-					connection.commit();
-					return true;
-				} else {
-					logger.info("Nessuna modifica apportata alla campagna con ID {}", cambio.getId());
-					
-					connection.rollback();
-					return false;
-				}
-			}
-		} catch (SQLException e) {
-			logger.error("Errore durante la modifica della campagna con ID {}", cambio.getId(), e);
-			
-			if (connection != null) {
-				try {
-					connection.rollback();
-				} catch (SQLException ex) {
-					logger.error("Errore durante il rollback", ex);
-				}
-			}
-			
-			return false;
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					logger.error("Errore durante la chiusura della connessione", e);
-				}
-			}
-		}
-	}
-	
-	
-	public HashSet<Campo> getCampi() {
+	protected HashSet<Campo> getCampi() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -403,7 +296,7 @@ public class DaoCampo {
 	}
 	
 	
-	public boolean existsCampoCampagna(int id, String campo) {
+	protected boolean existsCampoCampagna(int id, String campo) {
 		String sql = """
 				SELECT COUNT(*)
 				FROM campo

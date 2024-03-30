@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Sensore;
 import pissir.watermanager.model.user.UserRole;
-import pissir.watermanager.model.utils.cambio.CambioInt;
-import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @RestController
@@ -27,7 +27,7 @@ public class ControllerSensore {
 	
 	private final DAO daoSensore;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	public static final Logger logger = LogManager.getLogger(ControllerSensore.class.getName());
 	
 	
 	@GetMapping(value = "/get/{id}")
@@ -90,39 +90,6 @@ public class ControllerSensore {
 			this.daoSensore.deleteSensore(id);
 			
 			return gson.toJson("Ok");
-		} else {
-			return gson.toJson("Accesso negato");
-		}
-	}
-	
-	
-	@PostMapping(value = "/modifica/nome")
-	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
-	public String modificaNome(@RequestBody String param, HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
-		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			CambioString cambio = gson.fromJson(param, CambioString.class);
-			
-			return gson.toJson(this.daoSensore.cambiaNomeSensore(cambio));
-		} else {
-			return gson.toJson("Accesso negato");
-		}
-	}
-	
-	
-	@PostMapping(value = "/modifica/campo")
-	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
-	public String modificaCampo(@RequestBody String param, HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
-		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			CambioInt cambio = gson.fromJson(param, CambioInt.class);
-			
-			return gson.toJson(this.daoSensore.cambiaCampoSensore(cambio));
-			
 		} else {
 			return gson.toJson("Accesso negato");
 		}

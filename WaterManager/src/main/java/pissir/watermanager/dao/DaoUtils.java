@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 
@@ -19,10 +21,10 @@ public class DaoUtils {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoUtils.class.getName());
 	
 	
-	public DaoUtils() {
+	protected DaoUtils() {
 	}
 	
 	
@@ -481,7 +483,7 @@ public class DaoUtils {
 	}
 	
 	
-	public int countCampi() {
+	protected int countCampi() {
 		int count = 0;
 		String query = """
 				SELECT COUNT(*)
@@ -504,7 +506,7 @@ public class DaoUtils {
 	}
 	
 	
-	public int countCampagne() {
+	protected int countCampagne() {
 		int count = 0;
 		String query = """
 				SELECT COUNT(*)
@@ -527,7 +529,7 @@ public class DaoUtils {
 	}
 	
 	
-	public int countAziende() {
+	protected int countAziende() {
 		int count = 0;
 		String query = """
 				SELECT COUNT(*)
@@ -550,7 +552,7 @@ public class DaoUtils {
 	}
 	
 	
-	public int countBacini() {
+	protected int countBacini() {
 		int count = 0;
 		String query = """
 				SELECT COUNT(*)

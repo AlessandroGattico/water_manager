@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -19,10 +21,10 @@ public class DaoBacinoIdrico {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(DaoBacinoIdrico.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoBacinoIdrico.class.getName());
 	
 	
-	public DaoBacinoIdrico() {
+	protected DaoBacinoIdrico() {
 	}
 	
 	
@@ -185,7 +187,7 @@ public class DaoBacinoIdrico {
 	}
 	
 	
-	public void deleteBacino(int bacino) {
+	protected void deleteBacino(int bacino) {
 		String query = """
 				DELETE FROM bacino
 				WHERE id = ? ;
@@ -230,7 +232,7 @@ public class DaoBacinoIdrico {
 	}
 	
 	
-	public BacinoIdrico getBacinoUser(int idGestore) {
+	protected BacinoIdrico getBacinoUser(int idGestore) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;

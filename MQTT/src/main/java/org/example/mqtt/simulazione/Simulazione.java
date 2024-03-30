@@ -15,7 +15,9 @@ import java.util.Random;
 
 
 /**
- * @author Alessandro Gattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 public class Simulazione {

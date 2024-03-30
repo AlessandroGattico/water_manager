@@ -524,30 +524,6 @@
 				}
 			}
 		},
-		"/bacino/approvazione/delete/{id}": {
-			"delete": {
-				"tags": [
-					"Approvazione"
-				],
-				"summary": "Elimina un'approvazione del bacino",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"schema": {
-							"type": "string"
-						},
-						"description": "ID dell'approvazione del bacino da eliminare"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Approvazione del bacino eliminata con successo"
-					}
-				}
-			}
-		},
 		"/azienda/attivazione/get/{id}": {
 			"get": {
 				"tags": [
@@ -605,43 +581,6 @@
 				"responses": {
 					"200": {
 						"description": "Attivazione aziendale aggiunta con successo"
-					}
-				}
-			}
-		},
-		"/azienda/attivazione/modifica/att": {
-			"post": {
-				"tags": [
-					"Attivazione"
-				],
-				"summary": "Modifica un'attivazione aziendale",
-				"responses": {
-					"200": {
-						"description": "Attivazione aziendale modificata con successo"
-					}
-				}
-			}
-		},
-		"/azienda/attivazione/delete/{id}": {
-			"delete": {
-				"tags": [
-					"Attivazione"
-				],
-				"summary": "Elimina un'attivazione aziendale",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"schema": {
-							"type": "string"
-						},
-						"description": "ID dell'attivazione aziendale da eliminare"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Attivazione aziendale eliminata con successo"
 					}
 				}
 			}
@@ -707,43 +646,6 @@
 				}
 			}
 		},
-		"/azienda/modifica/nome": {
-			"post": {
-				"tags": [
-					"Azienda"
-				],
-				"summary": "Modifica il nome di un'azienda",
-				"responses": {
-					"200": {
-						"description": "Nome dell'azienda modificato con successo"
-					}
-				}
-			}
-		},
-		"/azienda/delete/{id}": {
-			"delete": {
-				"tags": [
-					"Azienda"
-				],
-				"summary": "Elimina un'azienda",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"schema": {
-							"type": "string"
-						},
-						"description": "ID dell'azienda da eliminare"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Azienda eliminata con successo"
-					}
-				}
-			}
-		},
 		"/bacino/get/gestore/{id}": {
 			"get": {
 				"tags": [
@@ -792,19 +694,6 @@
 				}
 			}
 		},
-		"/bacino/modifica/nome": {
-			"post": {
-				"tags": [
-					"Bacino idrico"
-				],
-				"summary": "Modifica il nome di un bacino",
-				"responses": {
-					"200": {
-						"description": "Nome del bacino modificato con successo"
-					}
-				}
-			}
-		},
 		"/bacino/add": {
 			"post": {
 				"tags": [
@@ -814,30 +703,6 @@
 				"responses": {
 					"200": {
 						"description": "Bacino aggiunto con successo"
-					}
-				}
-			}
-		},
-		"/bacino/delete/{id}": {
-			"delete": {
-				"tags": [
-					"Bacino idrico"
-				],
-				"summary": "Elimina un bacino",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"schema": {
-							"type": "string"
-						},
-						"description": "ID del bacino da eliminare"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Bacino eliminato con successo"
 					}
 				}
 			}
@@ -899,19 +764,6 @@
 				"responses": {
 					"200": {
 						"description": "Campagna aggiunta con successo"
-					}
-				}
-			}
-		},
-		"/azienda/campagna/modifica/nome": {
-			"post": {
-				"tags": [
-					"Campagna"
-				],
-				"summary": "Modifica il nome di una campagna",
-				"responses": {
-					"200": {
-						"description": "Nome della campagna modificato con successo"
 					}
 				}
 			}
@@ -997,32 +849,6 @@
 				"responses": {
 					"200": {
 						"description": "Campo aggiunto con successo"
-					}
-				}
-			}
-		},
-		"/azienda/campo/modifica/campagna": {
-			"post": {
-				"tags": [
-					"Campo"
-				],
-				"summary": "Modifica la campagna di un campo esistente",
-				"responses": {
-					"200": {
-						"description": "Campagna del campo modificata con successo"
-					}
-				}
-			}
-		},
-		"/azienda/campo/modifica/nome": {
-			"post": {
-				"tags": [
-					"Campo"
-				],
-				"summary": "Modifica il nome di un campo esistente",
-				"responses": {
-					"200": {
-						"description": "Nome del campo modificato con successo"
 					}
 				}
 			}
@@ -1208,30 +1034,6 @@
 				}
 			}
 		},
-		"/misura/delete/{id}": {
-			"delete": {
-				"tags": [
-					"Misura"
-				],
-				"summary": "Elimina una misura",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"schema": {
-							"type": "string"
-						},
-						"description": "ID della misura da eliminare"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Misura eliminata con successo"
-					}
-				}
-			}
-		},
 		"/richiesta/get/allBacino/{id}": {
 			"get": {
 				"tags": [
@@ -1313,30 +1115,6 @@
 				"responses": {
 					"200": {
 						"description": "Richiesta aggiunta con successo"
-					}
-				}
-			}
-		},
-		"/richiesta/delete/{id}": {
-			"delete": {
-				"tags": [
-					"Richiesta idrica"
-				],
-				"summary": "Elimina una richiesta",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"schema": {
-							"type": "string"
-						},
-						"description": "ID della richiesta da eliminare"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Richiesta eliminata con successo"
 					}
 				}
 			}
@@ -1463,54 +1241,6 @@
 				}
 			}
 		},
-		"/risorsa/azienda/delete/{id}": {
-			"delete": {
-				"tags": [
-					"Risorsa idrica"
-				],
-				"summary": "Elimina una risorsa aziendale",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"schema": {
-							"type": "string"
-						},
-						"description": "ID della risorsa aziendale da eliminare"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Risorsa aziendale eliminata con successo"
-					}
-				}
-			}
-		},
-		"/risorsa/bacino/delete/{id}": {
-			"delete": {
-				"tags": [
-					"Risorsa idrica"
-				],
-				"summary": "Elimina una risorsa di un bacino",
-				"parameters": [
-					{
-						"name": "id",
-						"in": "path",
-						"required": true,
-						"schema": {
-							"type": "string"
-						},
-						"description": "ID della risorsa del bacino da eliminare"
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Risorsa del bacino eliminata con successo"
-					}
-				}
-			}
-		},
 		"/azienda/sensore/get/{id}": {
 			"get": {
 				"tags": [
@@ -1568,32 +1298,6 @@
 				"responses": {
 					"200": {
 						"description": "Sensore aggiunto con successo"
-					}
-				}
-			}
-		},
-		"/azienda/sensore/modifica/campo": {
-			"post": {
-				"tags": [
-					"Sensore"
-				],
-				"summary": "Modifica il campo di un sensore esistente",
-				"responses": {
-					"200": {
-						"description": "Campo del sensore modificato con successo"
-					}
-				}
-			}
-		},
-		"/azienda/sensore/modifica/nome": {
-			"post": {
-				"tags": [
-					"Sensore"
-				],
-				"summary": "Modifica il nome di un sensore esistente",
-				"responses": {
-					"200": {
-						"description": "Nome del sensore modificato con successo"
 					}
 				}
 			}
@@ -1657,58 +1361,6 @@
 				"responses": {
 					"200": {
 						"description": "Utente aggiunto con successo"
-					}
-				}
-			}
-		},
-		"/user/modifica/cognome": {
-			"post": {
-				"tags": [
-					"User"
-				],
-				"summary": "Modifica il cognome di un utente",
-				"responses": {
-					"200": {
-						"description": "Cognome modificato con successo"
-					}
-				}
-			}
-		},
-		"/user/modifica/nome": {
-			"post": {
-				"tags": [
-					"User"
-				],
-				"summary": "Modifica il nome di un utente",
-				"responses": {
-					"200": {
-						"description": "Nome modificato con successo"
-					}
-				}
-			}
-		},
-		"/user/modifica/password": {
-			"post": {
-				"tags": [
-					"User"
-				],
-				"summary": "Modifica la password di un utente",
-				"responses": {
-					"200": {
-						"description": "Password modificata con successo"
-					}
-				}
-			}
-		},
-		"/user/delete": {
-			"delete": {
-				"tags": [
-					"User"
-				],
-				"summary": "Elimina un utente",
-				"responses": {
-					"200": {
-						"description": "Utente eliminato con successo"
 					}
 				}
 			}

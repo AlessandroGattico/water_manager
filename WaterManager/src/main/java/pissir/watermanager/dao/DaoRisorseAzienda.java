@@ -12,7 +12,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -20,14 +22,14 @@ public class DaoRisorseAzienda {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(DaoRisorseAzienda.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoRisorseAzienda.class.getName());
 	
 	
-	public DaoRisorseAzienda() {
+	protected DaoRisorseAzienda() {
 	}
 	
 	
-	public RisorsaIdrica getRisorsaAziendaId(int idRisorsa) {
+	protected RisorsaIdrica getRisorsaAziendaId(int idRisorsa) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -76,7 +78,7 @@ public class DaoRisorseAzienda {
 	}
 	
 	
-	public HashSet<RisorsaIdrica> getStoricoRisorseAzienda(int idAzienda) {
+	protected HashSet<RisorsaIdrica> getStoricoRisorseAzienda(int idAzienda) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -133,7 +135,7 @@ public class DaoRisorseAzienda {
 	}
 	
 	
-	public int addRisorsaAzienda(RisorsaIdrica risorsaIdrica) {
+	protected int addRisorsaAzienda(RisorsaIdrica risorsaIdrica) {
 		int id = 0;
 		Connection connection = null;
 		
@@ -192,7 +194,7 @@ public class DaoRisorseAzienda {
 	}
 	
 	
-	public void deleteRisorsaAzienda(int id) {
+	protected void deleteRisorsaAzienda(int id) {
 		Connection connection = null;
 		String query = """
 				DELETE FROM risorsa_azienda
@@ -242,7 +244,7 @@ public class DaoRisorseAzienda {
 	}
 	
 	
-	public RisorsaIdrica ultimaRisorsa(int idAzienda) {
+	protected RisorsaIdrica ultimaRisorsa(int idAzienda) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;

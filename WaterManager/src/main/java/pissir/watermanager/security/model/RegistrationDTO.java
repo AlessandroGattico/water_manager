@@ -8,7 +8,9 @@ import lombok.Setter;
 import pissir.watermanager.model.user.UserRole;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Getter

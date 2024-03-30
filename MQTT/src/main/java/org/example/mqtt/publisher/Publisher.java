@@ -4,10 +4,12 @@ import org.eclipse.paho.client.mqttv3.*;
 
 import java.nio.charset.StandardCharsets;
 
-
 /**
- * @author Alessandro Gattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
+
 public class Publisher {
 	
 	private final String url = "tcp://127.0.0.1:1883";

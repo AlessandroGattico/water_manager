@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 /**
- * @author Alessandro Gattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -20,8 +22,8 @@ public class Approvazione {
 	private String date;
 	
 	
-	public Approvazione (int id, int idRichiesta, int idGestore, boolean approvato,
-						 String date) {
+	public Approvazione(int id, int idRichiesta, int idGestore, boolean approvato,
+						String date) {
 		this.id = id;
 		this.idRichiesta = idRichiesta;
 		this.idGestore = idGestore;

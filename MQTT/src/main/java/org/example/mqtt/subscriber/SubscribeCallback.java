@@ -7,7 +7,9 @@ import org.springframework.web.client.RestTemplate;
 
 
 /**
- * @author Alessandro Gattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 public class SubscribeCallback implements MqttCallback {
 	

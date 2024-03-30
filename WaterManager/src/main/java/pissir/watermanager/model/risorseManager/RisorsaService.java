@@ -11,7 +11,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 
 /**
- * @author Alessandro Gattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Service

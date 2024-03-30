@@ -5,8 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.item.Sensore;
-import pissir.watermanager.model.utils.cambio.CambioInt;
-import pissir.watermanager.model.utils.cambio.CambioString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +12,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -22,14 +22,14 @@ public class DaoSensore {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoSensore.class.getName());
 	
 	
-	public DaoSensore() {
+	protected DaoSensore() {
 	}
 	
 	
-	public Sensore getSensoreId(int id) {
+	protected Sensore getSensoreId(int id) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -77,7 +77,7 @@ public class DaoSensore {
 	}
 	
 	
-	public HashSet<Sensore> getSensoriCampo(int idCampo) {
+	protected HashSet<Sensore> getSensoriCampo(int idCampo) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -131,7 +131,7 @@ public class DaoSensore {
 	}
 	
 	
-	public int addSensore(Sensore sensore) {
+	protected int addSensore(Sensore sensore) {
 		int id = 0;
 		String queryInsert = """
 				INSERT INTO sensore (nome, type, id_campo)
@@ -189,7 +189,7 @@ public class DaoSensore {
 	}
 	
 	
-	public void deleteSensore(int idSensore) {
+	protected void deleteSensore(int idSensore) {
 		String query = """
 				DELETE FROM sensore
 				WHERE id = ?;
@@ -223,100 +223,6 @@ public class DaoSensore {
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante l'eliminazione del sensore", e);
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					logger.error("Errore nella chiusura della connessione", e);
-				}
-			}
-		}
-	}
-	
-	
-	public Boolean cambiaNome(CambioString cambio) {
-		String query = "UPDATE sensore SET " + cambio.getProperty() + " = ? WHERE id = ?;";
-		Connection connection = null;
-		
-		try {
-			connection = DriverManager.getConnection(this.url);
-			connection.setAutoCommit(false);
-			
-			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				statement.setString(1, cambio.getNewString());
-				statement.setInt(2, cambio.getId());
-				
-				int rowsAffected = statement.executeUpdate();
-				
-				if (rowsAffected > 0) {
-					logger.info("Aggiornamento nome per ID {} eseguito con successo", cambio.getId());
-				} else {
-					logger.warn("Nessun record aggiornato per ID {}", cambio.getId());
-				}
-				
-				connection.commit();
-				
-				return true;
-			} catch (SQLException e) {
-				if (connection != null) {
-					connection.rollback();
-					
-					logger.error("Rollback effettuato durante l'aggiornamento del nome", e);
-				}
-				throw e;
-			}
-		} catch (SQLException e) {
-			logger.error("Errore durante l'aggiornamento del nome", e);
-			
-			return false;
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					logger.error("Errore nella chiusura della connessione", e);
-				}
-			}
-		}
-	}
-	
-	
-	public Boolean cambiaCampo(CambioInt cambio) {
-		String query = "UPDATE sensore SET " + cambio.getProperty() + " = ? WHERE id = ?;";
-		Connection connection = null;
-		
-		try {
-			connection = DriverManager.getConnection(this.url);
-			connection.setAutoCommit(false);
-			
-			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				statement.setInt(1, cambio.getNewInt());
-				statement.setInt(2, cambio.getId());
-				
-				int rowsAffected = statement.executeUpdate();
-				
-				if (rowsAffected > 0) {
-					logger.info("Cambiamento del campo per ID {} eseguito con successo", cambio.getId());
-				} else {
-					logger.warn("Nessun record aggiornato per ID {}", cambio.getId());
-				}
-				
-				connection.commit();
-				
-				return true;
-			} catch (SQLException e) {
-				if (connection != null) {
-					connection.rollback();
-					
-					logger.error("Rollback effettuato durante il cambiamento del campo", e);
-				}
-				throw e;
-			}
-		} catch (SQLException e) {
-			logger.error("Errore durante il cambiamento del campo", e);
-			
-			return false;
 		} finally {
 			if (connection != null) {
 				try {

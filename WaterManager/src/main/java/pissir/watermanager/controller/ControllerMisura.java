@@ -15,7 +15,9 @@ import pissir.watermanager.security.services.TokenService;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @RestController
@@ -25,7 +27,7 @@ public class ControllerMisura {
 	
 	private final DAO daoMisura;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	public static final Logger logger = LogManager.getLogger(ControllerMisura.class.getName());
 	
 	
 	@PostMapping(value = "/add")

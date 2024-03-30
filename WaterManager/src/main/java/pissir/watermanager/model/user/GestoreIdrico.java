@@ -10,7 +10,9 @@ import lombok.Setter;
 import java.util.HashSet;
 
 /**
- * @author Alessandro Gattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 @Setter
 @Getter

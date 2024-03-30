@@ -12,7 +12,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -20,14 +22,14 @@ public class DaoRichieste {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(DaoRichieste.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoRichieste.class.getName());
 	
 	
-	public DaoRichieste() {
+	protected DaoRichieste() {
 	}
 	
 	
-	public RichiestaIdrica getRichiestaId(int idRichiesta) {
+	protected RichiestaIdrica getRichiestaId(int idRichiesta) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -75,7 +77,7 @@ public class DaoRichieste {
 	}
 	
 	
-	public HashSet<RichiestaIdrica> getRichiesteColtivazione(int idColtivazione) {
+	protected HashSet<RichiestaIdrica> getRichiesteColtivazione(int idColtivazione) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -133,7 +135,7 @@ public class DaoRichieste {
 	}
 	
 	
-	public HashSet<RichiestaIdrica> getRichiesteBacino(int idBacino) {
+	protected HashSet<RichiestaIdrica> getRichiesteBacino(int idBacino) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -188,7 +190,7 @@ public class DaoRichieste {
 	}
 	
 	
-	public HashSet<RichiestaIdrica> getRichiesteAzienda(String idAzienda) {
+	protected HashSet<RichiestaIdrica> getRichiesteAzienda(String idAzienda) {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -244,7 +246,7 @@ public class DaoRichieste {
 	}
 	
 	
-	public int addRichiesta(RichiestaIdrica richiesta) {
+	protected int addRichiesta(RichiestaIdrica richiesta) {
 		int id = 0;
 		String query = """
 				INSERT INTO richiesta (quantita, id_coltivazione, id_bacino, date, nome_azienda)
@@ -303,7 +305,7 @@ public class DaoRichieste {
 	}
 	
 	
-	public void deleteRichiesta(int idRichiesta) {
+	protected void deleteRichiesta(int idRichiesta) {
 		String query = """
 				DELETE FROM richiesta
 				WHERE id = ? ;

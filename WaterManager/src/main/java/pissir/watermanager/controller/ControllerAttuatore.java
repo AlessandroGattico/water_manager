@@ -5,19 +5,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Attuatore;
 import pissir.watermanager.model.user.UserRole;
-import pissir.watermanager.model.utils.cambio.CambioInt;
-import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @RestController
@@ -27,7 +26,7 @@ public class ControllerAttuatore {
 	
 	private final DAO daoAttuatore;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	public static final Logger logger = LogManager.getLogger(ControllerAttuatore.class.getName());
 	
 	
 	@GetMapping(value = "/get/{id}")
@@ -92,39 +91,7 @@ public class ControllerAttuatore {
 		}
 	}
 	
-	
-	@PostMapping(value = "/modifica/nome")
-	public String modificaNome(@RequestBody String param, HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
-		
-		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			CambioString cambio = gson.fromJson(param, CambioString.class);
-			
-			return gson.toJson(this.daoAttuatore.cambiaNomeAttuatore(cambio));
-		} else {
-			return gson.toJson("Accesso negato");
-		}
-	}
-	
-	
-	@PostMapping(value = "/modifica/campo")
-	public String modificaCampo(@RequestBody String param, HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
-		
-		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			CambioInt cambio = gson.fromJson(param, CambioInt.class);
-			
-			return gson.toJson(this.daoAttuatore.cambiaCampoAttuatore(cambio));
-		} else {
-			return gson.toJson("Accesso negato");
-		}
-	}
-	
-	
+
 	private String extractTokenFromRequest(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
 		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {

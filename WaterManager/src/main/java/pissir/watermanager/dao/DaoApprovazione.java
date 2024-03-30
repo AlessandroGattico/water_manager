@@ -4,13 +4,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Approvazione;
-import pissir.watermanager.model.utils.cambio.CambioBool;
 
 import java.sql.*;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -18,7 +19,7 @@ public class DaoApprovazione {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(DaoApprovazione.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoApprovazione.class.getName());
 	
 	
 	public DaoApprovazione() {
@@ -180,9 +181,7 @@ public class DaoApprovazione {
 				logger.info("Cancellazione dell'approvazione con ID {} completata con successo ",
 						idApprovazione);
 			} catch (SQLException e) {
-				if (connection != null) {
-					connection.rollback();
-				}
+				connection.rollback();
 				
 				logger.error("Errore durante la cancellazione dell'approvazione, rollback effettuato", e);
 				
@@ -203,57 +202,5 @@ public class DaoApprovazione {
 		}
 	}
 	
-	
-	protected Boolean cambiaApprovazione(CambioBool cambio) {
-		String query = "UPDATE approvazione SET " + cambio.getProperty() + " = ? WHERE id = ?;";
-		Connection connection = null;
-		
-		try {
-			connection = DriverManager.getConnection(this.url);
-			connection.setAutoCommit(false);
-			
-			logger.info("Inizio transazione per cambiare approvazione con ID {}", cambio.getId());
-			
-			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				statement.setBoolean(1, cambio.isNewBool());
-				statement.setInt(2, cambio.getId());
-				
-				int affectedRows = statement.executeUpdate();
-				
-				if (affectedRows == 0) {
-					throw new SQLException("Aggiornamento non riuscito, nessuna riga interessata.");
-				}
-				
-				logger.debug("Query eseguita per l'aggiornamento dell'approvazione");
-				
-				connection.commit();
-				
-				logger.info("Transazione completata con successo per l'aggiornamento dell'approvazione con ID {}",
-						cambio.getId());
-				
-				return true;
-			} catch (SQLException e) {
-				if (connection != null) {
-					connection.rollback();
-				}
-				
-				logger.error("Errore durante l'aggiornamento dell'approvazione, rollback effettuato", e);
-				
-				return false;
-			}
-		} catch (Exception e) {
-			logger.error("Errore durante l'apertura della connessione per l'aggiornamento dell'approvazione", e);
-			
-			return false;
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					logger.error("Errore durante la chiusura della connessione", e);
-				}
-			}
-		}
-	}
 	
 }

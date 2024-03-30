@@ -19,6 +19,12 @@ import pissir.watermanager.security.services.TokenService;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+/**
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
+ */
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/admin")

@@ -7,7 +7,9 @@ import java.util.LinkedList;
 
 
 /**
- * @author Alessandro Gattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Getter

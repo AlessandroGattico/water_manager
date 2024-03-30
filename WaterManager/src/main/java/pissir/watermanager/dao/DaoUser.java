@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.user.*;
-import pissir.watermanager.model.utils.cambio.CambioString;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,7 +12,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @Repository
@@ -21,14 +22,14 @@ public class DaoUser {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	private static final Logger logger = LogManager.getLogger(DaoUser.class.getName());
 	
 	
-	public DaoUser() {
+	protected DaoUser() {
 	}
 	
 	
-	public Admin getAdmin(int id) {
+	protected Admin getAdmin(int id) {
 		Admin admin = null;
 		int columns;
 		HashMap<String, Object> row;
@@ -73,7 +74,7 @@ public class DaoUser {
 	}
 	
 	
-	public HashSet<GestoreIdrico> getGestoriIdrici() {
+	protected HashSet<GestoreIdrico> getGestoriIdrici() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -128,7 +129,7 @@ public class DaoUser {
 	}
 	
 	
-	public HashSet<GestoreAzienda> getGestoriAzienda() {
+	protected HashSet<GestoreAzienda> getGestoriAzienda() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -182,7 +183,7 @@ public class DaoUser {
 	}
 	
 	
-	public UserProfile getUser(String username, String password) {
+	protected UserProfile getUser(String username, String password) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -233,7 +234,7 @@ public class DaoUser {
 	}
 	
 	
-	public UserProfile getUserByUsername(String username) {
+	protected UserProfile getUserByUsername(String username) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -281,7 +282,7 @@ public class DaoUser {
 	}
 	
 	
-	public HashSet<UserProfile> getUtenti() {
+	protected HashSet<UserProfile> getUtenti() {
 		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
@@ -340,7 +341,7 @@ public class DaoUser {
 	}
 	
 	
-	public int addUser(UserProfile user) {
+	protected int addUser(UserProfile user) {
 		int id = 0;
 		String query = """
 				INSERT INTO users (nome, cognome, username, mail, password, role)
@@ -399,7 +400,7 @@ public class DaoUser {
 	}
 	
 	
-	public void deleteUser(UserProfile user) {
+	protected void deleteUser(UserProfile user) {
 		String query = """
 				DELETE FROM users
 				WHERE username = ?
@@ -447,7 +448,7 @@ public class DaoUser {
 	}
 	
 	
-	public GestoreIdrico getGestoreIdrico(int id) {
+	protected GestoreIdrico getGestoreIdrico(int id) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -493,7 +494,7 @@ public class DaoUser {
 	}
 	
 	
-	public GestoreAzienda getGestoreAzienda(int id) {
+	protected GestoreAzienda getGestoreAzienda(int id) {
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
@@ -541,53 +542,7 @@ public class DaoUser {
 	}
 	
 	
-	public Boolean cambiaString(CambioString cambio) {
-		String query = "UPDATE users SET " + cambio.getProperty() + " = ? WHERE id = ?;";
-		Connection connection = null;
-		
-		try {
-			connection = DriverManager.getConnection(this.url);
-			connection.setAutoCommit(false);
-			
-			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				statement.setString(1, cambio.getNewString());
-				statement.setInt(2, cambio.getId());
-				
-				int affectedRows = statement.executeUpdate();
-				connection.commit();
-				
-				if (affectedRows > 0) {
-					logger.info("Modifica effettuata con successo per l'utente con ID: {}", cambio.getId());
-					
-					return true;
-				} else {
-					logger.info("Nessuna riga modificata per l'utente con ID: {}", cambio.getId());
-					
-					return false;
-				}
-			} catch (SQLException e) {
-				logger.error("Errore nell'esecuzione della query. Esecuzione del rollback.", e);
-				
-				connection.rollback();
-				return false;
-			}
-		} catch (SQLException e) {
-			logger.error("Errore di connessione al database", e);
-			
-			return false;
-		} finally {
-			if (connection != null) {
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					logger.error("Errore nella chiusura della connessione al database", e);
-				}
-			}
-		}
-	}
-	
-	
-	public boolean existsUsername(String username) {
+	protected boolean existsUsername(String username) {
 		String sql = """
 				SELECT COUNT(*)
 				FROM users
@@ -618,7 +573,7 @@ public class DaoUser {
 	}
 	
 	
-	public boolean existsMail(String email) {
+	protected boolean existsMail(String email) {
 		String sql = """
 				SELECT COUNT(*)
 				FROM users

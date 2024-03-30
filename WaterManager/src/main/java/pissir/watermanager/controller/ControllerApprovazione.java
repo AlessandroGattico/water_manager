@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Approvazione;
 import pissir.watermanager.model.user.UserRole;
-import pissir.watermanager.model.utils.cambio.CambioBool;
 import pissir.watermanager.security.services.TokenService;
 
 import java.util.HashSet;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @RestController
@@ -24,7 +25,7 @@ import java.util.HashSet;
 @RequiredArgsConstructor
 public class ControllerApprovazione {
 	
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	public static final Logger logger = LogManager.getLogger(ControllerApprovazione.class.getName());
 	private final DAO daoApprovazione;
 	private final TokenService tokenService;
 	
@@ -121,26 +122,7 @@ public class ControllerApprovazione {
 	}
 	
 	
-	@PostMapping(value = "/modifica/app")
-	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
-	public String modificaApprovato(@RequestBody String param, HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
-		
-		logger.info("Approvazione | modifica");
-		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			logger.info("Approvazione | modifica | concesso");
-			
-			CambioBool cambio = gson.fromJson(param, CambioBool.class);
-			
-			return gson.toJson(this.daoApprovazione.cambiaApprovazione(cambio));
-		} else {
-			logger.info("Approvazione | modifica | negato");
-			
-			return gson.toJson("Accesso negato");
-		}
-	}
+	
 	
 	
 	private String extractTokenFromRequest(HttpServletRequest request) {

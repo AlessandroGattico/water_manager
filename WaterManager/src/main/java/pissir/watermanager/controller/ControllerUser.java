@@ -13,11 +13,12 @@ import pissir.watermanager.model.user.GestoreAzienda;
 import pissir.watermanager.model.user.GestoreIdrico;
 import pissir.watermanager.model.user.UserProfile;
 import pissir.watermanager.model.user.UserRole;
-import pissir.watermanager.model.utils.cambio.CambioString;
 import pissir.watermanager.security.services.TokenService;
 
 /**
- * @author alessandrogattico
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
  */
 
 @RestController
@@ -27,7 +28,7 @@ public class ControllerUser {
 	
 	private final DAO daoUser;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
+	public static final Logger logger = LogManager.getLogger(ControllerUser.class.getName());
 	
 	
 	@GetMapping(value = "/get/ga/{id}")
@@ -78,54 +79,6 @@ public class ControllerUser {
 		UserProfile user = gson.fromJson(param, UserProfile.class);
 		
 		this.daoUser.deleteUser(user);
-	}
-	
-	
-	@PostMapping(value = "/modifica/nome")
-	public String modificaNome(@RequestBody String param, HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwtToken = extractTokenFromRequest(request);
-		
-		if (tokenService.validateTokenAndRole(jwtToken,
-				UserRole.GESTOREIDRICO) || this.tokenService.validateTokenAndRole(jwtToken, UserRole.GESTOREAZIENDA)) {
-			CambioString cambio = gson.fromJson(param, CambioString.class);
-			
-			return gson.toJson(this.daoUser.cambiaStringUser(cambio));
-		} else {
-			return gson.toJson("Accesso negato");
-		}
-	}
-	
-	
-	@PostMapping(value = "/modifica/cognome")
-	public String modificaCognome(@RequestBody String param, HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwtToken = extractTokenFromRequest(request);
-		
-		if (tokenService.validateTokenAndRole(jwtToken,
-				UserRole.GESTOREIDRICO) || this.tokenService.validateTokenAndRole(jwtToken, UserRole.GESTOREAZIENDA)) {
-			CambioString cambio = gson.fromJson(param, CambioString.class);
-			
-			return gson.toJson(this.daoUser.cambiaStringUser(cambio));
-		} else {
-			return gson.toJson("Accesso negato");
-		}
-	}
-	
-	
-	@PostMapping(value = "/modifica/password")
-	public String modificaPassword(@RequestBody String param, HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwtToken = extractTokenFromRequest(request);
-		
-		if (tokenService.validateTokenAndRole(jwtToken,
-				UserRole.GESTOREIDRICO) || this.tokenService.validateTokenAndRole(jwtToken, UserRole.GESTOREAZIENDA)) {
-			CambioString cambio = gson.fromJson(param, CambioString.class);
-			
-			return gson.toJson(this.daoUser.cambiaStringUser(cambio));
-		} else {
-			return gson.toJson("Accesso negato");
-		}
 	}
 	
 	
