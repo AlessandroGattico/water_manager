@@ -1,0 +1,275 @@
+2024-03-30 15:48:33.534 +01:00 [INF] User profile is available. Using '/Users/alessandrogattico/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-03-30 15:48:33.887 +01:00 [INF] Now listening on: https://localhost:5210
+2024-03-30 15:48:33.888 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-30 15:48:33.888 +01:00 [INF] Hosting environment: Development
+2024-03-30 15:48:33.888 +01:00 [INF] Content root path: /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI
+2024-03-30 15:48:34.036 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/ - -
+2024-03-30 15:48:34.057 +01:00 [INF] Executing endpoint '/Index'
+2024-03-30 15:48:34.076 +01:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-03-30 15:48:34.085 +01:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:48:34.090 +01:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:48:34.319 +01:00 [INF] Executed page /Index in 240.8344ms
+2024-03-30 15:48:34.320 +01:00 [INF] Executed endpoint '/Index'
+2024-03-30 15:48:34.324 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/ - - - 200 - text/html;+charset=utf-8 288.5946ms
+2024-03-30 15:48:36.234 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Login - -
+2024-03-30 15:48:36.237 +01:00 [INF] Executing endpoint '/Login'
+2024-03-30 15:48:36.255 +01:00 [INF] Route matched with {page = "/Login", area = ""}. Executing page /Login
+2024-03-30 15:48:36.269 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:48:36.270 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:48:36.318 +01:00 [INF] Executed page /Login in 62.2367ms
+2024-03-30 15:48:36.318 +01:00 [INF] Executed endpoint '/Login'
+2024-03-30 15:48:36.319 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Login - - - 200 - text/html;+charset=utf-8 84.8400ms
+2024-03-30 15:48:41.796 +01:00 [INF] Request starting HTTP/1.1 POST https://localhost:5210/Login application/x-www-form-urlencoded 224
+2024-03-30 15:48:41.802 +01:00 [INF] Executing endpoint '/Login'
+2024-03-30 15:48:41.802 +01:00 [INF] Route matched with {page = "/Login", area = ""}. Executing page /Login
+2024-03-30 15:48:41.835 +01:00 [INF] Executing handler method WaterManagerUI.Pages.Login.OnPostAsync - ModelState is "Valid"
+2024-03-30 15:48:41.842 +01:00 [INF] Login user: micio
+2024-03-30 15:48:42.828 +01:00 [INF] Login micio succsessful
+2024-03-30 15:48:42.932 +01:00 [INF] User role GESTOREAZIENDA
+2024-03-30 15:48:42.935 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2024-03-30 15:48:42.936 +01:00 [INF] Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.RedirectToPageResult.
+2024-03-30 15:48:42.939 +01:00 [INF] Executing RedirectToPageResult, redirecting to /Azienda/GestoreAzienda.
+2024-03-30 15:48:42.940 +01:00 [INF] Executed page /Login in 1137.966ms
+2024-03-30 15:48:42.941 +01:00 [INF] Executed endpoint '/Login'
+2024-03-30 15:48:42.944 +01:00 [INF] Request finished HTTP/1.1 POST https://localhost:5210/Login application/x-www-form-urlencoded 224 - 302 0 - 1147.3979ms
+2024-03-30 15:48:42.948 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Azienda/GestoreAzienda - -
+2024-03-30 15:48:42.950 +01:00 [INF] Executing endpoint '/Azienda/GestoreAzienda'
+2024-03-30 15:48:42.952 +01:00 [INF] Route matched with {page = "/Azienda/GestoreAzienda", area = ""}. Executing page /Azienda/GestoreAzienda
+2024-03-30 15:48:42.952 +01:00 [INF] Executing handler method WaterManagerUI.Pages.Azienda.GestoreAzienda.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:48:42.956 +01:00 [INF] Start processing HTTP request GET http://localhost:8080/api/v1/user/get/ga/2
+2024-03-30 15:48:42.958 +01:00 [INF] Sending HTTP request GET http://localhost:8080/api/v1/user/get/ga/2
+2024-03-30 15:48:43.011 +01:00 [INF] Received HTTP response headers after 51.2722ms - 200
+2024-03-30 15:48:43.012 +01:00 [INF] End processing HTTP request after 57.7735ms - 200
+2024-03-30 15:48:43.013 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2024-03-30 15:48:43.013 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:48:43.013 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:48:43.036 +01:00 [INF] Executed page /Azienda/GestoreAzienda in 83.6544ms
+2024-03-30 15:48:43.036 +01:00 [INF] Executed endpoint '/Azienda/GestoreAzienda'
+2024-03-30 15:48:43.036 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Azienda/GestoreAzienda - - - 200 - text/html;+charset=utf-8 88.1986ms
+2024-03-30 15:48:45.780 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Azienda/Visualizza/VisualizzaCampagna - -
+2024-03-30 15:48:45.783 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Azienda/Visualizza/VisualizzaCampagna - - - 404 0 - 3.5800ms
+2024-03-30 15:48:46.938 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Azienda/GestoreAzienda - -
+2024-03-30 15:48:46.941 +01:00 [INF] Executing endpoint '/Azienda/GestoreAzienda'
+2024-03-30 15:48:46.941 +01:00 [INF] Route matched with {page = "/Azienda/GestoreAzienda", area = ""}. Executing page /Azienda/GestoreAzienda
+2024-03-30 15:48:46.941 +01:00 [INF] Executing handler method WaterManagerUI.Pages.Azienda.GestoreAzienda.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:48:46.941 +01:00 [INF] Start processing HTTP request GET http://localhost:8080/api/v1/user/get/ga/2
+2024-03-30 15:48:46.941 +01:00 [INF] Sending HTTP request GET http://localhost:8080/api/v1/user/get/ga/2
+2024-03-30 15:48:47.044 +01:00 [INF] Received HTTP response headers after 102.2588ms - 200
+2024-03-30 15:48:47.044 +01:00 [INF] End processing HTTP request after 102.5697ms - 200
+2024-03-30 15:48:47.046 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2024-03-30 15:48:47.046 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:48:47.046 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:48:47.049 +01:00 [INF] Executed page /Azienda/GestoreAzienda in 108.0551ms
+2024-03-30 15:48:47.049 +01:00 [INF] Executed endpoint '/Azienda/GestoreAzienda'
+2024-03-30 15:48:47.049 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Azienda/GestoreAzienda - - - 200 - text/html;+charset=utf-8 111.3544ms
+2024-03-30 15:48:48.375 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Azienda/Visualizza/campagna/campo/VisualizzaCampiAzienda?aziendaId=2 - -
+2024-03-30 15:48:48.377 +01:00 [INF] Executing endpoint '/Azienda/Visualizza/campagna/campo/VisualizzaCampiAzienda'
+2024-03-30 15:48:48.382 +01:00 [INF] Route matched with {page = "/Azienda/Visualizza/campagna/campo/VisualizzaCampiAzienda", area = ""}. Executing page /Azienda/Visualizza/campagna/campo/VisualizzaCampiAzienda
+2024-03-30 15:48:48.393 +01:00 [INF] Executing handler method WaterManagerUI.Pages.VisualizzaCampiAzienda.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:48:48.396 +01:00 [INF] Start processing HTTP request GET http://localhost:8080/api/v1/azienda/get/2
+2024-03-30 15:48:48.396 +01:00 [INF] Sending HTTP request GET http://localhost:8080/api/v1/azienda/get/2
+2024-03-30 15:48:48.483 +01:00 [INF] Received HTTP response headers after 87.458ms - 200
+2024-03-30 15:48:48.484 +01:00 [INF] End processing HTTP request after 88.008ms - 200
+2024-03-30 15:48:48.486 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2024-03-30 15:48:48.486 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:48:48.486 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:48:48.512 +01:00 [INF] Executed page /Azienda/Visualizza/campagna/campo/VisualizzaCampiAzienda in 129.051ms
+2024-03-30 15:48:48.512 +01:00 [INF] Executed endpoint '/Azienda/Visualizza/campagna/campo/VisualizzaCampiAzienda'
+2024-03-30 15:48:48.512 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Azienda/Visualizza/campagna/campo/VisualizzaCampiAzienda?aziendaId=2 - - - 200 - text/html;+charset=utf-8 137.0724ms
+2024-03-30 15:48:49.591 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Azienda/Visualizza/campagna/campo/VisualizzaCampo?campoId=6 - -
+2024-03-30 15:48:49.595 +01:00 [INF] Executing endpoint '/Azienda/Visualizza/campagna/campo/VisualizzaCampo'
+2024-03-30 15:48:49.598 +01:00 [INF] Route matched with {page = "/Azienda/Visualizza/campagna/campo/VisualizzaCampo", area = ""}. Executing page /Azienda/Visualizza/campagna/campo/VisualizzaCampo
+2024-03-30 15:48:49.599 +01:00 [INF] Executing handler method WaterManagerUI.Pages.VisualizzaCampo.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:48:49.603 +01:00 [INF] Start processing HTTP request GET http://localhost:8080/api/v1/azienda/campo/get/6
+2024-03-30 15:48:49.603 +01:00 [INF] Sending HTTP request GET http://localhost:8080/api/v1/azienda/campo/get/6
+2024-03-30 15:48:49.639 +01:00 [INF] Received HTTP response headers after 35.7956ms - 200
+2024-03-30 15:48:49.640 +01:00 [INF] End processing HTTP request after 36.4105ms - 200
+2024-03-30 15:48:49.641 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2024-03-30 15:48:49.641 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:48:49.641 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:48:49.679 +01:00 [INF] Executed page /Azienda/Visualizza/campagna/campo/VisualizzaCampo in 81.0022ms
+2024-03-30 15:48:49.679 +01:00 [INF] Executed endpoint '/Azienda/Visualizza/campagna/campo/VisualizzaCampo'
+2024-03-30 15:48:49.679 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Azienda/Visualizza/campagna/campo/VisualizzaCampo?campoId=6 - - - 200 - text/html;+charset=utf-8 88.6440ms
+2024-03-30 15:48:49.697 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/css/Visualizza.css - -
+2024-03-30 15:48:49.699 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/css/Visualizza.css - - - 404 0 - 2.1716ms
+2024-03-30 15:48:53.161 +01:00 [INF] Request starting HTTP/1.1 POST https://localhost:5210/Logout application/x-www-form-urlencoded 225
+2024-03-30 15:48:53.162 +01:00 [INF] Executing endpoint '/Logout'
+2024-03-30 15:48:53.166 +01:00 [INF] Route matched with {page = "/Logout", area = ""}. Executing page /Logout
+2024-03-30 15:48:53.167 +01:00 [INF] Executing handler method WaterManagerUI.Pages.Logout.OnPostAsync - ModelState is "Valid"
+2024-03-30 15:48:53.171 +01:00 [INF] AuthenticationScheme: Identity.Application signed out.
+2024-03-30 15:48:53.171 +01:00 [INF] Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.RedirectToPageResult.
+2024-03-30 15:48:53.171 +01:00 [INF] Executing RedirectToPageResult, redirecting to /Index.
+2024-03-30 15:48:53.172 +01:00 [INF] Executed page /Logout in 5.8668ms
+2024-03-30 15:48:53.172 +01:00 [INF] Executed endpoint '/Logout'
+2024-03-30 15:48:53.172 +01:00 [INF] Request finished HTTP/1.1 POST https://localhost:5210/Logout application/x-www-form-urlencoded 225 - 302 0 - 10.9218ms
+2024-03-30 15:48:53.175 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/ - -
+2024-03-30 15:48:53.176 +01:00 [INF] Executing endpoint '/Index'
+2024-03-30 15:48:53.176 +01:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-03-30 15:48:53.176 +01:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:48:53.176 +01:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:48:53.178 +01:00 [INF] Executed page /Index in 2.2231ms
+2024-03-30 15:48:53.178 +01:00 [INF] Executed endpoint '/Index'
+2024-03-30 15:48:53.178 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/ - - - 200 - text/html;+charset=utf-8 2.9261ms
+2024-03-30 15:48:56.631 +01:00 [INF] Application is shutting down...
+2024-03-30 15:50:01.201 +01:00 [INF] User profile is available. Using '/Users/alessandrogattico/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-03-30 15:50:01.520 +01:00 [INF] Now listening on: https://localhost:5210
+2024-03-30 15:50:01.521 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-30 15:50:01.521 +01:00 [INF] Hosting environment: Development
+2024-03-30 15:50:01.521 +01:00 [INF] Content root path: /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI
+2024-03-30 15:50:01.725 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/ - -
+2024-03-30 15:50:01.752 +01:00 [INF] Executing endpoint '/Index'
+2024-03-30 15:50:01.774 +01:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-03-30 15:50:01.784 +01:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:50:01.790 +01:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:50:02.042 +01:00 [INF] Executed page /Index in 265.8171ms
+2024-03-30 15:50:02.043 +01:00 [INF] Executed endpoint '/Index'
+2024-03-30 15:50:02.046 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/ - - - 200 - text/html;+charset=utf-8 321.3895ms
+2024-03-30 15:50:03.328 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Login - -
+2024-03-30 15:50:03.332 +01:00 [INF] Executing endpoint '/Login'
+2024-03-30 15:50:03.351 +01:00 [INF] Route matched with {page = "/Login", area = ""}. Executing page /Login
+2024-03-30 15:50:03.363 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:50:03.364 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:50:03.410 +01:00 [INF] Executed page /Login in 58.6553ms
+2024-03-30 15:50:03.410 +01:00 [INF] Executed endpoint '/Login'
+2024-03-30 15:50:03.410 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Login - - - 200 - text/html;+charset=utf-8 82.2994ms
+2024-03-30 15:50:07.508 +01:00 [INF] Request starting HTTP/1.1 POST https://localhost:5210/Login application/x-www-form-urlencoded 224
+2024-03-30 15:50:07.514 +01:00 [INF] Executing endpoint '/Login'
+2024-03-30 15:50:07.514 +01:00 [INF] Route matched with {page = "/Login", area = ""}. Executing page /Login
+2024-03-30 15:50:07.547 +01:00 [INF] Executing handler method WaterManagerUI.Pages.Login.OnPostAsync - ModelState is "Valid"
+2024-03-30 15:50:07.555 +01:00 [INF] Login user: admin
+2024-03-30 15:50:09.156 +01:00 [INF] Login admin succsessful
+2024-03-30 15:50:09.197 +01:00 [INF] User role SYSTEMADMIN
+2024-03-30 15:50:09.199 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2024-03-30 15:50:09.200 +01:00 [INF] Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.RedirectToPageResult.
+2024-03-30 15:50:09.203 +01:00 [INF] Executing RedirectToPageResult, redirecting to /Admin/Admin.
+2024-03-30 15:50:09.204 +01:00 [INF] Executed page /Login in 1690.1902ms
+2024-03-30 15:50:09.205 +01:00 [INF] Executed endpoint '/Login'
+2024-03-30 15:50:09.207 +01:00 [INF] Request finished HTTP/1.1 POST https://localhost:5210/Login application/x-www-form-urlencoded 224 - 302 0 - 1699.4198ms
+2024-03-30 15:50:09.213 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Admin/Admin - -
+2024-03-30 15:50:09.215 +01:00 [INF] Executing endpoint '/Admin/Admin'
+2024-03-30 15:50:09.217 +01:00 [INF] Route matched with {page = "/Admin/Admin", area = ""}. Executing page /Admin/Admin
+2024-03-30 15:50:09.217 +01:00 [INF] Executing handler method WaterManagerUI.Pages.AdminPage.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:50:09.220 +01:00 [INF] Start processing HTTP request GET http://localhost:8080/api/v1/admin/count
+2024-03-30 15:50:09.222 +01:00 [INF] Sending HTTP request GET http://localhost:8080/api/v1/admin/count
+2024-03-30 15:50:09.240 +01:00 [INF] Received HTTP response headers after 15.533ms - 200
+2024-03-30 15:50:09.240 +01:00 [INF] End processing HTTP request after 21.2342ms - 200
+2024-03-30 15:50:09.243 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2024-03-30 15:50:09.243 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:50:09.243 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:50:09.275 +01:00 [INF] Executed page /Admin/Admin in 57.5242ms
+2024-03-30 15:50:09.275 +01:00 [INF] Executed endpoint '/Admin/Admin'
+2024-03-30 15:50:09.275 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Admin/Admin - - - 200 - text/html;+charset=utf-8 62.1541ms
+2024-03-30 15:50:13.462 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Admin/Sensore/SensorType - -
+2024-03-30 15:50:13.466 +01:00 [INF] Executing endpoint '/Admin/Sensore/SensorType'
+2024-03-30 15:50:13.469 +01:00 [INF] Route matched with {page = "/Admin/Sensore/SensorType", area = ""}. Executing page /Admin/Sensore/SensorType
+2024-03-30 15:50:13.469 +01:00 [INF] Executing handler method WaterManagerUI.Pages.SensorType.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:50:13.472 +01:00 [INF] Start processing HTTP request GET http://localhost:8080/api/v1/utils/sensorTypes/get/all
+2024-03-30 15:50:13.472 +01:00 [INF] Sending HTTP request GET http://localhost:8080/api/v1/utils/sensorTypes/get/all
+2024-03-30 15:50:13.504 +01:00 [INF] Received HTTP response headers after 31.7365ms - 200
+2024-03-30 15:50:13.504 +01:00 [INF] End processing HTTP request after 32.2088ms - 200
+2024-03-30 15:50:13.510 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2024-03-30 15:50:13.510 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:50:13.510 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:50:13.530 +01:00 [INF] Executed page /Admin/Sensore/SensorType in 61.1932ms
+2024-03-30 15:50:13.530 +01:00 [INF] Executed endpoint '/Admin/Sensore/SensorType'
+2024-03-30 15:50:13.531 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Admin/Sensore/SensorType - - - 200 - text/html;+charset=utf-8 68.6170ms
+2024-03-30 15:50:29.721 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Admin/Coltivazione/Raccolto - -
+2024-03-30 15:50:29.723 +01:00 [INF] Executing endpoint '/Admin/Coltivazione/Raccolto'
+2024-03-30 15:50:29.726 +01:00 [INF] Route matched with {page = "/Admin/Coltivazione/Raccolto", area = ""}. Executing page /Admin/Coltivazione/Raccolto
+2024-03-30 15:50:29.727 +01:00 [INF] Executing handler method WaterManagerUI.Pages.Admin.Raccolto.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:50:29.730 +01:00 [INF] Start processing HTTP request GET http://localhost:8080/api/v1/utils/raccolto/get/all
+2024-03-30 15:50:29.730 +01:00 [INF] Sending HTTP request GET http://localhost:8080/api/v1/utils/raccolto/get/all
+2024-03-30 15:50:29.763 +01:00 [INF] Received HTTP response headers after 32.8985ms - 200
+2024-03-30 15:50:29.763 +01:00 [INF] End processing HTTP request after 33.6931ms - 200
+2024-03-30 15:50:29.764 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2024-03-30 15:50:29.764 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:50:29.764 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:50:29.786 +01:00 [INF] Executed page /Admin/Coltivazione/Raccolto in 59.5619ms
+2024-03-30 15:50:29.786 +01:00 [INF] Executed endpoint '/Admin/Coltivazione/Raccolto'
+2024-03-30 15:50:29.786 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Admin/Coltivazione/Raccolto - - - 200 - text/html;+charset=utf-8 65.7829ms
+2024-03-30 15:52:42.969 +01:00 [INF] Application is shutting down...
+2024-03-30 15:53:34.448 +01:00 [INF] User profile is available. Using '/Users/alessandrogattico/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-03-30 15:53:34.759 +01:00 [INF] Now listening on: https://localhost:5210
+2024-03-30 15:53:34.760 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-03-30 15:53:34.760 +01:00 [INF] Hosting environment: Development
+2024-03-30 15:53:34.760 +01:00 [INF] Content root path: /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI
+2024-03-30 15:53:34.984 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/ - -
+2024-03-30 15:53:35.130 +01:00 [INF] Executing endpoint '/Index'
+2024-03-30 15:53:35.142 +01:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-03-30 15:53:35.150 +01:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:53:35.156 +01:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:53:35.284 +01:00 [INF] Executed page /Index in 140.1987ms
+2024-03-30 15:53:35.285 +01:00 [INF] Executed endpoint '/Index'
+2024-03-30 15:53:35.288 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/ - - - 200 - text/html;+charset=utf-8 304.4680ms
+2024-03-30 15:53:40.515 +01:00 [INF] Request starting HTTP/1.1 POST https://localhost:5210/Logout application/x-www-form-urlencoded 225
+2024-03-30 15:53:40.535 +01:00 [INF] Executing endpoint '/Logout'
+2024-03-30 15:53:40.537 +01:00 [INF] Route matched with {page = "/Logout", area = ""}. Executing page /Logout
+2024-03-30 15:53:40.540 +01:00 [INF] Executing handler method WaterManagerUI.Pages.Logout.OnPostAsync - ModelState is "Valid"
+2024-03-30 15:53:40.544 +01:00 [INF] AuthenticationScheme: Identity.Application signed out.
+2024-03-30 15:53:40.544 +01:00 [INF] Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.RedirectToPageResult.
+2024-03-30 15:53:40.544 +01:00 [INF] Executing RedirectToPageResult, redirecting to /Index.
+2024-03-30 15:53:40.544 +01:00 [INF] Executed page /Logout in 7.2154ms
+2024-03-30 15:53:40.544 +01:00 [INF] Executed endpoint '/Logout'
+2024-03-30 15:53:40.545 +01:00 [INF] Request finished HTTP/1.1 POST https://localhost:5210/Logout application/x-www-form-urlencoded 225 - 302 0 - 29.4518ms
+2024-03-30 15:53:40.547 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/ - -
+2024-03-30 15:53:40.548 +01:00 [INF] Executing endpoint '/Index'
+2024-03-30 15:53:40.548 +01:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-03-30 15:53:40.548 +01:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:53:40.548 +01:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:53:40.558 +01:00 [INF] Executed page /Index in 9.9219ms
+2024-03-30 15:53:40.558 +01:00 [INF] Executed endpoint '/Index'
+2024-03-30 15:53:40.558 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/ - - - 200 - text/html;+charset=utf-8 11.4480ms
+2024-03-30 15:53:41.566 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Login - -
+2024-03-30 15:53:41.569 +01:00 [INF] Executing endpoint '/Login'
+2024-03-30 15:53:41.585 +01:00 [INF] Route matched with {page = "/Login", area = ""}. Executing page /Login
+2024-03-30 15:53:41.602 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:53:41.603 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:53:41.636 +01:00 [INF] Executed page /Login in 50.0014ms
+2024-03-30 15:53:41.636 +01:00 [INF] Executed endpoint '/Login'
+2024-03-30 15:53:41.636 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Login - - - 200 - text/html;+charset=utf-8 70.3785ms
+2024-03-30 15:53:45.959 +01:00 [INF] Request starting HTTP/1.1 POST https://localhost:5210/Login application/x-www-form-urlencoded 224
+2024-03-30 15:53:45.959 +01:00 [INF] Executing endpoint '/Login'
+2024-03-30 15:53:45.960 +01:00 [INF] Route matched with {page = "/Login", area = ""}. Executing page /Login
+2024-03-30 15:53:45.984 +01:00 [INF] Executing handler method WaterManagerUI.Pages.Login.OnPostAsync - ModelState is "Valid"
+2024-03-30 15:53:45.994 +01:00 [INF] Login user: admin
+2024-03-30 15:53:47.089 +01:00 [INF] Login admin succsessful
+2024-03-30 15:53:47.133 +01:00 [INF] User role SYSTEMADMIN
+2024-03-30 15:53:47.134 +01:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2024-03-30 15:53:47.135 +01:00 [INF] Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.RedirectToPageResult.
+2024-03-30 15:53:47.137 +01:00 [INF] Executing RedirectToPageResult, redirecting to /Admin/Admin.
+2024-03-30 15:53:47.138 +01:00 [INF] Executed page /Login in 1178.815ms
+2024-03-30 15:53:47.139 +01:00 [INF] Executed endpoint '/Login'
+2024-03-30 15:53:47.141 +01:00 [INF] Request finished HTTP/1.1 POST https://localhost:5210/Login application/x-www-form-urlencoded 224 - 302 0 - 1182.6203ms
+2024-03-30 15:53:47.146 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/Admin/Admin - -
+2024-03-30 15:53:47.147 +01:00 [INF] Executing endpoint '/Admin/Admin'
+2024-03-30 15:53:47.148 +01:00 [INF] Route matched with {page = "/Admin/Admin", area = ""}. Executing page /Admin/Admin
+2024-03-30 15:53:47.148 +01:00 [INF] Executing handler method WaterManagerUI.Pages.AdminPage.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:53:47.152 +01:00 [INF] Start processing HTTP request GET http://localhost:8080/api/v1/admin/count
+2024-03-30 15:53:47.153 +01:00 [INF] Sending HTTP request GET http://localhost:8080/api/v1/admin/count
+2024-03-30 15:53:47.169 +01:00 [INF] Received HTTP response headers after 14.2298ms - 200
+2024-03-30 15:53:47.170 +01:00 [INF] End processing HTTP request after 19.5021ms - 200
+2024-03-30 15:53:47.172 +01:00 [INF] Executed handler method OnGetAsync, returned result .
+2024-03-30 15:53:47.172 +01:00 [INF] Executing an implicit handler method - ModelState is "Valid"
+2024-03-30 15:53:47.172 +01:00 [INF] Executed an implicit handler method, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:53:47.197 +01:00 [INF] Executed page /Admin/Admin in 49.0444ms
+2024-03-30 15:53:47.197 +01:00 [INF] Executed endpoint '/Admin/Admin'
+2024-03-30 15:53:47.198 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/Admin/Admin - - - 200 - text/html;+charset=utf-8 51.6273ms
+2024-03-30 15:54:54.904 +01:00 [INF] Request starting HTTP/1.1 POST https://localhost:5210/Logout application/x-www-form-urlencoded 225
+2024-03-30 15:54:54.906 +01:00 [INF] Executing endpoint '/Logout'
+2024-03-30 15:54:54.906 +01:00 [INF] Route matched with {page = "/Logout", area = ""}. Executing page /Logout
+2024-03-30 15:54:54.907 +01:00 [INF] Executing handler method WaterManagerUI.Pages.Logout.OnPostAsync - ModelState is "Valid"
+2024-03-30 15:54:54.907 +01:00 [INF] AuthenticationScheme: Identity.Application signed out.
+2024-03-30 15:54:54.908 +01:00 [INF] Executed handler method OnPostAsync, returned result Microsoft.AspNetCore.Mvc.RedirectToPageResult.
+2024-03-30 15:54:54.908 +01:00 [INF] Executing RedirectToPageResult, redirecting to /Index.
+2024-03-30 15:54:54.908 +01:00 [INF] Executed page /Logout in 1.7431ms
+2024-03-30 15:54:54.908 +01:00 [INF] Executed endpoint '/Logout'
+2024-03-30 15:54:54.908 +01:00 [INF] Request finished HTTP/1.1 POST https://localhost:5210/Logout application/x-www-form-urlencoded 225 - 302 0 - 4.0107ms
+2024-03-30 15:54:54.912 +01:00 [INF] Request starting HTTP/1.1 GET https://localhost:5210/ - -
+2024-03-30 15:54:54.913 +01:00 [INF] Executing endpoint '/Index'
+2024-03-30 15:54:54.913 +01:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-03-30 15:54:54.913 +01:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-03-30 15:54:54.913 +01:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-03-30 15:54:54.916 +01:00 [INF] Executed page /Index in 2.6172ms
+2024-03-30 15:54:54.916 +01:00 [INF] Executed endpoint '/Index'
+2024-03-30 15:54:54.916 +01:00 [INF] Request finished HTTP/1.1 GET https://localhost:5210/ - - - 200 - text/html;+charset=utf-8 3.6743ms
+2024-03-30 15:54:57.691 +01:00 [INF] Application is shutting down...
