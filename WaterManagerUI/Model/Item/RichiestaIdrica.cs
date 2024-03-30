@@ -25,6 +25,7 @@ public class RichiestaIdrica
         this.idBacino = idBacino;
         this.date = date;
         this.nomeAzienda = nomeAzienda;
+        this.approvato = null;
     }
 
     [JsonConstructor]

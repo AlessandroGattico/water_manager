@@ -1,16 +1,21 @@
 package pissir.watermanager;
 
+import org.springframework.boot.origin.SystemEnvironmentOrigin;
 import pissir.watermanager.dao.DaoMisura;
 import pissir.watermanager.model.item.Misura;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InsertData {
+	private static final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+		
+		InsertData data = new InsertData();
 		DaoMisura daoMisura = new DaoMisura();
 		
 		Misura misura = new Misura(83.5,
@@ -51,9 +56,90 @@ public class InsertData {
 		misure.add(misura9);
 		misure.add(misura10);
 		
+		/*
 		for (Misura mis : misure) {
 			daoMisura.addMisura(mis);
 		}
+		
+		 */
+		
+		System.out.println(data.getRetention("2Y"));
+		
+		
+	}
+	
+	private String getRetention(String retentionS)
+			throws Exception {
+		String retention;
+		
+		
+		if (retentionS.contains("Y") && retentionS.contains("M") || retentionS.contains("y") && retentionS.contains(
+				"m")) {
+			int years = Integer.parseInt(retentionS.split("[A-Za-z]")[0]);
+			int months = Integer.parseInt(retentionS.split("[A-Za-z]")[1]);
+			
+			int totalMonths = years * 12 + months + LocalDateTime.now().getMonthValue() - 1;
+			
+			LocalDateTime result = LocalDateTime.now()
+					.minusMonths(totalMonths)
+					.with(TemporalAdjusters.firstDayOfMonth());
+			
+			System.out.println(result);
+			
+			retention = result.format(formatterData);
+		} else if (retentionS.contains("Y") || retentionS.contains("y")) {
+			if (retentionS.contains("Y")) {
+				int years = Integer.parseInt(retentionS.replace("Y", ""));
+				
+				int totalMonths = years * 12 + LocalDateTime.now().getMonthValue() - 1;
+				
+				LocalDateTime result = LocalDateTime.now()
+						.minusMonths(totalMonths)
+						.with(TemporalAdjusters.firstDayOfMonth());
+				
+				System.out.println(result);
+				
+				retention = result.format(formatterData);
+			} else {
+				int years = Integer.parseInt(retentionS.replace("y", ""));
+				
+				int totalMonths = years * 12 + LocalDateTime.now().getMonthValue() - 1;
+				
+				LocalDateTime result = LocalDateTime.now()
+						.minusMonths(totalMonths)
+						.with(TemporalAdjusters.firstDayOfMonth());
+				System.out.println(result);
+				
+				retention = result.format(formatterData);
+			}
+		} else if (retentionS.contains("M") || retentionS.contains("m")) {
+			if (retentionS.contains("M")) {
+				int months = Integer.parseInt(retentionS.replace("M", ""));
+				
+				LocalDateTime result = LocalDateTime.now()
+						.minusMonths(months - 1)
+						.with(TemporalAdjusters.firstDayOfMonth());
+				
+				System.out.println(result);
+				
+				retention = result.format(formatterData);
+			} else {
+				int months = Integer.parseInt(retentionS.replace("m", ""));
+				
+				LocalDateTime result = LocalDateTime.now()
+						.minusMonths(months - 1)
+						.with(TemporalAdjusters.firstDayOfMonth());
+				
+				System.out.println(result);
+				
+				retention = result.format(formatterData);
+			}
+		} else {
+			throw new Exception();
+		}
+		
+		
+		return retention;
 	}
 	
 }

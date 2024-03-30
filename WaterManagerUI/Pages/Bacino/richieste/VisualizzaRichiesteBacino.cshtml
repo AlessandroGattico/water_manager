@@ -8,6 +8,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
+            @Html.Partial("layout/GestoreIdrico/_SideMenuGestoreIdrico")
         </div>
 
         <div class="col-md-8">
@@ -25,25 +26,32 @@
                         <th>Quantità</th>
                         <th>Nome azienda</th>
                         <th>Data</th>
+                        <th>Stato</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach (RichiestaIdrica richiesta in Model.user.bacinoIdrico.richieste)
+                    @foreach (RichiestaIdrica richiesta in Model.user.bacinoIdrico.storicoRichieste())
                     {
-                        <tr>
+                        var link = Url.Page("/Bacino/richieste/VisualizzaRichiestaB", new { richiestaId = richiesta.id });
+                        <tr onclick="window.location='@link'">
                             <td>@richiesta.quantita</td>
                             <td>@richiesta.nomeAzienda</td>
                             <td>@richiesta.date</td>
-                            <td>
-                                <form asp-page="/Bacino/Approva" asp-route-richiestaId="@richiesta.id" method="post">
-                                    <button type="submit">Accept</button>
-                                </form>
-                            </td>
-                            <td>
-                                <form asp-page="/Bacino/Rifiuta" asp-route-richiestaId="@richiesta.id" method="post">
-                                    <button type="submit">Reject</button>
-                                </form>
-                            </td>
+                            @if (richiesta.approvato.approvato != null)
+                            {
+                                if (richiesta.approvato.approvato)
+                                {
+                                    <td>APPROVATA</td>
+                                }
+                                else
+                                {
+                                    <td>RIFIUTATA</td>
+                                }
+                            }
+                            else
+                            {
+                                <td>IN ATTESA</td>
+                            }
                         </tr>
                     }
                     </tbody>

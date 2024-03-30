@@ -8,21 +8,23 @@ using Newtonsoft.Json;
 using UserInterfaceWaterManager.Model.User;
 using WaterManagerUI.Model.Item;
 
-namespace WaterManagerUI.Pages;
+namespace WaterManagerUI.Pages.Bacino.richieste;
 
-public class Approva : PageModel
+public class VisualizzaRichiestaA : PageModel
 {
-    private GestoreIdrico user { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly SignInManager<IdentityUser> _signInManager;
 
-    public Approva(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
+    public GestoreAzienda user { get; set; }
+    public RichiestaIdrica richiestaIdrica { get; set; }
+
+    public VisualizzaRichiestaA(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
         _signInManager = signInManager;
     }
 
-    public async Task<IActionResult> OnPostAsync(int richiestaId)
+    public async Task OnGetAsync(int richiestaId)
     {
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREIDRICO"))
         {
@@ -31,26 +33,24 @@ public class Approva : PageModel
 
             try
             {
-                Approvazione approvazione = new Approvazione
-                {
-                    approvato = true,
-                    idRichiesta = richiestaId,
-                    idGestore = user.id,
-                    date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
-                };
-
-                StringContent stringContent =
-                    new StringContent(JsonConvert.SerializeObject(approvazione), Encoding.UTF8, "application/json");
-
                 client.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
-                var response = await client.PostAsync(
-                    "http://localhost:8080/api/v1/bacino/approvazione/add", stringContent);
+                var response = await client.GetAsync(
+                    $"http://localhost:8080/api/v1/user/get/gi/{id}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
-                    return RedirectToPage("/Bacino/VisualizzaRichiesteBacino");
+                    this.user = JsonConvert.DeserializeObject<GestoreAzienda>(jsonResponse);
+
+                    var responseRichiesta = await client.GetAsync(
+                        $"http://localhost:8080/api/v1/richiesta/get/{richiestaId}");
+
+                    if (responseRichiesta.IsSuccessStatusCode)
+                    {
+                        var jsonRichiesta = await responseRichiesta.Content.ReadAsStringAsync();
+                        this.richiestaIdrica = JsonConvert.DeserializeObject<RichiestaIdrica>(jsonRichiesta);
+                    }
                 }
             }
             catch (Exception e)
@@ -58,7 +58,10 @@ public class Approva : PageModel
                 RedirectToPage("/Error/ServerOffline");
             }
         }
-
-        return RedirectToPage("/Bacino/VisualizzaRichiesteBacino");
+        else
+        {
+            RedirectToPage("/Error/UserNotLogged");
+        }
     }
+    
 }

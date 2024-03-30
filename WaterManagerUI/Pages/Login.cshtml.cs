@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using Serilog;
 using UserInterfaceWaterManager.Model.User;
 using WaterManagerUI.Model.Security;
 
@@ -26,6 +27,8 @@ public class Login : PageModel
         }
 
         client = new HttpClient();
+
+        Log.Information("Login user: " + login.username);
 
         String stringaDaInviare = JsonConvert.SerializeObject(login);
 
@@ -51,6 +54,8 @@ public class Login : PageModel
 
         if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.jwt))
         {
+            Log.Information("Login " + login.username + " succsessful");
+
             switch (loginResponse.user.role)
             {
                 case UserRole.GESTOREAZIENDA:
@@ -68,6 +73,7 @@ public class Login : PageModel
                             var jsonResponse = await response.Content.ReadAsStringAsync();
                             userA = JsonConvert.DeserializeObject<GestoreAzienda>(jsonResponse);
 
+                            Log.Information("User role " + userA.role);
 
                             if (userA != null)
                             {
@@ -88,11 +94,8 @@ public class Login : PageModel
 
                                 var authProperties = new AuthenticationProperties
                                 {
-                                    IsPersistent =
-                                        false, // o false, a seconda se vuoi che la sessione persista tra le sessioni del browser
-                                    ExpiresUtc =
-                                        DateTimeOffset.UtcNow
-                                            .AddMinutes(30) // imposta un tempo di scadenza del cookie, se necessario
+                                    IsPersistent = false,
+                                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
                                 };
 
                                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
@@ -102,6 +105,7 @@ public class Login : PageModel
                         }
                         else
                         {
+                            Log.Information("Login denied");
                             return Page();
                         }
                     }
@@ -126,52 +130,29 @@ public class Login : PageModel
                             var jsonResponse = await response.Content.ReadAsStringAsync();
                             userI = JsonConvert.DeserializeObject<GestoreIdrico>(jsonResponse);
 
+                            Log.Information("User role " + userI.role);
 
                             if (userI != null)
                             {
                                 List<Claim> claims;
 
-                                if (userI.bacinoIdrico != null)
+                                claims = new List<Claim>
                                 {
-                                    String bacinoJson = JsonConvert.SerializeObject(userI.bacinoIdrico);
-
-
-                                    claims = new List<Claim>
-                                    {
-                                        new Claim(ClaimTypes.Gender, userI.id.ToString()),
-                                        new Claim(ClaimTypes.Surname, userI.cognome),
-                                        new Claim(ClaimTypes.Name, userI.nome),
-                                        new Claim(ClaimTypes.Email, userI.mail),
-                                        new Claim(ClaimTypes.UserData, userI.username),
-                                        new Claim(ClaimTypes.Role, userI.role.ToString()),
-                                        new Claim(ClaimTypes.Authentication, loginResponse.jwt),
-                                        new Claim(ClaimTypes.NameIdentifier, bacinoJson)
-                                    };
-                                }
-                                else
-                                {
-                                    claims = new List<Claim>
-                                    {
-                                        new Claim(ClaimTypes.Gender, userI.id.ToString()),
-                                        new Claim(ClaimTypes.Surname, userI.cognome),
-                                        new Claim(ClaimTypes.Name, userI.nome),
-                                        new Claim(ClaimTypes.Email, userI.mail),
-                                        new Claim(ClaimTypes.UserData, userI.username),
-                                        new Claim(ClaimTypes.Role, userI.role.ToString()),
-                                        new Claim(ClaimTypes.Authentication, loginResponse.jwt),
-                                        new Claim(ClaimTypes.NameIdentifier, "null")
-                                    };
-                                }
+                                    new Claim(ClaimTypes.Gender, userI.id.ToString()),
+                                    new Claim(ClaimTypes.Surname, userI.cognome),
+                                    new Claim(ClaimTypes.Name, userI.nome),
+                                    new Claim(ClaimTypes.Email, userI.mail),
+                                    new Claim(ClaimTypes.UserData, userI.username),
+                                    new Claim(ClaimTypes.Role, userI.role.ToString()),
+                                    new Claim(ClaimTypes.Authentication, loginResponse.jwt)
+                                };
 
                                 var claimsIdentity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
 
                                 var authProperties = new AuthenticationProperties
                                 {
-                                    IsPersistent =
-                                        false, // o false, a seconda se vuoi che la sessione persista tra le sessioni del browser
-                                    ExpiresUtc =
-                                        DateTimeOffset.UtcNow
-                                            .AddMinutes(30) // imposta un tempo di scadenza del cookie, se necessario
+                                    IsPersistent = false,
+                                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30) 
                                 };
 
                                 await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
@@ -181,6 +162,7 @@ public class Login : PageModel
                         }
                         else
                         {
+                            Log.Information("Login denied");
                             return Page();
                         }
                     }
@@ -202,11 +184,14 @@ public class Login : PageModel
                             var response =
                                 await client.GetAsync(
                                     $"http://localhost:8080/api/v1/admin/get/{loginResponse.user.id}");
+                            
                             if (response.IsSuccessStatusCode)
                             {
                                 var jsonResponse = await response.Content.ReadAsStringAsync();
                                 admin = JsonConvert.DeserializeObject<UserInterfaceWaterManager.Model.User.Admin>(
                                     jsonResponse);
+                                Log.Information("User role " + admin.role);
+
 
                                 if (admin != null)
                                 {
@@ -226,12 +211,8 @@ public class Login : PageModel
 
                                     var authProperties = new AuthenticationProperties
                                     {
-                                        IsPersistent =
-                                            false, // o false, a seconda se vuoi che la sessione persista tra le sessioni del browser
-                                        ExpiresUtc =
-                                            DateTimeOffset.UtcNow
-                                                .AddMinutes(
-                                                    30) // imposta un tempo di scadenza del cookie, se necessario
+                                        IsPersistent = false,
+                                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30)
                                     };
 
                                     await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme,
@@ -241,6 +222,7 @@ public class Login : PageModel
                             }
                             else
                             {
+                                Log.Information("Login denied");
                                 return Page();
                             }
                         }

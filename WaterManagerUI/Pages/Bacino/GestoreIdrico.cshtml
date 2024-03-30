@@ -6,21 +6,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-            <aside class="flex-container">
-                <span>
-                    <ul>
-                        @if (Model.user.bacinoIdrico != null)
-                        {
-                            <div>
-                                <a asp-page="/Bacino/GestoreBacino" class="btn btn-sidebar" asp-page-class="active">Statistiche bacino</a>
-                            </div>
-                            <div>
-                                <a asp-page="/Bacino/richieste/VisualizzaRichiesteBacino" asp-route-bacinoId="@Model.user.bacinoIdrico.id" class="btn btn-sidebar" asp-page-class="active">Richieste</a>
-                            </div>
-                        }
-                    </ul>
-                </span>
-            </aside>
+            @Html.Partial("layout/GestoreIdrico/_SideMenuGestoreIdrico")
         </div>
         <div class="col-md-8">
             <div class="content">

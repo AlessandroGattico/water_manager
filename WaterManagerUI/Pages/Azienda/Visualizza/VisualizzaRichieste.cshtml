@@ -40,16 +40,20 @@
                     {
                         @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteSospeso())
                         {
-                            <div class="elemento">
-                                <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
-                                <div class="info-elemento dimensione">Data: @richiesta.date</div>
-                                <div class="info-elemento coltivazioni">Stato: IN ATTESA</div>
+                            <div class="elemento" onclick="this.parentNode.submit()">
+                                <a asp-page="/Azienda/Visualizza/VisualizzaRichiestaA" asp-route-richiestaId="@richiesta.id">
+                                    <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
+                                    <div class="info-elemento dimensione">Data: @richiesta.date</div>
+                                    <div class="info-elemento coltivazioni">Stato: IN ATTESA</div>
+                                </a>
                             </div>
                         }
                     }
                     else
                     {
-                        <p>Non ci sono richieste in attesa</p>
+                        <div>
+                            <p>Non ci sono richieste in sospeso</p>
+                        </div>
                     }
                 </div>
                 <div class="col-md-4">
@@ -58,19 +62,23 @@
                     {
                         @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteApprovate())
                         {
-                            <div class="elemento">
-                                <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
-                                <div class="info-elemento dimensione">Data: @richiesta.date</div>
-                                @if (richiesta.approvato.approvato)
-                                {
-                                    <div class="info-elemento coltivazioni">Stato: APPROVATA</div>
-                                }
+                            <div class="elemento" onclick="this.parentNode.submit()">
+                                <a asp-page="/Azienda/Visualizza/VisualizzaRichiestaA" asp-route-richiestaId="@richiesta.id">
+                                    <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
+                                    <div class="info-elemento dimensione">Data: @richiesta.date</div>
+                                    @if (richiesta.approvato.approvato)
+                                    {
+                                        <div class="info-elemento coltivazioni">Stato: APPROVATA</div>
+                                    }
+                                </a>
                             </div>
                         }
                     }
                     else
                     {
-                        <p>Non ci sono richieste approvate</p>
+                        <div>
+                            <p>Non ci sono richieste approvate</p>
+                        </div>
                     }
                 </div>
                 <div class="col-md-4">
@@ -79,19 +87,25 @@
                     {
                         @foreach (RichiestaIdrica richiesta in Model.azienda.richiesteRifiutate())
                         {
-                            <div class="elemento">
-                                <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
-                                <div class="info-elemento dimensione">Data: @richiesta.date</div>
-                                @if (!richiesta.approvato.approvato)
-                                {
-                                    <div class="info-elemento coltivazioni">Stato: RIFIUTATA</div>
-                                }
+                            <div class="elemento" onclick="this.parentNode.submit()">
+
+
+                                <a asp-page="/Azienda/Visualizza/VisualizzaRichiestaA" asp-route-richiestaId="@richiesta.id">
+                                    <div class="info-elemento nome">Quantita: @richiesta.quantita</div>
+                                    <div class="info-elemento dimensione">Data: @richiesta.date</div>
+                                    @if (!richiesta.approvato.approvato)
+                                    {
+                                        <div class="info-elemento coltivazioni">Stato: RIFIUTATA</div>
+                                    }
+                                </a>
                             </div>
                         }
                     }
                     else
                     {
-                        <p>Non ci sono richieste rifiutate</p>
+                        <div>
+                            <p>Non ci sono richieste rifiutate</p>
+                        </div>
                     }
                 </div>
             </div>

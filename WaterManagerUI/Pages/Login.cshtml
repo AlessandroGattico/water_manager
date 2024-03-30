@@ -1,5 +1,6 @@
 @page
 @model WaterManagerUI.Pages.Login
+@inject ILogger<Login> Log
 
 <link rel="stylesheet" href="~/css/site.css"/>
 
@@ -24,9 +25,6 @@
 
 
             </form>
-            <div class="form-group">
-                <a href="/signin" class="btn btn-secondary">Login con GitHub</a>
-            </div>
             <p>
                 Non hai un account? <a asp-page="/Register">Registrati qui</a>.
             </p>

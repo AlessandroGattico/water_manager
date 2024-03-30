@@ -1,0 +1,49 @@
+@page
+@model WaterManagerUI.Pages.Bacino.richieste.VisualizzaRichiestaB
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Partial("layout/GestoreIdrico/_SideMenuGestoreIdrico")
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-container">
+                <div class="content">
+                    @if (Model.richiestaIdrica != null)
+                    {
+                        <h2>Dettagli richiesta idrica</h2>
+                    }
+                </div>
+            </div>
+
+            <div class="elemento">
+                <div class="info-elemento raccolto">Quantità: @Model.richiestaIdrica.quantita</div>
+                <div class="info-elemento nome">Azienda: @Model.richiestaIdrica.nomeAzienda</div>
+                <div class="info-elemento nome">Data: @Model.richiestaIdrica.date</div>
+                @if (Model.richiestaIdrica.approvato != null)
+                {
+                    <div class="info-elemento nome">Stato: @Model.richiestaIdrica.approvato.approvato</div>
+                }
+            </div>
+
+            @if (Model.richiestaIdrica.approvato == null)
+            {
+                <div>
+                    <form method="post">
+                        <div class="bottoni-azione">
+                            <button name="app" value="Approva" type="submit" class="bottone-aggiungi" style="text-decoration: none; color: inherit; color: #13b400">Approva richiesta</button>
+                            <button name="app" value="Rifiuta" type="submit" class="bottone-aggiungi" style="text-decoration: none; color: inherit; border: 2px dashed #ff0000; color: #ff0000">Rifiuta richiesta</button>
+                        </div>
+                    </form>
+                </div>
+            }
+
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

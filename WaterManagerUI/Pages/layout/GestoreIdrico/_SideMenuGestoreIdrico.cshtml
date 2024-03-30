@@ -1,0 +1,24 @@
+<aside class="flex-container">
+    <span>
+        <ul>
+            @if (Model.user.bacinoIdrico != null)
+            {
+                <div>
+                    <a asp-page="/Bacino/GestoreBacino" class="btn btn-sidebar" asp-page-class="active">Statistiche bacino</a>
+                </div>
+                <div>
+                    <a asp-page="/Bacino/richieste/VisualizzaRichiesteBacino" asp-route-bacinoId="@Model.user.bacinoIdrico.id" class="btn btn-sidebar" asp-page-class="active">Richieste bacino</a>
+                </div>
+                <div>
+                    <a asp-page="/Bacino/richieste/RichiesteSospeso" asp-route-bacinoId="@Model.user.bacinoIdrico.id" class="btn btn-sidebar" asp-page-class="active">Richieste in sospeso</a>
+                </div>
+                <div>
+                    <a asp-page="/Bacino/richieste/RichiesteApprovate" asp-route-bacinoId="@Model.user.bacinoIdrico.id" class="btn btn-sidebar" asp-page-class="active">Richieste approvate</a>
+                </div>
+                <div>
+                    <a asp-page="/Bacino/richieste/RichiesteRifiutate" asp-route-bacinoId="@Model.user.bacinoIdrico.id" class="btn btn-sidebar" asp-page-class="active">Richieste rifiutate</a>
+                </div>
+            }
+        </ul>
+    </span>
+</aside>

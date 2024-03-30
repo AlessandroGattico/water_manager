@@ -49,57 +49,34 @@ public class BacinoIdrico
     {
         return risorse.OrderByDescending(c => c.RisorsaAsDateTime()).ToList();
     }
+    
+    public List<RichiestaIdrica> storicoRichieste()
+    {
+        return richieste.OrderByDescending(c => c.RichiestaAsDateTime()).ToList();
+    }
 
 
     public List<RichiestaIdrica> richiesteSospeso()
     {
-        if (this.richieste.Count > 0)
-        {
-            List<RichiestaIdrica> richiesteNonApprovate = this.richieste
-                .Where(r => r.approvato == null)
-                .OrderBy(r => r.date)
-                .ToList();
-
-            return richiesteNonApprovate;
-        }
-        else
-        {
-            return new List<RichiestaIdrica>();
-        }
+        return this.richieste
+            .Where(r => r.approvato == null)
+            .OrderBy(r => r.RichiestaAsDateTime())
+            .ToList();
     }
-
 
     public List<RichiestaIdrica> richiesteRifiutate()
     {
-        if (this.richieste.Count > 0)
-        {
-            List<RichiestaIdrica> richiesteNonApprovate = this.richieste
-                .Where(r => r.approvato?.approvato == false)
-                .OrderBy(r => r.date)
-                .ToList();
-
-            return richiesteNonApprovate;
-        }
-        else
-        {
-            return new List<RichiestaIdrica>();
-        }
+        return this.richieste
+            .Where(r => r.approvato?.approvato == false)
+            .OrderBy(r => r.RichiestaAsDateTime())
+            .ToList();
     }
 
     public List<RichiestaIdrica> richiesteApprovate()
     {
-        if (this.richieste.Count > 0)
-        {
-            List<RichiestaIdrica> richiesteNonApprovate = this.richieste
-                .Where(r => r.approvato?.approvato == true)
-                .OrderBy(r => r.date)
-                .ToList();
-
-            return richiesteNonApprovate;
-        }
-        else
-        {
-            return new List<RichiestaIdrica>();
-        }
+        return this.richieste
+            .Where(r => r.approvato?.approvato == true)
+            .OrderBy(r => r.RichiestaAsDateTime())
+            .ToList();
     }
 }

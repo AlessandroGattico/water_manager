@@ -1,9 +1,7 @@
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text.Json;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using WaterManagerUI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,36 +13,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-
-builder.Services.AddAuthentication("cookie")
-    .AddCookie("cookie")
-    .AddOAuth("github", options =>
-    {
-        options.SignInScheme = "cookie";
-
-        options.ClientId = builder.Configuration["GitHub:clientId"];
-        options.ClientSecret = builder.Configuration["GitHub:clientSecret"];
-
-        options.AuthorizationEndpoint = "https://github.com/login/oauth/authorize";
-        options.TokenEndpoint = "https://github.com/login/oauth/access_token";
-        options.CallbackPath = "/ExternalLogin";
-
-        options.SaveTokens = true;
-        options.UserInformationEndpoint = "https://api.github.com/user";
-
-        options.ClaimActions.MapJsonKey(ClaimTypes.Actor, "id");
-        options.ClaimActions.MapJsonKey(ClaimTypes.Name, "login");
-        
-        options.Events.OnCreatingTicket = async ctx =>
-        {
-            using var request = new HttpRequestMessage(HttpMethod.Get, ctx.Options.UserInformationEndpoint);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", ctx.AccessToken);
-            using var result = await ctx.Backchannel.SendAsync(request);
-            var user = await result.Content.ReadFromJsonAsync<JsonElement>();
-            ctx.RunClaimActions(user);
-        };
-    });
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -61,6 +29,15 @@ builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File(
+        path: "./../Log/Frontend/WaterManager_frontend-.txt",
+        rollingInterval: RollingInterval.Day
+    )
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 
