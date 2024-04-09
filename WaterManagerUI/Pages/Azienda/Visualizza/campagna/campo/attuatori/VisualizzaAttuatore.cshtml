@@ -30,12 +30,20 @@
                 <div class="info-elemento nome">Nome: @Model.attuatore.nome</div>
                 <div class="info-elemento nome">Stato: @Model.attuatore.storicoAttivazioni().FirstOrDefault().current</div>
             </div>
-            <form method="post" asp-page-handler="ToggleAttuatore">
-                <input type="hidden" asp-route-attuatoreId="attuatoreId" value="@Model.attuatore.id"/>
-                <button type="submit" class="btn btn-primary">
-                    @(Model.attuatore.storicoAttivazioni().FirstOrDefault().current ? "Disattiva" : "Attiva")
-                </button>
-            </form>
+            <div>
+                <form method="post">
+                    <div class="bottoni-azione">
+                        @if (Model.attuatore.storicoAttivazioni().FirstOrDefault().current.Equals(false))
+                        {
+                            <button name="app" value="ON" type="submit" class="bottone-aggiungi" style="text-decoration: none; color: inherit; color: #13b400">Accendi attuatore</button>
+                        }
+                        else
+                        {
+                            <button name="app" value="OFF" type="submit" class="bottone-aggiungi" style="text-decoration: none; color: inherit; border: 2px dashed #ff0000; color: #ff0000">Spegni attuatore</button>
+                        }
+                    </div>
+                </form>
+            </div>
         </div>
 
 

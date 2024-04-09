@@ -11,15 +11,12 @@ public class VisualizzaColtivazioni : PageModel
 {
     public Campo campo { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly SignInManager<IdentityUser> _signInManager;
 
 
-    public VisualizzaColtivazioni(IHttpClientFactory httpClientFactory,
-        IHttpContextAccessor httpContextAccessor, SignInManager<IdentityUser> signInManager)
+    public VisualizzaColtivazioni(IHttpClientFactory httpClientFactory, SignInManager<IdentityUser> signInManager)
     {
         _httpClientFactory = httpClientFactory;
-        _httpContextAccessor = httpContextAccessor;
         _signInManager = signInManager;
     }
 
@@ -28,7 +25,7 @@ public class VisualizzaColtivazioni : PageModel
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
             var client = _httpClientFactory.CreateClient();
-     
+
             try
             {
                 client.DefaultRequestHeaders.Authorization =
@@ -41,6 +38,22 @@ public class VisualizzaColtivazioni : PageModel
                 {
                     var jsonResponse = await response.Content.ReadAsStringAsync();
                     this.campo = JsonConvert.DeserializeObject<Campo>(jsonResponse);
+
+
+                    if (campo.sensori == null)
+                    {
+                        campo.sensori = new HashSet<Sensore>();
+                    }
+
+                    if (campo.coltivazioni == null)
+                    {
+                        campo.coltivazioni = new HashSet<Coltivazione>();
+                    }
+
+                    if (campo.attuatori == null)
+                    {
+                        campo.attuatori = new HashSet<Attuatore>();
+                    }
                 }
             }
             catch (HttpRequestException e)

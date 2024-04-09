@@ -1,0 +1,63 @@
+@page
+@using UserInterfaceWaterManager.Model.User
+@model WaterManagerUI.Pages.Admin.VisualizzaUsers
+
+<link rel="stylesheet" href="~/css/site.css"/>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            @Html.Partial("layout/Admin/_SideMenuAdmin")
+
+        </div>
+
+        <div class="col-md-8">
+            <div class="main-container">
+                <div class="content">
+                    <h2>Visualizza gestori idrici</h2>
+                    @if (Model.gestori != null)
+                    {
+                        <p>Dettagli gestori idrici</p>
+                    }
+                </div>
+            </div>
+            @if (Model.gestori.Any())
+            {
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Cognome</th>
+                        <th>Username</th>
+                        <th>Mail</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    @foreach (UserProfile gestore in Model.gestori)
+                    {
+                        var link = Url.Page("/Admin/Users/VisualizzaUser", new { richiestaId = gestore.id });
+                        <tr onclick="window.location = @link">
+                            <td>@gestore.nome</td>
+                            <td>@gestore.cognome</td>
+                            <td>@gestore.username</td>
+                            <td>@gestore.mail</td>
+                            <td>@gestore.role</td>
+                        </tr>
+                    }
+
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Non sono presenti gestori idrici</p>
+            }
+        </div>
+
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

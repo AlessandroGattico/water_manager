@@ -34,7 +34,7 @@ public class EliminaAttuatore : PageModel
                 client.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
                 var response =
-                    await client.GetAsync($"http://localhost:8080/api/v1/azienda/attuatore/get/all/{campoId}");
+                    await client.GetAsync($"http://localhost:8080/api/v1/azienda/attuatore/getCampo/{campoId}");
 
                 if (response.IsSuccessStatusCode)
                 {

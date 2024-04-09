@@ -4,7 +4,7 @@
             @if (Model.user.bacinoIdrico != null)
             {
                 <div>
-                    <a asp-page="/Bacino/GestoreBacino" class="btn btn-sidebar" asp-page-class="active">Statistiche bacino</a>
+                    <a asp-page="/Bacino/GestoreIdrico" class="btn btn-sidebar" asp-page-class="active">Statistiche bacino</a>
                 </div>
                 <div>
                     <a asp-page="/Bacino/richieste/VisualizzaRichiesteBacino" asp-route-bacinoId="@Model.user.bacinoIdrico.id" class="btn btn-sidebar" asp-page-class="active">Richieste bacino</a>

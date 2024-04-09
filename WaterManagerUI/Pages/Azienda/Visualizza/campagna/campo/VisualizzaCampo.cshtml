@@ -34,23 +34,9 @@
                         <h2>Dettagli campo</h2>
                         <p>Nome campo: @Model.campo.nome</p>
                     }
-                    <div class="modify">
-                        <a asp-page="/Azienda/Modifica/campo/ModificaNomeCampo" asp-route-campoId="@Model.campo.id"
-                           class="btn btn-primary btn-modifica">
-                            Modifica nome campo
-                        </a>
-                        <a asp-page="/Azienda/Modifica/campo/ModificaDimensioneCampo" asp-route-campoId="@Model.campo.id"
-                           class="btn btn-primary btn-modifica">
-                            Modifica dimensione campo
-                        </a>
-                        <a asp-page="/Azienda/Modifica/campo/ModificaCampagnaCampo" asp-route-campoId="@Model.campo.id"
-                           class="btn btn-primary btn-modifica">
-                            Modifica campagna campo
-                        </a>
-                    </div>
-
                 </div>
             </div>
+            
             <div class="modify">
                 @if (Model.campo.coltivazioni.Any())
                 {

@@ -11,6 +11,10 @@ using WaterManagerUI.Model.Item;
 
 namespace WaterManagerUI.Pages.disponibilita;
 
+/**
+ * @author Gattico Alessandro
+ */
+
 public class ModificaDisponibilita : PageModel
 {
     [BindProperty] public Double dimNew { get; set; }
