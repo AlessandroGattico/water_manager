@@ -25,7 +25,7 @@ public class ControllerBacinoIdrico {
 	
 	private final DAO daoBacino;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerBacinoIdrico.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerBacinoIdrico.class.getName());
 	
 	
 	@GetMapping(value = "/get/{id}")
@@ -33,16 +33,16 @@ public class ControllerBacinoIdrico {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		logger.info("Bacino idrico | get | " + id);
+		logger.info("Bacino idrico | get | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			logger.info("Bacino idrico | get | " + id + " | concesso");
+			logger.info("Bacino idrico | get | {} | concesso", id);
 			
 			BacinoIdrico bacinoIdrico = this.daoBacino.getBacinoId(id);
 			
 			return gson.toJson(bacinoIdrico);
 		} else {
-			logger.info("Bacino idrico | get | " + id + " | negato");
+			logger.info("Bacino idrico | get | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -55,10 +55,10 @@ public class ControllerBacinoIdrico {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		logger.info("Bacino idrico | get | bacino gestore | " + id);
+		logger.info("Bacino idrico | get | bacino gestore | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			logger.info("Bacino idrico | get | bacino gestore | " + id + " | concesso");
+			logger.info("Bacino idrico | get | bacino gestore | {} | concesso", id);
 			
 			BacinoIdrico bacinoIdrico = this.daoBacino.getBacinoGestore(id);
 			
@@ -68,7 +68,7 @@ public class ControllerBacinoIdrico {
 				return null;
 			}
 		} else {
-			logger.info("Bacino idrico | get | bacino gestore | " + id + " | negato");
+			logger.info("Bacino idrico | get | bacino gestore | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -103,15 +103,15 @@ public class ControllerBacinoIdrico {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		logger.info("Bacino idrico | elimina | " + id);
+		logger.info("Bacino idrico | elimina | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			logger.info("Bacino idrico | elimina | " + id + " | concesso");
+			logger.info("Bacino idrico | elimina | {} | concesso", id);
 			
 			this.daoBacino.deleteBacino(id);
 			return gson.toJson("OK");
 		} else {
-			logger.info("Bacino idrico | elimina | " + id + " | negato");
+			logger.info("Bacino idrico | elimina | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}

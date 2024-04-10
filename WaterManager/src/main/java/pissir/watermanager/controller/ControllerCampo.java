@@ -27,7 +27,7 @@ public class ControllerCampo {
 	
 	private final DAO daoCampo;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerCampo.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerCampo.class.getName());
 	
 	
 	@PostMapping(value = "/add")

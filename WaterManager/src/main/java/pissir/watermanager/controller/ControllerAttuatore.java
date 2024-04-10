@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Attuatore;
@@ -26,20 +27,24 @@ public class ControllerAttuatore {
 	
 	private final DAO daoAttuatore;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAttuatore.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerAttuatore.class.getName());
 	
 	
 	@GetMapping(value = "/get/{id}")
+	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getAttuatoreId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Attuatore | get | concesso");
+			
 			Attuatore attuatore = this.daoAttuatore.getAttuatoreId(id);
 			
 			return gson.toJson(attuatore);
 		} else {
+			logger.info("Attuatore | get | {} | negato", id);
+			
 			return gson.toJson("Accesso negato");
 		}
 	}
@@ -91,7 +96,7 @@ public class ControllerAttuatore {
 		}
 	}
 	
-
+	
 	private String extractTokenFromRequest(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
 		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {

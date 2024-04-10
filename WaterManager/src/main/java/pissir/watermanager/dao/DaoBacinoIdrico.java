@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.BacinoIdrico;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -28,9 +27,7 @@ public class DaoBacinoIdrico {
 	}
 	
 	
-	protected BacinoIdrico getBacinoId(int bacino) {
-		int columns;
-		HashMap<String, Object> row;
+	protected BacinoIdrico getBacinoId(int id) {
 		ResultSetMetaData resultSetMetaData;
 		BacinoIdrico bacinoIdrico = null;
 		
@@ -43,48 +40,35 @@ public class DaoBacinoIdrico {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
-			statement.setInt(1, bacino);
+			statement.setInt(1, id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
-				if (! resultSet.isBeforeFirst()) {
-					logger.info("Nessun bacino trovato con ID {}", bacino);
+				if (resultSet.next()) {
+					bacinoIdrico = new BacinoIdrico(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getInt("id_user")
+					);
 					
-					return null;
+					logger.info("Bacino idrico trovato: {}", bacinoIdrico.getNome());
+				} else {
+					logger.info("Nessun bacino idrico trovato con ID {}", id);
 				}
 				
-				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					bacinoIdrico =
-							new BacinoIdrico((int) row.get("id"), (String) row.get("nome"), (int) row.get("id_user"));
-				}
-				
-				logger.info("Bacino trovato con ID {}", bacino);
+				return bacinoIdrico;
 			}
 			
 		} catch (SQLException e) {
-			logger.error("Errore durante il recupero del bacino con ID {}", bacino, e);
+			logger.error("Errore durante il recupero del bacino con ID {}", id, e);
 			
-			return null;
+			return bacinoIdrico;
 		}
-		
-		return bacinoIdrico;
 	}
 	
 	
 	protected HashSet<BacinoIdrico> getBacini() {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<BacinoIdrico> bacini = new HashSet<>();
+		BacinoIdrico bacinoIdrico = null;
 		
 		String query = """
 				SELECT *
@@ -95,41 +79,30 @@ public class DaoBacinoIdrico {
 			 PreparedStatement statement = connection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
 			
-			resultSetMetaData = resultSet.getMetaData();
-			columns = resultSetMetaData.getColumnCount();
-			list = new ArrayList<>();
-			
-			if (! resultSet.isBeforeFirst()) {
-				logger.info("Nessun bacino trovato");
-				
-				return bacini;
-			}
-			
 			while (resultSet.next()) {
-				row = new HashMap<>(columns);
-				
-				for (int i = 1; i <= columns; ++ i) {
-					row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-				}
-				
-				list.add(row);
-			}
-			
-			for (HashMap<String, Object> map : list) {
-				BacinoIdrico bacinoIdrico =
-						new BacinoIdrico((int) map.get("id"), (String) map.get("nome"), (int) map.get("id_user"));
+				bacinoIdrico = new BacinoIdrico(
+						resultSet.getInt("id"),
+						resultSet.getString("nome"),
+						resultSet.getInt("id_user")
+				);
 				
 				bacini.add(bacinoIdrico);
 			}
 			
-			logger.info("Trovati {} bacini", bacini.size());
+			if (bacini.isEmpty()) {
+				logger.info("Nessun bacino trovato");
+				
+				return bacini;
+			} else {
+				logger.info("Trovati {} bacini", bacini.size());
+			}
+			
+			return bacini;
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero dei bacini", e);
 			
-			return null;
+			return bacini;
 		}
-		
-		return bacini;
 	}
 	
 	
@@ -155,12 +128,12 @@ public class DaoBacinoIdrico {
 				try (ResultSet resultSet = statement.getGeneratedKeys();) {
 					if (resultSet.next()) {
 						id = resultSet.getInt(1);
+						logger.info("Bacino aggiunto con ID {}", id);
 					}
 				}
 			}
-			connection.commit();
 			
-			logger.info("Bacino aggiunto con ID {}", id);
+			connection.commit();
 		} catch (Exception e) {
 			logger.error("Errore durante l'aggiunta del bacino {}.", bacinoIdrico.getNome(), e);
 			
@@ -198,32 +171,41 @@ public class DaoBacinoIdrico {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
+			logger.info("Tentativo di eliminazione del raccolto: {}", bacino);
+			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setInt(1, bacino);
 				
-				int affectedRows = statement.executeUpdate();
+				int rowsAffected = statement.executeUpdate();
 				
-				if (affectedRows == 0) {
-					logger.warn("Nessun bacino trovato con ID: {}", bacino);
+				if (rowsAffected > 0) {
+					logger.debug("Raccolto '{}' eliminato con successo.", bacino);
 				} else {
-					logger.info("Bacino con ID {} eliminato con successo", bacino);
+					logger.info("Nessun raccolto trovato con nome '{}'.", bacino);
 				}
-				
-				connection.commit();
-			} catch (SQLException e) {
-				if (connection != null) {
-					logger.error("Rollback dell'eliminazione del bacino a causa di un'eccezione", e);
-					connection.rollback();
-				}
-				
-				throw e;
 			}
+			
+			connection.commit();
 		} catch (SQLException e) {
-			logger.error("Errore durante l'eliminazione del bacino con ID: {}", bacino, e);
+			logger.error("Errore durante l'eliminazione del raccolto '{}'", bacino, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
+			
+			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
+					
+					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -249,35 +231,26 @@ public class DaoBacinoIdrico {
 			statement.setInt(1, idGestore);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
-				boolean found = false;
-				
-				while (resultSet.next()) {
-					found = true;
+				if (resultSet.next()) {
+					bacinoIdrico = new BacinoIdrico(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							idGestore
+					);
 					
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					bacinoIdrico = new BacinoIdrico((int) row.get("id"), (String) row.get("nome"), idGestore);
-				}
-				
-				if (! found) {
+					logger.info("Bacino idrico trovato: {}", bacinoIdrico.getNome());
+				} else {
 					logger.info("Nessun bacino trovato per il gestore con ID {}", idGestore);
 				}
+				
+				return bacinoIdrico;
 			}
 			
 		} catch (SQLException e) {
 			logger.error("Errore durante la ricerca del bacino per il gestore con ID {}", idGestore, e);
 			
-			return null;
+			return bacinoIdrico;
 		}
-		
-		return bacinoIdrico;
 	}
 	
 }

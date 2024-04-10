@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Campo;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -29,9 +27,6 @@ public class DaoCampo {
 	
 	
 	protected Campo getCampoId(int idCampo) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		Campo campo = null;
 		
 		String query = """
@@ -47,43 +42,33 @@ public class DaoCampo {
 			logger.info("Inizio della query per ottenere il campo con ID: {}", idCampo);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
-				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					campo = new Campo((int) row.get("id"), (String) row.get("nome"),
-							(Double) row.get("dimensione"), (int) row.get("id_campagna"));
+				if (resultSet.next()) {
+					campo = new Campo(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getDouble("dimensione"),
+							resultSet.getInt("id_campagna")
+					);
 					
 					logger.debug("Trovato campo: {}", campo.getNome());
+				} else {
+					logger.info("Nessun campo trovato con ID: {}", idCampo);
 				}
-			}
-			
-			if (campo == null) {
-				logger.info("Nessun campo trovato con ID: {}", idCampo);
+				
+				return campo;
 			}
 			
 		} catch (SQLException e) {
 			logger.error("Errore durante la ricerca del campo con ID: {}", idCampo, e);
 			
-			return null;
+			return campo;
 		}
-		
-		return campo;
 	}
 	
 	
 	protected HashSet<Campo> getCampiCampagna(int idCampagna) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<Campo> campi = new HashSet<>();
+		Campo campo = null;
 		
 		String query = """
 				SELECT *
@@ -98,40 +83,31 @@ public class DaoCampo {
 			logger.info("Esecuzione della query per ottenere i campi della campagna con ID: {}", idCampagna);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					Campo campo = new Campo((int) map.get("id"), (String) map.get("nome"),
-							(Double) map.get("dimensione"), idCampagna);
+					campo = new Campo(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getDouble("dimensione"),
+							resultSet.getInt("id_campagna")
+					);
 					
 					campi.add(campo);
-					
-					logger.debug("Campo aggiunto: {}", campo.getNome());
 				}
 				
 				if (campi.isEmpty()) {
 					logger.info("Nessun campo trovato per la campagna con ID: {}", idCampagna);
+					
+					
+				} else {
+					logger.info("Trovati {} campi per la campagna con ID: {}", campi.size(), idCampagna);
 				}
+				return campi;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero dei campi per la campagna con ID: {}", idCampagna, e);
 			
-			return null;
+			return campi;
 		}
-		
-		return campi;
 	}
 	
 	
@@ -204,39 +180,43 @@ public class DaoCampo {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
+			logger.info("Tentativo di eliminazione del raccolto: {}", idCampo);
+			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setInt(1, idCampo);
-				
-				logger.info("Tentativo di eliminazione del campo con ID {}", idCampo);
 				
 				int rowsAffected = statement.executeUpdate();
 				
 				if (rowsAffected > 0) {
-					logger.debug("Campo con ID {} eliminato con successo", idCampo);
-					
-					connection.commit();
+					logger.debug("Raccolto '{}' eliminato con successo.", idCampo);
 				} else {
-					logger.info("Nessun campo trovato con ID {}", idCampo);
-					
-					connection.rollback();
+					logger.info("Nessun raccolto trovato con nome '{}'.", idCampo);
 				}
 			}
+			
+			connection.commit();
 		} catch (SQLException e) {
-			logger.error("Errore durante l'eliminazione del campo con ID {}", idCampo, e);
+			logger.error("Errore durante l'eliminazione del raccolto '{}'", idCampo, e);
 			
 			if (connection != null) {
 				try {
 					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
-					logger.error("Errore durante il rollback", ex);
+					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
+			
+			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
+					
+					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
-					logger.error("Errore durante la chiusura della connessione", e);
+					logger.error("Errore nella chiusura della connessione", e);
 				}
 			}
 		}
@@ -244,11 +224,8 @@ public class DaoCampo {
 	
 	
 	protected HashSet<Campo> getCampi() {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<Campo> campi = new HashSet<>();
+		Campo campo = null;
 		
 		String query = """
 				SELECT *
@@ -261,38 +238,31 @@ public class DaoCampo {
 			logger.info("Recupero tutti i campi");
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
 				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					Campo campo = new Campo((int) map.get("id"), (String) map.get("nome"),
-							(Double) map.get("dimensione"), (int) map.get("id_campagna"));
+					campo = new Campo(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getDouble("dimensione"),
+							resultSet.getInt("id_campagna")
+					);
 					
 					campi.add(campo);
-					
-					logger.debug("Trovato campo: {}", campo.getNome());
 				}
 				
-				logger.debug("Numero di campi recuperati: {}", campi.size());
+				if (campi.isEmpty()) {
+					logger.info("Nessun campo trovata");
+				} else {
+					logger.debug("Numero di campi trovati: {}", campi.size());
+				}
+				
+				return campi;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero dei campi", e);
 			
-			return null;
+			return campi;
 		}
-		
-		return campi;
 	}
 	
 	
@@ -312,10 +282,10 @@ public class DaoCampo {
 			
 			logger.info("Verifica esistenza del campo '{}' nella campagna con ID {}", campo, id);
 			
-			ResultSet rs = statement.executeQuery();
+			ResultSet resultSet = statement.executeQuery();
 			
-			if (rs.next()) {
-				boolean exists = rs.getInt(1) > 0;
+			if (resultSet.next()) {
+				boolean exists = resultSet.getInt(1) > 0;
 				
 				logger.debug("Esistenza del campo '{}': {}", campo, exists);
 				

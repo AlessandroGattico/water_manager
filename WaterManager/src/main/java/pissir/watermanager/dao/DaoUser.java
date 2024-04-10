@@ -3,11 +3,9 @@ package pissir.watermanager.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.user.*;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -58,8 +56,14 @@ public class DaoUser {
 						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 					}
 					
-					admin = new Admin((int) row.get("id"), (String) row.get("nome"), (String) row.get("cognome"),
-							(String) row.get("username"), (String) row.get("mail"), (String) row.get("password"));
+					admin = new Admin(
+							(int) row.get("id"),
+							(String) row.get("nome"),
+							(String) row.get("cognome"),
+							(String) row.get("username"),
+							(String) row.get("mail"),
+							(String) row.get("password")
+					);
 				}
 			}
 		} catch (SQLException e) {
@@ -75,11 +79,11 @@ public class DaoUser {
 	
 	
 	protected HashSet<GestoreIdrico> getGestoriIdrici() {
-		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
 		HashSet<GestoreIdrico> utenti = new HashSet<>();
+		GestoreIdrico user = null;
 		
 		String query = """
 				SELECT *
@@ -95,7 +99,6 @@ public class DaoUser {
 			
 			resultSetMetaData = resultSet.getMetaData();
 			columns = resultSetMetaData.getColumnCount();
-			list = new ArrayList<>();
 			
 			while (resultSet.next()) {
 				row = new HashMap<>(columns);
@@ -104,37 +107,49 @@ public class DaoUser {
 					row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 				}
 				
-				list.add(row);
-			}
-			
-			for (HashMap<String, Object> map : list) {
-				GestoreIdrico user =
-						new GestoreIdrico((int) map.get("id"), (String) map.get("nome"), (String) map.get("cognome"),
-								(String) map.get("username"), (String) map.get("mail"), "");
+				int attivo = (int) row.get("enabled");
+				boolean enabled;
+				
+				if (attivo == 0) {
+					enabled = false;
+				} else {
+					enabled = true;
+				}
+				
+				user = new GestoreIdrico(
+						(int) row.get("id"),
+						(String) row.get("nome"),
+						(String) row.get("cognome"),
+						(String) row.get("username"),
+						(String) row.get("mail"),
+						"",
+						enabled
+				);
 				
 				utenti.add(user);
-				
-				logger.debug("Aggiunto gestore idrico: {}", user.getUsername());
 			}
 			
 			if (utenti.isEmpty()) {
 				logger.info("Nessun gestore idrico trovato");
+			} else {
+				logger.info("Trovati {} gestori idrici", utenti.size());
 			}
+			
+			return utenti;
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero dei gestori idrici", e);
-			return null;
+			
+			return utenti;
 		}
-		
-		return utenti;
 	}
 	
 	
 	protected HashSet<GestoreAzienda> getGestoriAzienda() {
-		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
 		HashSet<GestoreAzienda> utenti = new HashSet<>();
+		GestoreAzienda user = null;
 		
 		String query = """
 				SELECT *
@@ -150,7 +165,6 @@ public class DaoUser {
 			
 			resultSetMetaData = resultSet.getMetaData();
 			columns = resultSetMetaData.getColumnCount();
-			list = new ArrayList<>();
 			
 			while (resultSet.next()) {
 				row = new HashMap<>(columns);
@@ -159,78 +173,87 @@ public class DaoUser {
 					row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 				}
 				
-				list.add(row);
-			}
-			
-			for (HashMap<String, Object> map : list) {
-				GestoreAzienda user =
-						new GestoreAzienda((int) map.get("id"), (String) map.get("nome"), (String) map.get("cognome"),
-								(String) map.get("username"), (String) map.get("mail"), "");
+				int attivo = (int) row.get("enabled");
+				boolean enabled;
+				
+				if (attivo == 0) {
+					enabled = false;
+				} else {
+					enabled = true;
+				}
+				
+				user = new GestoreAzienda(
+						(int) row.get("id"),
+						(String) row.get("nome"),
+						(String) row.get("cognome"),
+						(String) row.get("username"),
+						(String) row.get("mail"),
+						"",
+						enabled
+				);
 				
 				utenti.add(user);
-				logger.debug("Aggiunto gestore azienda: {}", user.getUsername());
 			}
 			
 			if (utenti.isEmpty()) {
 				logger.info("Nessun gestore azienda trovato");
+			} else {
+				logger.info("Trovati {} gestori azienda", utenti.size());
 			}
+			
+			return utenti;
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero dei gestori azienda", e);
-			return null;
+			
+			return utenti;
 		}
-		
-		return utenti;
 	}
 	
 	
-	protected UserProfile getUser(String username, String password) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
+	protected UserProfile getUser(int idUser) {
 		UserProfile user = null;
 		
 		String query = """
 				SELECT *
 				FROM users
-				WHERE username = ?
-				AND password = ? ;
+				WHERE id = ?;
 				""";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
-			statement.setString(1, username);
-			statement.setString(2, password);
+			statement.setInt(1, idUser);
 			
-			logger.info("Esecuzione della query per ottenere l'utente con username: {}", username);
+			logger.info("Esecuzione della query per ottenere l'utente con ID: {}", idUser);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
+					int attivo = resultSet.getInt("enabled");
+					boolean enabled = attivo != 0;
 					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					user = new UserProfile((int) row.get("id"), (String) row.get("nome"), (String) row.get("cognome"),
-							(String) row.get("username"), (String) row.get("mail"), (String) row.get("password"),
-							UserRole.valueOf((String) row.get("role")));
+					user = new UserProfile(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getString("cognome"),
+							resultSet.getString("username"),
+							resultSet.getString("mail"),
+							"",
+							UserRole.valueOf(resultSet.getString("role")),
+							enabled
+					);
 					
 					logger.debug("Trovato utente: {}", user.getUsername());
 				} else {
-					logger.info("Nessun utente trovato con username: {}", username);
+					logger.info("Nessun utente trovato con ID: {}", idUser);
 				}
+				
+				return user;
 			}
 		} catch (SQLException e) {
-			logger.error("Errore durante il recupero dell'utente con username: {}", username, e);
+			logger.error("Errore durante il recupero dell'utente con ID: {}", idUser, e);
 			
-			return null;
+			return user;
 		}
-		
-		return user;
 	}
 	
 	
@@ -254,40 +277,42 @@ public class DaoUser {
 			logger.info("Esecuzione della query per ottenere l'utente con username: {}", username);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
+					int attivo = resultSet.getInt("enabled");
+					boolean enabled = attivo != 0;
 					
-					user = new UserProfile((int) row.get("id"), (String) row.get("nome"), (String) row.get("cognome"),
-							(String) row.get("username"), (String) row.get("mail"), (String) row.get("password"),
-							UserRole.valueOf((String) row.get("role")));
+					user = new UserProfile(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getString("cognome"),
+							resultSet.getString("username"),
+							resultSet.getString("mail"),
+							resultSet.getString("password"),
+							UserRole.valueOf(resultSet.getString("role")),
+							enabled
+					);
 					
 					logger.debug("Trovato utente: {}", user.getUsername());
 				} else {
-					logger.info("Nessun utente trovato con username: {}", username);
+					logger.info("Nessun utente trovato con username: {}", user.getUsername());
 				}
+				
+				return user;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero dell'utente con username: {}", username, e);
 			
-			return null;
+			return user;
 		}
-		
-		return user;
 	}
 	
 	
 	protected HashSet<UserProfile> getUtenti() {
-		ArrayList<HashMap<String, Object>> list;
 		int columns;
 		HashMap<String, Object> row;
 		ResultSetMetaData resultSetMetaData;
 		HashSet<UserProfile> utenti = new HashSet<>();
+		UserProfile user = null;
 		
 		String query = """
 				SELECT *
@@ -303,7 +328,6 @@ public class DaoUser {
 			try (ResultSet resultSet = statement.executeQuery()) {
 				resultSetMetaData = resultSet.getMetaData();
 				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
 				
 				while (resultSet.next()) {
 					row = new HashMap<>(columns);
@@ -312,32 +336,36 @@ public class DaoUser {
 						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
 					}
 					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					UserProfile user = new UserProfile(
-							(int) map.get("id"),
-							(String) map.get("nome"),
-							(String) map.get("cognome"),
-							(String) map.get("username"),
-							(String) map.get("mail"),
-							(String) map.get("password"),
-							UserRole.valueOf((String) map.get("role"))
+					int attivo = resultSet.getInt("enabled");
+					boolean enabled = attivo != 0;
+					
+					user = new UserProfile(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getString("cognome"),
+							resultSet.getString("username"),
+							resultSet.getString("mail"),
+							"",
+							UserRole.valueOf(resultSet.getString("role")),
+							enabled
 					);
 					
 					utenti.add(user);
 				}
 				
-				logger.debug("Numero di utenti trovati: {}", utenti.size());
+				if (utenti.isEmpty()) {
+					logger.info("Nessun utente trovato");
+				} else {
+					logger.debug("Numero di utenti trovati: {}", utenti.size());
+				}
+				
+				return utenti;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero degli utenti", e);
 			
-			return null;
+			return utenti;
 		}
-		
-		return utenti;
 	}
 	
 	
@@ -449,9 +477,6 @@ public class DaoUser {
 	
 	
 	protected GestoreIdrico getGestoreIdrico(int id) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		GestoreIdrico user = null;
 		
 		String query = """
@@ -467,37 +492,37 @@ public class DaoUser {
 			logger.info("Esecuzione della query per ottenere il gestore idrico con ID: {}", id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
+					int attivo = resultSet.getInt("enabled");
+					boolean enabled = attivo != 0;
 					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
+					user = new GestoreIdrico(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getString("cognome"),
+							resultSet.getString("username"),
+							resultSet.getString("mail"),
+							resultSet.getString("password"),
+							enabled
+					);
 					
-					user = new GestoreIdrico((int) row.get("id"), (String) row.get("nome"), (String) row.get("cognome"),
-							(String) row.get("username"), (String) row.get("mail"), (String) row.get("password"));
-					logger.debug("Trovato gestore idrico: {}", user.getUsername());
+					logger.debug("Trovato utente: {}", user.getUsername());
 				} else {
 					logger.info("Nessun gestore idrico trovato con ID: {}", id);
 				}
+				
+				return user;
 			}
 			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero del gestore idrico con ID: {}", id, e);
-			return null;
+			
+			return user;
 		}
-		
-		return user;
 	}
 	
 	
 	protected GestoreAzienda getGestoreAzienda(int id) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		GestoreAzienda user = null;
 		
 		String query = """
@@ -513,32 +538,33 @@ public class DaoUser {
 			logger.info("Esecuzione della query per ottenere il gestore azienda con ID: {}", id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
+					int attivo = resultSet.getInt("enabled");
+					boolean enabled = attivo != 0;
 					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
+					user = new GestoreAzienda(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getString("cognome"),
+							resultSet.getString("username"),
+							resultSet.getString("mail"),
+							resultSet.getString("password"),
+							enabled
+					);
 					
-					user = new GestoreAzienda((int) row.get("id"), (String) row.get("nome"),
-							(String) row.get("cognome"), (String) row.get("username"), (String) row.get("mail"),
-							(String) row.get("password"));
 					logger.debug("Trovato gestore azienda: {}", user.getUsername());
 				} else {
 					logger.info("Nessun gestore azienda trovato con ID: {}", id);
 				}
+				
+				return user;
 			}
 			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero del gestore azienda con ID: {}", id, e);
 			
-			return null;
+			return user;
 		}
-		
-		return user;
 	}
 	
 	
@@ -600,6 +626,54 @@ public class DaoUser {
 			logger.error("Errore durante la verifica dell'esistenza dell'email '{}'", email, e);
 			
 			return false;
+		}
+	}
+	
+	
+	protected boolean updateUserStatus(int id, boolean isActive) {
+		String sql = "UPDATE users SET enabled = ? WHERE id = ?;";
+		
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
+			
+			try (PreparedStatement statement = connection.prepareStatement(sql)) {
+				statement.setBoolean(1, isActive);
+				statement.setInt(2, id);
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					connection.commit();
+					
+					logger.debug("Stato dell'utente con ID {} aggiornato a {}", id, isActive);
+					
+					return true;
+				} else {
+					logger.info("Nessun utente trovato con ID {}", id);
+					
+					return false;
+				}
+			} catch (SQLException e) {
+				connection.rollback();
+				
+				logger.error("Errore durante l'aggiornamento dello stato dell'utente con ID {}", id, e);
+				
+				return false;
+			}
+		} catch (SQLException e) {
+			logger.error("Errore durante la connessione al database", e);
+			
+			return false;
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
 		}
 	}
 	

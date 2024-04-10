@@ -38,7 +38,7 @@ public class AuthenticationService {
 		this.tokenService = tokenService;
 		this.restTemplate = restTemplate;
 	}
-
+	
 	
 	public LoginResponseDTO registerUser(RegistrationDTO reg) {
 		UserRole role = null;
@@ -56,9 +56,15 @@ public class AuthenticationService {
 				break;
 		}
 		
-		UserProfile user =
-				new UserProfile(reg.getNome(), reg.getCognome(), reg.getUsername(), reg.getMail(),
-						encoder.encode(reg.getPassword()), role);
+		UserProfile user = new UserProfile(
+				reg.getNome(),
+				reg.getCognome(),
+				reg.getUsername(),
+				reg.getMail(),
+				encoder.encode(reg.getPassword()),
+				role,
+				true
+		);
 		
 		this.userRepository.saveUser(user);
 		
@@ -76,9 +82,17 @@ public class AuthenticationService {
 			
 			user.setPassword("");
 			
-			return new LoginResponseDTO(user, token);
+			return new LoginResponseDTO(
+					user,
+					token,
+					user.isEnabled()
+			);
 		} else {
-			return new LoginResponseDTO(null, "");
+			return new LoginResponseDTO(
+					null,
+					"",
+					false
+			);
 		}
 	}
 	

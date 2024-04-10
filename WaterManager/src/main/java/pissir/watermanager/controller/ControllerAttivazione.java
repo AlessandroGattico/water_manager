@@ -28,7 +28,7 @@ public class ControllerAttivazione {
 	
 	private final DAO daoAttivazioni;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAttivazione.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerAttivazione.class.getName());
 	
 	
 	@GetMapping(value = "/get/{id}")

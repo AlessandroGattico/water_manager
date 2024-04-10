@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Attivazione;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -44,27 +42,31 @@ public class DaoAttivazioni {
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				if (resultSet.next()) {
-					attivazione = new Attivazione(resultSet.getInt("id"), resultSet.getString("data"),
-							resultSet.getBoolean("stato"), resultSet.getInt("id_attuatore"));
+					attivazione = new Attivazione(
+							resultSet.getInt("id"),
+							resultSet.getString("data"),
+							resultSet.getBoolean("stato"),
+							resultSet.getInt("id_attuatore")
+					);
 					
+					logger.info("Attivazione trovata con ID {}", id);
 				} else {
-					logger.warn("Nessuna attivazione trovata con ID {}", id);
+					logger.info("Nessuna attivazione trovata con ID {}", id);
 				}
+				
+				return attivazione;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero dell'attivazione con ID {}", id, e);
+			
+			return attivazione;
 		}
-		
-		return attivazione;
 	}
 	
 	
 	protected HashSet<Attivazione> getAttivazioniAttuatore(int id) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<Attivazione> attivazioni = new HashSet<>();
+		Attivazione attivazione = null;
 		
 		String query = """
 				SELECT *
@@ -79,48 +81,32 @@ public class DaoAttivazioni {
 			logger.info("Recupero attivazioni per attuatore con ID {}", id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
+					boolean state = resultSet.getInt("current") != 0;
 					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					Attivazione attivazione;
-					int attivo = (int) map.get("current");
-					
-					if (attivo == 0) {
-						attivazione =
-								new Attivazione((int) map.get("id"), (String) map.get("time"), false,
-										(Integer) map.get("id_attuatore"));
-					} else {
-						attivazione =
-								new Attivazione((int) map.get("id"), (String) map.get("time"), true,
-										(Integer) map.get("id_attuatore"));
-					}
-					
+					attivazione = new Attivazione(
+							resultSet.getInt("id"),
+							resultSet.getString("time"),
+							state,
+							resultSet.getInt("id_attuatore")
+					);
 					
 					attivazioni.add(attivazione);
 				}
 				
-				logger.debug("Numero di attivazioni trovate: {}", attivazioni.size());
+				if (attivazioni.isEmpty()) {
+					logger.info("Nessuna attivazione trovata per l'attuatore con ID: {}", id);
+				} else {
+					logger.debug("Numero di attivazioni trovate: {}", attivazioni.size());
+				}
+				
+				return attivazioni;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero delle attivazioni per l'attuatore con ID {}", id, e);
 			
-			return null;
+			return attivazioni;
 		}
-		
-		return attivazioni;
 	}
 	
 	
@@ -186,41 +172,54 @@ public class DaoAttivazioni {
 				""";
 		
 		Connection connection = null;
+		
 		try {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
+			logger.info("Tentativo di eliminazione del raccolto: {}", idAttivazione);
+			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setInt(1, idAttivazione);
 				
-				logger.info("Eliminazione dell'attivazione con ID {}", idAttivazione);
+				int rowsAffected = statement.executeUpdate();
 				
-				statement.executeUpdate();
-				
-				connection.commit();
-			} catch (SQLException e) {
-				logger.error("Errore durante l'eliminazione dell'attivazione, eseguo rollback", e);
-				
-				if (connection != null) {
-					connection.rollback();
+				if (rowsAffected > 0) {
+					logger.debug("Raccolto '{}' eliminato con successo.", idAttivazione);
+				} else {
+					logger.info("Nessun raccolto trovato con nome '{}'.", idAttivazione);
 				}
-				
-				throw e;
 			}
-		} catch (SQLException e) {
-			logger.error("Errore di connessione durante l'eliminazione dell'attivazione", e);
 			
-			throw new RuntimeException("Errore di connessione", e);
+			connection.commit();
+		} catch (SQLException e) {
+			logger.error("Errore durante l'eliminazione del raccolto '{}'", idAttivazione, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
+			
+			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
+					
+					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
 			}
 		}
 	}
+	
+	
 	
 	
 }

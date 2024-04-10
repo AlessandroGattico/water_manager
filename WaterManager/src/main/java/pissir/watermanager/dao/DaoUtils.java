@@ -2,12 +2,9 @@ package pissir.watermanager.dao;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.user.UserRole;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -29,123 +26,148 @@ public class DaoUtils {
 	
 	
 	protected HashSet<String> getRaccolti() {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<String> raccolti = new HashSet<>();
 		
 		String query = """
 				SELECT *
-				FROM raccolto;""";
+				FROM raccolto;
+				""";
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
+		try (Connection connectionection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connectionection.prepareStatement(query);
+			 ResultSet resultSet = statement.executeQuery()) {
+			
 			logger.info("Inizio della procedura di recupero dei raccolti dal database");
 			
-			ResultSet resultSet = statement.executeQuery();
-			
-			resultSetMetaData = resultSet.getMetaData();
-			columns = resultSetMetaData.getColumnCount();
-			list = new ArrayList<>();
-			
 			while (resultSet.next()) {
-				row = new HashMap<>(columns);
-				
-				for (int i = 1; i <= columns; ++ i) {
-					row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-				}
-				
-				list.add(row);
+				raccolti.add(resultSet.getString("nome"));
 			}
 			
-			for (HashMap<String, Object> map : list) {
-				String raccolto = (String) map.get("nome");
-				raccolti.add(raccolto);
+			if (! raccolti.isEmpty()) {
+				logger.info("Trovati {} raccolti", raccolti.size());
+			} else {
+				logger.info("Non sono stati trovtati raccolti");
 			}
 			
-			logger.info("Completato il recupero di {} raccolti", raccolti.size());
+			return raccolti;
+			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero dei raccolti", e);
 			
-			return null;
+			return raccolti;
 		}
-		
-		return raccolti;
 	}
 	
 	
-	protected void addRaccolto(String string) {
-		String queryInsert = """
+	protected void addRaccolto(String raccolto) {
+		String query = """
 				INSERT INTO raccolto (nome)
-				VALUES (?);""";
-		
+				VALUES (?);
+				""";
 		Connection connection = null;
+		
 		try {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
-			try (PreparedStatement statement = connection.prepareStatement(queryInsert)) {
-				statement.setString(1, string);
-				
-				logger.info("Inserimento del raccolto '{}' nel database", string);
+			logger.info("Inserimento della nuova irrigazione: {}", raccolto);
+			
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setString(1, raccolto);
 				
 				int rowsAffected = statement.executeUpdate();
 				
-				connection.commit();
-				
-				logger.info("Inserimento raccolto completato");
-			} catch (SQLException e) {
-				logger.error("Errore durante l'inserimento del raccolto: {}", string, e);
-				
-				if (connection != null) {
-					try {
-						connection.rollback();
-						
-						logger.info("Rollback eseguito a seguito di un errore");
-					} catch (SQLException ex) {
-						logger.error("Errore durante il rollback", ex);
-					}
+				if (rowsAffected > 0) {
+					logger.debug("Irrigazione '{}' aggiunta con successo.", raccolto);
+				} else {
+					logger.info("Nessun inserimento effettuato per l'irrigazione '{}'.", raccolto);
 				}
-				throw e;
 			}
-		} catch (SQLException e) {
-			logger.error("Errore durante la connessione al database", e);
 			
-			throw new RuntimeException("Errore durante la connessione al database", e);
+			connection.commit();
+		} catch (SQLException e) {
+			logger.error("Errore durante l'inserimento dell'irrigaizone '{}'", raccolto, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
+			
+			throw new RuntimeException("Errore durante l'inserimento dell'irrigazione", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
+					
+					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
-					logger.error("Errore durante la chiusura della connessione", e);
+					logger.error("Errore nella chiusura della connessione", e);
 				}
 			}
 		}
 	}
 	
 	
-	protected void deleteRaccolto(String nome) {
+	protected void deleteRaccolto(String raccolto) {
 		String query = """
 				DELETE FROM raccolto
 				WHERE nome = ? ;
 				""";
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setString(1, nome);
+		Connection connection = null;
+		
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
+			logger.info("Tentativo di eliminazione del raccolto: {}", raccolto);
+			
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setString(1, raccolto);
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					logger.debug("Raccolto '{}' eliminato con successo.", raccolto);
+				} else {
+					logger.info("Nessun raccolto trovato con nome '{}'.", raccolto);
+				}
+			}
+			
+			connection.commit();
 		} catch (SQLException e) {
-			return;
+			logger.error("Errore durante l'eliminazione del raccolto '{}'", raccolto, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
+			
+			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+					
+					logger.info("Connessione chiusa.");
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
 		}
 	}
 	
 	
 	protected HashSet<String> getEsigenze() {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<String> esigenze = new HashSet<>();
 		
 		String query = """
@@ -153,31 +175,24 @@ public class DaoUtils {
 				FROM esigenza;
 				""";
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query);
+		try (Connection connectionection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connectionection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
-			resultSetMetaData = resultSet.getMetaData();
-			columns = resultSetMetaData.getColumnCount();
-			list = new ArrayList<>();
 			
 			while (resultSet.next()) {
-				row = new HashMap<>(columns);
-				
-				for (int i = 1; i <= columns; ++ i) {
-					row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-				}
-				
-				list.add(row);
+				esigenze.add(resultSet.getString("nome"));
 			}
 			
-			for (HashMap<String, Object> map : list) {
-				esigenze.add((String) map.get("nome"));
+			if (! esigenze.isEmpty()) {
+				logger.info("Trovate {} esigenze", esigenze.size());
+			} else {
+				logger.info("Non sono stati trovtate esigenze");
 			}
+			
+			return esigenze;
 		} catch (SQLException e) {
-			return null;
+			return esigenze;
 		}
-		
-		return esigenze;
 	}
 	
 	
@@ -186,40 +201,110 @@ public class DaoUtils {
 				INSERT INTO esigenza (nome)
 				VALUES (?);
 				""";
+		Connection connection = null;
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setString(1, esigenza);
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
+			logger.info("Inserimento della nuova esigenza: {}", esigenza);
+			
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setString(1, esigenza);
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					logger.debug("Esigenza '{}' aggiunta con successo.", esigenza);
+				} else {
+					logger.info("Nessun inserimento effettuato per l'esigenza '{}'.", esigenza);
+				}
+			}
+			
+			connection.commit();
 		} catch (SQLException e) {
-			return;
+			logger.error("Errore durante l'inserimento dell'esigenza '{}'", esigenza, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
+			
+			throw new RuntimeException("Errore durante l'inserimento dell'esigenza", e);
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+					
+					logger.info("Connessione chiusa.");
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
 		}
 	}
 	
 	
-	protected void deleteEsigenza(String nome) {
+	protected void deleteEsigenza(String esigenza) {
 		String query = """
 				DELETE FROM esigenza
 				WHERE nome = ? ;
 				""";
+		Connection connection = null;
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setString(1, nome);
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
+			logger.info("Tentativo di eliminazione del esigenza: {}", esigenza);
+			
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setString(1, esigenza);
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					logger.debug("Raccolto '{}' eliminato con successo.", esigenza);
+				} else {
+					logger.info("Nessun esigenza trovato con nome '{}'.", esigenza);
+				}
+			}
+			
+			connection.commit();
 		} catch (SQLException e) {
-			return;
+			logger.error("Errore durante l'eliminazione del esigenza '{}'", esigenza, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
+			
+			throw new RuntimeException("Errore durante l'eliminazione del esigenza", e);
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+					
+					logger.info("Connessione chiusa.");
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
 		}
 	}
 	
 	
 	protected HashSet<String> getIrrigazioni() {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<String> irrigazioni = new HashSet<>();
 		
 		String query = """
@@ -227,74 +312,136 @@ public class DaoUtils {
 				FROM irrigazione;
 				""";
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query);
+		try (Connection connectionection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connectionection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
-			resultSetMetaData = resultSet.getMetaData();
-			columns = resultSetMetaData.getColumnCount();
-			list = new ArrayList<>();
 			
 			while (resultSet.next()) {
-				row = new HashMap<>(columns);
-				
-				for (int i = 1; i <= columns; ++ i) {
-					row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-				}
-				
-				list.add(row);
+				irrigazioni.add(resultSet.getString("nome"));
 			}
 			
-			for (HashMap<String, Object> map : list) {
-				irrigazioni.add((String) map.get("nome"));
+			if (! irrigazioni.isEmpty()) {
+				logger.info("Trovati {} raccolti", irrigazioni.size());
+			} else {
+				logger.info("Non sono stati trovtati raccolti");
 			}
+			
+			return irrigazioni;
 		} catch (SQLException e) {
-			return null;
+			return irrigazioni;
 		}
-		
-		return irrigazioni;
 	}
 	
 	
-	protected void addIrrigazione(String nome) {
-		String queryInsert = """
+	protected void addIrrigazione(String irrigazione) {
+		String query = """
 				INSERT INTO irrigazione (nome)
 				VALUES (?);
 				""";
+		Connection connection = null;
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(queryInsert)) {
-			statement.setString(1, nome);
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
+			logger.info("Inserimento della nuova irrigazione: {}", irrigazione);
+			
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setString(1, irrigazione);
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					logger.debug("Irrigazione '{}' aggiunta con successo.", irrigazione);
+				} else {
+					logger.info("Nessun inserimento effettuato per l'irrigazione '{}'.", irrigazione);
+				}
+			}
+			
+			connection.commit();
 		} catch (SQLException e) {
-			return;
+			logger.error("Errore durante l'inserimento dell'irrigaizone '{}'", irrigazione, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
+			
+			throw new RuntimeException("Errore durante l'inserimento dell'irrigazione", e);
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+					
+					logger.info("Connessione chiusa.");
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
 		}
 	}
 	
 	
-	protected void deleteIrrigazione(String nome) {
+	protected void deleteIrrigazione(String irrigazine) {
 		String query = """
 				DELETE FROM irrigazione
 				WHERE nome = ? ;
 				""";
+		Connection connection = null;
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setString(1, nome);
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
+			logger.info("Tentativo di eliminazione del raccolto: {}", irrigazine);
+			
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setString(1, irrigazine);
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					logger.debug("Raccolto '{}' eliminato con successo.", irrigazine);
+				} else {
+					logger.info("Nessun raccolto trovato con nome '{}'.", irrigazine);
+				}
+			}
+			
+			connection.commit();
 		} catch (SQLException e) {
-			return;
+			logger.error("Errore durante l'eliminazione del raccolto '{}'", irrigazine, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
+			
+			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+					
+					logger.info("Connessione chiusa.");
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
 		}
-		
 	}
 	
 	
 	protected HashSet<String> getSensorTypes() {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<String> types = new HashSet<>();
 		
 		String query = """
@@ -302,66 +449,132 @@ public class DaoUtils {
 				FROM sensor_type;
 				""";
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query);
+		try (Connection connectionection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connectionection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
-			resultSetMetaData = resultSet.getMetaData();
-			columns = resultSetMetaData.getColumnCount();
-			list = new ArrayList<>();
 			
 			while (resultSet.next()) {
-				row = new HashMap<>(columns);
-				
-				for (int i = 1; i <= columns; ++ i) {
-					row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-				}
-				
-				list.add(row);
+				types.add(resultSet.getString("type"));
 			}
 			
-			for (HashMap<String, Object> map : list) {
-				types.add((String) map.get("type"));
+			if (! types.isEmpty()) {
+				logger.info("Trovate {} tipologie di sensore", types.size());
+			} else {
+				logger.info("Non sono state trovtate tipologie di sensore");
 			}
+			
+			return types;
 		} catch (SQLException e) {
-			return null;
+			return types;
 		}
-		
-		return types;
 	}
 	
 	
-	protected void addSensorType(String nome) {
-		String queryInsert = """
+	protected void addSensorType(String tipologia) {
+		String query = """
 				INSERT INTO sensor_type (type)
 				VALUES (?);
 				""";
+		Connection connection = null;
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(queryInsert)) {
-			statement.setString(1, nome);
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
+			logger.info("Inserimento della nuova tipologia di sensore: {}", tipologia);
+			
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setString(1, tipologia);
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					logger.debug("Irrigazione '{}' aggiunta con successo.", tipologia);
+				} else {
+					logger.info("Nessun inserimento effettuato per l'irrigazione '{}'.", tipologia);
+				}
+			}
+			
+			connection.commit();
 		} catch (SQLException e) {
-			return;
+			logger.error("Errore durante l'inserimento dell'irrigaizone '{}'", tipologia, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
+			
+			throw new RuntimeException("Errore durante l'inserimento dell'irrigazione", e);
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+					
+					logger.info("Connessione chiusa.");
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
 		}
 	}
 	
 	
-	protected void deleteSensorType(String nome) {
+	protected void deleteSensorType(String type) {
 		String query = """
 				DELETE FROM sensor_type
 				WHERE type = ? ;
 				""";
+		Connection connection = null;
 		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setString(1, nome);
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
 			
-			statement.executeUpdate();
+			logger.info("Tentativo di eliminazione del raccolto: {}", type);
+			
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setString(1, type);
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					logger.debug("Raccolto '{}' eliminato con successo.", type);
+				} else {
+					logger.info("Nessun raccolto trovato con nome '{}'.", type);
+				}
+			}
+			
+			connection.commit();
 		} catch (SQLException e) {
-			return;
+			logger.error("Errore durante l'eliminazione del raccolto '{}'", type, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
+			
+			throw new RuntimeException("Errore durante l'eliminazione del type", e);
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+					
+					logger.info("Connessione chiusa.");
+				} catch (SQLException e) {
+					logger.error("Errore nella chiusura della connessione", e);
+				}
+			}
 		}
-		
 	}
 	
 	
@@ -374,14 +587,14 @@ public class DaoUtils {
 				WHERE role = ?;
 				""";
 		
-		try (Connection conn = DriverManager.getConnection(this.url);
-			 PreparedStatement pstmt = conn.prepareStatement(query)) {
-			ResultSet rs = pstmt.executeQuery();
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			ResultSet resultSet = statement.executeQuery();
 			
-			pstmt.setString(1, String.valueOf(userRole));
+			statement.setString(1, String.valueOf(userRole));
 			
-			if (rs.next()) {
-				count = rs.getInt("total");
+			if (resultSet.next()) {
+				count = resultSet.getInt("total");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -399,13 +612,14 @@ public class DaoUtils {
 				FROM raccolto;
 				""";
 		
-		try (Connection conn = DriverManager.getConnection(this.url);
-			 PreparedStatement pstmt = conn.prepareStatement(query)) {
-			ResultSet rs = pstmt.executeQuery();
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			ResultSet resultSet = statement.executeQuery();
 			
-			if (rs.next()) {
-				count = rs.getInt("total");
+			if (resultSet.next()) {
+				count = resultSet.getInt("total");
 			}
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -422,12 +636,12 @@ public class DaoUtils {
 				FROM esigenza;
 				""";
 		
-		try (Connection conn = DriverManager.getConnection(this.url);
-			 PreparedStatement pstmt = conn.prepareStatement(query)) {
-			ResultSet rs = pstmt.executeQuery();
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			ResultSet resultSet = statement.executeQuery();
 			
-			if (rs.next()) {
-				count = rs.getInt("total");
+			if (resultSet.next()) {
+				count = resultSet.getInt("total");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -445,12 +659,12 @@ public class DaoUtils {
 				FROM irrigazione;
 				""";
 		
-		try (Connection conn = DriverManager.getConnection(this.url);
-			 PreparedStatement pstmt = conn.prepareStatement(query)) {
-			ResultSet rs = pstmt.executeQuery();
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			ResultSet resultSet = statement.executeQuery();
 			
-			if (rs.next()) {
-				count = rs.getInt("total");
+			if (resultSet.next()) {
+				count = resultSet.getInt("total");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -468,12 +682,12 @@ public class DaoUtils {
 				FROM sensor_type;
 				""";
 		
-		try (Connection conn = DriverManager.getConnection(this.url);
-			 PreparedStatement pstmt = conn.prepareStatement(query)) {
-			ResultSet rs = pstmt.executeQuery();
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			ResultSet resultSet = statement.executeQuery();
 			
-			if (rs.next()) {
-				count = rs.getInt("total");
+			if (resultSet.next()) {
+				count = resultSet.getInt("total");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -491,12 +705,12 @@ public class DaoUtils {
 				FROM campo;
 				""";
 		
-		try (Connection conn = DriverManager.getConnection(this.url);
-			 PreparedStatement pstmt = conn.prepareStatement(query)) {
-			ResultSet rs = pstmt.executeQuery();
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			ResultSet resultSet = statement.executeQuery();
 			
-			if (rs.next()) {
-				count = rs.getInt("total");
+			if (resultSet.next()) {
+				count = resultSet.getInt("total");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -514,12 +728,12 @@ public class DaoUtils {
 				FROM campagna;
 				""";
 		
-		try (Connection conn = DriverManager.getConnection(this.url);
-			 PreparedStatement pstmt = conn.prepareStatement(query)) {
-			ResultSet rs = pstmt.executeQuery();
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			ResultSet resultSet = statement.executeQuery();
 			
-			if (rs.next()) {
-				count = rs.getInt("total");
+			if (resultSet.next()) {
+				count = resultSet.getInt("total");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -537,12 +751,12 @@ public class DaoUtils {
 				FROM azienda;
 				""";
 		
-		try (Connection conn = DriverManager.getConnection(this.url);
-			 PreparedStatement pstmt = conn.prepareStatement(query)) {
-			ResultSet rs = pstmt.executeQuery();
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			ResultSet resultSet = statement.executeQuery();
 			
-			if (rs.next()) {
-				count = rs.getInt("total");
+			if (resultSet.next()) {
+				count = resultSet.getInt("total");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -560,12 +774,12 @@ public class DaoUtils {
 				FROM bacino;
 				""";
 		
-		try (Connection conn = DriverManager.getConnection(this.url);
-			 PreparedStatement pstmt = conn.prepareStatement(query)) {
-			ResultSet rs = pstmt.executeQuery();
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			ResultSet resultSet = statement.executeQuery();
 			
-			if (rs.next()) {
-				count = rs.getInt("total");
+			if (resultSet.next()) {
+				count = resultSet.getInt("total");
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

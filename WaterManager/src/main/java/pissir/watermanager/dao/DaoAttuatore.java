@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Attuatore;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -25,16 +24,11 @@ public class DaoAttuatore {
 	
 	
 	protected DaoAttuatore() {
-	
 	}
 	
 	
-	protected Attuatore getAttuatoreId(int uuidAttuatore) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
+	protected Attuatore getAttuatoreId(int idAttuatore) {
 		Attuatore attuatore = null;
-		
 		String query = """
 				SELECT *
 				FROM attuatore
@@ -43,47 +37,37 @@ public class DaoAttuatore {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setLong(1, uuidAttuatore);
+			statement.setLong(1, idAttuatore);
 			
-			logger.info("Recupero dell'attuatore con ID {}", uuidAttuatore);
+			logger.info("Recupero dell'attuatore con ID {}", idAttuatore);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
-				while (resultSet.next()) {
-					row = new HashMap<>(columns);
+				if (resultSet.next()) {
+					attuatore = new Attuatore(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getInt("id_campo")
+					);
 					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					attuatore = new Attuatore((int) row.get("id"), (String) row.get("nome"), (int) row.get("id_campo"));
+					logger.info("Attuatore trovato: {}", attuatore.getNome());
+				} else {
+					logger.info("Nessun attuatore trovato con ID {}", idAttuatore);
 				}
-			}
-			
-			if (attuatore != null) {
-				logger.info("Attuatore trovato: {}", attuatore);
-			} else {
-				logger.warn("Nessun attuatore trovato con ID {}", uuidAttuatore);
+				
+				return attuatore;
 			}
 			
 		} catch (SQLException e) {
-			logger.error("Errore durante il recupero dell'attuatore con ID {}", uuidAttuatore, e);
+			logger.error("Errore durante il recupero dell'attuatore con ID {}", idAttuatore, e);
 			
-			return null;
+			return attuatore;
 		}
-		
-		return attuatore;
 	}
 	
 	
-	protected HashSet<Attuatore> getAttuatoriCampo(long uuidCampo) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
+	protected HashSet<Attuatore> getAttuatoriCampo(long idCampo) {
 		HashSet<Attuatore> attuatori = new HashSet<>();
+		Attuatore attuatore = null;
 		
 		String query = """
 				SELECT *
@@ -93,41 +77,34 @@ public class DaoAttuatore {
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setLong(1, uuidCampo);
+			statement.setLong(1, idCampo);
 			
-			logger.info("Recupero degli attuatori per il campo con ID {}", uuidCampo);
+			logger.info("Recupero degli attuatori per il campo con ID {}", idCampo);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					Attuatore attuatore =
-							new Attuatore((int) map.get("id"), (String) map.get("nome"), (int) map.get("id_campo"));
+					attuatore = new Attuatore(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getInt("id_campo")
+					);
 					
 					attuatori.add(attuatore);
 				}
 				
-				logger.info("Numero di attuatori trovati: {}", attuatori.size());
+				if (attuatori.isEmpty()) {
+					logger.info("Nessuna attuatore trovato per il campo con ID: {}", idCampo);
+				} else {
+					logger.info("Numero di attuatori trovati: {}", attuatori.size());
+				}
+				
+				return attuatori;
 			}
 		} catch (SQLException e) {
-			logger.error("Errore durante il recupero degli attuatori per il campo con ID {}", uuidCampo, e);
+			logger.error("Errore durante il recupero degli attuatori per il campo con ID {}", idCampo, e);
 			
-			return null;
+			return attuatori;
 		}
-		
-		return attuatori;
 	}
 	
 	
@@ -201,6 +178,7 @@ public class DaoAttuatore {
 				statement.setInt(1, id);
 				
 				int rowsAffected = statement.executeUpdate();
+				
 				if (rowsAffected > 0) {
 					logger.info("Attuatore con ID {} eliminato con successo", id);
 				} else {

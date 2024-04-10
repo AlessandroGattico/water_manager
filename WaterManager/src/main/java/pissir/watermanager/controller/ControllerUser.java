@@ -28,7 +28,7 @@ public class ControllerUser {
 	
 	private final DAO daoUser;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerUser.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerUser.class.getName());
 	
 	
 	@GetMapping(value = "/get/ga/{id}")

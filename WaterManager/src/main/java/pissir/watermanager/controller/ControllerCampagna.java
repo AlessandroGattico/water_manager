@@ -27,7 +27,7 @@ public class ControllerCampagna {
 	
 	private final DAO daoCampagna;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerCampagna.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerCampagna.class.getName());
 	
 	
 	@PostMapping(value = "/add")
@@ -58,16 +58,16 @@ public class ControllerCampagna {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		logger.info("Campagna | get | " + id);
+		logger.info("Campagna | get | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Campagna | get | " + id + " | concesso");
+			logger.info("Campagna | get | {} | concesso", id);
 			
 			Campagna campagna = this.daoCampagna.getCampagnaId(id);
 			
 			return gson.toJson(campagna);
 		} else {
-			logger.info("Campagna | get | " + id + " | negato");
+			logger.info("Campagna | get | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -80,16 +80,16 @@ public class ControllerCampagna {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		logger.info("Campagna | get | campagne azienda | " + id);
+		logger.info("Campagna | get | campagne azienda | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Campagna | get | campagne azienda | " + id + " | concesso");
+			logger.info("Campagna | get | campagne azienda | {} | concesso", id);
 			
 			HashSet<Campagna> campagne = this.daoCampagna.getCampagnaAzienda(id);
 			
 			return gson.toJson(campagne);
 		} else {
-			logger.info("Campagna | get | campagne azienda | " + id + " | negato");
+			logger.info("Campagna | get | campagne azienda | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -102,15 +102,15 @@ public class ControllerCampagna {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		logger.info("Campagna | elimina | " + id);
+		logger.info("Campagna | elimina | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Campagna | elimina | " + id + " | concesso");
+			logger.info("Campagna | elimina | {} | concesso", id);
 			
 			this.daoCampagna.deleteCampagna(id);
 			return gson.toJson("OK");
 		} else {
-			logger.info("Campagna | elimina | " + id + " | negato");
+			logger.info("Campagna | elimina | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}

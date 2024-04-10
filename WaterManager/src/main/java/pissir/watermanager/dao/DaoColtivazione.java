@@ -3,12 +3,9 @@ package pissir.watermanager.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.item.Coltivazione;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -30,9 +27,6 @@ public class DaoColtivazione {
 	
 	
 	protected Coltivazione getColtivazioneId(int idColtivazione) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		Coltivazione coltivazione = null;
 		
 		String query = """
@@ -49,42 +43,36 @@ public class DaoColtivazione {
 			logger.info("Esecuzione della query per ottenere la coltivazione con ID: {}", idColtivazione);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					coltivazione = new Coltivazione((int) row.get("id"), (String) row.get("raccolto"),
-							(String) row.get("irrigazione"), (String) row.get("esigenza"),
-							(Double) row.get("temperatura"), (Double) row.get("umidita"), (String) row.get("semina"),
-							(int) row.get("id_campo"));
+					coltivazione = new Coltivazione(
+							resultSet.getInt("id"),
+							resultSet.getString("raccolto"),
+							resultSet.getString("irrigazione"),
+							resultSet.getString("esigenza"),
+							resultSet.getDouble("temperatura"),
+							resultSet.getDouble("umidita"),
+							resultSet.getString("semina"),
+							resultSet.getInt("id_campo")
+					);
 					
 					logger.debug("Trovata coltivazione: {}", coltivazione.getRaccolto());
 				} else {
 					logger.info("Nessuna coltivazione trovata con ID: {}", idColtivazione);
 				}
+				
+				return coltivazione;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero della coltivazione con ID: {}", idColtivazione, e);
 			
-			return null;
+			return coltivazione;
 		}
-		
-		return coltivazione;
 	}
 	
 	
 	protected HashSet<Coltivazione> getColtivazioniCampo(int idCampo) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<Coltivazione> coltivazioni = new HashSet<>();
+		Coltivazione coltivazione = null;
 		
 		String query = """
 				SELECT *
@@ -100,44 +88,34 @@ public class DaoColtivazione {
 			logger.info("Esecuzione della query per ottenere le coltivazioni del campo con ID: {}", idCampo);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
+					coltivazione = new Coltivazione(
+							resultSet.getInt("id"),
+							resultSet.getString("raccolto"),
+							resultSet.getString("irrigazione"),
+							resultSet.getString("esigenza"),
+							resultSet.getDouble("temperatura"),
+							resultSet.getDouble("umidita"),
+							resultSet.getString("semina"),
+							resultSet.getInt("id_campo")
+					);
 					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
+					coltivazioni.add(coltivazione);
 				}
 				
-				if (! list.isEmpty()) {
-					for (HashMap<String, Object> hash : list) {
-						Coltivazione coltivazione =
-								new Coltivazione((int) hash.get("id"), (String) hash.get("raccolto"),
-										(String) hash.get("irrigazione"), (String) hash.get("esigenza"),
-										(Double) hash.get("temperatura"), (Double) hash.get("umidita"),
-										(String) hash.get("semina"),
-										(int) hash.get("id_campo"));
-						
-						coltivazioni.add(coltivazione);
-						logger.debug("Trovata coltivazione: {}", coltivazione.getRaccolto());
-					}
-					logger.debug("Trovate {} coltivazioni per il campo con ID: {}", coltivazioni.size(), idCampo);
-				} else {
+				if (coltivazioni.isEmpty()) {
 					logger.info("Nessuna coltivazione trovata per il campo con ID: {}", idCampo);
+				} else {
+					logger.debug("Trovate {} coltivazione per il campo con ID: {}", coltivazione.getRaccolto());
 				}
+				
+				return coltivazioni;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero delle coltivazioni per il campo con ID: {}", idCampo, e);
 			
-			return null;
+			return coltivazioni;
 		}
-		
-		return coltivazioni;
 	}
 	
 	
@@ -238,6 +216,7 @@ public class DaoColtivazione {
 			try {
 				if (connection != null) {
 					connection.rollback();
+					
 					logger.info("Eseguito rollback a seguito di un errore");
 				}
 			} catch (SQLException ex) {

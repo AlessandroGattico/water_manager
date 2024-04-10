@@ -27,7 +27,7 @@ public class ControllerColtivazione {
 	
 	private final DAO daoColtivazione;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerColtivazione.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerColtivazione.class.getName());
 	
 	
 	@PostMapping(value = "/add")

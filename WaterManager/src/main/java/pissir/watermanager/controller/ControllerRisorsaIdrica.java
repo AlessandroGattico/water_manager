@@ -27,7 +27,7 @@ public class ControllerRisorsaIdrica {
 	
 	private final DAO dao;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerRisorsaIdrica.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerRisorsaIdrica.class.getName());
 	
 	
 	@GetMapping(value = "/azienda/get/{id}")

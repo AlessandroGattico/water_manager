@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Approvazione;
 
 import java.sql.*;
-import java.util.HashSet;
 
 /**
  * @author Almasio Luca
@@ -22,13 +21,12 @@ public class DaoApprovazione {
 	private static final Logger logger = LogManager.getLogger(DaoApprovazione.class.getName());
 	
 	
-	public DaoApprovazione() {
+	protected DaoApprovazione() {
 	}
 	
 	
 	protected Approvazione getApprovazioneIdRichiesta(int idRichiesta) {
 		Approvazione approvazione = null;
-		
 		String query = """
 				SELECT *
 				FROM approvazione
@@ -43,61 +41,28 @@ public class DaoApprovazione {
 			logger.info("Estrazione approvazione con ID richiesta: {}", idRichiesta);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				
 				if (resultSet.next()) {
-					approvazione = new Approvazione(resultSet.getInt("id"), resultSet.getInt("id_richiesta"),
-							resultSet.getInt("id_gestore"), resultSet.getBoolean("approvato"),
-							resultSet.getString("date"));
+					approvazione = new Approvazione(
+							resultSet.getInt("id"),
+							resultSet.getInt("id_richiesta"),
+							resultSet.getInt("id_gestore"),
+							resultSet.getBoolean("approvato"),
+							resultSet.getString("date")
+					);
 					
 					logger.debug("Trovata approvazione: {} per la richiesta con ID: {}", approvazione.getId(),
 							idRichiesta);
 				} else {
 					logger.info("Nessuna approvazione trovata per la richiesta con ID: {}", idRichiesta);
 				}
+				
+				return approvazione;
 			}
-			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero dell'approvazione per la richiesta con ID: {}", idRichiesta, e);
-			return null;
+			
+			return approvazione;
 		}
-		
-		return approvazione;
-	}
-	
-	
-	protected HashSet<Approvazione> getApprovazioniGestore(int idGestore) {
-		HashSet<Approvazione> approvazioni = new HashSet<>();
-		String query = """
-				SELECT *
-				FROM approvazione
-				WHERE id_gestore = ? ;
-				""";
-		
-		try (Connection connection = DriverManager.getConnection(this.url);
-			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			statement.setInt(1, idGestore);
-			logger.info("Esecuzione della query per trovare le approvazioni del gestore con ID: {}", idGestore);
-			
-			try (ResultSet resultSet = statement.executeQuery()) {
-				while (resultSet.next()) {
-					Approvazione approvazione =
-							new Approvazione(resultSet.getInt("id"), resultSet.getInt("id_richiesta"),
-									resultSet.getInt("id_gestore"), resultSet.getBoolean("approvato"),
-									resultSet.getString("date"));
-					
-					approvazioni.add(approvazione);
-				}
-				logger.debug("Trovate {} approvazioni per il gestore con ID: {}", approvazioni.size(), idGestore);
-			}
-			
-		} catch (SQLException e) {
-			logger.error("Errore durante il recupero delle approvazioni per il gestore con ID: {}", idGestore, e);
-			
-			return null;
-		}
-		
-		return approvazioni;
 	}
 	
 	
@@ -124,13 +89,13 @@ public class DaoApprovazione {
 				try (ResultSet resultSet = statement.getGeneratedKeys()) {
 					if (resultSet.next()) {
 						id = resultSet.getInt(1);
+						
 						logger.info("Approvazione inserita con ID: {}", id);
 					}
 				}
 			}
-			connection.commit();
 			
-			logger.info("Approvazione inserita con ID: {}", id);
+			connection.commit();
 		} catch (Exception e) {
 			logger.error("Errore durante la connessione al database per aggiungere l'approvazione", e);
 			
@@ -158,45 +123,54 @@ public class DaoApprovazione {
 	
 	
 	public void deleteApprovazione(int idApprovazione) {
+		Connection connection = null;
+		
 		String query = """
 				DELETE FROM approvazione
 				WHERE id = ? ;
 				""";
 		
-		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
-			logger.info("Inizio cancellazione dell'approvazione con ID {}", idApprovazione);
+			logger.info("Tentativo di eliminazione del raccolto: {}", idApprovazione);
 			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setInt(1, idApprovazione);
 				
-				int affectedRows = statement.executeUpdate();
+				int rowsAffected = statement.executeUpdate();
 				
-				
-				connection.commit();
-				
-				logger.info("Cancellazione dell'approvazione con ID {} completata con successo ",
-						idApprovazione);
-			} catch (SQLException e) {
-				connection.rollback();
-				
-				logger.error("Errore durante la cancellazione dell'approvazione, rollback effettuato", e);
-				
-				throw e;
+				if (rowsAffected > 0) {
+					logger.debug("Raccolto '{}' eliminato con successo.", idApprovazione);
+				} else {
+					logger.info("Nessun raccolto trovato con nome '{}'.", idApprovazione);
+				}
 			}
-		} catch (Exception e) {
-			logger.error("Errore durante l'apertura della connessione per la cancellazione dell'approvazione", e);
 			
-			throw new RuntimeException("Errore durante la cancellazione dell'approvazione", e);
+			connection.commit();
+		} catch (SQLException e) {
+			logger.error("Errore durante l'eliminazione del raccolto '{}'", idApprovazione, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+					
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
+			
+			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
+					
+					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
-					logger.error("Errore durante la chiusura della connessione", e);
+					logger.error("Errore nella chiusura della connessione", e);
 				}
 			}
 		}

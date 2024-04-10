@@ -99,6 +99,17 @@ public class DAO {
 	}
 	
 	
+	public HashSet<UserProfile> getUsers() {
+		return this.daoUser.getUtenti();
+	}
+	
+	
+	public void disableUser(int idUser) {
+		UserProfile user = this.daoUser.getUser(idUser);
+		this.daoUser.updateUserStatus(idUser, ! user.isEnabled());
+	}
+	
+	
 	public GestoreAzienda getGestoreAzienda(int id) {
 		GestoreAzienda gestoreAzienda = this.daoUser.getGestoreAzienda(id);
 		
@@ -661,11 +672,6 @@ public class DAO {
 	}
 	
 	
-	public HashSet<Approvazione> getApprovazioniGestore(int idGestore) {
-		return this.daoApprovazione.getApprovazioniGestore(idGestore);
-	}
-	
-	
 	public void addApprovazione(Approvazione approvazione) {
 		RichiestaIdrica richiesta = this.daoRichieste.getRichiestaId(approvazione.getIdRichiesta());
 		RisorsaIdrica risorsa = new RisorsaIdrica();
@@ -675,13 +681,18 @@ public class DAO {
 		RisorsaIdrica newAzienda = new RisorsaIdrica();
 		
 		newAzienda.setData(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
+		newAzienda.setConsumo(lastAzienda.getConsumo());
+		newAzienda.setDisponibilita(lastAzienda.getDisponibilita() + richiesta.getQuantita());
+		newAzienda.setIdSource(lastAzienda.getIdSource());
 		
 		risorsa.setData(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")));
 		risorsa.setConsumo(lastBacino.getConsumo() + richiesta.getQuantita());
 		risorsa.setDisponibilita(lastBacino.getDisponibilita() - richiesta.getQuantita());
 		risorsa.setIdSource(richiesta.getIdBacino());
 		
+		
 		this.daoRisorseBacino.addRisorsaBacino(risorsa);
+		this.daoRisorseAzienda.addRisorsaAzienda(newAzienda);
 		
 		this.daoApprovazione.addApprovazione(approvazione);
 	}

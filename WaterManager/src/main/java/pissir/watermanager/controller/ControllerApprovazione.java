@@ -12,8 +12,6 @@ import pissir.watermanager.model.item.Approvazione;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
 
-import java.util.HashSet;
-
 /**
  * @author Almasio Luca
  * @author Borova Dritan
@@ -25,7 +23,7 @@ import java.util.HashSet;
 @RequiredArgsConstructor
 public class ControllerApprovazione {
 	
-	public static final Logger logger = LogManager.getLogger(ControllerApprovazione.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerApprovazione.class.getName());
 	private final DAO daoApprovazione;
 	private final TokenService tokenService;
 	
@@ -36,40 +34,18 @@ public class ControllerApprovazione {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		logger.info("Approvazione | get | " + id);
+		logger.info("Approvazione | get | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt,
 				UserRole.GESTOREIDRICO) || this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Approvazione | get | " + id + " | concesso");
+			logger.info("Approvazione | get | {} | concesso", id);
 			
 			Approvazione approvazione = this.daoApprovazione.getApprovazioneId(id);
 			
 			return gson.toJson(approvazione);
 			
 		} else {
-			logger.info("Approvazione | get | " + id + " | negato");
-			
-			return gson.toJson("Accesso negato");
-		}
-	}
-	
-	
-	@GetMapping(value = "/getGestore/{id}")
-	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
-	public String getApprovazioniGestore(@PathVariable int id, HttpServletRequest request) {
-		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
-		
-		logger.info("Approvazione | get | approvazioni gestore | " + id);
-		
-		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			logger.info("Approvazione | get | approvazioni gestore | " + id + " | concesso");
-			
-			HashSet<Approvazione> approvazioni = this.daoApprovazione.getApprovazioniGestore(id);
-			
-			return gson.toJson(approvazioni);
-		} else {
-			logger.info("Approvazione | get | approvazioni gestore | " + id + " | negato");
+			logger.info("Approvazione | get | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -106,23 +82,20 @@ public class ControllerApprovazione {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		logger.info("Approvazione | elimina | " + id);
+		logger.info("Approvazione | elimina | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			logger.info("Approvazione | elimina | " + id + " | concesso");
+			logger.info("Approvazione | elimina | {} | concesso", id);
 			
 			this.daoApprovazione.deleteApprovazione(id);
 			
 			return gson.toJson("OK");
 		} else {
-			logger.info("Approvazione | elimina | " + id + " | negato");
+			logger.info("Approvazione | elimina | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}
 	}
-	
-	
-	
 	
 	
 	private String extractTokenFromRequest(HttpServletRequest request) {

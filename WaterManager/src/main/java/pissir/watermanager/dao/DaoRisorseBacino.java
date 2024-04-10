@@ -3,11 +3,9 @@ package pissir.watermanager.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.item.RisorsaIdrica;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -30,9 +28,6 @@ public class DaoRisorseBacino {
 	
 	
 	protected RisorsaIdrica getRisorsaBacinoId(int idRisorsa) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		RisorsaIdrica risorsaIdrica = null;
 		
 		String query = """
@@ -49,46 +44,33 @@ public class DaoRisorseBacino {
 			logger.info("Esecuzione della query per ottenere la risorsa idrica del bacino con ID: {}", idRisorsa);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
 					risorsaIdrica = new RisorsaIdrica(
-							(int) row.get("id"),
-							(String) row.get("time"),
-							(Double) row.get("disponibilita"),
-							(Double) row.get("consumo"),
-							(int) row.get("id_bacino")
+							resultSet.getInt("id"),
+							resultSet.getString("time"),
+							resultSet.getDouble("disponibilita"),
+							resultSet.getDouble("consumo"),
+							resultSet.getInt("id_bacino")
 					);
 					
-					logger.debug("Trovata risorsa idrica del bacino: {}", risorsaIdrica);
+					logger.debug("Trovata risorsa idrica del bacino: {}", idRisorsa);
 				} else {
 					logger.info("Nessuna risorsa idrica del bacino trovata con ID: {}", idRisorsa);
 				}
+				
+				return risorsaIdrica;
 			}
-			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero della risorsa idrica del bacino con ID: {}", idRisorsa, e);
 			
-			return null;
+			return risorsaIdrica;
 		}
-		
-		return risorsaIdrica;
 	}
 	
 	
 	protected HashSet<RisorsaIdrica> getStoricoRisorseBacino(int idBacino) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<RisorsaIdrica> risorse = new HashSet<>();
+		RisorsaIdrica risorsaIdrica = null;
 		
 		String query = """
 				SELECT *
@@ -105,45 +87,31 @@ public class DaoRisorseBacino {
 					idBacino);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				if (list.isEmpty()) {
-					logger.info("Nessuna risorsa idrica trovata per il bacino con ID: {}", idBacino);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					RisorsaIdrica risorsaIdrica = new RisorsaIdrica(
-							(int) map.get("id"),
-							(String) map.get("time"),
-							(Double) map.get("disponibilita"),
-							(Double) map.get("consumo"),
-							(int) map.get("id_bacino")
+					risorsaIdrica = new RisorsaIdrica(
+							resultSet.getInt("id"),
+							resultSet.getString("time"),
+							resultSet.getDouble("disponibilita"),
+							resultSet.getDouble("consumo"),
+							resultSet.getInt("id_bacino")
 					);
 					
 					risorse.add(risorsaIdrica);
-					logger.debug("Aggiunta risorsa idrica: {}", risorsaIdrica);
 				}
+				
+				if (risorse.isEmpty()) {
+					logger.info("Nessuna risorsa idrica trovata per il bacino con ID: {}", idBacino);
+				} else {
+					logger.info("Trovate {} risorse idrica per il bacino con ID: {}", risorse.size(), idBacino);
+				}
+				
+				return risorse;
 			}
-			
 		} catch (SQLException e) {
 			logger.error("Errore durante la raccolta dello storico delle risorse idriche per il bacino con ID: {}",
 					idBacino, e);
-			return null;
+			return risorse;
 		}
-		
-		return risorse;
 	}
 	
 	
@@ -222,6 +190,7 @@ public class DaoRisorseBacino {
 				statement.setLong(1, id);
 				
 				int affectedRows = statement.executeUpdate();
+				
 				if (affectedRows > 0) {
 					logger.info("Risorsa idrica con ID {} eliminata", id);
 				} else {
@@ -252,10 +221,7 @@ public class DaoRisorseBacino {
 	
 	
 	protected RisorsaIdrica ultimaRisorsa(int idBacino) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
-		RisorsaIdrica risorsa = null;
+		RisorsaIdrica risorsaIdrica = null;
 		
 		String query = """
 				SELECT * FROM risorsa_bacino
@@ -271,33 +237,28 @@ public class DaoRisorseBacino {
 			logger.info("Esecuzione della query per ottenere l'ultima risorsa idrica del bacino con ID {}", idBacino);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
+					risorsaIdrica = new RisorsaIdrica(
+							resultSet.getInt("id"),
+							resultSet.getString("time"),
+							resultSet.getDouble("disponibilita"),
+							resultSet.getDouble("consumo"),
+							resultSet.getInt("id_bacino")
+					);
 					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					risorsa = new RisorsaIdrica((int) row.get("id"), (String) row.get("time"),
-							(Double) row.get("disponibilita"), (Double) row.get("consumo"),
-							(int) row.get("id_bacino"));
-					
-					logger.debug("Trovata ultima risorsa idrica per il bacino con ID {}", idBacino);
+					logger.debug("Trovata risorsa idrica del bacino: {}", idBacino);
 				} else {
-					logger.info("Nessuna risorsa idrica trovata per il bacino con ID {}", idBacino);
+					logger.info("Nessuna risorsa idrica del bacino trovata con ID: {}", idBacino);
 				}
+				
+				return risorsaIdrica;
 			}
 			
 		} catch (SQLException e) {
 			logger.error("Errore durante la ricerca dell'ultima risorsa idrica per il bacino con ID {}", idBacino, e);
 			
-			return null;
+			return risorsaIdrica;
 		}
-		
-		return risorsa;
 	}
 	
 	

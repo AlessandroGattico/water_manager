@@ -1,5 +1,7 @@
 package org.example.mqtt.publisher;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.*;
 
 import java.nio.charset.StandardCharsets;
@@ -14,6 +16,7 @@ public class Publisher {
 	
 	private final String url = "tcp://127.0.0.1:1883";
 	private MqttClient client;
+	private static final Logger logger = LogManager.getLogger(Publisher.class.getName());
 	
 	
 	public Publisher() {
@@ -29,6 +32,8 @@ public class Publisher {
 			options.setPassword(pwd);
 			options.setCleanSession(false);
 			
+			logger.info("Creating publisher: username={}", options.getUserName());
+			
 			options.setWill(this.client.getTopic("home/LWT"), "I'm gone. Bye.".getBytes(), 0, false);
 			
 			this.client.connect(options);
@@ -40,6 +45,9 @@ public class Publisher {
 	
 	public void publish(String topic, String message) throws MqttException {
 		MqttTopic publisherTopic = this.client.getTopic(topic);
+		
+		logger.info("Publishing on topic: {}, message: {}", topic, message);
+		
 		publisherTopic.publish(new MqttMessage(message.getBytes(StandardCharsets.UTF_8)));
 	}
 	

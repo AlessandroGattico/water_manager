@@ -27,7 +27,7 @@ public class ControllerMisura {
 	
 	private final DAO daoMisura;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerMisura.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerMisura.class.getName());
 	
 	
 	@PostMapping(value = "/add")
@@ -75,7 +75,6 @@ public class ControllerMisura {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String deleteMisura(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		
 		String jwt = extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {

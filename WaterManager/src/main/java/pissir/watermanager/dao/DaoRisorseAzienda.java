@@ -3,12 +3,9 @@ package pissir.watermanager.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.item.RisorsaIdrica;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -30,9 +27,6 @@ public class DaoRisorseAzienda {
 	
 	
 	protected RisorsaIdrica getRisorsaAziendaId(int idRisorsa) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		RisorsaIdrica risorsaIdrica = null;
 		
 		String query = """
@@ -48,42 +42,34 @@ public class DaoRisorseAzienda {
 			logger.info("Esecuzione della query per ottenere la risorsa idrica aziendale con ID: {}", idRisorsa);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
 				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
 					risorsaIdrica = new RisorsaIdrica(
-							(int) row.get("id"), (String) row.get("time"),
-							(Double) row.get("disponibilita"), (Double) row.get("consumo"),
-							(int) row.get("id_azienda"));
+							resultSet.getInt("id"),
+							resultSet.getString("time"),
+							resultSet.getDouble("disponibilita"),
+							resultSet.getDouble("consumo"),
+							resultSet.getInt("id_azienda")
+					);
 					
+					logger.debug("Trovata risorsa idrica: {}", idRisorsa);
 				} else {
 					logger.info("Nessuna risorsa idrica aziendale trovata con ID: {}", idRisorsa);
 				}
+				
+				return risorsaIdrica;
 			}
-			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero della risorsa idrica aziendale con ID: {}", idRisorsa, e);
 			
-			return null;
+			return risorsaIdrica;
 		}
-		
-		return risorsaIdrica;
 	}
 	
 	
 	protected HashSet<RisorsaIdrica> getStoricoRisorseAzienda(int idAzienda) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<RisorsaIdrica> risorse = new HashSet<>();
+		RisorsaIdrica risorsaIdrica = null;
 		
 		String query = """
 				SELECT *
@@ -100,38 +86,34 @@ public class DaoRisorseAzienda {
 					idAzienda);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					RisorsaIdrica risorsaIdrica = new RisorsaIdrica(
-							(int) map.get("id"), (String) map.get("time"),
-							(Double) map.get("disponibilita"), (Double) map.get("consumo"),
-							(int) map.get("id_azienda"));
+					risorsaIdrica = new RisorsaIdrica(
+							resultSet.getInt("id"),
+							resultSet.getString("time"),
+							resultSet.getDouble("disponibilita"),
+							resultSet.getDouble("consumo"),
+							resultSet.getInt("id_azienda")
+					);
 					
 					risorse.add(risorsaIdrica);
 				}
+				
+				if (risorse.isEmpty()) {
+					logger.info("Nessuna risorsa idrica trovata per l'azienda con ID: {}", idAzienda);
+				} else {
+					logger.debug("Risorse idriche trovate per l'azienda con ID {}: {}", idAzienda,
+							risorse.size());
+				}
+				
+				return risorse;
 			}
 			
 		} catch (SQLException e) {
-			logger.error("Errore durante il recupero dello storico delle risorse idriche aziendali con ID azienda: {}",
-					idAzienda, e);
+			logger.error("Errore durante il recupero dello storico delle risorse idriche dell'azienda con ID:" +
+					" {}", idAzienda, e);
 			
-			return null;
+			return risorse;
 		}
-		
-		return risorse;
 	}
 	
 	
@@ -245,9 +227,6 @@ public class DaoRisorseAzienda {
 	
 	
 	protected RisorsaIdrica ultimaRisorsa(int idAzienda) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		RisorsaIdrica risorsa = null;
 		
 		String query = """
@@ -265,21 +244,13 @@ public class DaoRisorseAzienda {
 					idAzienda);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
 				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
 					risorsa = new RisorsaIdrica(
-							(int) row.get("id"),
-							(String) row.get("time"),
-							(Double) row.get("disponibilita"),
-							(Double) row.get("consumo"),
+							resultSet.getInt("id"),
+							resultSet.getString("time"),
+							resultSet.getDouble("disponibilita"),
+							resultSet.getDouble("consumo"),
 							idAzienda
 					);
 					
@@ -287,16 +258,15 @@ public class DaoRisorseAzienda {
 				} else {
 					logger.info("Nessuna risorsa idrica aziendale trovata per l'ID azienda: {}", idAzienda);
 				}
+				
+				return risorsa;
 			}
-			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero dell'ultima risorsa idrica aziendale per l'ID azienda: {}",
 					idAzienda, e);
 			
-			return null;
+			return risorsa;
 		}
-		
-		return risorsa;
 	}
 	
 	

@@ -27,7 +27,7 @@ public class ControllerRichiestaIdrica {
 	
 	private final DAO daoRichieste;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerRichiestaIdrica.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerRichiestaIdrica.class.getName());
 	
 	
 	@PostMapping(value = "/add")

@@ -29,7 +29,7 @@ public class UtilsController {
 	
 	private final DAO dao;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(UtilsController.class.getName());
+	private static final Logger logger = LogManager.getLogger(UtilsController.class.getName());
 	
 	
 	@GetMapping(value = "/topics/get/all")

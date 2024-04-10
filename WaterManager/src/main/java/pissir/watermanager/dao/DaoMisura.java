@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Misura;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -29,9 +27,6 @@ public class DaoMisura {
 	
 	
 	protected Misura getMisuraId(int idMisura) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		Misura misura = null;
 		
 		String query = """
@@ -47,29 +42,26 @@ public class DaoMisura {
 			logger.info("Esecuzione della query per ottenere la misura con ID: {}", idMisura);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					misura = new Misura((int) row.get("id"), (Double) row.get("value"), (String) row.get("time"),
-							(int) row.get("id_sensore"));
+					misura = new Misura(
+							resultSet.getInt("id"),
+							resultSet.getDouble("value"),
+							resultSet.getString("time"),
+							resultSet.getInt("id_sensore")
+					);
 					
 					logger.debug("Trovata misura: ID {} con valore {}", misura.getId(), misura.getValue());
 				} else {
 					logger.info("Nessuna misura trovata con ID: {}", idMisura);
+					
+					return misura;
 				}
 			}
 			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero della misura con ID: {}", idMisura, e);
 			
-			return null;
+			return misura;
 		}
 		
 		return misura;
@@ -77,11 +69,8 @@ public class DaoMisura {
 	
 	
 	protected HashSet<Misura> getMisureSensore(int idSensore) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<Misura> misure = new HashSet<>();
+		Misura misura = null;
 		
 		String query = """
 				SELECT *
@@ -96,34 +85,29 @@ public class DaoMisura {
 			logger.info("Esecuzione della query per ottenere le misure del sensore con ID: {}", idSensore);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					Misura misura = new Misura((int) row.get("id"), (Double) row.get("value"),
-							(String) row.get("time"), (int) row.get("id_sensore"));
+					misura = new Misura(
+							resultSet.getInt("id"),
+							resultSet.getDouble("value"),
+							resultSet.getString("time"),
+							resultSet.getInt("id_sensore")
+					);
 					
 					misure.add(misura);
 				}
 				
 				if (misure.isEmpty()) {
 					logger.info("Nessuna misura trovata per il sensore con ID: {}", idSensore);
+				} else {
+					logger.info("Trovate {} misure per il sensore con ID: {}", misure.size(), idSensore);
 				}
+				return misure;
 			}
-			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero delle misure per il sensore con ID: {}", idSensore, e);
 			
-			return null;
+			return misure;
 		}
-		
-		return misure;
 	}
 	
 	
@@ -179,6 +163,7 @@ public class DaoMisura {
 				""";
 		
 		Connection connection = null;
+		
 		try {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
@@ -197,21 +182,23 @@ public class DaoMisura {
 				connection.commit();
 			}
 		} catch (SQLException e) {
+			logger.error("Errore durante l'eliminazione della coltivazione con ID: {}", idMisura, e);
+			
 			try {
 				if (connection != null) {
 					connection.rollback();
+					
+					logger.info("Eseguito rollback a seguito di un errore");
 				}
-				
-				logger.error("Errore durante l'eliminazione della misura con ID {}", idMisura, e);
 			} catch (SQLException ex) {
-				logger.error("Errore durante il rollback", ex);
+				logger.error("Errore durante il rollback dell'eliminazione della coltivazione", ex);
 			}
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					logger.error("Errore durante la chiusura della connessione", e);
+					logger.error("Errore durante la chiusura della connessione al database", e);
 				}
 			}
 		}

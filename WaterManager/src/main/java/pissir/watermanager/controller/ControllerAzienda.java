@@ -25,7 +25,7 @@ public class ControllerAzienda {
 	
 	private final DAO daoAzienda;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAzienda.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerAzienda.class.getName());
 	
 	
 	@PostMapping(value = "/add")
@@ -56,10 +56,10 @@ public class ControllerAzienda {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		logger.info("Azienda | get | " + id);
+		logger.info("Azienda | get | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Azienda | get | " + id + " | concesso");
+			logger.info("Azienda | get | {} | concesso", id);
 			
 			Azienda azienda = this.daoAzienda.getAziendaId(id);
 			
@@ -69,7 +69,7 @@ public class ControllerAzienda {
 				return null;
 			}
 		} else {
-			logger.info("Azienda | get | " + id + " | negato");
+			logger.info("Azienda | get | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -82,10 +82,10 @@ public class ControllerAzienda {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		logger.info("Azienda | get | azienda gestore | " + id + " | concesso");
+		logger.info("Azienda | get | azienda gestore | {} | concesso", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Azienda | get | azienda gestore | " + id + " | concesso");
+			logger.info("Azienda | get | azienda gestore | {} | concesso", id);
 			
 			Azienda azienda = this.daoAzienda.getAziendaGestore(id);
 			
@@ -95,7 +95,7 @@ public class ControllerAzienda {
 				return null;
 			}
 		} else {
-			logger.info("Azienda | get | azienda gestore | " + id + " | concesso");
+			logger.info("Azienda | get | azienda gestore | {} | concesso", id);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -108,16 +108,16 @@ public class ControllerAzienda {
 		Gson gson = new Gson();
 		String jwt = extractTokenFromRequest(request);
 		
-		logger.info("Azienda | elimina | " + id);
+		logger.info("Azienda | elimina | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Azienda | elimina | " + id + " | concesso");
+			logger.info("Azienda | elimina | {} | concesso", id);
 			
 			this.daoAzienda.deleteAzienda(id);
 			
 			return gson.toJson("OK");
 		} else {
-			logger.info("Azienda | elimina | " + id + " | negato");
+			logger.info("Azienda | elimina | {} | negato", id);
 			
 			return "Accesso negato";
 		}

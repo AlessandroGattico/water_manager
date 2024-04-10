@@ -3,12 +3,9 @@ package pissir.watermanager.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.item.Sensore;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -30,9 +27,6 @@ public class DaoSensore {
 	
 	
 	protected Sensore getSensoreId(int id) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		Sensore sensore = null;
 		
 		String query = """
@@ -48,41 +42,32 @@ public class DaoSensore {
 			logger.info("Esecuzione della query per ottenere il sensore con ID {}", id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					sensore = new Sensore((int) row.get("id"), (String) row.get("nome"),
-							(String) row.get("type"), (int) row.get("id_campo"));
+					sensore = new Sensore(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getString("type"),
+							resultSet.getInt("id_campo")
+					);
 					
 					logger.debug("Trovato sensore: {}", sensore.getNome());
 				} else {
 					logger.info("Nessun sensore trovato con ID {}", id);
 				}
+				
+				return sensore;
 			}
-			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero del sensore con ID {}", id, e);
 			
-			return null;
+			return sensore;
 		}
-		
-		return sensore;
 	}
 	
 	
 	protected HashSet<Sensore> getSensoriCampo(int idCampo) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<Sensore> sensori = new HashSet<>();
+		Sensore sensore = null;
 		
 		String query = """
 				SELECT *
@@ -97,37 +82,30 @@ public class DaoSensore {
 			logger.info("Esecuzione della query per ottenere i sensori del campo con ID {}", idCampo);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					Sensore sensore = new Sensore((int) map.get("id"), (String) map.get("nome"),
-							(String) map.get("type"), (int) map.get("id_campo"));
+					sensore = new Sensore(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getString("type"),
+							resultSet.getInt("id_campo")
+					);
 					
 					sensori.add(sensore);
 				}
 				
-				logger.debug("Trovati {} sensori per il campo con ID {}", sensori.size(), idCampo);
+				if (sensori.isEmpty()) {
+					logger.debug("Nessun sensore trovato per il campo con ID: {}", idCampo);
+				} else {
+					logger.debug("Trovati {} sensori per il campo con ID {}", sensori.size(), idCampo);
+				}
+				
+				return sensori;
 			}
-			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero dei sensori per il campo con ID {}", idCampo, e);
 			
-			return null;
+			return sensori;
 		}
-		
-		return sensori;
 	}
 	
 	
@@ -216,6 +194,7 @@ public class DaoSensore {
 			} catch (SQLException e) {
 				if (connection != null) {
 					connection.rollback();
+					
 					logger.error("Rollback effettuato durante l'eliminazione del sensore", e);
 				}
 				

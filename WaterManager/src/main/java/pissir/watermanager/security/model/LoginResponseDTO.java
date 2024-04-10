@@ -17,6 +17,9 @@ import pissir.watermanager.model.user.UserProfile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponseDTO {
+	
 	private UserProfile user;
 	private String jwt;
+	private boolean enabled;
+	
 }

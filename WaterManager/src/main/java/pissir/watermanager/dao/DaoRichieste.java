@@ -3,12 +3,9 @@ package pissir.watermanager.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import pissir.watermanager.controller.ControllerAdmin;
 import pissir.watermanager.model.item.RichiestaIdrica;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -30,9 +27,6 @@ public class DaoRichieste {
 	
 	
 	protected RichiestaIdrica getRichiestaId(int idRichiesta) {
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		RichiestaIdrica richiestaIdrica = null;
 		
 		String query = """
@@ -48,41 +42,34 @@ public class DaoRichieste {
 			logger.info("Esecuzione della query per ottenere la richiesta idrica con ID: {}", idRichiesta);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				
 				if (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					richiestaIdrica = new RichiestaIdrica((int) row.get("id"), (Double) row.get("quantita"),
-							(int) row.get("id_coltivazione"), (int) row.get("id_bacino"),
-							(String) row.get("date"), (String) row.get("nome_azienda"));
+					richiestaIdrica = new RichiestaIdrica(
+							resultSet.getInt("id"),
+							resultSet.getDouble("quantita"),
+							resultSet.getInt("id_coltivazione"),
+							resultSet.getInt("id_bacino"),
+							resultSet.getString("date"),
+							resultSet.getString("nome_azienda")
+					);
 					
 					logger.debug("Trovata richiesta idrica: {}", richiestaIdrica.getId());
 				} else {
 					logger.info("Nessuna richiesta idrica trovata con ID: {}", idRichiesta);
 				}
+				
+				return richiestaIdrica;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero della richiesta idrica con ID: {}", idRichiesta, e);
 			
-			return null;
+			return richiestaIdrica;
 		}
-		
-		return richiestaIdrica;
 	}
 	
 	
 	protected HashSet<RichiestaIdrica> getRichiesteColtivazione(int idColtivazione) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<RichiestaIdrica> richieste = new HashSet<>();
+		RichiestaIdrica richiestaIdrica = null;
 		
 		String query = """
 				SELECT *
@@ -98,49 +85,39 @@ public class DaoRichieste {
 					idColtivazione);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					RichiestaIdrica richiestaIdrica =
-							new RichiestaIdrica((int) map.get("id"), (Double) map.get("quantita"),
-									(int) map.get("id_coltivazione"), (int) map.get("id_bacino"),
-									(String) map.get("date"), (String) map.get("nome_azienda"));
+					richiestaIdrica = new RichiestaIdrica(
+							resultSet.getInt("id"),
+							resultSet.getDouble("quantita"),
+							resultSet.getInt("id_coltivazione"),
+							resultSet.getInt("id_bacino"),
+							resultSet.getString("date"),
+							resultSet.getString("nome_azienda")
+					);
 					
 					richieste.add(richiestaIdrica);
 				}
 				
-				logger.debug("Richieste idriche trovate per la coltivazione con ID {}: {}", idColtivazione,
-						richieste.size());
+				if (richieste.isEmpty()) {
+					logger.info("Nessuna misura trovata per il sensore con ID: {}", idColtivazione);
+				} else {
+					logger.debug("Richieste idriche trovate per la coltivazione con ID {}: {}", idColtivazione,
+							richieste.size());
+				}
+				return richieste;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero delle richieste idriche per la coltivazione con ID {}",
 					idColtivazione, e);
 			
-			return null;
+			return richieste;
 		}
-		
-		return richieste;
 	}
 	
 	
 	protected HashSet<RichiestaIdrica> getRichiesteBacino(int idBacino) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<RichiestaIdrica> richieste = new HashSet<>();
+		RichiestaIdrica richiestaIdrica = null;
 		
 		String query = """
 				SELECT *
@@ -155,47 +132,39 @@ public class DaoRichieste {
 			logger.info("Esecuzione della query per ottenere le richieste del bacino con ID: {}", idBacino);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					RichiestaIdrica richiestaIdrica =
-							new RichiestaIdrica((int) map.get("id"), (Double) map.get("quantita"),
-									(int) map.get("id_coltivazione"), (int) map.get("id_bacino"),
-									(String) map.get("date"), (String) map.get("nome_azienda"));
+					richiestaIdrica = new RichiestaIdrica(
+							resultSet.getInt("id"),
+							resultSet.getDouble("quantita"),
+							resultSet.getInt("id_coltivazione"),
+							resultSet.getInt("id_bacino"),
+							resultSet.getString("date"),
+							resultSet.getString("nome_azienda")
+					);
 					
 					richieste.add(richiestaIdrica);
 				}
 				
-				logger.debug("Richieste idriche trovate per il bacino con ID {}: {}", idBacino, richieste.size());
+				if (richieste.isEmpty()) {
+					logger.info("Nessuna misura trovata per il sensore con ID: {}", idBacino);
+				} else {
+					logger.debug("Richieste idriche trovate per la coltivazione con ID {}: {}", idBacino,
+							richieste.size());
+				}
+				
+				return richieste;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero delle richieste idriche per il bacino con ID {}", idBacino, e);
 			
 			return null;
 		}
-		
-		return richieste;
 	}
 	
 	
 	protected HashSet<RichiestaIdrica> getRichiesteAzienda(String idAzienda) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<RichiestaIdrica> richieste = new HashSet<>();
+		RichiestaIdrica richiestaIdrica = null;
 		
 		String query = """
 				SELECT *
@@ -211,38 +180,33 @@ public class DaoRichieste {
 			logger.info("Esecuzione della query per ottenere le richieste dell'azienda con nome: {}", idAzienda);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					RichiestaIdrica richiestaIdrica =
-							new RichiestaIdrica((int) map.get("id"), (Double) map.get("quantita"),
-									(int) map.get("id_coltivazione"), (int) map.get("id_bacino"),
-									(String) map.get("date"), (String) map.get("nome_azienda"));
+					richiestaIdrica = new RichiestaIdrica(
+							resultSet.getInt("id"),
+							resultSet.getDouble("quantita"),
+							resultSet.getInt("id_coltivazione"),
+							resultSet.getInt("id_bacino"),
+							resultSet.getString("date"),
+							resultSet.getString("nome_azienda")
+					);
 					
 					richieste.add(richiestaIdrica);
 				}
 				
-				logger.debug("Richieste idriche trovate per l'azienda '{}': {}", idAzienda, richieste.size());
+				if (richieste.isEmpty()) {
+					logger.info("Nessuna misura trovata per il sensore con ID: {}", idAzienda);
+				} else {
+					logger.debug("Richieste idriche trovate per la coltivazione con ID {}: {}", idAzienda,
+							richieste.size());
+				}
+				
+				return richieste;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero delle richieste idriche per l'azienda '{}'", idAzienda, e);
 			
 			return null;
 		}
-		
-		return richieste;
 	}
 	
 	
@@ -321,32 +285,33 @@ public class DaoRichieste {
 				statement.setInt(1, idRichiesta);
 				
 				int affectedRows = statement.executeUpdate();
-				connection.commit();
 				
 				if (affectedRows > 0) {
-					logger.info("Richiesta idrica con ID {} eliminata con successo.", idRichiesta);
+					logger.debug("Misura con ID {} eliminata correttamente", idRichiesta);
 				} else {
-					logger.info("Nessuna richiesta idrica trovata con ID {} per l'eliminazione.", idRichiesta);
+					logger.info("Nessuna misura trovata con ID {}", idRichiesta);
 				}
+				
+				connection.commit();
 			}
 		} catch (SQLException e) {
-			if (connection != null) {
-				try {
+			logger.error("Errore durante l'eliminazione della coltivazione con ID: {}", idRichiesta, e);
+			
+			try {
+				if (connection != null) {
 					connection.rollback();
-				} catch (SQLException ex) {
-					logger.error("Errore durante il rollback", ex);
+					
+					logger.info("Eseguito rollback a seguito di un errore");
 				}
+			} catch (SQLException ex) {
+				logger.error("Errore durante il rollback dell'eliminazione della coltivazione", ex);
 			}
-			
-			logger.error("Errore durante l'eliminazione della richiesta idrica con ID {}", idRichiesta, e);
-			
-			throw new RuntimeException("Errore durante l'eliminazione della richiesta idrica", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
 				} catch (SQLException e) {
-					logger.error("Errore durante la chiusura della connessione", e);
+					logger.error("Errore durante la chiusura della connessione al database", e);
 				}
 			}
 		}

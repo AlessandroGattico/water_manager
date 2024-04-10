@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Campagna;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -46,31 +44,31 @@ public class DaoCampagna {
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				if (resultSet.next()) {
-					campagna = new Campagna(resultSet.getInt("id"), resultSet.getString("nome"),
-							resultSet.getInt("id_azienda"));
+					campagna = new Campagna(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getInt("id_azienda")
+					);
 					
 					logger.debug("Trovata campagna: {}", campagna.getNome());
 				} else {
 					logger.info("Nessuna campagna trovata con ID: {}", id);
 				}
+				
+				return campagna;
 			}
 			
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero della campagna con ID: {}", id, e);
 			
-			return null;
+			return campagna;
 		}
-		
-		return campagna;
 	}
 	
 	
 	protected HashSet<Campagna> getCampagnaAzienda(int idAzienda) {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<Campagna> campagne = new HashSet<>();
+		Campagna campagna = null;
 		
 		String query = """
 				SELECT *
@@ -85,40 +83,29 @@ public class DaoCampagna {
 			logger.info("Esecuzione della query per ottenere le campagne dell'azienda con ID: {}", idAzienda);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				if (list.isEmpty()) {
-					logger.info("Nessuna campagna trovata per l'azienda con ID: {}", idAzienda);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					Campagna campagna =
-							new Campagna((int) map.get("id"), (String) map.get("nome"), (int) map.get("id_azienda"));
+					campagna = new Campagna(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getInt("id_azienda")
+					);
 					
 					campagne.add(campagna);
-					
-					logger.debug("Aggiunta campagna: {}", campagna.getNome());
 				}
+				
+				if (campagne.isEmpty()) {
+					logger.info("Nessuna campagna trovata per l'azienda con ID: {}", idAzienda);
+				} else {
+					logger.info("Trovate {} campagne per l'azienda con ID: {}", campagne.size(), idAzienda);
+				}
+				
+				return campagne;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante il recupero delle campagne per l'azienda con ID: {}", idAzienda, e);
 			
 			return campagne;
 		}
-		
-		return campagne;
 	}
 	
 	
@@ -189,34 +176,43 @@ public class DaoCampagna {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
+			logger.info("Tentativo di eliminazione del raccolto: {}", id);
+			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				statement.setLong(1, id);
+				statement.setInt(1, id);
 				
-				logger.info("Tentativo di eliminare la campagna con ID: {}", id);
+				int rowsAffected = statement.executeUpdate();
 				
-				statement.executeUpdate();
-				
-				logger.info("Campagna con ID {} eliminata con successo", id);
-				
-				connection.commit();
-			} catch (SQLException e) {
-				if (connection != null) {
+				if (rowsAffected > 0) {
+					logger.debug("Raccolto '{}' eliminato con successo.", id);
+				} else {
+					logger.info("Nessun raccolto trovato con nome '{}'.", id);
+				}
+			}
+			
+			connection.commit();
+		} catch (SQLException e) {
+			logger.error("Errore durante l'eliminazione del raccolto '{}'", id, e);
+			
+			if (connection != null) {
+				try {
 					connection.rollback();
 					
-					logger.error("Rollback eseguito a causa di un errore durante l'eliminazione della campagna", e);
+					logger.info("Rollback eseguito a seguito di un errore.");
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
-				throw e;
 			}
-		} catch (SQLException e) {
-			logger.error("Errore durante l'eliminazione della campagna", e);
 			
-			throw new RuntimeException("Errore durante l'eliminazione della campagna", e);
+			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
+					
+					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
-					logger.error("Errore durante la chiusura della connessione", e);
+					logger.error("Errore nella chiusura della connessione", e);
 				}
 			}
 		}
@@ -224,11 +220,8 @@ public class DaoCampagna {
 	
 	
 	protected HashSet<Campagna> getCampagne() {
-		ArrayList<HashMap<String, Object>> list;
-		int columns;
-		HashMap<String, Object> row;
-		ResultSetMetaData resultSetMetaData;
 		HashSet<Campagna> campagne = new HashSet<>();
+		Campagna campagna = null;
 		
 		String query = "SELECT * FROM campagna;";
 		
@@ -238,28 +231,23 @@ public class DaoCampagna {
 			logger.info("Esecuzione della query per ottenere tutte le campagne");
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
-				resultSetMetaData = resultSet.getMetaData();
-				columns = resultSetMetaData.getColumnCount();
-				list = new ArrayList<>();
-				
 				while (resultSet.next()) {
-					row = new HashMap<>(columns);
-					
-					for (int i = 1; i <= columns; ++ i) {
-						row.put(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
-					}
-					
-					list.add(row);
-				}
-				
-				for (HashMap<String, Object> map : list) {
-					Campagna campagna =
-							new Campagna((int) map.get("id"), (String) map.get("nome"), (int) map.get("id_azienda"));
+					campagna = new Campagna(
+							resultSet.getInt("id"),
+							resultSet.getString("nome"),
+							resultSet.getInt("id_azienda")
+					);
 					
 					campagne.add(campagna);
 				}
 				
-				logger.debug("Numero totale di campagne trovate: {}", campagne.size());
+				if (campagne.isEmpty()) {
+					logger.info("Nessuna campagna trovata ");
+				} else {
+					logger.info("Trovate {} campagne ", campagne.size());
+				}
+				
+				return campagne;
 			}
 			
 		} catch (SQLException e) {
@@ -267,8 +255,6 @@ public class DaoCampagna {
 			
 			return campagne;
 		}
-		
-		return campagne;
 	}
 	
 	
@@ -287,10 +273,10 @@ public class DaoCampagna {
 			
 			logger.info("Verifica esistenza della campagna '{}' per l'azienda con ID {}", campagna, id);
 			
-			ResultSet rs = statement.executeQuery();
+			ResultSet resultSet = statement.executeQuery();
 			
-			if (rs.next()) {
-				boolean exists = rs.getInt(1) > 0;
+			if (resultSet.next()) {
+				boolean exists = resultSet.getInt(1) > 0;
 				
 				logger.debug("La campagna '{}' {} nell'azienda con ID {}", campagna, exists ? "esiste" : "non esiste",
 						id);

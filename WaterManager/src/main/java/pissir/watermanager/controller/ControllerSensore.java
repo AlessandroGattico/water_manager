@@ -27,7 +27,7 @@ public class ControllerSensore {
 	
 	private final DAO daoSensore;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerSensore.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerSensore.class.getName());
 	
 	
 	@GetMapping(value = "/get/{id}")
