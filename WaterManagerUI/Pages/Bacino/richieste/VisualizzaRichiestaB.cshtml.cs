@@ -10,6 +10,9 @@ using WaterManagerUI.Model.Item;
 
 namespace WaterManagerUI.Pages.Bacino.richieste;
 
+/**
+ * @author Gattico Alessandro
+ */
 public class VisualizzaRichiestaB : PageModel
 {
     private readonly IHttpClientFactory _httpClientFactory;
@@ -50,7 +53,14 @@ public class VisualizzaRichiestaB : PageModel
                     if (responseRichiesta.IsSuccessStatusCode)
                     {
                         var jsonRichiesta = await responseRichiesta.Content.ReadAsStringAsync();
-                        this.richiestaIdrica = JsonConvert.DeserializeObject<RichiestaIdrica>(jsonRichiesta);
+                        try
+                        {
+                            this.richiestaIdrica = JsonConvert.DeserializeObject<RichiestaIdrica>(jsonRichiesta);
+                        }
+                        catch (Exception e)
+                        {
+                            var error = JsonConvert.DeserializeObject<String>(jsonRichiesta);
+                        }
                     }
                 }
             }

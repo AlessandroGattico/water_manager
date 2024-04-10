@@ -9,11 +9,16 @@ using WaterManagerUI.Model.Item;
 
 namespace WaterManagerUI.Pages;
 
+/**
+ * @author Gattico Alessandro
+ */
 public class VisualizzaAttuatore : PageModel
 {
     public Attuatore attuatore { get; set; }
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly SignInManager<IdentityUser> _signInManager;
+
+    private Attivazione attivazione { get; set; }
 
 
     public VisualizzaAttuatore(IHttpClientFactory httpClientFactory,
@@ -54,18 +59,19 @@ public class VisualizzaAttuatore : PageModel
         }
     }
 
-    public async Task<IActionResult> OnPostToggleAttuatoreAsync(int attuatoreId)
+    public async Task<IActionResult> OnPostAsync(int attuatoreId, String app)
     {
         if (_signInManager.IsSignedIn(User) && User.FindFirstValue(ClaimTypes.Role).Equals("GESTOREAZIENDA"))
         {
             var client = _httpClientFactory.CreateClient();
 
-            Attivazione attivazione = new Attivazione
+            attivazione = new Attivazione
             {
-                idAttuatore = attuatoreId,
-                current = !attuatore.storicoAttivazioni().FirstOrDefault().current,
-                time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                current = app == "ON",
+                time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                idAttuatore = attuatoreId
             };
+
 
             String stringaDaInviare = JsonConvert.SerializeObject(attivazione);
 
@@ -74,17 +80,28 @@ public class VisualizzaAttuatore : PageModel
                 client.DefaultRequestHeaders.Authorization =
                     new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
 
-                StringContent stringContent =
-                    new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
+                var responseA = await client.GetAsync(
+                    $"http://localhost:8080/api/v1/azienda/attuatore/get/{attuatoreId}");
 
-                var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/attivazione/add",
-                    stringContent);
-
-                if (response.IsSuccessStatusCode)
+                if (responseA.IsSuccessStatusCode)
                 {
-                    string responseContentStr = await response.Content.ReadAsStringAsync();
+                    var jsonResponse = await responseA.Content.ReadAsStringAsync();
+                    this.attuatore = JsonConvert.DeserializeObject<Attuatore>(jsonResponse);
 
-                    attuatore.id = JsonConvert.DeserializeObject<int>(responseContentStr);
+                    client.DefaultRequestHeaders.Authorization =
+                        new AuthenticationHeaderValue("Bearer", User.FindFirstValue(ClaimTypes.Authentication));
+
+                    StringContent stringContent =
+                        new StringContent(stringaDaInviare, Encoding.UTF8, "application/json");
+
+                    var response = await client.PostAsync("http://localhost:8080/api/v1/azienda/attivazione/add",
+                        stringContent);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToPage("/Azienda/Visualizza/campagna/campo/attuatori/VisualizzaAttuatori",
+                            new { campoId = attuatore.idCampo });
+                    }
                 }
             }
             catch (Exception ex)
@@ -97,7 +114,7 @@ public class VisualizzaAttuatore : PageModel
             RedirectToPage("/Error/UserNotLogged");
         }
 
-        return RedirectToPage("/Azienda/Visualizza/campagna/campo/attuatori/VisualizzaAttuatore",
-            new { attuatoreId = attuatoreId });
+        return RedirectToPage("/Azienda/Visualizza/campagna/campo/attuatori/VisualizzaAttuatori",
+            new { campoId = attuatore.idCampo });
     }
 }

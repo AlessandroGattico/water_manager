@@ -44,9 +44,6 @@
       <AdditionalFiles Include="Pages\Azienda\Elimina\EliminaCampagna.cshtml" />
       <AdditionalFiles Include="Pages\Azienda\Elimina\EliminaCampo.cshtml" />
       <AdditionalFiles Include="Pages\Azienda\Elimina\EliminaSensore.cshtml" />
-      <AdditionalFiles Include="Pages\Azienda\Modifica\campo\ModificaCampagnaCampo.cshtml" />
-      <AdditionalFiles Include="Pages\Azienda\Modifica\campo\ModificaDimensioneCampo.cshtml" />
-      <AdditionalFiles Include="Pages\Azienda\Modifica\campo\ModificaNomeCampo.cshtml" />
       <AdditionalFiles Include="Pages\Azienda\Visualizza\campagna\VisualizzaCampagna.cshtml" />
       <AdditionalFiles Include="Pages\Azienda\Visualizza\campagna\VisualizzaCampagne.cshtml" />
       <AdditionalFiles Include="Pages\Azienda\Visualizza\VisualizzaRichieste.cshtml" />
@@ -106,6 +103,18 @@
       <_ContentIncludedByDefault Remove="Pages\layout\details\_coltivazioneDetails.cshtml" />
       <_ContentIncludedByDefault Remove="Pages\layout\details\_richiestaDetails.cshtml" />
       <_ContentIncludedByDefault Remove="Pages\layout\details\_sensoreDetails.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Modifica\campo\ModificaCampagnaCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Modifica\campo\ModificaDimensioneCampo.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Azienda\Modifica\campo\ModificaNomeCampo.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Pages\Azienda\Modifica\campo\ModificaNomeCampo.cshtml" />
+      <Content Remove="Pages\Azienda\Modifica\campo\ModificaDimensioneCampo.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Pages\Azienda\Modifica\campo\ModificaDimensioneCampo.cshtml.cs" />
     </ItemGroup>
 
 </Project>

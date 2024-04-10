@@ -1,5 +1,9 @@
 namespace WaterManagerUI.Model.cambio;
 
+/**
+ * @author Gattico Alessandro
+ */
+
 public class CambioDouble
 {
     public int id { get; set; }

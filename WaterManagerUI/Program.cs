@@ -33,7 +33,7 @@ builder.Services.AddHttpClient();
 Log.Logger = new LoggerConfiguration()
     .WriteTo.File(
         path: "./../Log/Frontend/WaterManager_frontend-.log",
-        rollingInterval: RollingInterval.Day
+        rollingInterval: RollingInterval.Hour
     )
     .CreateLogger();
 
