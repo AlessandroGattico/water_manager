@@ -26,4 +26,11 @@ public class Scheduler {
 		this.risorsaService.aggiornaRisorse();
 	}
 	
+	
+	@Scheduled(cron = "0 0 0 * * ?")
+	public void clearDB() {
+		this.cleaner.cleanDB();
+	}
+	
+	
 }

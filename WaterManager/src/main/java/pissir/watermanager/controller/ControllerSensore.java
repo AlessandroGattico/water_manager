@@ -11,6 +11,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Sensore;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 import java.util.HashSet;
 
@@ -34,7 +35,7 @@ public class ControllerSensore {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getSensoreId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			Sensore sensore = this.daoSensore.getSensoreId(id);
@@ -51,7 +52,7 @@ public class ControllerSensore {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getSensoriCampo(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			HashSet<Sensore> sensori = this.daoSensore.getSensoriCampo(id);
@@ -68,7 +69,7 @@ public class ControllerSensore {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String addSensore(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			Sensore sensore = gson.fromJson(param, Sensore.class);
@@ -84,7 +85,7 @@ public class ControllerSensore {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String deleteSensore(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			this.daoSensore.deleteSensore(id);
@@ -93,15 +94,6 @@ public class ControllerSensore {
 		} else {
 			return gson.toJson("Accesso negato");
 		}
-	}
-	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
 	}
 	
 }

@@ -11,6 +11,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Approvazione;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 /**
  * @author Almasio Luca
@@ -32,7 +33,7 @@ public class ControllerApprovazione {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO') or hasAuthority('GESTOREAZIENDA')")
 	public String getApprovazioneId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Approvazione | get | {}", id);
 		
@@ -56,7 +57,7 @@ public class ControllerApprovazione {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String addApprovazione(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Approvazione | add");
 		
@@ -80,7 +81,7 @@ public class ControllerApprovazione {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String deleteApprovazione(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Approvazione | elimina | {}", id);
 		
@@ -95,15 +96,6 @@ public class ControllerApprovazione {
 			
 			return gson.toJson("Accesso negato");
 		}
-	}
-	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
 	}
 	
 }

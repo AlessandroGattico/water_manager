@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.RichiestaIdrica;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -20,7 +23,10 @@ public class DaoRichieste {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	private final String archive =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/ARCHIVE";
 	private static final Logger logger = LogManager.getLogger(DaoRichieste.class.getName());
+	private static final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	
 	protected DaoRichieste() {
@@ -319,46 +325,14 @@ public class DaoRichieste {
 	}
 	
 	
-	protected void deleteOldRichieste() {
-		String query = """
-				DELETE FROM richiesta
-				WHERE insert_time <= datetime('now', '-6 months');
-				""";
-		
-		try (Connection connection = DriverManager.getConnection(this.url)) {
-			connection.setAutoCommit(false);
-			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				int affectedRows = statement.executeUpdate();
-				
-				if (affectedRows > 0) {
-					logger.debug("Eliminate {} richieste più vecchie di 6 mesi", affectedRows);
-				} else {
-					logger.info("Nessuna richiesta da eliminare, tutte più recenti di 6 mesi");
-				}
-				
-				connection.commit();
-				logger.info("Transazione completata con successo per l'eliminazione delle richieste vecchie");
-			} catch (SQLException e) {
-				logger.error("Errore durante l'eliminazione delle richieste vecchie", e);
-				connection.rollback();
-				logger.info("Eseguito rollback a seguito di un errore");
-				throw e;
-			}
-		} catch (SQLException e) {
-			logger.error("Errore nella gestione della connessione al database", e);
-			throw new RuntimeException("Errore durante l'eliminazione delle richieste vecchie", e);
-		}
-	}
-	
-	
 	public LinkedList<RichiestaIdrica> getWaiting(int idAzienda) {
 		LinkedList<RichiestaIdrica> richieste = new LinkedList<>();
 		RichiestaIdrica richiestaIdrica = null;
 		
 		String query = """
 				SELECT *
-				FROM richiesta
-				WHERE id_coltivazione = ? ;
+				FROM waiting_resource_azienda
+				WHERE id_azienda = ? ;
 				""";
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
@@ -502,6 +476,21 @@ public class DaoRichieste {
 				}
 			}
 		}
+	}
+	
+	
+	public void clearRichieste() {
+		int totalMonths = 12 + LocalDateTime.now().getMonthValue() - 1;
+		
+		LocalDateTime result = LocalDateTime.now()
+				.minusMonths(totalMonths)
+				.with(TemporalAdjusters.firstDayOfMonth());
+		
+		String retention = result.format(formatterData);
+		
+		Archive archive = new Archive(this.url, this.archive, "richiesta", retention);
+		
+		archive.export();
 	}
 	
 }

@@ -9,325 +9,325 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WaterManagerUI
 build_property.RootNamespace = WaterManagerUI
-build_property.ProjectDir = /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/
+build_property.ProjectDir = /Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI
+build_property.MSBuildProjectDirectory = /Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI
 build_property._RazorSourceGeneratorDebug = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Crea/CreaAttuatore.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Crea/CreaAttuatore.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9DcmVhL0NyZWFBdHR1YXRvcmUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Crea/CreaAzienda.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Crea/CreaAzienda.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9DcmVhL0NyZWFBemllbmRhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Crea/CreaCampagna.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Crea/CreaCampagna.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9DcmVhL0NyZWFDYW1wYWduYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Crea/CreaCampo.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Crea/CreaCampo.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9DcmVhL0NyZWFDYW1wby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Crea/CreaColtivazione.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Crea/CreaColtivazione.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9DcmVhL0NyZWFDb2x0aXZhemlvbmUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Crea/CreaRichiesta.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Crea/CreaRichiesta.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9DcmVhL0NyZWFSaWNoaWVzdGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Crea/CreaSensore.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Crea/CreaSensore.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9DcmVhL0NyZWFTZW5zb3JlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Elimina/EliminaAttuatore.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Elimina/EliminaAttuatore.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9FbGltaW5hL0VsaW1pbmFBdHR1YXRvcmUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Elimina/EliminaCampagna.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Elimina/EliminaCampagna.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9FbGltaW5hL0VsaW1pbmFDYW1wYWduYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Elimina/EliminaCampo.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Elimina/EliminaCampo.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9FbGltaW5hL0VsaW1pbmFDYW1wby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Elimina/EliminaSensore.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Elimina/EliminaSensore.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9FbGltaW5hL0VsaW1pbmFTZW5zb3JlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/campagna/VisualizzaCampagna.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/campagna/VisualizzaCampagna.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL2NhbXBhZ25hL1Zpc3VhbGl6emFDYW1wYWduYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/campagna/VisualizzaCampagne.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/campagna/VisualizzaCampagne.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL2NhbXBhZ25hL1Zpc3VhbGl6emFDYW1wYWduZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/VisualizzaRichieste.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/VisualizzaRichieste.cshtml]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL1Zpc3VhbGl6emFSaWNoaWVzdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Areas/Identity/Pages/_ViewStart.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Admin.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Admin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQWRtaW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Azienda/Aziende.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Azienda/Aziende.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQXppZW5kYS9BemllbmRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Azienda/Campagne.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Azienda/Campagne.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQXppZW5kYS9DYW1wYWduZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Azienda/Campi.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Azienda/Campi.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQXppZW5kYS9DYW1waS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Bacino/Bacini.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Bacino/Bacini.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQmFjaW5vL0JhY2luaS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Coltivazione/Esigenza.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Coltivazione/Esigenza.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQ29sdGl2YXppb25lL0VzaWdlbnphLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Coltivazione/Irrigazione.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Coltivazione/Irrigazione.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQ29sdGl2YXppb25lL0lycmlnYXppb25lLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Coltivazione/Raccolto.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Coltivazione/Raccolto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQ29sdGl2YXppb25lL1JhY2NvbHRvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Crea/CreaEsigenza.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Crea/CreaEsigenza.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQ3JlYS9DcmVhRXNpZ2VuemEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Crea/CreaIrrigazione.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Crea/CreaIrrigazione.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQ3JlYS9DcmVhSXJyaWdhemlvbmUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Crea/CreaRaccolto.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Crea/CreaRaccolto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQ3JlYS9DcmVhUmFjY29sdG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Crea/CreaSensorType.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Crea/CreaSensorType.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vQ3JlYS9DcmVhU2Vuc29yVHlwZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Elimina/EliminaEsigenza.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Elimina/EliminaEsigenza.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRWxpbWluYS9FbGltaW5hRXNpZ2VuemEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Elimina/EliminaIrrigazione.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Elimina/EliminaIrrigazione.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRWxpbWluYS9FbGltaW5hSXJyaWdhemlvbmUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Elimina/EliminaRaccolto.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Elimina/EliminaRaccolto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRWxpbWluYS9FbGltaW5hUmFjY29sdG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Elimina/EliminaSensorType.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Elimina/EliminaSensorType.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vRWxpbWluYS9FbGltaW5hU2Vuc29yVHlwZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Sensore/SensorType.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Sensore/SensorType.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vU2Vuc29yZS9TZW5zb3JUeXBlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Users/UsersAzienda.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Users/UsersAzienda.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vVXNlcnMvVXNlcnNBemllbmRhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Users/UsersBacino.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Users/UsersBacino.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vVXNlcnMvVXNlcnNCYWNpbm8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Users/VisualizzaUser.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Users/VisualizzaUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vVXNlcnMvVmlzdWFsaXp6YVVzZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Admin/Users/VisualizzaUsers.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Admin/Users/VisualizzaUsers.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWRtaW4vVXNlcnMvVmlzdWFsaXp6YVVzZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/GestoreAzienda.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/GestoreAzienda.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9HZXN0b3JlQXppZW5kYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/attuatori/VisualizzaAttuatore.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/attuatori/VisualizzaAttuatore.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL2NhbXBhZ25hL2NhbXBvL2F0dHVhdG9yaS9WaXN1YWxpenphQXR0dWF0b3JlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/attuatori/VisualizzaAttuatori.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/attuatori/VisualizzaAttuatori.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL2NhbXBhZ25hL2NhbXBvL2F0dHVhdG9yaS9WaXN1YWxpenphQXR0dWF0b3JpLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/coltivazione/VisualizzaColtivazione.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/coltivazione/VisualizzaColtivazione.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL2NhbXBhZ25hL2NhbXBvL2NvbHRpdmF6aW9uZS9WaXN1YWxpenphQ29sdGl2YXppb25lLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/coltivazione/VisualizzaColtivazioni.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/coltivazione/VisualizzaColtivazioni.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL2NhbXBhZ25hL2NhbXBvL2NvbHRpdmF6aW9uZS9WaXN1YWxpenphQ29sdGl2YXppb25pLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/sensori/misure/VisualizzaMisureCampo.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/sensori/misure/VisualizzaMisureCampo.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL2NhbXBhZ25hL2NhbXBvL3NlbnNvcmkvbWlzdXJlL1Zpc3VhbGl6emFNaXN1cmVDYW1wby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/sensori/misure/VisualizzaMisureSensore.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/sensori/misure/VisualizzaMisureSensore.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL2NhbXBhZ25hL2NhbXBvL3NlbnNvcmkvbWlzdXJlL1Zpc3VhbGl6emFNaXN1cmVTZW5zb3JlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/sensori/VisualizzaSensori.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/sensori/VisualizzaSensori.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL2NhbXBhZ25hL2NhbXBvL3NlbnNvcmkvVmlzdWFsaXp6YVNlbnNvcmkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/VisualizzaCampiAzienda.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/VisualizzaCampiAzienda.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL2NhbXBhZ25hL2NhbXBvL1Zpc3VhbGl6emFDYW1waUF6aWVuZGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/VisualizzaCampo.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/campagna/campo/VisualizzaCampo.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL2NhbXBhZ25hL2NhbXBvL1Zpc3VhbGl6emFDYW1wby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Azienda/Visualizza/VisualizzaRichiestaA.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Azienda/Visualizza/VisualizzaRichiestaA.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQXppZW5kYS9WaXN1YWxpenphL1Zpc3VhbGl6emFSaWNoaWVzdGFBLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Bacino/Crea/CreaBacino.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Bacino/Crea/CreaBacino.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQmFjaW5vL0NyZWEvQ3JlYUJhY2luby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Bacino/disponibilita/ModificaDisponibilita.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Bacino/disponibilita/ModificaDisponibilita.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQmFjaW5vL2Rpc3BvbmliaWxpdGEvTW9kaWZpY2FEaXNwb25pYmlsaXRhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Bacino/GestoreIdrico.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Bacino/GestoreIdrico.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQmFjaW5vL0dlc3RvcmVJZHJpY28uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Bacino/richieste/RichiesteApprovate.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Bacino/richieste/RichiesteApprovate.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQmFjaW5vL3JpY2hpZXN0ZS9SaWNoaWVzdGVBcHByb3ZhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Bacino/richieste/RichiesteRifiutate.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Bacino/richieste/RichiesteRifiutate.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQmFjaW5vL3JpY2hpZXN0ZS9SaWNoaWVzdGVSaWZpdXRhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Bacino/richieste/RichiesteSospeso.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Bacino/richieste/RichiesteSospeso.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQmFjaW5vL3JpY2hpZXN0ZS9SaWNoaWVzdGVTb3NwZXNvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Bacino/richieste/VisualizzaRichiestaB.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Bacino/richieste/VisualizzaRichiestaB.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQmFjaW5vL3JpY2hpZXN0ZS9WaXN1YWxpenphUmljaGllc3RhQi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Bacino/richieste/VisualizzaRichiesteBacino.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Bacino/richieste/VisualizzaRichiesteBacino.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQmFjaW5vL3JpY2hpZXN0ZS9WaXN1YWxpenphUmljaGllc3RlQmFjaW5vLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Error.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Error/ServerOffline.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Error/ServerOffline.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IvU2VydmVyT2ZmbGluZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Error/UserNotLogged.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Error/UserNotLogged.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IvVXNlck5vdExvZ2dlZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/ExternalLogin.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/ExternalLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXh0ZXJuYWxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Index.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/layout/Admin/_SideMenuAdmin.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/layout/Admin/_SideMenuAdmin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvbGF5b3V0L0FkbWluL19TaWRlTWVudUFkbWluLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/layout/GestoreIdrico/_SideMenuGestoreIdrico.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/layout/GestoreIdrico/_SideMenuGestoreIdrico.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvbGF5b3V0L0dlc3RvcmVJZHJpY28vX1NpZGVNZW51R2VzdG9yZUlkcmljby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Login.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Logout.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Logout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTG9nb3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/OauthRegister.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/OauthRegister.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvT2F1dGhSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Profilo.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Profilo.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUHJvZmlsby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Register.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUmVnaXN0ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Shared/_CommonLayout.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Shared/_CommonLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19Db21tb25MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Shared/_LoginPartial.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/_ViewImports.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/Pages/_ViewStart.cshtml]
+[/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

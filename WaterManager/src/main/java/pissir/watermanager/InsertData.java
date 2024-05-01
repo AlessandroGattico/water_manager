@@ -1,7 +1,5 @@
 package pissir.watermanager;
 
-import org.springframework.boot.origin.SystemEnvironmentOrigin;
-import pissir.watermanager.dao.DaoMisura;
 import pissir.watermanager.model.item.Misura;
 
 import java.time.LocalDateTime;

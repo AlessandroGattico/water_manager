@@ -11,6 +11,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Misura;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 import java.util.HashSet;
 
@@ -43,7 +44,7 @@ public class ControllerMisura {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getMisuraId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			Misura misura = this.daoMisura.getMisuraId(id);
@@ -59,7 +60,7 @@ public class ControllerMisura {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getMisureSensore(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			HashSet<Misura> misure = this.daoMisura.getMisureSensore(id);
@@ -75,7 +76,7 @@ public class ControllerMisura {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String deleteMisura(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			
@@ -87,14 +88,5 @@ public class ControllerMisura {
 		
 	}
 	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
-		
-	}
 	
 }

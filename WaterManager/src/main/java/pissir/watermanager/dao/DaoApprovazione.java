@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Approvazione;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 
 /**
  * @author Almasio Luca
@@ -18,10 +21,15 @@ public class DaoApprovazione {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	private final String archive =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/ARCHIVE";
 	private static final Logger logger = LogManager.getLogger(DaoApprovazione.class.getName());
+	private static final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	private Connection connectionTgt;
 	
 	
 	protected DaoApprovazione() {
+		this.connectionTgt = null;
 	}
 	
 	
@@ -174,6 +182,21 @@ public class DaoApprovazione {
 				}
 			}
 		}
+	}
+	
+	
+	public void clearApprovazioni() {
+		int totalMonths = 12 + LocalDateTime.now().getMonthValue() - 1;
+		
+		LocalDateTime result = LocalDateTime.now()
+				.minusMonths(totalMonths)
+				.with(TemporalAdjusters.firstDayOfMonth());
+		
+		String retention = result.format(formatterData);
+		
+		Archive archive = new Archive(this.url, this.archive, "approvazione", retention);
+		
+		archive.export();
 	}
 	
 	

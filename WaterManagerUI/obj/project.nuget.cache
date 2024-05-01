@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ogQOtx08jJ09spOeB5FEiu2z34jAa+l9KPVsfPh+7oUMvZskjkhefdQQT9tb2A8aK+0ZpaWGmBGYIcetOJNLgg==",
+  "dgSpecHash": "38YNvjmhauXTBXpJRMCpg4CfU60sH5RsZ14AkDm8t9n2UI/NoSgIaJUTLU2N+aCxGHyWckBMiT9DStxD/PpxVw==",
   "success": true,
-  "projectFilePath": "/Users/alessandrogattico/Documents/progetti/PissirProj/WaterManagerUI/WaterManagerUI.csproj",
+  "projectFilePath": "/Volumes/MICIO2/progetti/pissir/pissir/WaterManagerUI/WaterManagerUI.csproj",
   "expectedPackageFiles": [
     "/Users/alessandrogattico/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/alessandrogattico/.nuget/packages/microsoft.aspnetcore.authentication.google/7.0.15/microsoft.aspnetcore.authentication.google.7.0.15.nupkg.sha512",

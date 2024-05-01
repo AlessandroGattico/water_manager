@@ -11,6 +11,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.BacinoIdrico;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 /**
  * @author Almasio Luca
@@ -31,7 +32,7 @@ public class ControllerBacinoIdrico {
 	@GetMapping(value = "/get/{id}")
 	public String getBacinoId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Bacino idrico | get | {}", id);
 		
@@ -53,7 +54,7 @@ public class ControllerBacinoIdrico {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String getBacinoGi(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Bacino idrico | get | bacino gestore | {}", id);
 		
@@ -79,7 +80,7 @@ public class ControllerBacinoIdrico {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String addBacino(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Bacino idrico | add");
 		
@@ -101,7 +102,7 @@ public class ControllerBacinoIdrico {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String deleteBacino(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Bacino idrico | elimina | {}", id);
 		
@@ -117,13 +118,5 @@ public class ControllerBacinoIdrico {
 		}
 	}
 	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
-	}
 	
 }

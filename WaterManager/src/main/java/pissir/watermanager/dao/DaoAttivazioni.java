@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.Attivazione;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.HashSet;
 
 /**
@@ -17,9 +20,12 @@ import java.util.HashSet;
 @Repository
 public class DaoAttivazioni {
 	
-	private static final Logger logger = LogManager.getLogger(DaoAttivazioni.class.getName());
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	private final String archive =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/ARCHIVE<<zz≤∑≤";
+	private static final Logger logger = LogManager.getLogger(DaoAttivazioni.class.getName());
+	private static final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	
 	protected DaoAttivazioni() {
@@ -131,10 +137,23 @@ public class DaoAttivazioni {
 				
 				statement.executeUpdate();
 				
+				String sqlSensore = """
+						UPDATE sensore
+						SET enabled = ?
+						WHERE id = ?;
+						""";
+				
 				try (ResultSet resultSet = statement.getGeneratedKeys()) {
 					if (resultSet.next()) {
 						id = resultSet.getInt(1);
 					}
+				}
+				
+				try (PreparedStatement stmnt = connection.prepareStatement(sqlSensore)) {
+					stmnt.setBoolean(1, attivazione.isCurrent());
+					stmnt.setInt(2, attivazione.getIdAttuatore());
+					
+					statement.executeUpdate();
 				}
 				
 				connection.commit();
@@ -220,6 +239,26 @@ public class DaoAttivazioni {
 	}
 	
 	
-	
+	public void clearAttivazioni() {
+		int totalMonths = 12 + LocalDateTime.now().getMonthValue() - 1;
+		
+		LocalDateTime result = LocalDateTime.now()
+				.minusMonths(totalMonths)
+				.with(TemporalAdjusters.firstDayOfMonth());
+		
+		String retention = result.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		logger.info("Preparazione per l'archiviazione delle attivazioni prima di: {}", retention);
+		
+		Archive archive = new Archive(this.url, this.archive, "attivazione", retention);
+		
+		try {
+			archive.export();
+			
+			logger.info("Archiviazione completata con successo.");
+		} catch (Exception e) {
+			logger.error("Errore durante l'archiviazione delle attivazioni", e);
+		}
+	}
 	
 }

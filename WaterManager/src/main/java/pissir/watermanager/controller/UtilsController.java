@@ -12,6 +12,7 @@ import pissir.watermanager.model.item.BacinoIdrico;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.model.utils.Topics;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -49,7 +50,7 @@ public class UtilsController {
 	@GetMapping(value = "/bacino/get/all")
 	public String getBacini(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			HashSet<BacinoIdrico> bacini = this.dao.getBaciniSelect();
@@ -69,7 +70,7 @@ public class UtilsController {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 	public String getRaccolti(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt,
 				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
@@ -85,7 +86,7 @@ public class UtilsController {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 	public String getIrrigazioni(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt,
 				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
@@ -101,7 +102,7 @@ public class UtilsController {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 	public String getEsigenze(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt,
 				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
@@ -117,7 +118,7 @@ public class UtilsController {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('SYSTEMADMIN')")
 	public String getSensorTypes(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt,
 				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
@@ -133,7 +134,7 @@ public class UtilsController {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('GESTOREIDRICO')")
 	public String checkUsername(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt,
 				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
@@ -150,7 +151,7 @@ public class UtilsController {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('GESTOREIDRICO')")
 	public String checkMail(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt,
 				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
@@ -167,7 +168,7 @@ public class UtilsController {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('GESTOREIDRICO')")
 	public String checkCampagnaNome(@RequestBody String param, @PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt,
 				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
@@ -184,7 +185,7 @@ public class UtilsController {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA') or hasAuthority('GESTOREIDRICO')")
 	public String checkCampoNome(@RequestBody String param, @PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt,
 				UserRole.GESTOREAZIENDA) || this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
@@ -195,14 +196,4 @@ public class UtilsController {
 			return gson.toJson("Accesso negato");
 		}
 	}
-	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
-	}
-	
 }

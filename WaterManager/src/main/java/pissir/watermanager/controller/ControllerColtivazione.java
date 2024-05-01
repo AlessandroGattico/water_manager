@@ -11,6 +11,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Coltivazione;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 import java.util.HashSet;
 
@@ -34,7 +35,7 @@ public class ControllerColtivazione {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String addColtivazione(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			Coltivazione coltivazione = gson.fromJson(param, Coltivazione.class);
@@ -50,7 +51,7 @@ public class ControllerColtivazione {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getColtivazioneId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			Coltivazione coltivazione = this.daoColtivazione.getColtivazioneId(id);
@@ -66,7 +67,7 @@ public class ControllerColtivazione {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getColtivazioniCampo(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			HashSet<Coltivazione> coltivazioni = this.daoColtivazione.getColtivazioniCampo(id);
@@ -82,7 +83,7 @@ public class ControllerColtivazione {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String deleteColtivazione(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			this.daoColtivazione.deleteColtivazione(id);
@@ -93,13 +94,5 @@ public class ControllerColtivazione {
 		}
 	}
 	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
-	}
 	
 }

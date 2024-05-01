@@ -11,6 +11,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Campagna;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 import java.util.HashSet;
 
@@ -34,7 +35,7 @@ public class ControllerCampagna {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String addCampagna(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Campagna | add");
 		
@@ -56,7 +57,7 @@ public class ControllerCampagna {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getCampagnaId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Campagna | get | {}", id);
 		
@@ -78,7 +79,7 @@ public class ControllerCampagna {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getCampagneAzienda(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Campagna | get | campagne azienda | {}", id);
 		
@@ -100,7 +101,7 @@ public class ControllerCampagna {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String deleteCampagna(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Campagna | elimina | {}", id);
 		
@@ -116,13 +117,5 @@ public class ControllerCampagna {
 		}
 	}
 	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
-	}
 	
 }

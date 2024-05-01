@@ -12,6 +12,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Attivazione;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 import java.util.HashSet;
 
@@ -35,7 +36,7 @@ public class ControllerAttivazione {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getAttivazioneId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			Attivazione attivazione = this.daoAttivazioni.getAttivazioneId(id);
@@ -51,7 +52,7 @@ public class ControllerAttivazione {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getAttivazioniAttuatore(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			HashSet<Attivazione> attivazioni = this.daoAttivazioni.getAttivazioniAttuatore(id);
@@ -67,7 +68,7 @@ public class ControllerAttivazione {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String addAttivazione(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			Attivazione attivazione = gson.fromJson(param, Attivazione.class);
@@ -83,7 +84,7 @@ public class ControllerAttivazione {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String deleteAttivazione(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			this.daoAttivazioni.deleteAttivazione(id);
@@ -94,13 +95,5 @@ public class ControllerAttivazione {
 		}
 	}
 	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
-	}
 	
 }

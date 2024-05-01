@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 import pissir.watermanager.model.item.RisorsaIdrica;
 
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.HashSet;
 
 /**
@@ -19,7 +22,10 @@ public class DaoRisorseAzienda {
 	
 	private final String url =
 			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	private final String archive =
+			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/ARCHIVE";
 	private static final Logger logger = LogManager.getLogger(DaoRisorseAzienda.class.getName());
+	private static final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	
 	protected DaoRisorseAzienda() {
@@ -267,6 +273,22 @@ public class DaoRisorseAzienda {
 			
 			return risorsa;
 		}
+	}
+	
+	
+	public void clearRisorse() {
+		int totalMonths = 12 + LocalDateTime.now().getMonthValue() - 1;
+		
+		LocalDateTime result = LocalDateTime.now()
+				.minusMonths(totalMonths)
+				.with(TemporalAdjusters.firstDayOfMonth());
+		
+		String retention = result.format(formatterData);
+		
+		Archive archive = new Archive(this.url, this.archive, "risorsa_azienda", retention);
+		
+		archive.export();
+		
 	}
 	
 }

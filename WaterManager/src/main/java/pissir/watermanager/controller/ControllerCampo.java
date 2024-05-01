@@ -11,6 +11,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Campo;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 import java.util.HashSet;
 
@@ -34,7 +35,7 @@ public class ControllerCampo {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String addCampo(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			Campo campo = gson.fromJson(param, Campo.class);
@@ -50,7 +51,7 @@ public class ControllerCampo {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getCampoId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			Campo campo = this.daoCampo.getCampoId(id);
@@ -66,7 +67,7 @@ public class ControllerCampo {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getCampiCampagna(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			HashSet<Campo> campi = this.daoCampo.getCampiCampagna(id);
@@ -82,7 +83,7 @@ public class ControllerCampo {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String deleteCampo(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			this.daoCampo.deleteCampo(id);
@@ -90,15 +91,6 @@ public class ControllerCampo {
 		} else {
 			return gson.toJson(0);
 		}
-	}
-	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
 	}
 	
 }

@@ -14,6 +14,7 @@ import pissir.watermanager.model.user.GestoreIdrico;
 import pissir.watermanager.model.user.UserProfile;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 /**
  * @author Almasio Luca
@@ -35,7 +36,7 @@ public class ControllerUser {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getGestoreAzienda(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			GestoreAzienda gestoreAzienda = this.daoUser.getGestoreAzienda(id);
@@ -52,7 +53,7 @@ public class ControllerUser {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String getGestoreIdrico(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwtToken = extractTokenFromRequest(request);
+		String jwtToken = TokenCheck.extractTokenFromRequest(request);
 		
 		if (tokenService.validateTokenAndRole(jwtToken, UserRole.GESTOREIDRICO)) {
 			GestoreIdrico gestoreIdrico = this.daoUser.getGestoreIdrico(id);
@@ -81,13 +82,5 @@ public class ControllerUser {
 		this.daoUser.deleteUser(user);
 	}
 	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
-	}
 	
 }

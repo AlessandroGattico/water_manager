@@ -12,6 +12,7 @@ import pissir.watermanager.model.utils.Topics;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 /**
  * @author Almasio Luca
@@ -919,6 +920,16 @@ public class DAO {
 	
 	public boolean existsCampoCampagna(int id, String campo) {
 		return this.daoCampo.existsCampoCampagna(id, campo);
+	}
+	
+	
+	public LinkedList<RichiestaIdrica> getWaitingAzienda(int idAzienda) {
+		return this.daoRichieste.getWaiting(idAzienda);
+	}
+	
+	
+	public void deleteWaiting(int idAzienda) {
+		this.daoRichieste.deleteWaiting(idAzienda);
 	}
 	
 }

@@ -11,6 +11,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.RisorsaIdrica;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 import java.util.HashSet;
 
@@ -34,7 +35,7 @@ public class ControllerRisorsaIdrica {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getRisorsaAziendaId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			RisorsaIdrica risorsaIdrica = this.dao.getRisorsaAziendaId(id);
@@ -50,7 +51,7 @@ public class ControllerRisorsaIdrica {
 	@GetMapping(value = "/azienda/getStorico/{id}")
 	public String getStoricoRisorseAzienda(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			HashSet<RisorsaIdrica> risorse = this.dao.getStoricoRisorseAzienda(id);
@@ -67,7 +68,7 @@ public class ControllerRisorsaIdrica {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String addRisorsaAzienda(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			RisorsaIdrica risorsaIdrica = gson.fromJson(param, RisorsaIdrica.class);
@@ -83,7 +84,7 @@ public class ControllerRisorsaIdrica {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String deleteRisorsaAzienda(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
 			this.dao.deleteRisorsaAzienda(id);
@@ -99,7 +100,7 @@ public class ControllerRisorsaIdrica {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String getRisorsaBacinoId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
 			RisorsaIdrica risorsaIdrica = this.dao.getRisorsaBacinoId(id);
@@ -115,7 +116,7 @@ public class ControllerRisorsaIdrica {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String getStoricoRisorseBacino(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
 			HashSet<RisorsaIdrica> risorse = this.dao.getStoricoRisorseBacino(id);
@@ -131,7 +132,7 @@ public class ControllerRisorsaIdrica {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String addRisorsaBacino(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
 			RisorsaIdrica risorsaIdrica = gson.fromJson(param, RisorsaIdrica.class);
@@ -147,7 +148,7 @@ public class ControllerRisorsaIdrica {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String deleteRisorsaBacino(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
 			this.dao.deleteRisorsaBacino(id);
@@ -156,15 +157,6 @@ public class ControllerRisorsaIdrica {
 		} else {
 			return gson.toJson("Accesso negato");
 		}
-	}
-	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
 	}
 	
 }
