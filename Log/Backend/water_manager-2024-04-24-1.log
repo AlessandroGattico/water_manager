@@ -1,0 +1,624 @@
+2024-04-24 14:26:38 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - Starting WaterManagerApplication using Java 17.0.10 with PID 69884 (/Volumes/MICIO2/progetti/pissir/pissir/WaterManager/target/classes started by alessandrogattico in /Volumes/MICIO2/progetti/pissir/pissir)
+2024-04-24 14:26:38 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - No active profile set, falling back to 1 default profile: "default"
+2024-04-24 14:28:39 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - Starting WaterManagerApplication using Java 17.0.10 with PID 70015 (/Volumes/MICIO2/progetti/pissir/pissir/WaterManager/target/classes started by alessandrogattico in /Volumes/MICIO2/progetti/pissir/pissir)
+2024-04-24 14:28:39 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - No active profile set, falling back to 1 default profile: "default"
+2024-04-24 14:28:44 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - Started WaterManagerApplication in 5.369 seconds (process running for 8.136)
+2024-04-24 14:28:50 [http-nio-8080-exec-1] INFO  pissir.watermanager.security.controller.AuthenticationController - User | login | micio
+2024-04-24 14:28:53 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere l'utente con username: micio
+2024-04-24 14:28:53 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - Starting WaterManagerApplication using Java 17.0.10 with PID 70015 (/Volumes/MICIO2/progetti/pissir/pissir/WaterManager/target/classes started by alessandrogattico in /Volumes/MICIO2/progetti/pissir/pissir)
+2024-04-24 14:28:53 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - No active profile set, falling back to 1 default profile: "default"
+2024-04-24 14:28:57 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - Started WaterManagerApplication in 4.14 seconds (process running for 21.654)
+2024-04-24 14:29:05 [http-nio-8080-exec-1] INFO  pissir.watermanager.security.controller.AuthenticationController - User | login | micio
+2024-04-24 14:29:05 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere l'utente con username: micio
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere il gestore azienda con ID: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione della query per ottenere l'azienda con ID gestore: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAzienda - Azienda micio's azienda trovata per il gestore con ID 2
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoRichieste - Esecuzione della query per ottenere le richieste dell'azienda con nome: micio's azienda
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere le campagne dell'azienda con ID: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne per l'azienda con ID: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:05 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere il gestore azienda con ID: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione della query per ottenere l'azienda con ID gestore: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAzienda - Azienda micio's azienda trovata per il gestore con ID 2
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoRichieste - Esecuzione della query per ottenere le richieste dell'azienda con nome: micio's azienda
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere le campagne dell'azienda con ID: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne per l'azienda con ID: 2
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:05 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.controller.ControllerAzienda - Azienda | get | 2
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.controller.ControllerAzienda - Azienda | get | 2 | concesso
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione query per ottenere l'azienda con ID 2
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAzienda - Azienda trovata: micio's azienda
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere le campagne dell'azienda con ID: 2
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne per l'azienda con ID: 2
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoRichieste - Esecuzione della query per ottenere le richieste dell'azienda con nome: micio's azienda
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:29:10 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:29:12 [http-nio-8080-exec-2] INFO  pissir.watermanager.controller.ControllerAzienda - Azienda | get | 2
+2024-04-24 14:29:12 [http-nio-8080-exec-2] INFO  pissir.watermanager.controller.ControllerAzienda - Azienda | get | 2 | concesso
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione query per ottenere l'azienda con ID 2
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAzienda - Azienda trovata: micio's azienda
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere le campagne dell'azienda con ID: 2
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne per l'azienda con ID: 2
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoRichieste - Esecuzione della query per ottenere le richieste dell'azienda con nome: micio's azienda
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:29:13 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.controller.ControllerCampagna - Campagna | get | campagne azienda | 2
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.controller.ControllerCampagna - Campagna | get | campagne azienda | 2 | concesso
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere le campagne dell'azienda con ID: 2
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne per l'azienda con ID: 2
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:13 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.controller.ControllerAzienda - Azienda | get | 2
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.controller.ControllerAzienda - Azienda | get | 2 | concesso
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione query per ottenere l'azienda con ID 2
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAzienda - Azienda trovata: micio's azienda
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere le campagne dell'azienda con ID: 2
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne per l'azienda con ID: 2
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoRichieste - Esecuzione della query per ottenere le richieste dell'azienda con nome: micio's azienda
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:29:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.controller.ControllerCampagna - Campagna | get | 6
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.controller.ControllerCampagna - Campagna | get | 6 | concesso
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere la campagna con ID: 6
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:22 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoCampo - Inizio della query per ottenere il campo con ID: 7
+2024-04-24 14:29:22 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:22 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:22 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:22 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:22 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:22 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:22 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:22 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:22 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:22 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.controller.ControllerCampagna - Campagna | get | 6
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.controller.ControllerCampagna - Campagna | get | 6 | concesso
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere la campagna con ID: 6
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:23 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.controller.ControllerCampagna - Campagna | get | 6
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.controller.ControllerCampagna - Campagna | get | 6 | concesso
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere la campagna con ID: 6
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:27 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:29 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoCampo - Inizio della query per ottenere il campo con ID: 7
+2024-04-24 14:29:29 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:29 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:29 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:29 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:29 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:29 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:29 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:29 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:29 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:29 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:50 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoCampo - Inizio della query per ottenere il campo con ID: 7
+2024-04-24 14:29:50 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:50 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:50 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:50 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:50 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:50 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:50 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:50 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:50 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:50 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:53 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere la coltivazione con ID: 7
+2024-04-24 14:29:56 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoCampo - Inizio della query per ottenere il campo con ID: 7
+2024-04-24 14:29:56 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:56 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:56 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:56 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:56 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:56 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:56 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:56 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:56 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:56 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:56 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoCampo - Inizio della query per ottenere il campo con ID: 7
+2024-04-24 14:29:56 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:29:56 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:29:56 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:29:56 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:29:56 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:56 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:56 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:29:56 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:29:56 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:29:56 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:30:06 [http-nio-8080-exec-9] INFO  pissir.watermanager.security.controller.AuthenticationController - User | login | admin
+2024-04-24 14:30:06 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere l'utente con username: admin
+2024-04-24 14:30:06 [http-nio-8080-exec-10] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | login
+2024-04-24 14:30:06 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere admin con ID: 1
+2024-04-24 14:30:06 [http-nio-8080-exec-10] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | login | concesso
+2024-04-24 14:30:06 [http-nio-8080-exec-1] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | count
+2024-04-24 14:30:06 [http-nio-8080-exec-1] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | count | concesso
+2024-04-24 14:30:12 [http-nio-8080-exec-3] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | count
+2024-04-24 14:30:12 [http-nio-8080-exec-3] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | count | concesso
+2024-04-24 14:30:13 [http-nio-8080-exec-4] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | gestori azienda
+2024-04-24 14:30:13 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere i gestori azienda
+2024-04-24 14:30:13 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoUser - Trovati 3 gestori azienda
+2024-04-24 14:30:13 [http-nio-8080-exec-4] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | gestori azienda | concesso
+2024-04-24 14:30:14 [http-nio-8080-exec-5] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | gestori idrici
+2024-04-24 14:30:14 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere i gestori idrici
+2024-04-24 14:30:14 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoUser - Trovati 2 gestori idrici
+2024-04-24 14:30:14 [http-nio-8080-exec-5] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | gestori idrici | concesso
+2024-04-24 14:30:15 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoUtils - Inizio della procedura di recupero dei raccolti dal database
+2024-04-24 14:30:15 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoUtils - Trovati 12 raccolti
+2024-04-24 14:30:16 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoUtils - Trovate 3 esigenze
+2024-04-24 14:30:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoUtils - Trovati 4 raccolti
+2024-04-24 14:30:17 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoUtils - Trovate 2 tipologie di sensore
+2024-04-24 14:30:18 [http-nio-8080-exec-9] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | aziende
+2024-04-24 14:30:18 [http-nio-8080-exec-9] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | aziende | concesso
+2024-04-24 14:30:18 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione della query per ottenere tutte le aziende
+2024-04-24 14:30:18 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoAzienda - Numero di aziende trovate: 2
+2024-04-24 14:30:19 [http-nio-8080-exec-10] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | campagne
+2024-04-24 14:30:19 [http-nio-8080-exec-10] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | campagne | concesso
+2024-04-24 14:30:19 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere tutte le campagne
+2024-04-24 14:30:19 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne 
+2024-04-24 14:30:20 [http-nio-8080-exec-1] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | campi
+2024-04-24 14:30:20 [http-nio-8080-exec-1] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | campi | concesso
+2024-04-24 14:30:20 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoCampo - Recupero tutti i campi
+2024-04-24 14:30:21 [http-nio-8080-exec-3] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | campi
+2024-04-24 14:30:21 [http-nio-8080-exec-3] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | campi | concesso
+2024-04-24 14:30:21 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampo - Recupero tutti i campi
+2024-04-24 14:30:23 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoUtils - Trovati 4 raccolti
+2024-04-24 14:30:43 [http-nio-8080-exec-5] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | campagne
+2024-04-24 14:30:43 [http-nio-8080-exec-5] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | campagne | concesso
+2024-04-24 14:30:43 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere tutte le campagne
+2024-04-24 14:30:43 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne 
+2024-04-24 14:30:43 [http-nio-8080-exec-2] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | aziende
+2024-04-24 14:30:43 [http-nio-8080-exec-2] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | aziende | concesso
+2024-04-24 14:30:43 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione della query per ottenere tutte le aziende
+2024-04-24 14:30:43 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAzienda - Numero di aziende trovate: 2
+2024-04-24 14:30:44 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoUtils - Trovate 2 tipologie di sensore
+2024-04-24 14:30:44 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoUtils - Trovate 2 tipologie di sensore
+2024-04-24 14:30:45 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoUtils - Trovati 4 raccolti
+2024-04-24 14:30:47 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoUtils - Trovati 4 raccolti
+2024-04-24 14:30:50 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoUtils - Trovati 4 raccolti
+2024-04-24 14:30:52 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoUtils - Trovati 4 raccolti
+2024-04-24 14:30:54 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoUtils - Trovate 3 esigenze
+2024-04-24 14:30:55 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoUtils - Trovate 3 esigenze
+2024-04-24 14:30:58 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoUtils - Trovate 3 esigenze
+2024-04-24 14:30:59 [http-nio-8080-exec-6] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | gestori idrici
+2024-04-24 14:30:59 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere i gestori idrici
+2024-04-24 14:30:59 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoUser - Trovati 2 gestori idrici
+2024-04-24 14:30:59 [http-nio-8080-exec-6] INFO  pissir.watermanager.controller.ControllerAdmin - Admin | get | gestori idrici | concesso
+2024-04-24 14:53:53 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - Starting WaterManagerApplication using Java 17.0.10 with PID 75116 (/Volumes/MICIO2/progetti/pissir/pissir/WaterManager/target/classes started by alessandrogattico in /Volumes/MICIO2/progetti/pissir/pissir)
+2024-04-24 14:53:53 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - No active profile set, falling back to 1 default profile: "default"
+2024-04-24 14:53:58 [restartedMain] INFO  pissir.watermanager.WaterManagerApplication - Started WaterManagerApplication in 5.925 seconds (process running for 9.482)
+2024-04-24 14:54:06 [http-nio-8080-exec-1] INFO  pissir.watermanager.security.controller.AuthenticationController - User | login | micio
+2024-04-24 14:54:07 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere l'utente con username: micio
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere il gestore azienda con ID: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione della query per ottenere l'azienda con ID gestore: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAzienda - Azienda micio's azienda trovata per il gestore con ID 2
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoRichieste - Esecuzione della query per ottenere le richieste dell'azienda con nome: micio's azienda
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere le campagne dell'azienda con ID: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne per l'azienda con ID: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:07 [http-nio-8080-exec-3] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere il gestore azienda con ID: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione della query per ottenere l'azienda con ID gestore: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAzienda - Azienda micio's azienda trovata per il gestore con ID 2
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoRichieste - Esecuzione della query per ottenere le richieste dell'azienda con nome: micio's azienda
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere le campagne dell'azienda con ID: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne per l'azienda con ID: 2
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:07 [http-nio-8080-exec-2] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.controller.ControllerAzienda - Azienda | get | 2
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.controller.ControllerAzienda - Azienda | get | 2 | concesso
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione query per ottenere l'azienda con ID 2
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAzienda - Azienda trovata: micio's azienda
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere le campagne dell'azienda con ID: 2
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne per l'azienda con ID: 2
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoRichieste - Esecuzione della query per ottenere le richieste dell'azienda con nome: micio's azienda
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:54:10 [http-nio-8080-exec-4] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.controller.ControllerAzienda - Azienda | get | 2
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.controller.ControllerAzienda - Azienda | get | 2 | concesso
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione query per ottenere l'azienda con ID 2
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAzienda - Azienda trovata: micio's azienda
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere le campagne dell'azienda con ID: 2
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne per l'azienda con ID: 2
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoRichieste - Esecuzione della query per ottenere le richieste dell'azienda con nome: micio's azienda
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:54:11 [http-nio-8080-exec-5] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:54:15 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoCampo - Inizio della query per ottenere il campo con ID: 7
+2024-04-24 14:54:15 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:54:15 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:54:15 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:54:15 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:54:15 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:15 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:15 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:15 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:15 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:15 [http-nio-8080-exec-6] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoCampo - Inizio della query per ottenere il campo con ID: 7
+2024-04-24 14:54:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:54:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:54:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:54:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:54:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:16 [http-nio-8080-exec-7] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:20 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoCampo - Inizio della query per ottenere il campo con ID: 7
+2024-04-24 14:54:20 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:54:20 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:54:20 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:54:20 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:54:20 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:20 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:20 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:20 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:20 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:20 [http-nio-8080-exec-8] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:21 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoCampo - Inizio della query per ottenere il campo con ID: 7
+2024-04-24 14:54:21 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:54:21 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:54:21 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:54:21 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:54:21 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:21 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:21 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:21 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:21 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:21 [http-nio-8080-exec-9] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:22 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoCampo - Inizio della query per ottenere il campo con ID: 7
+2024-04-24 14:54:22 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:54:22 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:54:22 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:54:22 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:54:22 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:22 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:22 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:22 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:22 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:22 [http-nio-8080-exec-10] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoUser - Esecuzione della query per ottenere il gestore azienda con ID: 2
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAzienda - Esecuzione della query per ottenere l'azienda con ID gestore: 2
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAzienda - Azienda micio's azienda trovata per il gestore con ID 2
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoRichieste - Esecuzione della query per ottenere le richieste dell'azienda con nome: micio's azienda
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 15
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 14
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 13
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 16
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Estrazione approvazione con ID richiesta: 17
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoApprovazione - Nessuna approvazione trovata per la richiesta con ID: 17
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoRisorseAzienda - Esecuzione della query per ottenere lo storico delle risorse idriche aziendali con ID azienda: 2
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoCampagna - Esecuzione della query per ottenere le campagne dell'azienda con ID: 2
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoCampagna - Trovate 1 campagne per l'azienda con ID: 2
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoCampo - Esecuzione della query per ottenere i campi della campagna con ID: 6
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoCampo - Trovati 2 campi per la campagna con ID: 6
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 8
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 8
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAttuatore - Nessuna attuatore trovato per il campo con ID: 8
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 8
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoColtivazione - Esecuzione della query per ottenere le coltivazioni del campo con ID: 7
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAttuatore - Recupero degli attuatori per il campo con ID 7
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAttuatore - Numero di attuatori trovati: 1
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoAttivazioni - Recupero attivazioni per attuatore con ID 6
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoSensore - Esecuzione della query per ottenere i sensori del campo con ID 7
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoMisura - Esecuzione della query per ottenere le misure del sensore con ID: 1
+2024-04-24 14:54:24 [http-nio-8080-exec-1] INFO  pissir.watermanager.dao.DaoMisura - Nessuna misura trovata per il sensore con ID: 1
