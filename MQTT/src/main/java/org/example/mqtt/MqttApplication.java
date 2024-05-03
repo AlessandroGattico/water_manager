@@ -1,9 +1,5 @@
 package org.example.mqtt;
 
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.example.mqtt.publisher.Publisher;
-import org.example.mqtt.simulazione.Simulazione;
-import org.example.mqtt.subscriber.Subscriber;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -18,9 +14,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class MqttApplication {
 	
-	public static void main(String[] args) throws MqttException {
+	public static void main(String[] args) {
 		SpringApplication.run(MqttApplication.class, args);
-		Simulazione simulazione = new Simulazione(new Publisher(), new Subscriber());
 	}
 	
 }

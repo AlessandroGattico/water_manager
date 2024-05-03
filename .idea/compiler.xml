@@ -7,11 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="MQTT" />
         <module name="WaterManager" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="MQTT" target="17" />
       <module name="WaterManagerBackend" target="17" />
     </bytecodeTargetLevel>
   </component>

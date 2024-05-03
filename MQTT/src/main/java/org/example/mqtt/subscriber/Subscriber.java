@@ -5,12 +5,15 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Almasio Luca
  * @author Borova Dritan
  * @author Gattico Alessandro
  */
+
+@Service
 public class Subscriber {
 	
 	private final String url = "tcp://127.0.0.1:1883";
@@ -23,13 +26,13 @@ public class Subscriber {
 		try {
 			this.mqttClient = new MqttClient(url, MqttClient.generateClientId());
 			
-			String password = "roger";
+			String password = "password";
 			char[] pwd = password.toCharArray();
 			MqttConnectOptions options = new MqttConnectOptions();
 			
 			options.setAutomaticReconnect(true);
 			this.mqttClient.connect(options);
-			options.setUserName("roger");
+			options.setUserName("username");
 			options.setPassword(pwd);
 			
 			logger.info("Creating subscriber: username={}", options.getUserName());
