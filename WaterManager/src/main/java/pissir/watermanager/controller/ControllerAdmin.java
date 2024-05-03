@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Azienda;
 import pissir.watermanager.model.item.BacinoIdrico;
-import pissir.watermanager.model.user.Admin;
-import pissir.watermanager.model.user.GestoreAzienda;
-import pissir.watermanager.model.user.GestoreIdrico;
-import pissir.watermanager.model.user.UserRole;
+import pissir.watermanager.model.user.*;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -30,16 +28,16 @@ import java.util.LinkedList;
 @RequestMapping("/api/v1/admin")
 public class ControllerAdmin {
 	
+	private static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
 	private final DAO dao;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAdmin.class.getName());
 	
 	
 	@GetMapping("/get/{id}")
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String getAdmin(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Admin | login");
 		
@@ -57,11 +55,33 @@ public class ControllerAdmin {
 	}
 	
 	
+	@GetMapping(value = "/admin/disable/{id}")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
+	public String disableUser(@PathVariable int id, HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = TokenCheck.extractTokenFromRequest(request);
+		
+		logger.info("Admin | disable user | {}", id);
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			this.dao.disableUser(id);
+			
+			logger.info("Admin | disable user | {} | concesso", id);
+			
+			return gson.toJson("OK");
+		} else {
+			logger.info("Admin | disable user | {} | negato", id);
+			
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	
 	@GetMapping(value = "/count")
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String getCount(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Admin | get | count");
 		
@@ -81,7 +101,7 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String getBacini(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Admin | get | bacini");
 		
@@ -103,11 +123,39 @@ public class ControllerAdmin {
 	}
 	
 	
+	@GetMapping(value = "/users/get/all")
+	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
+	public String getUsers(HttpServletRequest request) {
+		Gson gson = new Gson();
+		String jwt = TokenCheck.extractTokenFromRequest(request);
+		
+		logger.info("Admin | get | users");
+		
+		
+		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
+			HashSet<UserProfile> users = this.dao.getUsers();
+			
+			logger.info("Admin | get | users | concesso");
+			
+			if (users == null) {
+				return gson.toJson(new HashSet<UserProfile>());
+			}
+			
+			return gson.toJson(users);
+		} else {
+			
+			logger.info("Admin | get | users | negato");
+			
+			return gson.toJson("Accesso negato");
+		}
+	}
+	
+	
 	@GetMapping(value = "/gi/get/all")
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String getGestoriBacino(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Admin | get | gestori idrici");
 		
@@ -135,7 +183,7 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String getgestoriAzienda(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Admin | get | gestori azienda");
 		
@@ -161,7 +209,7 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String deleteEsigenza(@PathVariable String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Admin | delete | esigenza | " + param);
 		
@@ -182,17 +230,17 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String addEsigenza(@PathVariable String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | add | esigenza | " + param);
+		logger.info("Admin | add | esigenza | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			logger.info("Admin | add | esigenza | " + param + " | concesso");
+			logger.info("Admin | add | esigenza | {} | concesso", param);
 			
 			this.dao.addEsigenza(param);
 			return "OK";
 		} else {
-			logger.info("Admin | elimina | esigenza | " + param + " | negato");
+			logger.info("Admin | add | esigenza | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -203,17 +251,17 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String deleteRaccolto(@PathVariable String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | elimina | raccolto | " + param);
+		logger.info("Admin | elimina | raccolto | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			logger.info("Admin | elimina | raccolto | " + param + " | concesso");
+			logger.info("Admin | add | raccolto | {} | concesso", param);
 			
 			this.dao.deleteRaccolto(param);
 			return "OK";
 		} else {
-			logger.info("Admin | elimina | raccolto | " + param + " | negato");
+			logger.info("Admin | add | raccolto | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -224,17 +272,17 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String addRaccolto(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | add | raccolto | " + param);
+		logger.info("Admin | add | raccolto | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			logger.info("Admin | add | raccolto | " + param + " | concesso");
+			logger.info("Admin | add | raccolto | {} | concesso", param);
 			
 			this.dao.addRaccolto(gson.fromJson(param, String.class));
 			return "OK";
 		} else {
-			logger.info("Admin | add | raccolto | " + param + " | negato");
+			logger.info("Admin | add | raccolto | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -245,17 +293,17 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String deleteIrrigazione(@PathVariable String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | elimina | irrigazione | " + param);
+		logger.info("Admin | elimina | irrigazione | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			logger.info("Admin | elimina | irrigazione | " + param + " | concesso");
+			logger.info("Admin | elimina | irrigazione | {} | concesso", param);
 			
 			this.dao.deleteIrrigazione(param);
 			return "OK";
 		} else {
-			logger.info("Admin | elimina | irrigazione | " + param + " | negato");
+			logger.info("Admin | elimina | irrigazione | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -266,17 +314,18 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String addIrrigazione(@PathVariable String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | add | irrigazione | " + param);
+		logger.info("Admin | add | irrigazione | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			logger.info("Admin | add | irrigazione | " + param + " | concesso");
+			logger.info("Admin | add | irrigazione | {} | concesso", param);
 			
 			this.dao.addIrrigazione(param);
+			
 			return "OK";
 		} else {
-			logger.info("Admin | add | irrigazione | " + param + " | negato");
+			logger.info("Admin | add | irrigazione | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -287,17 +336,18 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String deleteSensorType(@PathVariable String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | elimina | Sensor_types | " + param);
+		logger.info("Admin | elimina | Sensor_types | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			logger.info("Admin | elimina | Sensor_types | " + param + " | concesso");
+			logger.info("Admin | elimina | Sensor_types | {} | concesso", param);
 			
 			this.dao.deleteSensorType(param);
+			
 			return "OK";
 		} else {
-			logger.info("Admin | elimina | Sensor_types | " + param + " | negato");
+			logger.info("Admin | elimina | Sensor_types | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -308,18 +358,18 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String addSensorType(@PathVariable String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | add | Sensor_types | " + param);
+		logger.info("Admin | add | Sensor_types | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
 			this.dao.addSensorType(param);
 			
-			logger.info("Admin | add | Sensor_types | " + param + " | concesso");
+			logger.info("Admin | add | Sensor_types | {} | concesso", param);
 			
 			return "OK";
 		} else {
-			logger.info("Admin | add | Sensor_types | " + param + " | negato");
+			logger.info("Admin | add | Sensor_types | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -330,7 +380,7 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String getAllAziende(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Admin | get | aziende");
 		
@@ -351,7 +401,7 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String getAllCampagne(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Admin | get | campagne");
 		
@@ -371,7 +421,7 @@ public class ControllerAdmin {
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String getAllCampi(HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Admin | get | campi");
 		
@@ -384,15 +434,6 @@ public class ControllerAdmin {
 			
 			return gson.toJson("Accesso negato");
 		}
-	}
-	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
 	}
 	
 }

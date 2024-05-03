@@ -11,6 +11,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Azienda;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 /**
  * @author Almasio Luca
@@ -25,14 +26,14 @@ public class ControllerAzienda {
 	
 	private final DAO daoAzienda;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerAzienda.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerAzienda.class.getName());
 	
 	
 	@PostMapping(value = "/add")
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String addAzienda(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Azienda | add");
 		
@@ -54,12 +55,12 @@ public class ControllerAzienda {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getAziendaId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Azienda | get | " + id);
+		logger.info("Azienda | get | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Azienda | get | " + id + " | concesso");
+			logger.info("Azienda | get | {} | concesso", id);
 			
 			Azienda azienda = this.daoAzienda.getAziendaId(id);
 			
@@ -69,7 +70,7 @@ public class ControllerAzienda {
 				return null;
 			}
 		} else {
-			logger.info("Azienda | get | " + id + " | negato");
+			logger.info("Azienda | get | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -80,12 +81,12 @@ public class ControllerAzienda {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String getAziendaGa(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Azienda | get | azienda gestore | " + id + " | concesso");
+		logger.info("Azienda | get | azienda gestore | {} | concesso", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Azienda | get | azienda gestore | " + id + " | concesso");
+			logger.info("Azienda | get | azienda gestore | {} | concesso", id);
 			
 			Azienda azienda = this.daoAzienda.getAziendaGestore(id);
 			
@@ -95,7 +96,7 @@ public class ControllerAzienda {
 				return null;
 			}
 		} else {
-			logger.info("Azienda | get | azienda gestore | " + id + " | concesso");
+			logger.info("Azienda | get | azienda gestore | {} | concesso", id);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -106,30 +107,21 @@ public class ControllerAzienda {
 	@PreAuthorize("hasAuthority('GESTOREAZIENDA')")
 	public String deleteAzienda(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Azienda | elimina | " + id);
+		logger.info("Azienda | elimina | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Azienda | elimina | " + id + " | concesso");
+			logger.info("Azienda | elimina | {} | concesso", id);
 			
 			this.daoAzienda.deleteAzienda(id);
 			
 			return gson.toJson("OK");
 		} else {
-			logger.info("Azienda | elimina | " + id + " | negato");
+			logger.info("Azienda | elimina | {} | negato", id);
 			
 			return "Accesso negato";
 		}
-	}
-	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
 	}
 	
 }

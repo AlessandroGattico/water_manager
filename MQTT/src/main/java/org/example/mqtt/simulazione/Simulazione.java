@@ -5,12 +5,15 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.example.mqtt.model.Misura;
 import org.example.mqtt.publisher.Publisher;
 import org.example.mqtt.subscriber.Subscriber;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -24,6 +27,7 @@ public class Simulazione {
 	
 	private final Publisher publisher;
 	private final Subscriber subscriber;
+	private List<String> subscribed;
 	
 	private final String urlTopics = "http://localhost:8080/api/v1/utils/topics/get/all";
 	
@@ -31,11 +35,22 @@ public class Simulazione {
 	public Simulazione(Publisher publisher, Subscriber subscriber) {
 		this.publisher = publisher;
 		this.subscriber = subscriber;
+		this.subscribed = new ArrayList<>();
 	}
 	
 	
-	public void start()
-			throws MqttException {
+	@Scheduled(fixedRate = 1800000)
+	public void scheduleFixedRateTask() throws MqttException {
+		this.start();
+		this.decreaseWater();
+	}
+	
+	
+	private void decreaseWater() {
+	}
+	
+	
+	private void start() throws MqttException {
 		Gson gson = new Gson();
 		RestTemplate restTemplate = new RestTemplate();
 		String result = restTemplate.getForObject(this.urlTopics, String.class);
@@ -43,7 +58,10 @@ public class Simulazione {
 		Topics topics = gson.fromJson(result, Topics.class);
 		
 		for (TopicCreator topic : topics.getTopics()) {
-			this.subscriber.subscribe(topic.getTopic());
+			if (! this.subscribed.contains(topic.getTopic())) {
+				this.subscriber.subscribe(topic.getTopic());
+				this.subscribed.add(topic.getTopic());
+			}
 			
 			if (topic.getTypeSensore().equals("TEMPERATURA")) {
 				String time =

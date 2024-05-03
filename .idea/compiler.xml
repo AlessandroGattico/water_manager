@@ -17,6 +17,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="MQTT" options="-parameters" />
       <module name="WaterManager" options="-parameters" />
       <module name="WaterManagerBackend" options="-parameters" />
     </option>

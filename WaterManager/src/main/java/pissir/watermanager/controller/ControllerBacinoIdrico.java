@@ -11,6 +11,7 @@ import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.BacinoIdrico;
 import pissir.watermanager.model.user.UserRole;
 import pissir.watermanager.security.services.TokenService;
+import pissir.watermanager.security.utils.TokenCheck;
 
 /**
  * @author Almasio Luca
@@ -25,24 +26,24 @@ public class ControllerBacinoIdrico {
 	
 	private final DAO daoBacino;
 	private final TokenService tokenService;
-	public static final Logger logger = LogManager.getLogger(ControllerBacinoIdrico.class.getName());
+	private static final Logger logger = LogManager.getLogger(ControllerBacinoIdrico.class.getName());
 	
 	
 	@GetMapping(value = "/get/{id}")
 	public String getBacinoId(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Bacino idrico | get | " + id);
+		logger.info("Bacino idrico | get | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			logger.info("Bacino idrico | get | " + id + " | concesso");
+			logger.info("Bacino idrico | get | {} | concesso", id);
 			
 			BacinoIdrico bacinoIdrico = this.daoBacino.getBacinoId(id);
 			
 			return gson.toJson(bacinoIdrico);
 		} else {
-			logger.info("Bacino idrico | get | " + id + " | negato");
+			logger.info("Bacino idrico | get | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -53,12 +54,12 @@ public class ControllerBacinoIdrico {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String getBacinoGi(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Bacino idrico | get | bacino gestore | " + id);
+		logger.info("Bacino idrico | get | bacino gestore | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			logger.info("Bacino idrico | get | bacino gestore | " + id + " | concesso");
+			logger.info("Bacino idrico | get | bacino gestore | {} | concesso", id);
 			
 			BacinoIdrico bacinoIdrico = this.daoBacino.getBacinoGestore(id);
 			
@@ -68,7 +69,7 @@ public class ControllerBacinoIdrico {
 				return null;
 			}
 		} else {
-			logger.info("Bacino idrico | get | bacino gestore | " + id + " | negato");
+			logger.info("Bacino idrico | get | bacino gestore | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -79,7 +80,7 @@ public class ControllerBacinoIdrico {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String addBacino(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
 		logger.info("Bacino idrico | add");
 		
@@ -101,29 +102,21 @@ public class ControllerBacinoIdrico {
 	@PreAuthorize("hasAuthority('GESTOREIDRICO')")
 	public String deleteBacino(@PathVariable int id, HttpServletRequest request) {
 		Gson gson = new Gson();
-		String jwt = extractTokenFromRequest(request);
+		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Bacino idrico | elimina | " + id);
+		logger.info("Bacino idrico | elimina | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			logger.info("Bacino idrico | elimina | " + id + " | concesso");
+			logger.info("Bacino idrico | elimina | {} | concesso", id);
 			
 			this.daoBacino.deleteBacino(id);
 			return gson.toJson("OK");
 		} else {
-			logger.info("Bacino idrico | elimina | " + id + " | negato");
+			logger.info("Bacino idrico | elimina | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}
 	}
 	
-	
-	private String extractTokenFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		}
-		return null;
-	}
 	
 }
