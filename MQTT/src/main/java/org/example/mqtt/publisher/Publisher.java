@@ -2,7 +2,10 @@ package org.example.mqtt.publisher;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eclipse.paho.client.mqttv3.*;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.nio.charset.StandardCharsets;
 
@@ -44,11 +47,15 @@ public class Publisher {
 	
 	
 	public void publish(String topic, String message) throws MqttException {
-		MqttTopic publisherTopic = this.client.getTopic(topic);
+		MqttMessage mqttMessage = new MqttMessage();
+		
+		mqttMessage.setPayload(message.getBytes(StandardCharsets.UTF_8));
+		mqttMessage.setQos(1);
 		
 		logger.info("Publishing on topic: {}, message: {}", topic, message);
 		
-		publisherTopic.publish(new MqttMessage(message.getBytes(StandardCharsets.UTF_8)));
+		client.publish(topic, mqttMessage);
 	}
+	
 	
 }

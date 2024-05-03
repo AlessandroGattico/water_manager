@@ -9,6 +9,10 @@
       <sourceFolder url="file://$MODULE_DIR$/MQTT/MQTT/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/MQTT/MQTT/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/MQTT/MQTT/src/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/MQTT/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MQTT/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/MQTT/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/MQTT/src/test" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

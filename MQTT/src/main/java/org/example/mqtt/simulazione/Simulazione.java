@@ -41,7 +41,12 @@ public class Simulazione {
 	
 	@Scheduled(fixedRate = 1800000)
 	public void scheduleFixedRateTask() throws MqttException {
-		start();
+		this.start();
+		this.decreaseWater();
+	}
+	
+	
+	private void decreaseWater() {
 	}
 	
 	
