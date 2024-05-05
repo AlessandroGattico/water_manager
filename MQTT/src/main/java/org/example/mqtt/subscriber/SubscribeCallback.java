@@ -16,8 +16,9 @@ import org.springframework.web.client.RestTemplate;
 public class SubscribeCallback implements MqttCallback {
 	
 	private static final Logger logger = LogManager.getLogger(SubscribeCallback.class.getName());
-	private final String apiUrl = "http://localhost:8080/api/v1/misura/add";
-	
+	private final String apiUrlSensor = "http://localhost:8080/api/v1/misura/add";
+	private final String apiUrlActuator = "http://localhost:8080/api/v1/azienda/attivazione/add/MQTT";
+
 	
 	@Override
 	public void connectionLost(Throwable cause) {
@@ -26,12 +27,17 @@ public class SubscribeCallback implements MqttCallback {
 	
 	@Override
 	public void messageArrived(String topic, MqttMessage message) {
-		String misura = new String(message.getPayload());
+		String mex = new String(message.getPayload());
 		RestTemplate restTemplate = new RestTemplate();
 		
-		logger.info("Message arrived: {}, on topic: {}", misura, topic);
-		
-		restTemplate.postForObject(apiUrl, misura, String.class);
+		logger.info("Message arrived: {}, on topic: {}", mex, topic);
+
+		if (topic.contains("SENSOR")){
+			restTemplate.postForObject(apiUrlSensor, mex, String.class);
+		} else if (topic.contains("ACTUATOR")){
+			restTemplate.postForObject(apiUrlActuator, mex, String.class);
+		}
+
 	}
 	
 	
