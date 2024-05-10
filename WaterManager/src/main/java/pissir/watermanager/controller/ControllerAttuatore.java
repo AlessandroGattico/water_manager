@@ -98,4 +98,11 @@ public class ControllerAttuatore {
 	}
 	
 	
+	@GetMapping(value = "/get/attivi/all/{id}")
+	public String getAttuaotriAttiviCampo(@PathVariable int id) {
+		Gson gson = new Gson();
+		
+		return gson.toJson(this.daoAttuatore.getAttuatoriAttiviCampo(id));
+	}
+	
 }

@@ -13,11 +13,13 @@ public class Scheduler {
 	
 	private final RisorsaService risorsaService;
 	private final DatabaseCleaner cleaner;
+	private final ConsumoAttuatori consumoAttuatori;
 	
 	
-	public Scheduler(RisorsaService risorsaIdricaService, DatabaseCleaner cleaner) {
+	public Scheduler(RisorsaService risorsaIdricaService, DatabaseCleaner cleaner, ConsumoAttuatori consumoAttuatori) {
 		this.risorsaService = risorsaIdricaService;
 		this.cleaner = cleaner;
+		this.consumoAttuatori = consumoAttuatori;
 	}
 	
 	
@@ -30,6 +32,12 @@ public class Scheduler {
 	@Scheduled(cron = "0 0 0 * * ?")
 	public void clearDB() {
 		this.cleaner.cleanDB();
+	}
+	
+	
+	@Scheduled(cron = "0 0 0 * * ?")
+	public void aggiornaConsumo() {
+		this.consumoAttuatori.aggiornaConsumo();
 	}
 	
 	

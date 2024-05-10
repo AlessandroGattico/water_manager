@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import pissir.watermanager.dao.DAO;
 import pissir.watermanager.model.item.Attivazione;
 import pissir.watermanager.model.user.UserRole;
@@ -72,6 +73,10 @@ public class ControllerAttivazione {
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			Attivazione attivazione = gson.fromJson(param, Attivazione.class);
+			
+			RestTemplate restTemplate = new RestTemplate();
+			String topic = this.daoAttivazioni.getTopicAttuatore(attivazione.getIdAttuatore());
+			String apiUrlActuator = "http://localhost:8081/api/v1/MQTT/run/attuatore/" + topic;
 			
 			return gson.toJson(this.daoAttivazioni.addAttivazione(attivazione));
 		} else {

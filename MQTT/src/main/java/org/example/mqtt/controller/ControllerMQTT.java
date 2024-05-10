@@ -19,12 +19,13 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RequestMapping("/api/v1/MQTT")
 public class ControllerMQTT {
-
-    private static final Logger logger = LogManager.getLogger(ControllerMQTT.class.getName());
-    private final ActuatorHandler actuatorHandler;
-
-    @GetMapping(value = "/deactivate/{topic}")
-    public void deactivate(@RequestBody String body, @PathVariable String topic) throws MqttException {
-        this.actuatorHandler.pub(topic, body);
-    }
+	
+	private static final Logger logger = LogManager.getLogger(ControllerMQTT.class.getName());
+	private final ActuatorHandler actuatorHandler;
+	
+	
+	@GetMapping(value = "/run/attuatore/{topic}")
+	public void deactivate(@RequestBody String body, @PathVariable String topic) throws MqttException {
+		this.actuatorHandler.pub(topic, body);
+	}
 }

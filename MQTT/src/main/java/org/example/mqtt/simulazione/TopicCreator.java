@@ -38,7 +38,7 @@ public class TopicCreator {
 	
 	
 	public void createTopic() {
-		this.topic = "SENSORE/"+typeSensore + "/" + idAzienda + "/" + idCampagna + "/" + idCampo +
+		this.topic = "SENSOR/" + typeSensore + "/" + idAzienda + "/" + idCampagna + "/" + idCampo +
 				"/" + nomeSensore;
 	}
 	
