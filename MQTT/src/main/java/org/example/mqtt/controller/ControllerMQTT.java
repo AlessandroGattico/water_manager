@@ -1,6 +1,5 @@
 package org.example.mqtt.controller;
 
-import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,8 +23,10 @@ public class ControllerMQTT {
 	private final ActuatorHandler actuatorHandler;
 	
 	
-	@GetMapping(value = "/run/attuatore/{topic}")
-	public void deactivate(@RequestBody String body, @PathVariable String topic) throws MqttException {
+	@PostMapping(value = "/run/attuatore/{topic}")
+	public void runActuator(@RequestBody String body, @PathVariable String topic) throws MqttException {
+		this.actuatorHandler.sub(topic);
 		this.actuatorHandler.pub(topic, body);
 	}
+	
 }

@@ -1,11 +1,16 @@
 package org.example.mqtt.subscriber;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.stereotype.Service;
+
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * @author Almasio Luca
@@ -16,7 +21,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class Subscriber {
 	
-	private final String url = "tcp://127.0.0.1:1883";
+	private String url = "";
 	private static final Logger logger = LogManager.getLogger(Subscriber.class.getName());
 	private MqttClient mqttClient;
 	private SubscribeCallback callback;
@@ -25,14 +30,25 @@ public class Subscriber {
 	public Subscriber() {
 		try {
 			this.mqttClient = new MqttClient(url, MqttClient.generateClientId());
+			String username = "";
+			String password = "";
 			
-			String password = "12345678";
+			try (FileReader reader = new FileReader(System.getProperty("user.dir") + "/Config/config.json")) {
+				JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
+				
+				username = jsonObject.get("username").getAsString();
+				password = jsonObject.get("password").getAsString();
+				url = jsonObject.get("urlMqtt").getAsString();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			char[] pwd = password.toCharArray();
 			MqttConnectOptions options = new MqttConnectOptions();
 			
 			options.setAutomaticReconnect(true);
 			this.mqttClient.connect(options);
-			options.setUserName("admin");
+			options.setUserName(username);
 			options.setPassword(pwd);
 			
 			logger.info("Creating subscriber: username={}", options.getUserName());

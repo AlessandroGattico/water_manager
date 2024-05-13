@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -581,7 +582,7 @@ public class DAO {
 		int id = this.daoAttuatore.addAttuatore(attuatore);
 		StringBuilder topic = new StringBuilder();
 		
-		this.daoAttivazioni.addAttivazione(
+		this.addAttivazione(
 				new Attivazione(false, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
 						id));
 		
@@ -947,12 +948,14 @@ public class DAO {
 		for (Attuatore attuatore : attuatori) {
 			attuatore.setAttivazioni(this.daoAttivazioni.getAttivazioniAttuatore(attuatore.getId()));
 			
-			LinkedList<Attivazione> attivazioniOrdinate = (LinkedList<Attivazione>) attuatore.getAttivazioni().stream()
-					.sorted((a1, a2) -> a2.getTime().compareTo(a1.getTime())).collect(Collectors.toList());
+			List<Attivazione> attivazioniOrdinate = attuatore.getAttivazioni().stream()
+					.sorted((a1, a2) -> a2.getTime().compareTo(a1.getTime()))
+					.collect(Collectors.toList());
 			
-			if (! attivazioniOrdinate.isEmpty() && attivazioniOrdinate.get(0).isCurrent()) {
+			if (!attivazioniOrdinate.isEmpty() && attivazioniOrdinate.get(0).isCurrent()) {
 				attuatoriAttivi.add(attuatore);
 			}
+			
 		}
 		
 		return attuatoriAttivi;

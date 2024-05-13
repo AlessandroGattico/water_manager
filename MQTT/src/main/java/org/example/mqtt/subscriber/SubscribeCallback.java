@@ -34,8 +34,11 @@ public class SubscribeCallback implements MqttCallback {
 		logger.info("Message arrived: {}, on topic: {}", mex, topic);
 		
 		if (topic.contains("SENSOR")) {
+			System.out.println("Sensore");
 			restTemplate.postForObject(apiUrlSensor, mex, String.class);
 		} else if (topic.contains("ACTUATOR")) {
+			System.out.println("Attuatore");
+			
 			Gson gson = new Gson();
 			
 			Attivazione attivazione = gson.fromJson(mex, Attivazione.class);

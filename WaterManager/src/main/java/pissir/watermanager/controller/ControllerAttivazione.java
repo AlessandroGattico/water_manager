@@ -76,9 +76,12 @@ public class ControllerAttivazione {
 			
 			RestTemplate restTemplate = new RestTemplate();
 			String topic = this.daoAttivazioni.getTopicAttuatore(attivazione.getIdAttuatore());
-			String apiUrlActuator = "http://localhost:8081/api/v1/MQTT/run/attuatore/" + topic;
+			String apiUrlActuator = "http://localhost:8081/api/v1/MQTT/run/attuatore/{" + topic + "}";
+			this.daoAttivazioni.addAttivazione(attivazione);
 			
-			return gson.toJson(this.daoAttivazioni.addAttivazione(attivazione));
+			restTemplate.postForObject(apiUrlActuator, gson.toJson(attivazione), String.class);
+			
+			return gson.toJson("");
 		} else {
 			return gson.toJson("Accesso negato");
 		}

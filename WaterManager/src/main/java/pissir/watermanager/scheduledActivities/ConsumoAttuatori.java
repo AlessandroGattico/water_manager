@@ -31,7 +31,7 @@ public class ConsumoAttuatori {
 				for (Campo campo : campagna.getCampi()) {
 					HashSet<Attuatore> attuatoriAttivi = this.dao.getAttuatoriAttiviCampo(campo.getId());
 					
-					Double consumo = attuatoriAttivi.size() * 30.0;
+					Double consumo = attuatoriAttivi.size() * 10.0;
 					RisorsaIdrica ultimaRisorsa = this.dao.ultimaRisorsaAzienda(azienda.getId());
 					Double dispAzienda = ultimaRisorsa.getDisponibilita() - consumo;
 					
