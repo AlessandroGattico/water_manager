@@ -8,24 +8,23 @@ import org.example.mqtt.publisher.Publisher;
 import org.example.mqtt.simulazione.Simulazione;
 import org.example.mqtt.subscriber.Subscriber;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-@Component
+@Service
 public class ActuatorHandler {
 	
 	private static final Logger logger = LogManager.getLogger(Simulazione.class.getName());
 	
 	private final Publisher publisher;
-	private final Subscriber subscriber;
 	private final List<String> subscribed;
 	
 	
-	public ActuatorHandler(Publisher publisher, Subscriber subscriber) {
+	public ActuatorHandler(Publisher publisher) {
 		this.publisher = publisher;
-		this.subscriber = subscriber;
 		this.subscribed = new ArrayList<>();
 	}
 	

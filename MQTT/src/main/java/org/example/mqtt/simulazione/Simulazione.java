@@ -51,13 +51,9 @@ public class Simulazione {
 	@Scheduled(fixedRate = 300000)
 	public void scheduleFixedRateTask() throws MqttException {
 		this.start();
-		this.decreaseWater();
 	}
 	
-	
-	private void decreaseWater() {
-	}
-	
+
 	
 	private void start() throws MqttException {
 		Gson gson = new Gson();

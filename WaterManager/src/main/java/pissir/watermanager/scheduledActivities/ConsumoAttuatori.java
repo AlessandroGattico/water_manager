@@ -1,4 +1,4 @@
-package pissir.watermanager.model.scheduledActivities;
+package pissir.watermanager.scheduledActivities;
 
 import com.google.gson.Gson;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package pissir.watermanager.model.scheduledActivities;
+package pissir.watermanager.scheduledActivities;
 
 import org.springframework.stereotype.Service;
 import pissir.watermanager.dao.DAO;

@@ -26,13 +26,13 @@ public class Subscriber {
 		try {
 			this.mqttClient = new MqttClient(url, MqttClient.generateClientId());
 			
-			String password = "password";
+			String password = "12345678";
 			char[] pwd = password.toCharArray();
 			MqttConnectOptions options = new MqttConnectOptions();
 			
 			options.setAutomaticReconnect(true);
 			this.mqttClient.connect(options);
-			options.setUserName("username");
+			options.setUserName("admin");
 			options.setPassword(pwd);
 			
 			logger.info("Creating subscriber: username={}", options.getUserName());
