@@ -32,11 +32,11 @@ public class Publisher {
 
 		try {
 			this.client = new MqttClient(url, clientId);
-			String password = "12345678";
+			String password = "password";
 			char[] pwd = password.toCharArray();
 
 			MqttConnectOptions options = new MqttConnectOptions();
-			options.setUserName("admin");
+			options.setUserName("username");
 			options.setPassword(pwd);
 			options.setCleanSession(false);
 
