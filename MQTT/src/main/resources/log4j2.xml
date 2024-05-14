@@ -29,7 +29,7 @@
             <AppenderRef ref="Console"/>
         </Root>
 
-        <Logger name="pissir.watermanager" level="info" additivity="false">
+        <Logger name="pissir.watermanager.mqtt" level="info" additivity="false">
             <AppenderRef ref="RollingFile"/>
         </Logger>
     </Loggers>

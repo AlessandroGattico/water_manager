@@ -952,7 +952,7 @@ public class DAO {
 					.sorted((a1, a2) -> a2.getTime().compareTo(a1.getTime()))
 					.collect(Collectors.toList());
 			
-			if (!attivazioniOrdinate.isEmpty() && attivazioniOrdinate.get(0).isCurrent()) {
+			if (! attivazioniOrdinate.isEmpty() && attivazioniOrdinate.get(0).isCurrent()) {
 				attuatoriAttivi.add(attuatore);
 			}
 			
@@ -964,6 +964,16 @@ public class DAO {
 	
 	public String getTopicAttuatore(int idAttuatore) {
 		return this.daoAttuatore.getTopicId(idAttuatore);
+	}
+	
+	
+	public LinkedList<RichiestaIdrica> getWaitingAziendaPerData(int idAzienda, String ieriString) {
+		return this.daoRichieste.getWaitingData(idAzienda, ieriString);
+	}
+	
+	
+	public void deleteWaitingPerData(int idAzienda, String ieriString) {
+		this.daoRichieste.deleteWaitingData(idAzienda, ieriString);
 	}
 	
 }

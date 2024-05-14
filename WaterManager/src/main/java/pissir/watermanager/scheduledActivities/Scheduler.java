@@ -35,7 +35,8 @@ public class Scheduler {
 	}
 
 
-	@Scheduled(cron = "0 0/15 * * * ?")
+	//@Scheduled(cron = "0 0/15 * * * ?")
+	@Scheduled(cron = "0 */2 * * * ?") //2 minuti
 	public void aggiornaConsumo() {
 		this.consumoAttuatori.aggiornaConsumo();
 	}

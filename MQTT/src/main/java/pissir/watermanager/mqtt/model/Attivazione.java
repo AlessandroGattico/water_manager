@@ -1,4 +1,4 @@
-package org.example.mqtt.model;
+package pissir.watermanager.mqtt.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

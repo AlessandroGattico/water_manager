@@ -1,13 +1,13 @@
-package org.example.mqtt.model;
+package pissir.watermanager.mqtt.model;
 
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.example.mqtt.publisher.Publisher;
-import org.example.mqtt.simulazione.Simulazione;
-import org.example.mqtt.subscriber.Subscriber;
 import org.springframework.stereotype.Service;
+import pissir.watermanager.mqtt.publisher.Publisher;
+import pissir.watermanager.mqtt.simulazione.Simulazione;
+import pissir.watermanager.mqtt.subscriber.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;

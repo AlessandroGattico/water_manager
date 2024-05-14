@@ -85,9 +85,9 @@ public class DaoAttuatore {
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
 					
-					String builder = rs.getInt("id_azienda") + "/" +
-							rs.getInt("id_campagna") + "/" +
-							rs.getInt("id_campo") + "/" + attuatoreId;
+					String builder = rs.getInt("id_azienda") + "-" +
+							rs.getInt("id_campagna") + "-" +
+							rs.getInt("id_campo") + "-" + attuatoreId;
 					
 					return builder;
 				}

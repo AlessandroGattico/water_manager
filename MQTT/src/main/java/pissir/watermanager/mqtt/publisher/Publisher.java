@@ -1,4 +1,4 @@
-package org.example.mqtt.publisher;
+package pissir.watermanager.mqtt.publisher;
 
 
 import com.google.gson.JsonObject;
@@ -24,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class Publisher {
 	
-	private String url = "";
 	private MqttClient client;
 	private static final Logger logger = LogManager.getLogger(Publisher.class.getName());
 	
@@ -35,6 +34,7 @@ public class Publisher {
 		try {
 			String username = "";
 			String password = "";
+			String url = "";
 			
 			try (FileReader reader = new FileReader(System.getProperty("user.dir") + "/Config/config.json")) {
 				JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
@@ -43,7 +43,7 @@ public class Publisher {
 				password = jsonObject.get("password").getAsString();
 				url = jsonObject.get("urlMqtt").getAsString();
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error("Impossibile aprire il file di configuraizone");
 			}
 			
 			this.client = new MqttClient(url, clientId);
@@ -54,13 +54,13 @@ public class Publisher {
 			options.setPassword(pwd);
 			options.setCleanSession(false);
 			
-			logger.info("Creating publisher: username={}", options.getUserName());
+			logger.info("Creating publisher: username = {}", options.getUserName());
 			
 			options.setWill(this.client.getTopic("home/LWT"), "I'm gone. Bye.".getBytes(), 0, false);
 			
 			this.client.connect(options);
 		} catch (MqttException e) {
-			e.printStackTrace();
+			logger.error("Impossibile creare un client MQTT");
 		}
 	}
 	

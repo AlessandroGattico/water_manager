@@ -1,4 +1,4 @@
-package org.example.mqtt.subscriber;
+package pissir.watermanager.mqtt.subscriber;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -29,7 +29,7 @@ public class Subscriber {
 	
 	public Subscriber() {
 		try {
-			this.mqttClient = new MqttClient(url, MqttClient.generateClientId());
+			
 			String username = "";
 			String password = "";
 			
@@ -40,9 +40,10 @@ public class Subscriber {
 				password = jsonObject.get("password").getAsString();
 				url = jsonObject.get("urlMqtt").getAsString();
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error("Impossibile aprire il file di configuraizone");
 			}
 			
+			this.mqttClient = new MqttClient(url, MqttClient.generateClientId());
 			char[] pwd = password.toCharArray();
 			MqttConnectOptions options = new MqttConnectOptions();
 			
@@ -51,12 +52,13 @@ public class Subscriber {
 			options.setUserName(username);
 			options.setPassword(pwd);
 			
-			logger.info("Creating subscriber: username={}", options.getUserName());
+			logger.info("Creating subscriber: username = {}", options.getUserName());
 			
 			this.callback = new SubscribeCallback();
 			this.mqttClient.setCallback(this.callback);
 		} catch (MqttException e) {
-			e.printStackTrace();
+			logger.error("Impossibile creare un client MQTT");
+			
 		}
 		
 		

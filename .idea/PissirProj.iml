@@ -117,5 +117,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:6.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:6.2.1" level="project" />
   </component>
 </module>

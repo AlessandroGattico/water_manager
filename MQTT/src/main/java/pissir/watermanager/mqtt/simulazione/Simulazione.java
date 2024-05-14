@@ -1,18 +1,18 @@
-package org.example.mqtt.simulazione;
+package pissir.watermanager.mqtt.simulazione;
 
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.example.mqtt.model.Misura;
-import org.example.mqtt.publisher.Publisher;
-import org.example.mqtt.subscriber.Subscriber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import pissir.watermanager.mqtt.model.Misura;
+import pissir.watermanager.mqtt.publisher.Publisher;
+import pissir.watermanager.mqtt.subscriber.Subscriber;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -53,11 +53,12 @@ public class Simulazione {
 		this.start();
 	}
 	
-
 	
 	private void start() throws MqttException {
 		Gson gson = new Gson();
 		RestTemplate restTemplate = new RestTemplate();
+		
+		logger.info("Inizio simulazione misure");
 		
 		try {
 			String result = restTemplate.getForObject(this.urlTopics, String.class);

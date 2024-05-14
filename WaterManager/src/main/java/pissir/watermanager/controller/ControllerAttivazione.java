@@ -6,6 +6,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -76,10 +79,18 @@ public class ControllerAttivazione {
 			
 			RestTemplate restTemplate = new RestTemplate();
 			String topic = this.daoAttivazioni.getTopicAttuatore(attivazione.getIdAttuatore());
-			String apiUrlActuator = "http://localhost:8081/api/v1/MQTT/run/attuatore/{" + topic + "}";
+			String apiUrlActuator = "http://localhost:8081/api/v1/MQTT/run/attuatore/" + topic;
+			
 			this.daoAttivazioni.addAttivazione(attivazione);
 			
-			restTemplate.postForObject(apiUrlActuator, gson.toJson(attivazione), String.class);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpEntity<String> entity = new HttpEntity<>(gson.toJson(attivazione), headers);
+			
+			restTemplate.postForObject(apiUrlActuator, entity, String.class);
+			
+			logger.info("Calling API at: {}", apiUrlActuator);
+			logger.info("With body: {}", entity.getBody());
 			
 			return gson.toJson("");
 		} else {

@@ -1,6 +1,9 @@
 package pissir.watermanager.scheduledActivities;
 
 import com.google.gson.Gson;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import pissir.watermanager.dao.DAO;
@@ -46,15 +49,20 @@ public class ConsumoAttuatori {
 						
 						for (Attuatore attuatore : attuatoriAttivi) {
 							String topic = this.dao.getTopicAttuatore(attuatore.getId());
-							String apiUrlActuator = "http://localhost:8081/api/v1/MQTT/deactivate/" + topic;
 							
 							Attivazione attivazione = new Attivazione(false,
 									LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
 									attuatore.getId());
 							
-							restTemplate.postForObject(apiUrlActuator, gson.toJson(attivazione), String.class);
+							String apiUrlActuator = "http://localhost:8081/api/v1/MQTT/run/attuatore/" + topic;
 							
 							this.dao.addAttivazione(attivazione);
+							
+							HttpHeaders headers = new HttpHeaders();
+							headers.setContentType(MediaType.APPLICATION_JSON);
+							HttpEntity<String> entity = new HttpEntity<>(gson.toJson(attivazione), headers);
+							
+							restTemplate.postForObject(apiUrlActuator, entity, String.class);
 						}
 					} else {
 						this.dao.addRisorsaAzienda(new RisorsaIdrica(

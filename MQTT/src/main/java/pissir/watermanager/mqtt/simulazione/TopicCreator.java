@@ -1,4 +1,4 @@
-package org.example.mqtt.simulazione;
+package pissir.watermanager.mqtt.simulazione;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,8 +38,8 @@ public class TopicCreator {
 	
 	
 	public void createTopic() {
-		this.topic = "SENSOR/" + typeSensore + "/" + idAzienda + "/" + idCampagna + "/" + idCampo +
-				"/" + nomeSensore;
+		this.topic = "SENSOR-" + typeSensore + "-" + idAzienda + "-" + idCampagna + "-" + idCampo +
+				"-" + nomeSensore;
 	}
 	
 }

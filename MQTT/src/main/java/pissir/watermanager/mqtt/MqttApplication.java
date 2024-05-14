@@ -1,4 +1,4 @@
-package org.example.mqtt;
+package pissir.watermanager.mqtt;
 
 
 import org.springframework.boot.SpringApplication;

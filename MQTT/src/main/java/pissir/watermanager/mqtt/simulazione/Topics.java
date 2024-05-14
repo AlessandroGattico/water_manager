@@ -1,4 +1,4 @@
-package org.example.mqtt.simulazione;
+package pissir.watermanager.mqtt.simulazione;
 
 import lombok.Getter;
 import lombok.Setter;

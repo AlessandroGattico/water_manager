@@ -1,4 +1,4 @@
-package org.example.mqtt;
+package pissir.watermanager.mqtt;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -493,4 +493,107 @@ public class DaoRichieste {
 		archive.export();
 	}
 	
+	
+	public LinkedList<RichiestaIdrica> getWaitingData(int idAzienda, String ieriString) {
+		LinkedList<RichiestaIdrica> richieste = new LinkedList<>();
+		RichiestaIdrica richiestaIdrica = null;
+		
+		String query = """
+				SELECT *
+				FROM waiting_resource_azienda
+				WHERE id_azienda = ? AND date(insert_time) = date(?);
+				""";
+		
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setInt(1, idAzienda);
+			statement.setString(2, ieriString);
+			
+			logger.info("Esecuzione della query per ottenere le richieste in waiting dell'azienda con ID: {} e " +
+							"relative al giorno: {}",
+					idAzienda, ieriString);
+			
+			try (ResultSet resultSet = statement.executeQuery()) {
+				while (resultSet.next()) {
+					richiestaIdrica = new RichiestaIdrica(
+							resultSet.getInt("id"),
+							resultSet.getDouble("quantita"),
+							resultSet.getInt("id_coltivazione"),
+							resultSet.getInt("id_bacino"),
+							resultSet.getString("date"),
+							resultSet.getString("nome_azienda")
+					);
+					
+					richieste.add(richiestaIdrica);
+				}
+				
+				if (richieste.isEmpty()) {
+					logger.info("Nessuna misura trovata per il sensore con ID: {}", idAzienda);
+				} else {
+					logger.debug("Richieste idriche trovate per la coltivazione con ID {}: {}", idAzienda,
+							richieste.size());
+				}
+				return richieste;
+			}
+		} catch (SQLException e) {
+			logger.error("Errore durante il recupero delle richieste idriche per la coltivazione con ID {}",
+					idAzienda, e);
+			
+			return richieste;
+		}
+	}
+	
+	
+	public void deleteWaitingData(int idAzienda, String ieriString) {
+		Connection connection = null;
+		String query = """
+				DELETE FROM waiting_resource_azienda
+				WHERE id_azienda = ? AND date(insert_time) <= date(?);
+				""";
+		
+		try {
+			connection = DriverManager.getConnection(this.url);
+			connection.setAutoCommit(false);
+			
+			try (PreparedStatement statement = connection.prepareStatement(query)) {
+				statement.setInt(1, idAzienda);
+				
+				logger.info("Esecuzione della query per eliminare la risorsa idrica aziendale con ID: {} e data: {}",
+						idAzienda, ieriString);
+				
+				int rowsAffected = statement.executeUpdate();
+				
+				if (rowsAffected > 0) {
+					logger.info("Risorsa idrica aziendale eliminata con successo");
+				} else {
+					logger.info("Nessuna risorsa idrica aziendale trovata con ID: {} e data: {}", idAzienda,
+							ieriString);
+				}
+			}
+			
+			connection.commit();
+		} catch (SQLException e) {
+			try {
+				if (connection != null) {
+					connection.rollback();
+				}
+			} catch (SQLException ex) {
+				logger.error("Errore durante il rollback della cancellazione della risorsa idrica aziendale", ex);
+			}
+			
+			logger.error("Errore durante la cancellazione della risorsa idrica aziendale", e);
+			
+			throw new RuntimeException("Errore durante la cancellazione della risorsa idrica aziendale", e);
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					logger.error("Errore durante la chiusura della connessione", e);
+				}
+			}
+		}
+	}
+	
 }
