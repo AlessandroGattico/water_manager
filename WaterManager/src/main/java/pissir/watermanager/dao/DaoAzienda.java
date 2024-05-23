@@ -17,9 +17,9 @@ import java.util.HashSet;
 @Repository
 public class DaoAzienda {
 	
+	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
 	private static final Logger logger = LogManager.getLogger(DaoAzienda.class.getName());
-	private final String url =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
 	protected DaoAzienda() {
@@ -35,11 +35,12 @@ public class DaoAzienda {
 				WHERE id = ? ;
 				""";
 		
+		logger.info("Estrazione azienda con ID {}", id);
+		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
 			statement.setLong(1, id);
-			logger.info("Esecuzione query per ottenere l'azienda con ID {}", id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				if (resultSet.next()) {
@@ -74,11 +75,12 @@ public class DaoAzienda {
 				WHERE nome = ? ;
 				""";
 		
+		logger.info("Estrazione azienda con nome {}", nome);
+		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			
 			statement.setString(1, nome);
-			logger.info("Esecuzione query per ottenere l'azienda con nome {}", nome);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				if (resultSet.next()) {
@@ -88,7 +90,7 @@ public class DaoAzienda {
 							resultSet.getInt("id_user")
 					);
 					
-					logger.info("Azienda trovata: {}", azienda.getNome());
+					logger.info("Azienda {} trovata", azienda.getNome());
 				} else {
 					logger.info("Nessuna azienda trovata con nome {}", nome);
 				}
@@ -111,11 +113,11 @@ public class DaoAzienda {
 				FROM azienda;
 				""";
 		
+		logger.info("Estrazione di tutte le aziende");
+		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
-			
-			logger.info("Esecuzione della query per ottenere tutte le aziende");
 			
 			while (resultSet.next()) {
 				Azienda azienda = new Azienda(
@@ -148,6 +150,8 @@ public class DaoAzienda {
 				VALUES (?, ?);
 				""";
 		
+		logger.info("Aggiunta azienda con nome {}", azienda.getNome());
+		
 		Connection connection = null;
 		
 		try {
@@ -163,12 +167,12 @@ public class DaoAzienda {
 				try (ResultSet resultSet = statement.getGeneratedKeys()) {
 					if (resultSet.next()) {
 						id = resultSet.getInt(1);
+						
+						logger.info("Azienda inserita con ID: {}", id);
 					}
 				}
 			}
 			connection.commit();
-			
-			logger.info("Azienda aggiunta con ID {}", id);
 		} catch (Exception e) {
 			logger.error("Errore durante l'aggiunta dell'azienda {}.", azienda.getNome(), e);
 			
@@ -201,13 +205,15 @@ public class DaoAzienda {
 				WHERE id = ? ;
 				""";
 		
+		logger.info("Eliminazione azienda con ID {}", id);
+		
 		Connection connection = null;
 		
 		try {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
-			logger.info("Tentativo di eliminazione del raccolto: {}", id);
+			logger.info("Eliminazione dell'azienda con ID: {}", id);
 			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setInt(1, id);
@@ -215,33 +221,27 @@ public class DaoAzienda {
 				int rowsAffected = statement.executeUpdate();
 				
 				if (rowsAffected > 0) {
-					logger.debug("Raccolto '{}' eliminato con successo.", id);
+					logger.debug("Azienda {} eliminata con successo.", id);
 				} else {
-					logger.info("Nessun raccolto trovato con nome '{}'.", id);
+					logger.info("Nessun azienda trovata con ID: {}.", id);
 				}
 			}
 			
 			connection.commit();
 		} catch (SQLException e) {
-			logger.error("Errore durante l'eliminazione del raccolto '{}'", id, e);
+			logger.error("Errore durante l'eliminazione dell'azienda con ID: {}", id, e);
 			
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -257,6 +257,8 @@ public class DaoAzienda {
 				FROM azienda
 				WHERE id_user = ? ;
 				""";
+		
+		logger.info("Estrazione azienda con gestore {}", idGestore);
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {

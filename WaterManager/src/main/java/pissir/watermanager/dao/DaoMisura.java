@@ -20,10 +20,11 @@ import java.util.HashSet;
 @Repository
 public class DaoMisura {
 	
-	private final String url =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	private final String archive =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/ARCHIVE";
+	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
+	private final String archive = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/ARCHIVE";
+	
+	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	//private final String archive = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/ARCHIVE";
 	private static final Logger logger = LogManager.getLogger(DaoMisura.class.getName());
 	private static final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
@@ -45,8 +46,6 @@ public class DaoMisura {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, idMisura);
 			
-			logger.info("Esecuzione della query per ottenere la misura con ID: {}", idMisura);
-			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				if (resultSet.next()) {
 					misura = new Misura(
@@ -56,7 +55,7 @@ public class DaoMisura {
 							resultSet.getInt("id_sensore")
 					);
 					
-					logger.debug("Trovata misura: ID {} con valore {}", misura.getId(), misura.getValue());
+					logger.info("Trovata misura: ID {} con valore {}", misura.getId(), misura.getValue());
 				} else {
 					logger.info("Nessuna misura trovata con ID: {}", idMisura);
 					
@@ -88,8 +87,6 @@ public class DaoMisura {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, idSensore);
 			
-			logger.info("Esecuzione della query per ottenere le misure del sensore con ID: {}", idSensore);
-			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
 					misura = new Misura(
@@ -117,7 +114,8 @@ public class DaoMisura {
 	}
 	
 	
-	protected void addMisura(Misura misura) {
+	protected int addMisura(Misura misura) {
+		int id = 0;
 		String query = """
 				INSERT INTO misura (value, time, id_sensore)
 				VALUES (?, ?, ?);
@@ -136,17 +134,22 @@ public class DaoMisura {
 				
 				statement.executeUpdate();
 				
-				logger.debug("Misura aggiunta con successo: {}", misura);
-				
+				try (ResultSet resultSet = statement.getGeneratedKeys()) {
+					if (resultSet.next()) {
+						id = resultSet.getInt(1);
+						
+						logger.info("Misura aggiunta con ID {}", id);
+					}
+				}
 				connection.commit();
 			}
 		} catch (SQLException e) {
+			logger.error("Errore durante l'aggiunta della misura: {}", misura, e);
+			
 			try {
 				if (connection != null) {
 					connection.rollback();
 				}
-				
-				logger.error("Errore durante l'aggiunta della misura: {}", misura, e);
 			} catch (SQLException ex) {
 				logger.error("Errore durante il rollback", ex);
 			}
@@ -159,6 +162,8 @@ public class DaoMisura {
 				}
 			}
 		}
+		
+		return id;
 	}
 	
 	
@@ -220,9 +225,16 @@ public class DaoMisura {
 		
 		String retention = result.format(formatterData);
 		
+		logger.info("Preparazione per l'archiviazione delle misure prima di: {}", retention);
+		
 		Archive archive = new Archive(this.url, this.archive, "misura", retention);
 		
-		archive.export();
-	}
+		try {
+			archive.export();
+			
+			logger.info("Archiviazione completata con successo.");
+		} catch (Exception e) {
+			logger.error("Errore durante l'archiviazione delle misure", e);
+		}	}
 	
 }

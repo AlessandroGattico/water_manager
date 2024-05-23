@@ -6,6 +6,10 @@
 	},
 	"tags": [
 		{
+			"name": "MQTT",
+			"description": "Operazioni relative al sottosistema mqtt"
+		},
+		{
 			"name": "Autenticazione",
 			"description": "Operazioni relative all'autenticazione degli utenti"
 		},
@@ -15,11 +19,15 @@
 		},
 		{
 			"name": "Approvazione",
-			"description": "Operazioni di gestione delle approvazioni delle richieste idriche"
+			"description": "Operazioni relative alle approvazioni delle richieste idriche"
 		},
 		{
 			"name": "Attivazione",
-			"description": "Operazioni di gestione delle attivaizoni degli attuatori"
+			"description": "Operazioni relative alle attivaizoni degli attuatori"
+		},
+		{
+			"name": "Attuatore",
+			"description": "Operazioni relative agli attuatori"
 		},
 		{
 			"name": "Azienda",
@@ -43,7 +51,7 @@
 		},
 		{
 			"name": "Misura",
-			"description": "Operazioni relative alle misure"
+			"description": "Operazioni relative alle misure dei sensori"
 		},
 		{
 			"name": "Richiesta idrica",
@@ -59,7 +67,7 @@
 		},
 		{
 			"name": "User",
-			"description": "Operazioni legate ai dati degli utenti"
+			"description": "Operazioni relative ai dati degli utenti"
 		},
 		{
 			"name": "Utils",
@@ -211,23 +219,28 @@
 				"tags": [
 					"Admin"
 				],
-				"summary": "Ottieni conteggio totale di diverse entità",
+				"summary": "Ottieni conteggio totale delle entità presenti nell'applicazione",
 				"responses": {
 					"200": {
-						"description": "Conteggio totale delle entità"
+						"description": "Conteggio totale delle entità dell'applicazione"
 					}
 				}
 			}
 		},
 		"/admin/ga/get/all": {
 			"get": {
-				"tags": [
-					"Admin"
-				],
-				"summary": "Ottieni un elenco di tutte le GA",
+				"summary": "Ottieni i dettagli di tutti i gestori azienda",
+				"operationId": "getgestoriAzienda",
 				"responses": {
 					"200": {
-						"description": "Elenco di tutte le GA disponibili"
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
 					}
 				}
 			}
@@ -237,7 +250,7 @@
 				"tags": [
 					"Admin"
 				],
-				"summary": "Ottieni dettagli di una specifica entità amministrativa",
+				"summary": "Ottieni dettagli di uno specifico amministratore",
 				"parameters": [
 					{
 						"name": "id",
@@ -246,97 +259,123 @@
 						"schema": {
 							"type": "string"
 						},
-						"description": "ID dell'entità amministrativa da ottenere"
+						"description": "ID dell'admin da ottenere"
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "Dettagli dell'entità amministrativa richiesta"
+						"description": "Dettagli dell'admin richiesto"
 					}
 				}
 			}
 		},
 		"/admin/gi/get/all": {
 			"get": {
-				"tags": [
-					"Admin"
-				],
-				"summary": "Ottieni un elenco di tutte le GI",
+				"summary": "Ottieni i idettagli di tutti i gestori idrici",
+				"operationId": "getGestoriBacino",
 				"responses": {
 					"200": {
-						"description": "Elenco di tutte le GI disponibili"
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
-		"/admin/esigenza/add/{param}": {
+		"/admin/esigenza/add": {
 			"post": {
 				"tags": [
 					"Admin"
 				],
-				"summary": "Aggiungi una nuova esigenza",
-				"parameters": [
-					{
-						"name": "param",
-						"in": "path",
-						"required": true,
-						"schema": {
-							"type": "string"
-						},
-						"description": "Parametro per identificare l'esigenza da aggiungere"
-					}
-				],
+				"summary": "Aggiungi un nuovo tipo di esigenza",
+				"operationId": "addEsigenza",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "string"
+							}
+						}
+					},
+					"required": true
+				},
 				"responses": {
 					"200": {
-						"description": "Esigenza aggiunta con successo"
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
-		"/admin/irrigazione/add/{param}": {
+		"/admin/irrigazione/add": {
 			"post": {
 				"tags": [
 					"Admin"
 				],
 				"summary": "Aggiungi un nuovo tipo di irrigazione",
-				"parameters": [
-					{
-						"name": "param",
-						"in": "path",
-						"required": true,
-						"schema": {
-							"type": "string"
-						},
-						"description": "Parametro per identificare il tipo di irrigazione da aggiungere"
-					}
-				],
+				"operationId": "addEsigenza",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "string"
+							}
+						}
+					},
+					"required": true
+				},
 				"responses": {
 					"200": {
-						"description": "Tipo di irrigazione aggiunto con successo"
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
 					}
 				}
 			}
 		},
-		"/admin/sensor/add/{param}": {
+		"/admin/sensor/add": {
 			"post": {
 				"tags": [
 					"Admin"
 				],
-				"summary": "Aggiungi una nuova tipologia di sensore",
-				"parameters": [
-					{
-						"name": "param",
-						"in": "path",
-						"required": true,
-						"schema": {
-							"type": "string"
-						},
-						"description": "Parametro per identificare il tipo sensore da aggiungere"
-					}
-				],
+				"summary": "Aggiungi un nuovo tipo di sensore",
+				"operationId": "addEsigenza",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "string"
+							}
+						}
+					},
+					"required": true
+				},
 				"responses": {
 					"200": {
-						"description": "Tipologia sensore aggiunta con successo"
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
 					}
 				}
 			}
@@ -347,9 +386,27 @@
 					"Admin"
 				],
 				"summary": "Aggiungi un nuovo tipo di raccolto",
+				"operationId": "addEsigenza",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "string"
+							}
+						}
+					},
+					"required": true
+				},
 				"responses": {
 					"200": {
-						"description": "Tipo di raccolto aggiunto con successo"
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
 					}
 				}
 			}
@@ -581,6 +638,115 @@
 				"responses": {
 					"200": {
 						"description": "Attivazione aziendale aggiunta con successo"
+					}
+				}
+			}
+		},
+		"/azienda/attuatore/get/{id}": {
+			"get": {
+				"tags": [
+					"Attuatore"
+				],
+				"summary": "Ottieni i dettagli di un attuatore specifico",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'attuatore da ottenere"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Dettagli dell'attuatore richiesto"
+					}
+				}
+			}
+		},
+		"/azienda/attuatore/getCampo/{id}": {
+			"get": {
+				"tags": [
+					"Attuatore"
+				],
+				"summary": "Ottieni attuatori per un determinato campo",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del campo per filtrare i sensori"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Lista dei sensori per il campo specificato"
+					}
+				}
+			}
+		},
+		"/azienda/attuatore/get/attivi/all/{id}": {
+			"delete": {
+				"tags": [
+					"Attuatore"
+				],
+				"summary": "Ottieni attuatori attivi per una determinata azienda",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID del campo per filtrare i sensori"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Lista dei sensori per il campo specificato"
+					}
+				}
+			}
+		},
+		"/azienda/attuatore/add": {
+			"post": {
+				"tags": [
+					"Sensore"
+				],
+				"summary": "Aggiungi un nuovo attuatore al campo",
+				"responses": {
+					"200": {
+						"description": "Attuatore aggiunto con successo"
+					}
+				}
+			}
+		},
+		"/azienda/attuatore/delete/{id}": {
+			"delete": {
+				"tags": [
+					"Sensore"
+				],
+				"summary": "Elimina un attuatore",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "ID dell'attuatore da eliminare"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Attuatore eliminato con successo"
 					}
 				}
 			}

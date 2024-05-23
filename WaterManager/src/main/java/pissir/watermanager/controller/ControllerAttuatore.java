@@ -37,8 +37,11 @@ public class ControllerAttuatore {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Attuatore | get | {}", id);
+		
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Attuatore | get | concesso");
+			logger.info("Attuatore | get | {} | concesso", id);
 			
 			Attuatore attuatore = this.daoAttuatore.getAttuatoreId(id);
 			
@@ -56,12 +59,17 @@ public class ControllerAttuatore {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Attuatore | get attuatori campo | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Attuatore | get attuatori campo | {} | concesso", id);
+			
 			HashSet<Attuatore> attuatori = this.daoAttuatore.getAttuatoriCampo(id);
 			
 			return gson.toJson(attuatori);
 		} else {
+			logger.info("Attuatore | get attuatori campo | {} | negato", id);
+			
 			return gson.toJson("Accesso negato");
 		}
 	}
@@ -72,12 +80,17 @@ public class ControllerAttuatore {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Attuatore | add | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Attuatore | add | {} | concesso", param);
+			
 			Attuatore attuatore = gson.fromJson(param, Attuatore.class);
 			
 			return gson.toJson(this.daoAttuatore.addAttuatore(attuatore));
 		} else {
+			logger.info("Attuatore | add | {} | negato", param);
+			
 			return gson.toJson("Accesso negato");
 		}
 	}
@@ -88,11 +101,17 @@ public class ControllerAttuatore {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Attuatore | elimina | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Attuatore | elimina | {} | concesso", id);
+			
 			this.daoAttuatore.deleteAttuatore(id);
+			
 			return gson.toJson("OK");
 		} else {
+			logger.info("Attuatore | elimina | {} | negato", id);
+			
 			return gson.toJson("Accesso negato");
 		}
 	}
@@ -101,6 +120,8 @@ public class ControllerAttuatore {
 	@GetMapping(value = "/get/attivi/all/{id}")
 	public String getAttuaotriAttiviCampo(@PathVariable int id) {
 		Gson gson = new Gson();
+		
+		logger.info("Attuatore | get attuatori attivi azienda | {}", id);
 		
 		return gson.toJson(this.daoAttuatore.getAttuatoriAttiviCampo(id));
 	}

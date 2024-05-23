@@ -4,6 +4,7 @@ package pissir.watermanager.mqtt.model;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pissir.watermanager.mqtt.publisher.Publisher;
 import pissir.watermanager.mqtt.simulazione.Simulazione;
@@ -12,6 +13,11 @@ import pissir.watermanager.mqtt.subscriber.Subscriber;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
+ */
 
 @Service
 public class ActuatorHandler {
@@ -23,9 +29,9 @@ public class ActuatorHandler {
 	private final List<String> subscribed;
 	
 	
-	public ActuatorHandler(Publisher publisher, Subscriber subscriber) {
-		this.publisher = publisher;
-		this.subscriber = subscriber;
+	public ActuatorHandler() {
+		this.publisher = new Publisher();
+		this.subscriber = new Subscriber();
 		this.subscribed = new ArrayList<>();
 	}
 	
@@ -39,7 +45,7 @@ public class ActuatorHandler {
 			}
 		} catch (
 				MqttException e) {
-			logger.error("Error publishing message: {}", e.getMessage());
+			logger.error("Errore durante la pubblicazione del messaggio: {}", e.getMessage());
 		}
 	}
 	

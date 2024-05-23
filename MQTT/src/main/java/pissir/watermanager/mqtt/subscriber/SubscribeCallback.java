@@ -18,7 +18,21 @@ import pissir.watermanager.mqtt.model.Attivazione;
 public class SubscribeCallback implements MqttCallback {
 	
 	private static final Logger logger = LogManager.getLogger(SubscribeCallback.class.getName());
-	private final String apiUrlSensor = "http://localhost:8080/api/v1/misura/add";
+	private String apiUrlSensor;
+	
+	
+	public SubscribeCallback() {
+		this.apiUrlSensor = "http://localhost:8080/api/v1/misura/add";
+		/*
+		try (FileReader reader = new FileReader("/Config/config.json")) {
+			JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
+			
+			apiUrlSensor = jsonObject.get("apiSensor").getAsString();
+		} catch (IOException e) {
+			logger.error("Impossibile aprire il file di configuraizone");
+		}
+		 */
+	}
 	
 	
 	@Override
@@ -31,14 +45,11 @@ public class SubscribeCallback implements MqttCallback {
 		String mex = new String(message.getPayload());
 		RestTemplate restTemplate = new RestTemplate();
 		
-		logger.info("Message arrived: {}, on topic: {}", mex, topic);
+		logger.info("Messaggio arrivato: {}, con topic: {}", mex, topic);
 		
 		if (topic.contains("SENSOR")) {
-			System.out.println("Sensore");
 			restTemplate.postForObject(apiUrlSensor, mex, String.class);
 		} else if (topic.contains("ACTUATOR")) {
-			System.out.println("Attuatore");
-			
 			Gson gson = new Gson();
 			
 			Attivazione attivazione = gson.fromJson(mex, Attivazione.class);

@@ -82,16 +82,16 @@ public class ControllerBacinoIdrico {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Bacino idrico | add");
+		logger.info("Bacino idrico | add | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			logger.info("Bacino idrico | add | concesso");
+			logger.info("Bacino idrico | add | {} | concesso", param);
 			
 			BacinoIdrico bacinoIdrico = gson.fromJson(param, BacinoIdrico.class);
 			
 			return gson.toJson(this.daoBacino.addBacino(bacinoIdrico));
 		} else {
-			logger.info("Bacino idrico | add | negato");
+			logger.info("Bacino idrico | add | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -110,6 +110,7 @@ public class ControllerBacinoIdrico {
 			logger.info("Bacino idrico | elimina | {} | concesso", id);
 			
 			this.daoBacino.deleteBacino(id);
+			
 			return gson.toJson("OK");
 		} else {
 			logger.info("Bacino idrico | elimina | {} | negato", id);

@@ -20,10 +20,11 @@ import java.util.HashSet;
 @Repository
 public class DaoColtivazione {
 	
-	private final String url =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	private final String archive =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/ARCHIVE";
+	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
+	private final String archive = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/ARCHIVE";
+	
+	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	//private final String archive = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/ARCHIVE";
 	private static final Logger logger = LogManager.getLogger(DaoColtivazione.class.getName());
 	private static final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
@@ -112,7 +113,7 @@ public class DaoColtivazione {
 				if (coltivazioni.isEmpty()) {
 					logger.info("Nessuna coltivazione trovata per il campo con ID: {}", idCampo);
 				} else {
-					logger.debug("Trovate {} coltivazione per il campo con ID: {}", coltivazione.getRaccolto());
+					logger.info("Trovate {} coltivazione per il campo con ID: {}", coltivazione.getRaccolto());
 				}
 				
 				return coltivazioni;
@@ -148,8 +149,6 @@ public class DaoColtivazione {
 				statement.setString(6, coltivazione.getSemina());
 				statement.setInt(7, coltivazione.getIdCampo());
 				
-				logger.info("Inserimento della coltivazione per il campo ID: {}", coltivazione.getIdCampo());
-				
 				statement.executeUpdate();
 				
 				try (ResultSet resultSet = statement.getGeneratedKeys()) {
@@ -168,14 +167,10 @@ public class DaoColtivazione {
 			try {
 				if (connection != null) {
 					connection.rollback();
-					
-					logger.info("Eseguito rollback a seguito di un errore");
 				}
 			} catch (SQLException ex) {
 				logger.error("Errore durante il rollback dell'inserimento della coltivazione", ex);
 			}
-			
-			throw new RuntimeException("Errore durante l'inserimento della coltivazione", e);
 		} finally {
 			if (connection != null) {
 				try {
@@ -204,8 +199,6 @@ public class DaoColtivazione {
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setInt(1, idColtivazione);
 				
-				logger.info("Tentativo di eliminare la coltivazione con ID: {}", idColtivazione);
-				
 				int affectedRows = statement.executeUpdate();
 				
 				if (affectedRows > 0) {
@@ -222,8 +215,6 @@ public class DaoColtivazione {
 			try {
 				if (connection != null) {
 					connection.rollback();
-					
-					logger.info("Eseguito rollback a seguito di un errore");
 				}
 			} catch (SQLException ex) {
 				logger.error("Errore durante il rollback dell'eliminazione della coltivazione", ex);
@@ -249,9 +240,17 @@ public class DaoColtivazione {
 		
 		String retention = result.format(formatterData);
 		
+		logger.info("Preparazione per l'archiviazione delle coltivazioni prima di: {}", retention);
+		
 		Archive archive = new Archive(this.url, this.archive, "coltivazione", retention);
 		
-		archive.export();
+		try {
+			archive.export();
+			
+			logger.info("Archiviazione completata con successo.");
+		} catch (Exception e) {
+			logger.error("Errore durante l'archiviazione delle coltivazioni", e);
+		}
 	}
 	
 }

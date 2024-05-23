@@ -35,16 +35,16 @@ public class ControllerAzienda {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Azienda | add");
+		logger.info("Azienda | add | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Azienda | add | concesso");
+			logger.info("Azienda | add | {} | concesso", param);
 			
 			Azienda azienda = gson.fromJson(param, Azienda.class);
 			
 			return gson.toJson((this.daoAzienda.addAzienda(azienda)));
 		} else {
-			logger.info("Azienda | add | negato");
+			logger.info("Azienda | add | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -83,7 +83,7 @@ public class ControllerAzienda {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Azienda | get | azienda gestore | {} | concesso", id);
+		logger.info("Azienda | get | azienda gestore | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
 			logger.info("Azienda | get | azienda gestore | {} | concesso", id);
@@ -96,7 +96,7 @@ public class ControllerAzienda {
 				return null;
 			}
 		} else {
-			logger.info("Azienda | get | azienda gestore | {} | concesso", id);
+			logger.info("Azienda | get | azienda gestore | {} | negato", id);
 			
 			return gson.toJson("Accesso negato");
 		}

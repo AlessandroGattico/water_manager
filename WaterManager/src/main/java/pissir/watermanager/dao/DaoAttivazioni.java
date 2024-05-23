@@ -20,10 +20,9 @@ import java.util.HashSet;
 @Repository
 public class DaoAttivazioni {
 	
-	private final String url =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	private final String archive =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/ARCHIVE<<zz≤∑≤";
+	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
+	private final String archive = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/ARCHIVE";
+	
 	private static final Logger logger = LogManager.getLogger(DaoAttivazioni.class.getName());
 	private static final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
@@ -39,6 +38,8 @@ public class DaoAttivazioni {
 				FROM attivazione
 				WHERE id = ? ;
 				""";
+		
+		logger.info("Estrazione attivaizone con ID: {}", id);
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
@@ -80,6 +81,8 @@ public class DaoAttivazioni {
 				WHERE id_attuatore = ? ;
 				""";
 		
+		logger.info("Estrazione attivaizoni attuatore con ID: {}", id);
+		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, id);
@@ -103,7 +106,7 @@ public class DaoAttivazioni {
 				if (attivazioni.isEmpty()) {
 					logger.info("Nessuna attivazione trovata per l'attuatore con ID: {}", id);
 				} else {
-					logger.debug("Numero di attivazioni trovate: {}", attivazioni.size());
+					logger.info("Numero di attivazioni trovate: {}", attivazioni.size());
 				}
 				
 				return attivazioni;
@@ -123,6 +126,8 @@ public class DaoAttivazioni {
 				VALUES (?, ?, ?);
 				""";
 		
+		logger.info("Aggiunta attivaizone per attuatore: {}", attivazione.getIdAttuatore());
+		
 		Connection connection = null;
 		try {
 			connection = DriverManager.getConnection(this.url);
@@ -132,8 +137,6 @@ public class DaoAttivazioni {
 				statement.setBoolean(1, attivazione.isCurrent());
 				statement.setString(2, attivazione.getTime());
 				statement.setLong(3, attivazione.getIdAttuatore());
-				
-				logger.info("Aggiunta attivazione per l'attuatore ID {}", attivazione.getIdAttuatore());
 				
 				statement.executeUpdate();
 				
@@ -146,6 +149,8 @@ public class DaoAttivazioni {
 				try (ResultSet resultSet = statement.getGeneratedKeys()) {
 					if (resultSet.next()) {
 						id = resultSet.getInt(1);
+						
+						logger.info("Attivazione aggiunta con ID {}", id);
 					}
 				}
 				
@@ -168,8 +173,6 @@ public class DaoAttivazioni {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore di connessione", e);
 		} finally {
 			if (connection != null) {
 				try {
@@ -190,6 +193,8 @@ public class DaoAttivazioni {
 				WHERE id = ? ;
 				""";
 		
+		logger.info("Eliminazione attivaizone con ID: {}", idAttivazione);
+		
 		Connection connection = null;
 		
 		try {
@@ -204,33 +209,27 @@ public class DaoAttivazioni {
 				int rowsAffected = statement.executeUpdate();
 				
 				if (rowsAffected > 0) {
-					logger.debug("Raccolto '{}' eliminato con successo.", idAttivazione);
+					logger.info("Attivazione {} eliminata con successo.", idAttivazione);
 				} else {
-					logger.info("Nessun raccolto trovato con nome '{}'.", idAttivazione);
+					logger.info("Nessun attivazione trovata con ID: {}.", idAttivazione);
 				}
 			}
 			
 			connection.commit();
 		} catch (SQLException e) {
-			logger.error("Errore durante l'eliminazione del raccolto '{}'", idAttivazione, e);
+			logger.error("Errore durante l'eliminazione dell'attivazione {}", idAttivazione, e);
 			
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}

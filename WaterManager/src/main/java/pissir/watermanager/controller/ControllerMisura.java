@@ -36,6 +36,8 @@ public class ControllerMisura {
 		Gson gson = new Gson();
 		Misura misura = gson.fromJson(param, Misura.class);
 		
+		logger.info("Misura | add | {}", param);
+		
 		this.daoMisura.addMisura(misura);
 	}
 	
@@ -46,11 +48,17 @@ public class ControllerMisura {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Misura | get | {}", id);
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Misura | get | {} | concesso", id);
+			
 			Misura misura = this.daoMisura.getMisuraId(id);
 			
 			return gson.toJson(misura);
 		} else {
+			logger.info("Misura | get | {} | negato", id);
+			
 			return gson.toJson("Accesso negato");
 		}
 	}
@@ -62,11 +70,17 @@ public class ControllerMisura {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Misura | get misure sensore | {}", id);
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Misura | get misure sensore | {} | concesso", id);
+			
 			HashSet<Misura> misure = this.daoMisura.getMisureSensore(id);
 			
 			return gson.toJson(misure);
 		} else {
+			logger.info("Misura | get misure sensore | {} | negato", id);
+			
 			return gson.toJson("Accesso negato");
 		}
 	}
@@ -78,11 +92,17 @@ public class ControllerMisura {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Misura | elimina | {}", id);
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Misura | elimina | {} | concesso", id);
 			
 			this.daoMisura.deleteMisura(id);
+			
 			return "OK";
 		} else {
+			logger.info("Misura | elimina | {} | negato", id);
+			
 			return gson.toJson("Accesso negato");
 		}
 		

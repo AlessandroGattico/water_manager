@@ -37,12 +37,18 @@ public class ControllerRisorsaIdrica {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Risorsa idrica azienda | get | {}", id);
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Risorsa idrica azienda | get | {} | concesso", id);
+			
 			RisorsaIdrica risorsaIdrica = this.dao.getRisorsaAziendaId(id);
 			
 			return gson.toJson(risorsaIdrica);
 			
 		} else {
+			logger.info("Risorsa idrica azienda | get | {} | negato", id);
+			
 			return gson.toJson("Accesso negato");
 		}
 	}

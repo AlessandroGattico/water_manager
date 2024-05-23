@@ -1,16 +1,10 @@
 package pissir.watermanager.mqtt.subscriber;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.springframework.stereotype.Service;
-
-import java.io.FileReader;
-import java.io.IOException;
 
 /**
  * @author Almasio Luca
@@ -18,10 +12,8 @@ import java.io.IOException;
  * @author Gattico Alessandro
  */
 
-@Service
 public class Subscriber {
 	
-	private String url = "";
 	private static final Logger logger = LogManager.getLogger(Subscriber.class.getName());
 	private MqttClient mqttClient;
 	private SubscribeCallback callback;
@@ -29,11 +21,12 @@ public class Subscriber {
 	
 	public Subscriber() {
 		try {
+			String username = "username";
+			String password = "password";
+			String url = "tcp://127.0.0.1:1883";
 			
-			String username = "";
-			String password = "";
-			
-			try (FileReader reader = new FileReader(System.getProperty("user.dir") + "/Config/config.json")) {
+			/*
+			try (FileReader reader = new FileReader( "/Config/config.json")) {
 				JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
 				
 				username = jsonObject.get("username").getAsString();
@@ -42,6 +35,7 @@ public class Subscriber {
 			} catch (IOException e) {
 				logger.error("Impossibile aprire il file di configuraizone");
 			}
+			 */
 			
 			this.mqttClient = new MqttClient(url, MqttClient.generateClientId());
 			char[] pwd = password.toCharArray();
@@ -52,7 +46,7 @@ public class Subscriber {
 			options.setUserName(username);
 			options.setPassword(pwd);
 			
-			logger.info("Creating subscriber: username = {}", options.getUserName());
+			logger.info("Creazione subscriber con username = {}", options.getUserName());
 			
 			this.callback = new SubscribeCallback();
 			this.mqttClient.setCallback(this.callback);
@@ -66,7 +60,7 @@ public class Subscriber {
 	
 	
 	public void subscribe(String topic) throws MqttException {
-		logger.info("Subscribing topic: {}", topic);
+		logger.info("Subscribing sul topic: {}", topic);
 		
 		this.mqttClient.subscribe(topic, (s, mqttMessage) -> {
 			this.callback.messageArrived(topic, mqttMessage);

@@ -37,11 +37,17 @@ public class ControllerCampo {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Campo | add | {}", param);
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Campo | add | {} | concesso", param);
+			
 			Campo campo = gson.fromJson(param, Campo.class);
 			
 			return gson.toJson(this.daoCampo.addCampo(campo));
 		} else {
+			logger.info("Campo | add | {} | negato", param);
+			
 			return gson.toJson(0);
 		}
 	}
@@ -53,11 +59,17 @@ public class ControllerCampo {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Campo | get | {}", id);
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Campo | get | {} | concesso", id);
+			
 			Campo campo = this.daoCampo.getCampoId(id);
 			
 			return gson.toJson(campo);
 		} else {
+			logger.info("Campo | get | {} | negato", id);
+			
 			return gson.toJson(0);
 		}
 	}
@@ -69,11 +81,17 @@ public class ControllerCampo {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Campo | get campi campagna | {}", id);
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Campo | get campi campagna | {} | concesso", id);
+			
 			HashSet<Campo> campi = this.daoCampo.getCampiCampagna(id);
 			
 			return gson.toJson(campi);
 		} else {
+			logger.info("Campo | get campi campagna | {} | negato", id);
+			
 			return gson.toJson(0);
 		}
 	}
@@ -85,10 +103,17 @@ public class ControllerCampo {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Campo | elimina | {}", id);
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Campo | elimina | {} | concesso", id);
+			
 			this.daoCampo.deleteCampo(id);
+			
 			return "OK";
 		} else {
+			logger.info("Campo | elimina | {} | negato", id);
+			
 			return gson.toJson(0);
 		}
 	}

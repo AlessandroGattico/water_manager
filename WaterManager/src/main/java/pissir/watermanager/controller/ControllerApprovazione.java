@@ -59,10 +59,10 @@ public class ControllerApprovazione {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Approvazione | add");
+		logger.info("Approvazione | add | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREIDRICO)) {
-			logger.info("Approvazione | add | concesso");
+			logger.info("Approvazione | add | {} | concesso", param);
 			
 			Approvazione approvazione = gson.fromJson(param, Approvazione.class);
 			
@@ -70,7 +70,7 @@ public class ControllerApprovazione {
 			
 			return gson.toJson("OK");
 		} else {
-			logger.info("Approvazione | add | negato");
+			logger.info("Approvazione | add | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}

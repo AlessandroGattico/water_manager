@@ -42,11 +42,17 @@ public class ControllerAttivazione {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Attivazione | get | {}", id);
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Attivazione | get | {} | concesso", id);
+			
 			Attivazione attivazione = this.daoAttivazioni.getAttivazioneId(id);
 			
 			return gson.toJson(attivazione);
 		} else {
+			logger.info("Attivazione | get | {} | negato", id);
+			
 			return gson.toJson("Accesso negato");
 		}
 	}
@@ -58,11 +64,18 @@ public class ControllerAttivazione {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Attivazione | get attivazioni attuatore | {}", id);
+		
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Attivazione | get attivazioni attuatore | {} | concesso", id);
+			
 			HashSet<Attivazione> attivazioni = this.daoAttivazioni.getAttivazioniAttuatore(id);
 			
 			return gson.toJson(attivazioni);
 		} else {
+			logger.info("Attivazione | get attivazioni attuatore | {} | negato", id);
+			
 			return gson.toJson("Accesso negato");
 		}
 	}
@@ -74,7 +87,11 @@ public class ControllerAttivazione {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Attivazione | add | {}", param);
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Attivazione | add | {} | concesso", param);
+			
 			Attivazione attivazione = gson.fromJson(param, Attivazione.class);
 			
 			RestTemplate restTemplate = new RestTemplate();
@@ -87,13 +104,15 @@ public class ControllerAttivazione {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			HttpEntity<String> entity = new HttpEntity<>(gson.toJson(attivazione), headers);
 			
-			restTemplate.postForObject(apiUrlActuator, entity, String.class);
-			
 			logger.info("Calling API at: {}", apiUrlActuator);
 			logger.info("With body: {}", entity.getBody());
 			
+			restTemplate.postForObject(apiUrlActuator, entity, String.class);
+			
 			return gson.toJson("");
 		} else {
+			logger.info("Attivazione | add | {} | negato", param);
+			
 			return gson.toJson("Accesso negato");
 		}
 	}
@@ -105,11 +124,17 @@ public class ControllerAttivazione {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
+		logger.info("Attivazione | delete | {}", id);
+		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
+			logger.info("Attivazione | delete | {} | concesso", id);
+			
 			this.daoAttivazioni.deleteAttivazione(id);
 			
 			return gson.toJson("OK");
 		} else {
+			logger.info("Attivazione | delete | {} | negato", id);
+			
 			return gson.toJson("Accesso negato");
 		}
 	}

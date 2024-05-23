@@ -17,9 +17,9 @@ import java.util.HashSet;
 @Repository
 public class DaoAttuatore {
 	
+	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
 	private static final Logger logger = LogManager.getLogger(DaoAttuatore.class.getName());
-	private final String url =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
 	protected DaoAttuatore() {
@@ -34,11 +34,11 @@ public class DaoAttuatore {
 				WHERE id = ? ;
 				""";
 		
+		logger.info("Estrazione attuatore con ID {}", idAttuatore);
+		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, idAttuatore);
-			
-			logger.info("Recupero dell'attuatore con ID {}", idAttuatore);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				if (resultSet.next()) {
@@ -78,25 +78,30 @@ public class DaoAttuatore {
 				    a.id = ?;
 				""";
 		
-		try (Connection conn = DriverManager.getConnection(this.url);
-			 PreparedStatement pstmt = conn.prepareStatement(query)) {
+		logger.info("Estrazione dettagli attuartore con ID {}", attuatoreId);
+		
+		try (Connection connection = DriverManager.getConnection(this.url);
+			 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 			
-			pstmt.setInt(1, attuatoreId);
-			try (ResultSet rs = pstmt.executeQuery()) {
-				if (rs.next()) {
+			preparedStatement.setInt(1, attuatoreId);
+			try (ResultSet resultSet = preparedStatement.executeQuery()) {
+				String builder = null;
+				if (resultSet.next()) {
+					builder = resultSet.getInt("id_azienda") + "-" +
+							resultSet.getInt("id_campagna") + "-" +
+							resultSet.getInt("id_campo") + "-" + attuatoreId;
 					
-					String builder = rs.getInt("id_azienda") + "-" +
-							rs.getInt("id_campagna") + "-" +
-							rs.getInt("id_campo") + "-" + attuatoreId;
-					
-					return builder;
+					logger.info("Dettagli attuatore {} trovati", attuatoreId);
+				} else {
+					logger.info("Nessuna dettaglio trovato per l'attuatore {}", attuatoreId);
 				}
+				return builder;
 			}
 		} catch (SQLException e) {
-			System.out.println("Database access error: " + e.getMessage());
+			logger.error("Errore durante il recupero dei dettagli dell'attuatore {}", attuatoreId, e);
+			
 			return null;
 		}
-		return null;
 	}
 	
 	
@@ -110,11 +115,11 @@ public class DaoAttuatore {
 				WHERE id_campo = ? ;
 				""";
 		
+		logger.info("Estrazione di tutti gli attuatori del campo {}", idCampo);
+		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, idCampo);
-			
-			logger.info("Recupero degli attuatori per il campo con ID {}", idCampo);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
@@ -151,6 +156,8 @@ public class DaoAttuatore {
 				VALUES (?, ?);
 				""";
 		
+		logger.info("Aggiunta attuatore con nome {} e campo {}", attuatore.getNome(), attuatore.getIdCampo());
+		
 		try {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
@@ -164,13 +171,14 @@ public class DaoAttuatore {
 				try (ResultSet resultSet = statement.getGeneratedKeys()) {
 					if (resultSet.next()) {
 						id = resultSet.getInt(1);
+						
+						logger.info("Attuatore inserito con ID: {}", id);
 					}
 				}
 			}
 			
 			connection.commit();
 			
-			logger.info("Attuatore aggiunto con successo con ID: {}", id);
 		} catch (Exception e) {
 			logger.error("Errore durante l'inserimento dell'attuatore", e);
 			
@@ -203,6 +211,8 @@ public class DaoAttuatore {
 				WHERE id = ? ;
 				""";
 		
+		logger.info("Eliminazione attuatore con ID {}", id);
+		
 		Connection connection = null;
 		
 		try {
@@ -223,13 +233,14 @@ public class DaoAttuatore {
 			
 			connection.commit();
 		} catch (SQLException e) {
+			logger.error("Errore durante l'eliminazione dell'attuatore con ID: {}", id, e);
+			
 			try {
 				if (connection != null) {
 					connection.rollback();
 				}
-				logger.error("Errore durante l'eliminazione dell'attuatore", e);
 			} catch (SQLException ex) {
-				logger.error("Errore durante il rollback dell'eliminazione dell'attuatore", ex);
+				logger.error("Errore durante l'esecuzione del rollback", ex);
 			}
 		} finally {
 			if (connection != null) {
@@ -263,13 +274,13 @@ public class DaoAttuatore {
 				try (ResultSet resultSet = statement.getGeneratedKeys()) {
 					if (resultSet.next()) {
 						id = resultSet.getInt(1);
+						
+						logger.info("Topic aggiunto con successo con ID: {}", id);
 					}
 				}
 			}
 			
 			connection.commit();
-			
-			logger.info("Topic aggiunto con successo con ID: {}", id);
 		} catch (Exception e) {
 			logger.error("Errore durante l'inserimento del topic", e);
 			
@@ -280,8 +291,6 @@ public class DaoAttuatore {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'aggiunta del topic", e);
 		} finally {
 			if (connection != null) {
 				try {
@@ -302,11 +311,11 @@ public class DaoAttuatore {
 				WHERE id_attuatore = ? ;
 				""";
 		
+		logger.info("Estrazione del topic dell'attuatore con ID {}", idAttuatore);
+		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, idAttuatore);
-			
-			logger.info("Recupero dell'attuatore con ID {}", idAttuatore);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				if (resultSet.next()) {
@@ -321,7 +330,7 @@ public class DaoAttuatore {
 			}
 			
 		} catch (SQLException e) {
-			logger.error("Errore durante il recupero dell'attuatore con ID {}", idAttuatore, e);
+			logger.error("Errore durante il recupero del topic dell'attuatore con ID {}", idAttuatore, e);
 			
 			return topic;
 		}

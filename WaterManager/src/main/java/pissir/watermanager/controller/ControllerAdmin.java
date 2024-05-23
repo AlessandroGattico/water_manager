@@ -42,9 +42,9 @@ public class ControllerAdmin {
 		logger.info("Admin | login");
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			Admin admin = this.dao.getAdmin(id);
-			
 			logger.info("Admin | login | concesso");
+			
+			Admin admin = this.dao.getAdmin(id);
 			
 			return gson.toJson(admin);
 		} else {
@@ -55,6 +55,7 @@ public class ControllerAdmin {
 	}
 	
 	
+	/*
 	@GetMapping(value = "/admin/disable/{id}")
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String disableUser(@PathVariable int id, HttpServletRequest request) {
@@ -64,9 +65,9 @@ public class ControllerAdmin {
 		logger.info("Admin | disable user | {}", id);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			this.dao.disableUser(id);
-			
 			logger.info("Admin | disable user | {} | concesso", id);
+			
+			this.dao.disableUser(id);
 			
 			return gson.toJson("OK");
 		} else {
@@ -75,6 +76,7 @@ public class ControllerAdmin {
 			return gson.toJson("Accesso negato");
 		}
 	}
+	 */
 	
 	
 	@GetMapping(value = "/count")
@@ -106,9 +108,9 @@ public class ControllerAdmin {
 		logger.info("Admin | get | bacini");
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			HashSet<BacinoIdrico> bacini = this.dao.getBaciniSelect();
-			
 			logger.info("Admin | get | bacini | concesso");
+			
+			HashSet<BacinoIdrico> bacini = this.dao.getBaciniSelect();
 			
 			if (bacini == null) {
 				return gson.toJson(new LinkedList<BacinoIdrico>());
@@ -129,13 +131,13 @@ public class ControllerAdmin {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | get | users");
+		logger.info("Admin | get all | users");
 		
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			HashSet<UserProfile> users = this.dao.getUsers();
+			logger.info("Admin | get all | users | concesso");
 			
-			logger.info("Admin | get | users | concesso");
+			HashSet<UserProfile> users = this.dao.getUsers();
 			
 			if (users == null) {
 				return gson.toJson(new HashSet<UserProfile>());
@@ -144,7 +146,7 @@ public class ControllerAdmin {
 			return gson.toJson(users);
 		} else {
 			
-			logger.info("Admin | get | users | negato");
+			logger.info("Admin | get all | users | negato");
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -157,13 +159,13 @@ public class ControllerAdmin {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | get | gestori idrici");
+		logger.info("Admin | get all | gestori idrici");
 		
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			HashSet<GestoreIdrico> gestori = this.dao.getGestoriIdrici();
+			logger.info("Admin | get all | gestori idrici | concesso");
 			
-			logger.info("Admin | get | gestori idrici | concesso");
+			HashSet<GestoreIdrico> gestori = this.dao.getGestoriIdrici();
 			
 			if (gestori == null) {
 				return gson.toJson(new HashSet<GestoreIdrico>());
@@ -172,7 +174,7 @@ public class ControllerAdmin {
 			return gson.toJson(gestori);
 		} else {
 			
-			logger.info("Admin | get | gestori idrici | negato");
+			logger.info("Admin | get all | gestori idrici | negato");
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -185,12 +187,12 @@ public class ControllerAdmin {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | get | gestori azienda");
+		logger.info("Admin | get all | gestori azienda");
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			HashSet<GestoreAzienda> gestori = this.dao.getGestoriAzienda();
+			logger.info("Admin | get all | gestori azienda | concesso");
 			
-			logger.info("Admin | get | gestori azienda | concesso");
+			HashSet<GestoreAzienda> gestori = this.dao.getGestoriAzienda();
 			
 			if (gestori == null) {
 				return gson.toJson(new HashSet<Azienda>());
@@ -198,7 +200,7 @@ public class ControllerAdmin {
 			
 			return gson.toJson(gestori);
 		} else {
-			logger.info("Admin | get | gestori azienda | negato");
+			logger.info("Admin | get all | gestori azienda | negato");
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -211,24 +213,25 @@ public class ControllerAdmin {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | delete | esigenza | " + param);
+		logger.info("Admin | delete | esigenza | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			logger.info("Admin | elimina | esigenza | " + param + " | concesso");
+			logger.info("Admin | elimina | esigenza | {} | concesso", param);
 			
 			this.dao.deleteEsigenza(param);
+			
 			return "OK";
 		} else {
-			logger.info("Admin | elimina | esigenza | " + param + " | negato");
+			logger.info("Admin | elimina | esigenza | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
 	}
 	
 	
-	@PostMapping(value = "/esigenza/add/{param}")
+	@PostMapping(value = "/esigenza/add")
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
-	public String addEsigenza(@PathVariable String param, HttpServletRequest request) {
+	public String addEsigenza(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
@@ -238,6 +241,7 @@ public class ControllerAdmin {
 			logger.info("Admin | add | esigenza | {} | concesso", param);
 			
 			this.dao.addEsigenza(param);
+			
 			return "OK";
 		} else {
 			logger.info("Admin | add | esigenza | {} | negato", param);
@@ -256,12 +260,13 @@ public class ControllerAdmin {
 		logger.info("Admin | elimina | raccolto | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			logger.info("Admin | add | raccolto | {} | concesso", param);
+			logger.info("Admin | elimina | raccolto | {} | concesso", param);
 			
 			this.dao.deleteRaccolto(param);
+			
 			return "OK";
 		} else {
-			logger.info("Admin | add | raccolto | {} | negato", param);
+			logger.info("Admin | elimina | raccolto | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -280,6 +285,7 @@ public class ControllerAdmin {
 			logger.info("Admin | add | raccolto | {} | concesso", param);
 			
 			this.dao.addRaccolto(gson.fromJson(param, String.class));
+			
 			return "OK";
 		} else {
 			logger.info("Admin | add | raccolto | {} | negato", param);
@@ -301,6 +307,7 @@ public class ControllerAdmin {
 			logger.info("Admin | elimina | irrigazione | {} | concesso", param);
 			
 			this.dao.deleteIrrigazione(param);
+			
 			return "OK";
 		} else {
 			logger.info("Admin | elimina | irrigazione | {} | negato", param);
@@ -310,9 +317,9 @@ public class ControllerAdmin {
 	}
 	
 	
-	@PostMapping(value = "/irrigazione/add/{param}")
+	@PostMapping(value = "/irrigazione/add")
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
-	public String addIrrigazione(@PathVariable String param, HttpServletRequest request) {
+	public String addIrrigazione(@RequestBody String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
@@ -321,7 +328,7 @@ public class ControllerAdmin {
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
 			logger.info("Admin | add | irrigazione | {} | concesso", param);
 			
-			this.dao.addIrrigazione(param);
+			this.dao.addIrrigazione(gson.fromJson(param, String.class));
 			
 			return "OK";
 		} else {
@@ -354,22 +361,22 @@ public class ControllerAdmin {
 	}
 	
 	
-	@DeleteMapping(value = "/sensor/add/{param}")
+	@DeleteMapping(value = "/sensor/add")
 	@PreAuthorize("hasAuthority('SYSTEMADMIN')")
 	public String addSensorType(@PathVariable String param, HttpServletRequest request) {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | add | Sensor_types | {}", param);
+		logger.info("Admin | add | Sensor_type | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			this.dao.addSensorType(param);
+			logger.info("Admin | add | Sensor_type | {} | concesso", param);
 			
-			logger.info("Admin | add | Sensor_types | {} | concesso", param);
+			this.dao.addSensorType(gson.fromJson(param, String.class));
 			
 			return "OK";
 		} else {
-			logger.info("Admin | add | Sensor_types | {} | negato", param);
+			logger.info("Admin | add | Sensor_type | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -382,15 +389,15 @@ public class ControllerAdmin {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | get | aziende");
+		logger.info("Admin | get all | aziende");
 		
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			logger.info("Admin | get | aziende | concesso");
+			logger.info("Admin | get all | aziende | concesso");
 			
 			return gson.toJson(this.dao.getAllAziende());
 		} else {
-			logger.info("Admin | get | aziende | negato");
+			logger.info("Admin | get all | aziende | negato");
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -403,14 +410,14 @@ public class ControllerAdmin {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | get | campagne");
+		logger.info("Admin | get all | campagne");
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			logger.info("Admin | get | campagne | concesso");
+			logger.info("Admin | get all | campagne | concesso");
 			
 			return gson.toJson(this.dao.getAllCampagne());
 		} else {
-			logger.info("Admin | get | campagne | negato");
+			logger.info("Admin | get all | campagne | negato");
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -423,14 +430,14 @@ public class ControllerAdmin {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Admin | get | campi");
+		logger.info("Admin | get all | campi");
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.SYSTEMADMIN)) {
-			logger.info("Admin | get | campi | concesso");
+			logger.info("Admin | get all | campi | concesso");
 			
 			return gson.toJson(this.dao.getAllCampi());
 		} else {
-			logger.info("Admin | get | campi | negato");
+			logger.info("Admin | get all | campi | negato");
 			
 			return gson.toJson("Accesso negato");
 		}

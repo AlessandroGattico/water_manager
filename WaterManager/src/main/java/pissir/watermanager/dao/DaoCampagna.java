@@ -17,8 +17,9 @@ import java.util.HashSet;
 @Repository
 public class DaoCampagna {
 	
-	private final String url =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
+	
+	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	private static final Logger logger = LogManager.getLogger(DaoCampagna.class.getName());
 	
 	
@@ -39,8 +40,6 @@ public class DaoCampagna {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, id);
-			
-			logger.info("Esecuzione della query per ottenere la campagna con ID: {}", id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				if (resultSet.next()) {
@@ -79,8 +78,6 @@ public class DaoCampagna {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, idAzienda);
-			
-			logger.info("Esecuzione della query per ottenere le campagne dell'azienda con ID: {}", idAzienda);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
@@ -131,16 +128,15 @@ public class DaoCampagna {
 				try (ResultSet resultSet = statement.getGeneratedKeys();) {
 					if (resultSet.next()) {
 						id = resultSet.getInt(1);
+						
+						logger.info("Campagna aggiunta con ID {}", id);
 					}
 				}
 			}
+			
 			connection.commit();
-			
-			logger.info("Campagna aggiunta con ID {}", id);
-			
 		} catch (Exception e) {
 			logger.error("Errore durante l'aggiunta della campagna", e);
-			
 			
 			if (connection != null) {
 				try {
@@ -149,8 +145,6 @@ public class DaoCampagna {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'aggiunta della campagna", e);
 		} finally {
 			if (connection != null) {
 				try {
@@ -176,41 +170,33 @@ public class DaoCampagna {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
-			logger.info("Tentativo di eliminazione del raccolto: {}", id);
-			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setInt(1, id);
 				
 				int rowsAffected = statement.executeUpdate();
 				
 				if (rowsAffected > 0) {
-					logger.debug("Raccolto '{}' eliminato con successo.", id);
+					logger.info("Campagna {} eliminata con successo.", id);
 				} else {
-					logger.info("Nessun raccolto trovato con nome '{}'.", id);
+					logger.info("Nessuna campagna trovata con ID: {}.", id);
 				}
 			}
 			
 			connection.commit();
 		} catch (SQLException e) {
-			logger.error("Errore durante l'eliminazione del raccolto '{}'", id, e);
+			logger.error("Errore durante l'eliminazione della campagna con ID: {}", id, e);
 			
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -223,12 +209,15 @@ public class DaoCampagna {
 		HashSet<Campagna> campagne = new HashSet<>();
 		Campagna campagna = null;
 		
-		String query = "SELECT * FROM campagna;";
+		String query = """
+				SELECT *
+				FROM campagna;
+				""";
+		
+		logger.info("Estrazione di tutte le campagne");
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
-			
-			logger.info("Esecuzione della query per ottenere tutte le campagne");
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
@@ -266,19 +255,19 @@ public class DaoCampagna {
 				AND id_azienda = ?;
 				""";
 		
+		logger.info("Controllo dell nome della campagna {} nell'azienda {}", campagna, id);
+		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(sql)) {
 			statement.setString(1, campagna);
 			statement.setInt(2, id);
-			
-			logger.info("Verifica esistenza della campagna '{}' per l'azienda con ID {}", campagna, id);
 			
 			ResultSet resultSet = statement.executeQuery();
 			
 			if (resultSet.next()) {
 				boolean exists = resultSet.getInt(1) > 0;
 				
-				logger.debug("La campagna '{}' {} nell'azienda con ID {}", campagna, exists ? "esiste" : "non esiste",
+				logger.info("La campagna '{}' {} nell'azienda con ID {}", campagna, exists ? "esiste" : "non esiste",
 						id);
 				
 				return exists;

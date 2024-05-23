@@ -1,5 +1,7 @@
 {
 	"username": "username",
 	"password": "password",
-	"urlMqtt": "tcp://127.0.0.1:1883"
+	"urlMqtt": "tcp://127.0.0.1:1883",
+	"apiSensors": "http://localhost:8080/api/v1/misura/add",
+	"apiTopics": "http://localhost:8080/api/v1/utils/topics/get/all"
 }

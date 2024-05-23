@@ -1,6 +1,5 @@
 package pissir.watermanager.mqtt.publisher;
 
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.logging.log4j.LogManager;
@@ -9,7 +8,6 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.springframework.stereotype.Service;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -21,7 +19,6 @@ import java.nio.charset.StandardCharsets;
  * @author Gattico Alessandro
  */
 
-@Service
 public class Publisher {
 	
 	private MqttClient client;
@@ -32,19 +29,27 @@ public class Publisher {
 		String clientId = MqttClient.generateClientId();
 		
 		try {
-			String username = "";
-			String password = "";
-			String url = "";
+			String username = "username";
+			String password = "password";
+			String url = "tcp://127.0.0.1:1883";
 			
-			try (FileReader reader = new FileReader(System.getProperty("user.dir") + "/Config/config.json")) {
+			/*
+			try (FileReader reader = new FileReader("/Config/config.json")) {
 				JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
 				
-				username = jsonObject.get("username").getAsString();
-				password = jsonObject.get("password").getAsString();
-				url = jsonObject.get("urlMqtt").getAsString();
+				if (jsonObject.has("username") && jsonObject.has("password") && jsonObject.has("urlMqtt")) {
+					username = jsonObject.get("username").getAsString();
+					password = jsonObject.get("password").getAsString();
+					url = jsonObject.get("urlMqtt").getAsString();
+				} else {
+					logger.error("File di configurazione mancante di username, password o urlMqtt");
+					throw new IllegalArgumentException("Configurazione incompleta nel file JSON");
+				}
 			} catch (IOException e) {
-				logger.error("Impossibile aprire il file di configuraizone");
+				logger.error("Impossibile aprire il file di configurazione", e);
+				throw new RuntimeException("Errore di I/O durante la lettura del file di configurazione", e);
 			}
+			 */
 			
 			this.client = new MqttClient(url, clientId);
 			char[] pwd = password.toCharArray();
@@ -54,13 +59,14 @@ public class Publisher {
 			options.setPassword(pwd);
 			options.setCleanSession(false);
 			
-			logger.info("Creating publisher: username = {}", options.getUserName());
+			logger.info("Creo publisher con username = {}", options.getUserName());
 			
 			options.setWill(this.client.getTopic("home/LWT"), "I'm gone. Bye.".getBytes(), 0, false);
 			
 			this.client.connect(options);
 		} catch (MqttException e) {
-			logger.error("Impossibile creare un client MQTT");
+			logger.error("Impossibile creare un client MQTT", e);
+			throw new RuntimeException("Errore durante la creazione del client MQTT", e);
 		}
 	}
 	
@@ -71,10 +77,9 @@ public class Publisher {
 		mqttMessage.setPayload(message.getBytes(StandardCharsets.UTF_8));
 		mqttMessage.setQos(1);
 		
-		logger.info("Publishing on topic: {}, message: {}", topic, message);
+		logger.info("Pubblico con topic: {}, messaggio: {}", topic, message);
 		
 		client.publish(topic, mqttMessage);
 	}
-	
 	
 }

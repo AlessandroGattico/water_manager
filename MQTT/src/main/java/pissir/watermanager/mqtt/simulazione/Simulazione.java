@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
@@ -37,31 +36,44 @@ public class Simulazione {
 	private final Subscriber subscriber;
 	private final List<String> subscribed;
 	
-	private final String urlTopics = "http://localhost:8080/api/v1/utils/topics/get/all";
+	private String apiTopics;
 	
 	
-	@Autowired
-	public Simulazione(Publisher publisher, Subscriber subscriber) {
-		this.publisher = publisher;
-		this.subscriber = subscriber;
+	public Simulazione() {
+		this.subscriber = new Subscriber();
+		this.publisher = new Publisher();
+		
+		/*
+		try (FileReader reader = new FileReader(System.getProperty("user.dir") + "/Config/config.json")) {
+			JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
+			
+			apiTopics = jsonObject.get("apiTopics").getAsString();
+		} catch (IOException e) {
+			logger.error("Impossibile aprire il file di configuraizone");
+		}
+		 */
+		
+		this.apiTopics = "http://localhost:8080/api/v1/utils/topics/get/all";
 		this.subscribed = new ArrayList<>();
 	}
 	
 	
 	@Scheduled(fixedRate = 300000)
-	public void scheduleFixedRateTask() throws MqttException {
+	public void scheduleFixedRateTask() throws MqttException, InterruptedException {
 		this.start();
 	}
 	
 	
-	private void start() throws MqttException {
+	private void start() throws MqttException, InterruptedException {
+		Thread.sleep(120000);
+		
 		Gson gson = new Gson();
 		RestTemplate restTemplate = new RestTemplate();
 		
 		logger.info("Inizio simulazione misure");
 		
 		try {
-			String result = restTemplate.getForObject(this.urlTopics, String.class);
+			String result = restTemplate.getForObject(this.apiTopics, String.class);
 			Topics topics = gson.fromJson(result, Topics.class);
 			
 			for (TopicCreator topic : topics.getTopics()) {
@@ -99,9 +111,9 @@ public class Simulazione {
 				}
 			}
 		} catch (HttpClientErrorException.NotFound e) {
-			logger.error("Endpoint not found: {}", this.urlTopics);
+			logger.error("Endpoint non trovato: {}", this.apiTopics);
 		} catch (RestClientException e) {
-			logger.error("Error during REST call: {}", e.getMessage());
+			logger.error("Errore durante la chiamata REST: {}", e.getMessage());
 		}
 	}
 	

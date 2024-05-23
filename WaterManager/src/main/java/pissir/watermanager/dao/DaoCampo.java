@@ -17,8 +17,9 @@ import java.util.HashSet;
 @Repository
 public class DaoCampo {
 	
-	private final String url =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
+	
+	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	private static final Logger logger = LogManager.getLogger(DaoCampo.class.getName());
 	
 	

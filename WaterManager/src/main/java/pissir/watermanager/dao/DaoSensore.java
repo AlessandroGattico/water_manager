@@ -17,8 +17,9 @@ import java.util.HashSet;
 @Repository
 public class DaoSensore {
 	
-	private final String url =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
+
+	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	private static final Logger logger = LogManager.getLogger(DaoSensore.class.getName());
 	
 	
@@ -38,8 +39,6 @@ public class DaoSensore {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, id);
-			
-			logger.info("Esecuzione della query per ottenere il sensore con ID {}", id);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				if (resultSet.next()) {
@@ -78,8 +77,6 @@ public class DaoSensore {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setLong(1, idCampo);
-			
-			logger.info("Esecuzione della query per ottenere i sensori del campo con ID {}", idCampo);
 			
 			try (ResultSet resultSet = statement.executeQuery()) {
 				while (resultSet.next()) {
@@ -140,19 +137,17 @@ public class DaoSensore {
 				}
 				
 				connection.commit();
-			} catch (SQLException e) {
-				if (connection != null) {
-					connection.rollback();
-					
-					logger.error("Rollback effettuato durante l'inserimento del sensore", e);
-				}
-				
-				throw e;
 			}
 		} catch (SQLException e) {
 			logger.error("Errore durante l'inserimento del sensore", e);
 			
-			return id;
+			if (connection != null) {
+				try {
+					connection.rollback();
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
 		} finally {
 			if (connection != null) {
 				try {
@@ -187,21 +182,21 @@ public class DaoSensore {
 				if (rowsAffected > 0) {
 					logger.info("Sensore con ID {} eliminato con successo", idSensore);
 				} else {
-					logger.warn("Nessun sensore trovato con ID {}", idSensore);
+					logger.info("Nessun sensore trovato con ID {}", idSensore);
 				}
 				
 				connection.commit();
-			} catch (SQLException e) {
-				if (connection != null) {
-					connection.rollback();
-					
-					logger.error("Rollback effettuato durante l'eliminazione del sensore", e);
-				}
-				
-				throw e;
 			}
 		} catch (SQLException e) {
-			logger.error("Errore durante l'eliminazione del sensore", e);
+			logger.error("Errore durante l'eliminazione del sensore con ID: {}", idSensore, e);
+			
+			if (connection != null) {
+				try {
+					connection.rollback();
+				} catch (SQLException ex) {
+					logger.error("Errore durante l'esecuzione del rollback", ex);
+				}
+			}
 		} finally {
 			if (connection != null) {
 				try {

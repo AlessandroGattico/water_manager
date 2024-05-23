@@ -18,8 +18,8 @@ import java.util.HashSet;
 @Repository
 public class DaoBacinoIdrico {
 	
-	private final String url =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
+	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
+	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	private static final Logger logger = LogManager.getLogger(DaoBacinoIdrico.class.getName());
 	
 	
@@ -128,6 +128,7 @@ public class DaoBacinoIdrico {
 				try (ResultSet resultSet = statement.getGeneratedKeys();) {
 					if (resultSet.next()) {
 						id = resultSet.getInt(1);
+						
 						logger.info("Bacino aggiunto con ID {}", id);
 					}
 				}
@@ -144,8 +145,6 @@ public class DaoBacinoIdrico {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'aggiunta del bacino", e);
 		} finally {
 			if (connection != null) {
 				try {
@@ -171,41 +170,33 @@ public class DaoBacinoIdrico {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
-			logger.info("Tentativo di eliminazione del raccolto: {}", bacino);
-			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setInt(1, bacino);
 				
 				int rowsAffected = statement.executeUpdate();
 				
 				if (rowsAffected > 0) {
-					logger.debug("Raccolto '{}' eliminato con successo.", bacino);
+					logger.info("Bacino idrico {} eliminato con successo.", bacino);
 				} else {
-					logger.info("Nessun raccolto trovato con nome '{}'.", bacino);
+					logger.info("Nessun bacino idrico trovato con ID: {}.", bacino);
 				}
 			}
 			
 			connection.commit();
 		} catch (SQLException e) {
-			logger.error("Errore durante l'eliminazione del raccolto '{}'", bacino, e);
+			logger.error("Errore durante l'eliminazione del bacino idrico con ID: {}", bacino, e);
 			
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}

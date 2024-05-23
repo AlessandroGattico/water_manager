@@ -37,16 +37,16 @@ public class ControllerCampagna {
 		Gson gson = new Gson();
 		String jwt = TokenCheck.extractTokenFromRequest(request);
 		
-		logger.info("Campagna | add");
+		logger.info("Campagna | add | {}", param);
 		
 		if (this.tokenService.validateTokenAndRole(jwt, UserRole.GESTOREAZIENDA)) {
-			logger.info("Campagna | add | concesso");
+			logger.info("Campagna | add | {} | concesso", param);
 			
 			Campagna campagna = gson.fromJson(param, Campagna.class);
 			
 			return gson.toJson(this.daoCampagna.addCampagna(campagna));
 		} else {
-			logger.info("Campagna | add | negato");
+			logger.info("Campagna | add | {} | negato", param);
 			
 			return gson.toJson("Accesso negato");
 		}
@@ -109,6 +109,7 @@ public class ControllerCampagna {
 			logger.info("Campagna | elimina | {} | concesso", id);
 			
 			this.daoCampagna.deleteCampagna(id);
+			
 			return gson.toJson("OK");
 		} else {
 			logger.info("Campagna | elimina | {} | negato", id);

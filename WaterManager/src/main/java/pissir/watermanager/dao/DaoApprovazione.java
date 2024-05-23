@@ -19,17 +19,15 @@ import java.time.temporal.TemporalAdjusters;
 @Repository
 public class DaoApprovazione {
 	
-	private final String url =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	private final String archive =
-			"jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/ARCHIVE";
+	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
+	private final String archive = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/ARCHIVE";
+	
+	
 	private static final Logger logger = LogManager.getLogger(DaoApprovazione.class.getName());
 	private static final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	private Connection connectionTgt;
 	
 	
 	protected DaoApprovazione() {
-		this.connectionTgt = null;
 	}
 	
 	
@@ -40,6 +38,8 @@ public class DaoApprovazione {
 				FROM approvazione
 				WHERE id_richiesta = ? ;
 				""";
+		
+		logger.info("Estrazione approvazione con id_richiesta: {}", idRichiesta);
 		
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
@@ -82,6 +82,8 @@ public class DaoApprovazione {
 				VALUES (?, ?, ?, ?);
 				""";
 		
+		logger.info("Estrazione approvazione per richiesta: {}", approvazione.getIdRichiesta());
+		
 		try {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
@@ -105,7 +107,7 @@ public class DaoApprovazione {
 			
 			connection.commit();
 		} catch (Exception e) {
-			logger.error("Errore durante la connessione al database per aggiungere l'approvazione", e);
+			logger.error("Errore durante l'aggiunta dell'approvazione", e);
 			
 			if (connection != null) {
 				try {
@@ -114,8 +116,6 @@ public class DaoApprovazione {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'aggiunta dell'approvazione", e);
 		} finally {
 			if (connection != null) {
 				try {
@@ -138,11 +138,13 @@ public class DaoApprovazione {
 				WHERE id = ? ;
 				""";
 		
+		logger.info("Eliminazione approvazione con ID: {}", idApprovazione);
+		
 		try {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
-			logger.info("Tentativo di eliminazione del raccolto: {}", idApprovazione);
+			logger.info("Eliminazione dell'approvazione con ID: {}", idApprovazione);
 			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setInt(1, idApprovazione);
@@ -150,33 +152,27 @@ public class DaoApprovazione {
 				int rowsAffected = statement.executeUpdate();
 				
 				if (rowsAffected > 0) {
-					logger.debug("Raccolto '{}' eliminato con successo.", idApprovazione);
+					logger.debug("Approvazione con ID: {} eliminata con successo.", idApprovazione);
 				} else {
-					logger.info("Nessun raccolto trovato con nome '{}'.", idApprovazione);
+					logger.info("Nessuna approvazione trovata con id {}.", idApprovazione);
 				}
 			}
 			
 			connection.commit();
 		} catch (SQLException e) {
-			logger.error("Errore durante l'eliminazione del raccolto '{}'", idApprovazione, e);
+			logger.error("Errore durante l'eliminazione dell'approvazione {}", idApprovazione, e);
 			
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -194,9 +190,17 @@ public class DaoApprovazione {
 		
 		String retention = result.format(formatterData);
 		
+		logger.info("Preparazione per l'archiviazione delle approvazioni prima di: {}", retention);
+		
 		Archive archive = new Archive(this.url, this.archive, "approvazione", retention);
 		
-		archive.export();
+		try {
+			archive.export();
+			
+			logger.info("Archiviazione completata con successo.");
+		} catch (Exception e) {
+			logger.error("Errore durante l'archiviazione delle approvazioni", e);
+		}
 	}
 	
 	
