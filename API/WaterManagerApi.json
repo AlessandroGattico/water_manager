@@ -80,6 +80,16 @@
 			"description": "Server di sviluppo locale per servizi di gestione del sistema idrico"
 		}
 	],
+	"components": {
+		"parameters": {
+			"name": {
+				"name": "name",
+				"in": "query",
+				"required": true,
+				"description": ""
+			}
+		}
+	},
 	"paths": {
 		"/auth/verify/mail/{email}": {
 			"get": {
@@ -271,18 +281,13 @@
 		},
 		"/admin/gi/get/all": {
 			"get": {
-				"summary": "Ottieni i idettagli di tutti i gestori idrici",
-				"operationId": "getGestoriBacino",
+				"tags": [
+					"Admin"
+				],
+				"summary": "Ottieni dettagli di tutti i gestori idrici",
 				"responses": {
 					"200": {
-						"description": "OK",
-						"content": {
-							"*/*": {
-								"schema": {
-									"type": "string"
-								}
-							}
-						}
+						"description": "Dettagli di tutti i gestori idrici"
 					}
 				}
 			}

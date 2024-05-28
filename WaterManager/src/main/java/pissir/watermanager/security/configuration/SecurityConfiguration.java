@@ -79,7 +79,10 @@ public class SecurityConfiguration {
 							.requestMatchers("/api/v1/auth/**").permitAll()
 							.requestMatchers("/api/v1/utils/**").permitAll()
 							.requestMatchers("/api/v1/misura/add").permitAll()
-							.anyRequest().authenticated();
+							.requestMatchers("/swagger-ui/**").permitAll()
+							.requestMatchers("/swagger-ui/index.html").permitAll()
+							.requestMatchers("/v3/api-docs/**").permitAll()
+							.anyRequest().permitAll();
 				})
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer :: jwt)
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

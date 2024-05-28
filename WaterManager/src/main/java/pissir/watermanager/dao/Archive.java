@@ -27,14 +27,13 @@ public class Archive {
 	}
 	
 	
-	public int export() {
+	public void export() {
 		try {
 			this.connectionSrc = DriverManager.getConnection(this.source);
 			this.connectionTgt = DriverManager.getConnection(this.target);
 			
-			return this.readData();
-		} catch (Exception e) {
-			return - 1;
+			this.readData();
+		} catch (Exception ignored) {
 		}
 	}
 	
@@ -52,9 +51,9 @@ public class Archive {
 		this.connectionTgt.setAutoCommit(false);
 		
 		try (PreparedStatement statement = this.connectionSrc.prepareStatement(query)) {
-			loggerSql.debug("Esecuzione query: " + query);
+			loggerSql.debug("Esecuzione query: {}", query);
 			loggerSql.debug("Params: ");
-			loggerSql.debug("?1 " + this.table + " < " + this.retention);
+			loggerSql.debug("?1 {} < {}", this.table, this.retention);
 			
 			statement.setString(1, this.retention);
 			

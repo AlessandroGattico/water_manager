@@ -34,7 +34,7 @@ public class AuthenticationController {
 	public String registerUser(@RequestBody String body) {
 		RegistrationDTO registration = this.gson.fromJson(body, RegistrationDTO.class);
 		
-		logger.info("User | register | " + registration.getUsername());
+		logger.info("User | register | {}", registration.getUsername());
 		
 		return this.gson.toJson(authenticationService.registerUser(registration));
 	}
@@ -44,7 +44,7 @@ public class AuthenticationController {
 	public String loginUser(@RequestBody String body) {
 		LoginRequestDTO request = this.gson.fromJson(body, LoginRequestDTO.class);
 		
-		logger.info("User | login | " + request.getUsername());
+		logger.info("User | login | {}", request.getUsername());
 		
 		return this.gson.toJson(authenticationService.loginUser(request));
 	}
@@ -54,7 +54,7 @@ public class AuthenticationController {
 	public ResponseEntity<Boolean> verificaUsername(@PathVariable String username) {
 		boolean esiste = this.dao.existsByUsername(username);
 		
-		logger.info("User | verifica username | " + username);
+		logger.info("User | verifica username | {}", username);
 		
 		return ResponseEntity.ok(! esiste);
 	}
@@ -64,7 +64,7 @@ public class AuthenticationController {
 	public ResponseEntity<Boolean> verificaEmail(@PathVariable String email) {
 		boolean esiste = this.dao.existsByEmail(email);
 		
-		logger.info("User | verifica mail | " + email);
+		logger.info("User | verifica mail | {}", email);
 		
 		return ResponseEntity.ok(! esiste);
 	}
