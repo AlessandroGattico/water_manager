@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Volumes/MICIO2/progetti/pissir/progetto/WaterManagerUI/WaterManagerUI.csproj": {}
+    "/Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManagerUI/WaterManagerUI.csproj": {}
   },
   "projects": {
-    "/Volumes/MICIO2/progetti/pissir/progetto/WaterManagerUI/WaterManagerUI.csproj": {
+    "/Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManagerUI/WaterManagerUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Volumes/MICIO2/progetti/pissir/progetto/WaterManagerUI/WaterManagerUI.csproj",
+        "projectUniqueName": "/Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManagerUI/WaterManagerUI.csproj",
         "projectName": "WaterManagerUI",
-        "projectPath": "/Volumes/MICIO2/progetti/pissir/progetto/WaterManagerUI/WaterManagerUI.csproj",
+        "projectPath": "/Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManagerUI/WaterManagerUI.csproj",
         "packagesPath": "/Users/alessandrogattico/.nuget/packages/",
-        "outputPath": "/Volumes/MICIO2/progetti/pissir/progetto/WaterManagerUI/obj/",
+        "outputPath": "/Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManagerUI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/alessandrogattico/.nuget/NuGet/NuGet.Config"

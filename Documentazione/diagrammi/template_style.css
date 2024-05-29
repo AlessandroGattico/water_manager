@@ -1,0 +1,182 @@
+.Description{
+  font-family: Calibri;
+  font-size: 11px;
+}
+
+.TOC2{
+  font-family: Calibri;
+  font-size: 11px;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.TOC3{
+  font-family: Calibri;
+  font-size: 11px;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.TOC1{
+  font-family: Calibri;
+  font-size: 11px;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.Heading1{
+  font-family: Cambria;
+  font-size: 14px;
+  font-weight: bold;
+  color: #365f91;
+  margin-top: 24px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.Heading2{
+  font-family: Cambria;
+  font-size: 13px;
+  font-weight: bold;
+  color: #4f81bd;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.Heading3{
+  font-family: Cambria;
+  font-size: 11px;
+  font-weight: bold;
+  color: #4f81bd;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.Heading4{
+  font-family: Cambria;
+  font-size: 11px;
+  font-weight: bold;
+  font-style: italic;
+  color: #4f81bd;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.Heading5{
+  font-family: Cambria;
+  font-size: 11px;
+  color: #243f60;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.Heading6{
+  font-family: Cambria;
+  font-size: 11px;
+  font-style: italic;
+  color: #243f60;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.Heading7{
+  font-family: Cambria;
+  font-size: 11px;
+  font-style: italic;
+  color: #404040;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.Heading8{
+  font-family: Cambria;
+  font-size: 10px;
+  color: #404040;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.BalloonText{
+  font-family: Tahoma;
+  font-size: 8px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.Heading9{
+  font-family: Cambria;
+  font-size: 10px;
+  font-style: italic;
+  color: #404040;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.Normal{
+  font-family: Calibri;
+  font-size: 11px;
+}
+
+.Title{
+  font-family: Cambria;
+  font-size: 26px;
+  color: #17365d;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.Subtitle{
+  font-family: Cambria;
+  font-size: 12px;
+  font-style: italic;
+  color: #4f81bd;
+}
+
+.NoSpacing{
+  font-family: Calibri;
+  font-size: 11px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+.ListParagraph{
+  font-family: Calibri;
+  font-size: 11px;
+}
+
+.Quote{
+  font-family: Calibri;
+  font-size: 11px;
+  font-style: italic;
+  color: #000000;
+}
+
+.IntenseQuote{
+  font-family: Calibri;
+  font-size: 11px;
+  font-weight: bold;
+  font-style: italic;
+  color: #4f81bd;
+  margin-top: 10px;
+  margin-bottom: 14px;
+  display: inline-block;
+}
+
+.TOCHeading{
+  font-family: Cambria;
+  font-size: 14px;
+  font-weight: bold;
+  color: #365f91;
+  margin-top: 24px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
