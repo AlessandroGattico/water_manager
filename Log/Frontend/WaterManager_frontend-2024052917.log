@@ -1,0 +1,61 @@
+2024-05-29 17:37:52.219 +02:00 [INF] User profile is available. Using '/Users/alessandrogattico/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-05-29 17:37:52.448 +02:00 [INF] Now listening on: http://localhost:5210
+2024-05-29 17:37:52.449 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-05-29 17:37:52.449 +02:00 [INF] Hosting environment: Development
+2024-05-29 17:37:52.449 +02:00 [INF] Content root path: /Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManagerUI
+2024-05-29 17:37:52.984 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - -
+2024-05-29 17:37:52.989 +02:00 [WRN] Failed to determine the https port for redirect.
+2024-05-29 17:37:53.058 +02:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2024-05-29 17:37:53.063 +02:00 [INF] Executing endpoint '/Index'
+2024-05-29 17:37:53.112 +02:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-05-29 17:37:53.140 +02:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-05-29 17:37:53.154 +02:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-05-29 17:37:53.807 +02:00 [INF] Executed page /Index in 687.8067ms
+2024-05-29 17:37:53.807 +02:00 [INF] Executed endpoint '/Index'
+2024-05-29 17:37:53.837 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - - - 200 - text/html;+charset=utf-8 854.8519ms
+2024-05-29 17:37:53.842 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5210/logo/logo.png - -
+2024-05-29 17:37:53.847 +02:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2024-05-29 17:37:53.848 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5210/logo/logo.png - - - 404 0 - 6.7066ms
+2024-05-29 17:38:12.344 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - -
+2024-05-29 17:38:12.348 +02:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2024-05-29 17:38:12.348 +02:00 [INF] Executing endpoint '/Index'
+2024-05-29 17:38:12.354 +02:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-05-29 17:38:12.355 +02:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-05-29 17:38:12.356 +02:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-05-29 17:38:12.420 +02:00 [INF] Executed page /Index in 65.8588ms
+2024-05-29 17:38:12.420 +02:00 [INF] Executed endpoint '/Index'
+2024-05-29 17:38:12.421 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - - - 200 - text/html;+charset=utf-8 77.2378ms
+2024-05-29 17:38:12.436 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5210/logo/logo.png - -
+2024-05-29 17:38:12.437 +02:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2024-05-29 17:38:12.437 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5210/logo/logo.png - - - 404 0 - 1.0639ms
+2024-05-29 17:38:13.259 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - -
+2024-05-29 17:38:13.260 +02:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2024-05-29 17:38:13.260 +02:00 [INF] Executing endpoint '/Index'
+2024-05-29 17:38:13.260 +02:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-05-29 17:38:13.261 +02:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-05-29 17:38:13.261 +02:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-05-29 17:38:13.265 +02:00 [INF] Executed page /Index in 4.7069ms
+2024-05-29 17:38:13.265 +02:00 [INF] Executed endpoint '/Index'
+2024-05-29 17:38:13.265 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - - - 200 - text/html;+charset=utf-8 6.4022ms
+2024-05-29 17:38:13.280 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5210/logo/logo.png - -
+2024-05-29 17:38:13.283 +02:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2024-05-29 17:38:13.284 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5210/logo/logo.png - - - 404 0 - 3.4425ms
+2024-05-29 17:38:34.446 +02:00 [INF] Application is shutting down...
+2024-05-29 17:39:15.943 +02:00 [INF] User profile is available. Using '/Users/alessandrogattico/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-05-29 17:39:16.145 +02:00 [INF] Now listening on: http://localhost:5210
+2024-05-29 17:39:16.147 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-05-29 17:39:16.147 +02:00 [INF] Hosting environment: Development
+2024-05-29 17:39:16.147 +02:00 [INF] Content root path: /Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManagerUI
+2024-05-29 17:39:16.629 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - -
+2024-05-29 17:39:16.652 +02:00 [WRN] Failed to determine the https port for redirect.
+2024-05-29 17:39:16.740 +02:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2024-05-29 17:39:16.745 +02:00 [INF] Executing endpoint '/Index'
+2024-05-29 17:39:16.775 +02:00 [INF] Route matched with {page = "/Index", area = ""}. Executing page /Index
+2024-05-29 17:39:16.788 +02:00 [INF] Executing handler method WaterManagerUI.Pages.IndexModel.OnGetAsync - ModelState is "Valid"
+2024-05-29 17:39:16.798 +02:00 [INF] Executed handler method OnGetAsync, returned result Microsoft.AspNetCore.Mvc.RazorPages.PageResult.
+2024-05-29 17:39:17.207 +02:00 [INF] Executed page /Index in 423.7212ms
+2024-05-29 17:39:17.208 +02:00 [INF] Executed endpoint '/Index'
+2024-05-29 17:39:17.219 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - - - 200 - text/html;+charset=utf-8 591.7291ms
+2024-05-29 17:39:17.225 +02:00 [INF] Request starting HTTP/1.1 GET http://localhost:5210/logo/logo.png - -
+2024-05-29 17:39:17.229 +02:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2024-05-29 17:39:17.229 +02:00 [INF] Request finished HTTP/1.1 GET http://localhost:5210/logo/logo.png - - - 404 0 - 4.1755ms
