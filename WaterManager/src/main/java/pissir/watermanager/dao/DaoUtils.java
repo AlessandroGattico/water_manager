@@ -17,8 +17,6 @@ import java.util.HashSet;
 public class DaoUtils {
 	
 	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
-	
-	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	private static final Logger logger = LogManager.getLogger(DaoUtils.class.getName());
 	
 	
@@ -38,16 +36,16 @@ public class DaoUtils {
 			 PreparedStatement statement = connectionection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
 			
-			logger.info("Inizio della procedura di recupero dei raccolti dal database");
+			logger.info("Estrazione tipologie di raccolto");
 			
 			while (resultSet.next()) {
 				raccolti.add(resultSet.getString("nome"));
 			}
 			
 			if (! raccolti.isEmpty()) {
-				logger.info("Trovati {} raccolti", raccolti.size());
+				logger.info("Trovate {} tipologie di raccolto", raccolti.size());
 			} else {
-				logger.info("Non sono stati trovtati raccolti");
+				logger.info("Non sono state trovtate tipologie di raccolto");
 			}
 			
 			return raccolti;
@@ -71,7 +69,7 @@ public class DaoUtils {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
-			logger.info("Inserimento della nuova irrigazione: {}", raccolto);
+			logger.info("Inserimento della nuova tipologia di raccolto: {}", raccolto);
 			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setString(1, raccolto);
@@ -79,33 +77,27 @@ public class DaoUtils {
 				int rowsAffected = statement.executeUpdate();
 				
 				if (rowsAffected > 0) {
-					logger.debug("Irrigazione '{}' aggiunta con successo.", raccolto);
+					logger.debug("Raccolto '{}' aggiunta con successo.", raccolto);
 				} else {
-					logger.info("Nessun inserimento effettuato per l'irrigazione '{}'.", raccolto);
+					logger.info("Nessun inserimento effettuato per il raccolto '{}'.", raccolto);
 				}
 			}
 			
 			connection.commit();
 		} catch (SQLException e) {
-			logger.error("Errore durante l'inserimento dell'irrigaizone '{}'", raccolto, e);
+			logger.error("Errore durante l'inserimento del raccolto '{}'", raccolto, e);
 			
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'inserimento dell'irrigazione", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -119,13 +111,14 @@ public class DaoUtils {
 				DELETE FROM raccolto
 				WHERE nome = ? ;
 				""";
+		
 		Connection connection = null;
 		
 		try {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
-			logger.info("Tentativo di eliminazione del raccolto: {}", raccolto);
+			logger.info("Eliminazione del raccolto: {}", raccolto);
 			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setString(1, raccolto);
@@ -146,20 +139,14 @@ public class DaoUtils {
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -179,6 +166,8 @@ public class DaoUtils {
 		try (Connection connectionection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connectionection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
+			
+			logger.info("Estrazione tipologie di esigenza idrica");
 			
 			while (resultSet.next()) {
 				esigenze.add(resultSet.getString("nome"));
@@ -229,20 +218,14 @@ public class DaoUtils {
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'inserimento dell'esigenza", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -262,7 +245,7 @@ public class DaoUtils {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
-			logger.info("Tentativo di eliminazione del esigenza: {}", esigenza);
+			logger.info("Eliminazione del esigenza: {}", esigenza);
 			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setString(1, esigenza);
@@ -270,9 +253,9 @@ public class DaoUtils {
 				int rowsAffected = statement.executeUpdate();
 				
 				if (rowsAffected > 0) {
-					logger.debug("Raccolto '{}' eliminato con successo.", esigenza);
+					logger.debug("Esigenza '{}' eliminato con successo.", esigenza);
 				} else {
-					logger.info("Nessun esigenza trovato con nome '{}'.", esigenza);
+					logger.info("Nessuna esigenza trovato con nome '{}'.", esigenza);
 				}
 			}
 			
@@ -283,20 +266,14 @@ public class DaoUtils {
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'eliminazione del esigenza", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -317,14 +294,16 @@ public class DaoUtils {
 			 PreparedStatement statement = connectionection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
 			
+			logger.info("Estrazione tipologie di irrigazione");
+			
 			while (resultSet.next()) {
 				irrigazioni.add(resultSet.getString("nome"));
 			}
 			
 			if (! irrigazioni.isEmpty()) {
-				logger.info("Trovati {} raccolti", irrigazioni.size());
+				logger.info("Trovate {} irrigazioni", irrigazioni.size());
 			} else {
-				logger.info("Non sono stati trovtati raccolti");
+				logger.info("Non sono stati trovtate irrigazioni");
 			}
 			
 			return irrigazioni;
@@ -366,20 +345,14 @@ public class DaoUtils {
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'inserimento dell'irrigazione", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -399,7 +372,7 @@ public class DaoUtils {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
-			logger.info("Tentativo di eliminazione del raccolto: {}", irrigazine);
+			logger.info("Eliminazione dell'irrigazione: {}", irrigazine);
 			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setString(1, irrigazine);
@@ -407,33 +380,27 @@ public class DaoUtils {
 				int rowsAffected = statement.executeUpdate();
 				
 				if (rowsAffected > 0) {
-					logger.debug("Raccolto '{}' eliminato con successo.", irrigazine);
+					logger.debug("Irrigazione '{}' eliminato con successo.", irrigazine);
 				} else {
-					logger.info("Nessun raccolto trovato con nome '{}'.", irrigazine);
+					logger.info("Nessuna irrigazione trovata con nome '{}'.", irrigazine);
 				}
 			}
 			
 			connection.commit();
 		} catch (SQLException e) {
-			logger.error("Errore durante l'eliminazione del raccolto '{}'", irrigazine, e);
+			logger.error("Errore durante l'eliminazione dell'irrigazione '{}'", irrigazine, e);
 			
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'eliminazione del raccolto", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -453,6 +420,8 @@ public class DaoUtils {
 		try (Connection connectionection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connectionection.prepareStatement(query);
 			 ResultSet resultSet = statement.executeQuery()) {
+			
+			logger.info("Estrazione tipologie di sensore");
 			
 			while (resultSet.next()) {
 				types.add(resultSet.getString("type"));
@@ -503,20 +472,14 @@ public class DaoUtils {
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'inserimento dell'irrigazione", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -536,7 +499,7 @@ public class DaoUtils {
 			connection = DriverManager.getConnection(this.url);
 			connection.setAutoCommit(false);
 			
-			logger.info("Tentativo di eliminazione del raccolto: {}", type);
+			logger.info("Eliminazione tipologia di sensore: {}", type);
 			
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setString(1, type);
@@ -544,33 +507,27 @@ public class DaoUtils {
 				int rowsAffected = statement.executeUpdate();
 				
 				if (rowsAffected > 0) {
-					logger.debug("Raccolto '{}' eliminato con successo.", type);
+					logger.debug("Tipologia sensore '{}' eliminata con successo.", type);
 				} else {
-					logger.info("Nessun raccolto trovato con nome '{}'.", type);
+					logger.info("Nessuna tipologia sensore trovata con nome '{}'.", type);
 				}
 			}
 			
 			connection.commit();
 		} catch (SQLException e) {
-			logger.error("Errore durante l'eliminazione del raccolto '{}'", type, e);
+			logger.error("Errore durante l'eliminazione della tipologia sensore '{}'", type, e);
 			
 			if (connection != null) {
 				try {
 					connection.rollback();
-					
-					logger.info("Rollback eseguito a seguito di un errore.");
 				} catch (SQLException ex) {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'eliminazione del type", e);
 		} finally {
 			if (connection != null) {
 				try {
 					connection.close();
-					
-					logger.info("Connessione chiusa.");
 				} catch (SQLException e) {
 					logger.error("Errore nella chiusura della connessione", e);
 				}
@@ -592,10 +549,14 @@ public class DaoUtils {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			ResultSet resultSet = statement.executeQuery();
 			
+			logger.info("Estrazione numero gestori {}", userRole);
+			
 			statement.setString(1, String.valueOf(userRole));
 			
 			if (resultSet.next()) {
 				count = resultSet.getInt("total");
+				
+				logger.info("Trovati {} {}", count, userRole);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -617,8 +578,12 @@ public class DaoUtils {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			ResultSet resultSet = statement.executeQuery();
 			
+			logger.info("Estrazione numero raccolti");
+			
 			if (resultSet.next()) {
 				count = resultSet.getInt("total");
+				
+				logger.info("Trovati {} raccolti", count);
 			}
 			
 		} catch (SQLException e) {
@@ -641,8 +606,12 @@ public class DaoUtils {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			ResultSet resultSet = statement.executeQuery();
 			
+			logger.info("Estrazione numero esigenze");
+			
 			if (resultSet.next()) {
 				count = resultSet.getInt("total");
+				
+				logger.info("Trovate {} esigenze", count);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -664,8 +633,12 @@ public class DaoUtils {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			ResultSet resultSet = statement.executeQuery();
 			
+			logger.info("Estrazione numero irrigazioni");
+			
 			if (resultSet.next()) {
 				count = resultSet.getInt("total");
+				
+				logger.info("Trovate {} irrigazioni", count);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -687,8 +660,12 @@ public class DaoUtils {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			ResultSet resultSet = statement.executeQuery();
 			
+			logger.info("Estrazione numero tipologie sensori");
+			
 			if (resultSet.next()) {
 				count = resultSet.getInt("total");
+				
+				logger.info("Trovate {} tipologie sensore", count);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -710,8 +687,12 @@ public class DaoUtils {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			ResultSet resultSet = statement.executeQuery();
 			
+			logger.info("Estrazione numero campi");
+			
 			if (resultSet.next()) {
 				count = resultSet.getInt("total");
+				
+				logger.info("Trovati {} campi", count);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -733,8 +714,12 @@ public class DaoUtils {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			ResultSet resultSet = statement.executeQuery();
 			
+			logger.info("Estrazione numero campagne");
+			
 			if (resultSet.next()) {
 				count = resultSet.getInt("total");
+				
+				logger.info("Trovate {} campagne", count);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -756,8 +741,12 @@ public class DaoUtils {
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			ResultSet resultSet = statement.executeQuery();
 			
+			logger.info("Estrazione numero aziende");
+			
 			if (resultSet.next()) {
 				count = resultSet.getInt("total");
+				
+				logger.info("Trovate {} aziende", count);
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -778,6 +767,8 @@ public class DaoUtils {
 		try (Connection connection = DriverManager.getConnection(this.url);
 			 PreparedStatement statement = connection.prepareStatement(query)) {
 			ResultSet resultSet = statement.executeQuery();
+			
+			logger.info("Estrazione numero bacini idrici");
 			
 			if (resultSet.next()) {
 				count = resultSet.getInt("total");

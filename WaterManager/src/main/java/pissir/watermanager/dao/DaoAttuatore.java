@@ -19,7 +19,6 @@ public class DaoAttuatore {
 	
 	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
 	private static final Logger logger = LogManager.getLogger(DaoAttuatore.class.getName());
-	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
 	protected DaoAttuatore() {

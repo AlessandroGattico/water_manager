@@ -22,7 +22,6 @@ public class DaoApprovazione {
 	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
 	private final String archive = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/ARCHIVE";
 	
-	
 	private static final Logger logger = LogManager.getLogger(DaoApprovazione.class.getName());
 	private static final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	

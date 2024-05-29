@@ -1,7 +1,7 @@
 package pissir.watermanager.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import org.springdoc.core.GroupedOpenApi;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,7 +35,7 @@ public class SwaggerConfig {
 	public GroupedOpenApi approvazioneApi() {
 		return GroupedOpenApi.builder()
 				.group("Approvazione")
-				.pathsToMatch("/api/v1/azienda/approvazione/**")
+				.pathsToMatch("/api/v1/bacino/approvazione/**")
 				.packagesToScan("pissir.watermanager.controller")
 				.build();
 	}
@@ -64,7 +64,7 @@ public class SwaggerConfig {
 	@Bean
 	public GroupedOpenApi campagnaApi() {
 		return GroupedOpenApi.builder()
-				.group("Campo")
+				.group("Campagna")
 				.pathsToMatch("/api/v1/azienda/campagna/**")
 				.packagesToScan("pissir.watermanager.controller")
 				.build();
@@ -74,7 +74,7 @@ public class SwaggerConfig {
 	@Bean
 	public GroupedOpenApi campoApi() {
 		return GroupedOpenApi.builder()
-				.group("Campagna")
+				.group("Campo")
 				.pathsToMatch("/api/v1/azienda/campo/**")
 				.packagesToScan("pissir.watermanager.controller")
 				.build();
@@ -95,7 +95,7 @@ public class SwaggerConfig {
 	public GroupedOpenApi bacinoApi() {
 		return GroupedOpenApi.builder()
 				.group("Bacino idrico")
-				.pathsToMatch("/api/v1/bacino/**")
+				.pathsToMatch("/api/v1/bacino/**", "^((?!/api/v1/bacino/approvazione/).)*$")
 				.packagesToScan("pissir.watermanager.controller")
 				.build();
 	}

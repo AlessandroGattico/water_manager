@@ -23,9 +23,6 @@ public class DaoRichieste {
 	
 	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
 	private final String archive = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/ARCHIVE";
-	
-	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
-	//private final String archive = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/ARCHIVE";
 	private static final Logger logger = LogManager.getLogger(DaoRichieste.class.getName());
 	private static final DateTimeFormatter formatterData = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
@@ -550,7 +547,7 @@ public class DaoRichieste {
 		Connection connection = null;
 		String query = """
 				DELETE FROM waiting_resource_azienda
-				WHERE id_azienda = ? AND date(insert_time) <= date(?);
+				WHERE id_azienda = ?;
 				""";
 		
 		try {

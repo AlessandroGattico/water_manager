@@ -1,7 +1,5 @@
 package pissir.watermanager.mqtt.publisher;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -9,8 +7,6 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**

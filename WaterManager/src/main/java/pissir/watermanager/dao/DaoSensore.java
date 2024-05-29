@@ -18,8 +18,6 @@ import java.util.HashSet;
 public class DaoSensore {
 	
 	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
-
-	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	private static final Logger logger = LogManager.getLogger(DaoSensore.class.getName());
 	
 	

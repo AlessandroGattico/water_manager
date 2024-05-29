@@ -2,5 +2,10 @@
 <project version="4">
   <component name="SwaggerSettings">
     <option name="defaultPreviewType" value="SWAGGER_UI" />
+    <remoteSpecificationUrls>
+      <UrlInfo>
+        <option name="urlString" value="localhost:8080/swagger-ui/index.html" />
+      </UrlInfo>
+    </remoteSpecificationUrls>
   </component>
 </project>

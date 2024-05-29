@@ -19,7 +19,6 @@ public class DaoAzienda {
 	
 	private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/Database/DATABASEWATER";
 	private static final Logger logger = LogManager.getLogger(DaoAzienda.class.getName());
-	//private final String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/WaterManager/src/main/resources/DATABASEWATER";
 	
 	
 	protected DaoAzienda() {
@@ -183,8 +182,6 @@ public class DaoAzienda {
 					logger.error("Errore durante l'esecuzione del rollback", ex);
 				}
 			}
-			
-			throw new RuntimeException("Errore durante l'aggiunta dell'azienda", e);
 		} finally {
 			if (connection != null) {
 				try {
