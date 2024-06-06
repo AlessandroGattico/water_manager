@@ -2,43 +2,25 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.ItemProperties.WaterManagerUI PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Pages/Admin/Bacino/Bacini.cshtml.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Program.cs">
     <Files>
-      <File FileName="Areas/Identity/Pages/_ViewStart.cshtml" Line="1" Column="1" />
-      <File FileName="Pages/layout/Admin/_SideMenuAdmin.cshtml" Line="1" Column="1" />
-      <File FileName="Pages/Admin/Bacino/Bacini.cshtml" Line="1" Column="1" />
-      <File FileName="Pages/Admin/Bacino/Bacini.cshtml.cs" Line="27" Column="1" />
+      <File FileName="Areas/Identity/Pages/_ViewStart.cshtml" />
+      <File FileName="Pages/layout/Admin/_SideMenuAdmin.cshtml" />
+      <File FileName="Pages/Admin/Bacino/Bacini.cshtml" />
+      <File FileName="Pages/Admin/Bacino/Bacini.cshtml.cs" />
+      <File FileName="Program.cs" Line="32" Column="16" />
+      <File FileName="Properties/launchSettings.json" Line="13" Column="29" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="WaterManagerUI">
-            <Node name="WaterManagerUI">
-              <Node name="Areas" expanded="True">
-                <Node name="Identity" expanded="True">
-                  <Node name="Pages" expanded="True" />
-                </Node>
-              </Node>
-              <Node name="Pages" expanded="True">
-                <Node name="Admin" expanded="True">
-                  <Node name="Bacino" expanded="True">
-                    <Node name="Bacini.cshtml" expanded="True">
-                      <Node name="Bacini.cshtml.cs" selected="True" />
-                    </Node>
-                  </Node>
-                </Node>
-                <Node name="layout" expanded="True">
-                  <Node name="Admin" expanded="True" />
-                </Node>
-              </Node>
-            </Node>
-          </Node>
+          <Node name="WaterManagerUI" expanded="True" />
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

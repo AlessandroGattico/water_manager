@@ -1,6 +1,8 @@
 package pissir.watermanager.mqtt.simulazione;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -13,6 +15,8 @@ import pissir.watermanager.mqtt.model.Misura;
 import pissir.watermanager.mqtt.publisher.Publisher;
 import pissir.watermanager.mqtt.subscriber.Subscriber;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
@@ -65,7 +69,7 @@ public class Simulazione {
 	
 	
 	private void start() throws MqttException, InterruptedException {
-		Thread.sleep(120000);
+		//Thread.sleep(120000);
 		
 		Gson gson = new Gson();
 		RestTemplate restTemplate = new RestTemplate();

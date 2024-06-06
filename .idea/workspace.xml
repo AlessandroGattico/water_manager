@@ -4,8 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b6e3f15b-bbd0-41cb-b2a3-44256e0e5956" name="Changes" comment="sistemare documentazione">
+    <list default="true" id="b6e3f15b-bbd0-41cb-b2a3-44256e0e5956" name="Changes" comment="sistemare documentazione 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Database/DATABASEWATER" beforeDir="false" afterPath="$PROJECT_DIR$/Database/DATABASEWATER" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Documentazione/Diagrammi WaterManager.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Documentazione/Diagrammi WaterManager.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Documentazione/PissirDiagrams.vpp" beforeDir="false" afterPath="$PROJECT_DIR$/Documentazione/PissirDiagrams.vpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Documentazione/Relazione Progetto PISSIR 2023-2024.docx" beforeDir="false" afterPath="$PROJECT_DIR$/Documentazione/Relazione Progetto PISSIR 2023-2024.docx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/config/SwaggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/publisher/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/publisher/Publisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/simulazione/Simulazione.java" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/simulazione/Simulazione.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/subscriber/SubscribeCallback.java" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/subscriber/SubscribeCallback.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/subscriber/Subscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/subscriber/Subscriber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQTT/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MQTT/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/resources/log4j2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManager/src/main/java/pissir/watermanager/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManager/src/main/java/pissir/watermanager/config/SwaggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManager/src/main/java/pissir/watermanager/security/model/RegistrationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManager/src/main/java/pissir/watermanager/security/model/RegistrationDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/.idea/.idea.WaterManagerUI/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/.idea/.idea.WaterManagerUI/.idea/material_theme_project_new.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/WaterManagerUI.sln" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/WaterManagerUI.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/WaterManagerUI.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/WaterManagerUI.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/WaterManagerUI.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/WaterManagerUI.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/rider.project.model.nuget.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,36 +68,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven.MQTT [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.WaterManager [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.WaterManager [install].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.MqttApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.WaterManagerApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/alessandrogattico/Desktop/fixPissir/pissir&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.uml&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.MQTT [clean].executor": "Run",
+    "Maven.WaterManager [clean].executor": "Run",
+    "Maven.WaterManager [install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.MqttApplication.executor": "Run",
+    "Spring Boot.WaterManagerApplication.executor": "Run",
+    "com.google.cloudcode.ide_session_index": "20240606_0000",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManager/src/main/java/pissir/watermanager",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/WaterManager/src/main/java/pissir/watermanager" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.MqttApplication">
+  <component name="RunManager" selected="Spring Boot.WaterManagerApplication">
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -156,6 +183,18 @@
       <workItem from="1716976963848" duration="96000" />
       <workItem from="1716986288350" duration="5644000" />
       <workItem from="1716999544949" duration="689000" />
+      <workItem from="1717000249792" duration="884000" />
+      <workItem from="1717054621395" duration="1313000" />
+      <workItem from="1717059032995" duration="76000" />
+      <workItem from="1717059121001" duration="834000" />
+      <workItem from="1717068353071" duration="596000" />
+      <workItem from="1717105369333" duration="577000" />
+      <workItem from="1717150605704" duration="349000" />
+      <workItem from="1717155461561" duration="2987000" />
+      <workItem from="1717159811379" duration="704000" />
+      <workItem from="1717165603522" duration="618000" />
+      <workItem from="1717172838644" duration="606000" />
+      <workItem from="1717676312834" duration="551000" />
     </task>
     <task id="LOCAL-00001" summary="sistemare api">
       <option name="closed" value="true" />
@@ -181,7 +220,31 @@
       <option name="project" value="LOCAL" />
       <updated>1716999594242</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="sistemare documentazione">
+      <option name="closed" value="true" />
+      <created>1717000285983</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1717000285983</updated>
+    </task>
+    <task id="LOCAL-00005" summary="sistemare documentazione">
+      <option name="closed" value="true" />
+      <created>1717000373779</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1717000373779</updated>
+    </task>
+    <task id="LOCAL-00006" summary="sistemare documentazione 2">
+      <option name="closed" value="true" />
+      <created>1717000401020</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1717000401020</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,7 +254,8 @@
     <MESSAGE value="sistemare api" />
     <MESSAGE value="aggiunta diagrammi" />
     <MESSAGE value="sistemare documentazione" />
-    <option name="LAST_COMMIT_MESSAGE" value="sistemare documentazione" />
+    <MESSAGE value="sistemare documentazione 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="sistemare documentazione 2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -21,21 +21,25 @@ public class Subscriber {
 	
 	public Subscriber() {
 		try {
-			String username = "username";
-			String password = "password";
-			String url = "tcp://127.0.0.1:1883";
+			String username, password, url;
 			
 			/*
-			try (FileReader reader = new FileReader( "/Config/config.json")) {
-				JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
-				
-				username = jsonObject.get("username").getAsString();
-				password = jsonObject.get("password").getAsString();
-				url = jsonObject.get("urlMqtt").getAsString();
-			} catch (IOException e) {
-				logger.error("Impossibile aprire il file di configuraizone");
+			JsonObject config = ConfigLoader.getConfigJsonObject("config.json");
+			
+			if (config.has("username") && config.has("password") && config.has("urlMqtt")) {
+				username = config.get("username").getAsString();
+				password = config.get("password").getAsString();
+				url = config.get("urlMqtt").getAsString();
+			} else {
+				logger.error("File di configurazione mancante di username, password o urlMqtt");
+				throw new IllegalArgumentException("Configurazione incompleta nel file JSON");
 			}
-			 */
+			*/
+			
+			username = "username";
+			password = "password";
+			url = "tcp://127.0.0.1:1883";
+			
 			
 			this.mqttClient = new MqttClient(url, MqttClient.generateClientId());
 			char[] pwd = password.toCharArray();

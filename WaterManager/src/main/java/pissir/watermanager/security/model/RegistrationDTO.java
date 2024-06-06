@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pissir.watermanager.model.user.UserRole;
 
 /**
  * @author Almasio Luca

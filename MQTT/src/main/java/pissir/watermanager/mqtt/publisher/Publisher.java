@@ -1,5 +1,7 @@
 package pissir.watermanager.mqtt.publisher;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -7,6 +9,8 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -25,12 +29,9 @@ public class Publisher {
 		String clientId = MqttClient.generateClientId();
 		
 		try {
-			String username = "username";
-			String password = "password";
-			String url = "tcp://127.0.0.1:1883";
-			
+			String username, password, url;
 			/*
-			try (FileReader reader = new FileReader("/Config/config.json")) {
+			try (FileReader reader = new FileReader(System.getProperty("config.file"))) {
 				JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
 				
 				if (jsonObject.has("username") && jsonObject.has("password") && jsonObject.has("urlMqtt")) {
@@ -45,7 +46,12 @@ public class Publisher {
 				logger.error("Impossibile aprire il file di configurazione", e);
 				throw new RuntimeException("Errore di I/O durante la lettura del file di configurazione", e);
 			}
-			 */
+			
+			*/
+			username = "username";
+			password = "password";
+			url = "tcp://127.0.0.1:1883";
+			
 			
 			this.client = new MqttClient(url, clientId);
 			char[] pwd = password.toCharArray();

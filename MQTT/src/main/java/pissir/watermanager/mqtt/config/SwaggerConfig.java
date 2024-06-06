@@ -4,6 +4,11 @@ import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author Almasio Luca
+ * @author Borova Dritan
+ * @author Gattico Alessandro
+ */
 
 @Configuration
 public class SwaggerConfig {
@@ -17,5 +22,7 @@ public class SwaggerConfig {
 	}
 	
 }
+
+
 
 

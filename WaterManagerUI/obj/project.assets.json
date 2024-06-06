@@ -2818,11 +2818,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManagerUI/WaterManagerUI.csproj",
+      "projectUniqueName": "/Users/alessandrogattico/Desktop/fixPissir/ProgettoPissir/WaterManagerUI/WaterManagerUI.csproj",
       "projectName": "WaterManagerUI",
-      "projectPath": "/Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManagerUI/WaterManagerUI.csproj",
+      "projectPath": "/Users/alessandrogattico/Desktop/fixPissir/ProgettoPissir/WaterManagerUI/WaterManagerUI.csproj",
       "packagesPath": "/Users/alessandrogattico/.nuget/packages/",
-      "outputPath": "/Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManagerUI/obj/",
+      "outputPath": "/Users/alessandrogattico/Desktop/fixPissir/ProgettoPissir/WaterManagerUI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/alessandrogattico/.nuget/NuGet/NuGet.Config"
@@ -2831,7 +2831,7 @@
         "net7.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/sdk/7.0.312/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+        "/usr/local/share/dotnet/sdk/7.0.316/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2934,7 +2934,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.312/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.316/RuntimeIdentifierGraph.json"
       }
     }
   },

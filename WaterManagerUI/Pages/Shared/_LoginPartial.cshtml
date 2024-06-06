@@ -3,6 +3,8 @@
 @using System.Security.Claims
 @inject SignInManager<IdentityUser> SignInManager
 
+<link rel="stylesheet" href="css/site.css"/>
+
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {

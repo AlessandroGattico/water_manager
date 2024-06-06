@@ -23,15 +23,12 @@ public class SubscribeCallback implements MqttCallback {
 	
 	public SubscribeCallback() {
 		this.apiUrlSensor = "http://localhost:8080/api/v1/misura/add";
-		/*
-		try (FileReader reader = new FileReader("/Config/config.json")) {
-			JsonObject jsonObject = JsonParser.parseReader(reader).getAsJsonObject();
-			
-			apiUrlSensor = jsonObject.get("apiSensor").getAsString();
-		} catch (IOException e) {
-			logger.error("Impossibile aprire il file di configuraizone");
+		
+/*		if (config != null) {
+			this.apiUrlSensor = config.get("apiSensors").getAsString();
 		}
-		 */
+		
+ */
 	}
 	
 	

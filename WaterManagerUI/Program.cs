@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -6,9 +5,7 @@ using WaterManagerUI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-                       ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
@@ -32,7 +29,7 @@ builder.Services.AddHttpClient();
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.File(
-        path: "./../Log/Frontend/WaterManager_frontend-.log",
+        path: "Log/Frontend/WaterManager_frontend-.log",
         rollingInterval: RollingInterval.Hour
     )
     .CreateLogger();
