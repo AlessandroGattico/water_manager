@@ -759,6 +759,28 @@
           }
         }
       },
+      "NUnit/4.2.2": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/nunit.framework.dll": {
+            "related": ".legacy.xml;.xml"
+          },
+          "lib/net6.0/nunit.framework.legacy.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/nunit.framework.dll": {
+            "related": ".legacy.xml;.xml"
+          },
+          "lib/net6.0/nunit.framework.legacy.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "build/NUnit.props": {}
+        }
+      },
       "Oauth2Login/1.2.1": {
         "type": "package",
         "dependencies": {
@@ -769,6 +791,19 @@
         },
         "runtime": {
           "lib/Oauth2Login.dll": {}
+        }
+      },
+      "RestSharp/112.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net7.0/RestSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0/RestSharp.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Serilog/3.1.1": {
@@ -2285,6 +2320,31 @@
         "packageIcon.png"
       ]
     },
+    "NUnit/4.2.2": {
+      "sha512": "mon0OPko28yZ/foVXrhiUvq1LReaGsBdziumyyYGxV/pOE4q92fuYeN+AF+gEU5pCjzykcdBt5l7xobTaiBjsg==",
+      "type": "package",
+      "path": "nunit/4.2.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "NOTICES.md",
+        "README.md",
+        "THIRD_PARTY_NOTICES.md",
+        "build/NUnit.props",
+        "icon.png",
+        "lib/net462/nunit.framework.dll",
+        "lib/net462/nunit.framework.legacy.dll",
+        "lib/net462/nunit.framework.legacy.xml",
+        "lib/net462/nunit.framework.xml",
+        "lib/net6.0/nunit.framework.dll",
+        "lib/net6.0/nunit.framework.legacy.dll",
+        "lib/net6.0/nunit.framework.legacy.xml",
+        "lib/net6.0/nunit.framework.xml",
+        "nunit.4.2.2.nupkg.sha512",
+        "nunit.nuspec"
+      ]
+    },
     "Oauth2Login/1.2.1": {
       "sha512": "lzCOir+mrqlkR4Pv9yeIrTn5f7S/xD8HbY4pqwo8bw+8dRkq8SBxnZvEdCqmfAqgLVDY63dNAOBV+0qLdlfROQ==",
       "type": "package",
@@ -2295,6 +2355,31 @@
         "lib/Oauth2Login.dll",
         "oauth2login.1.2.1.nupkg.sha512",
         "oauth2login.nuspec"
+      ]
+    },
+    "RestSharp/112.1.0": {
+      "sha512": "bOUGNZqhhv/QeCXHTKEUil846yBjwWXpzPKjO67kFvaAOoF361z7jLY5BMnuZ6WD2WQRA750sNMcK7MSPCQ5Mg==",
+      "type": "package",
+      "path": "restsharp/112.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net471/RestSharp.dll",
+        "lib/net471/RestSharp.xml",
+        "lib/net48/RestSharp.dll",
+        "lib/net48/RestSharp.xml",
+        "lib/net6.0/RestSharp.dll",
+        "lib/net6.0/RestSharp.xml",
+        "lib/net7.0/RestSharp.dll",
+        "lib/net7.0/RestSharp.xml",
+        "lib/net8.0/RestSharp.dll",
+        "lib/net8.0/RestSharp.xml",
+        "lib/netstandard2.0/RestSharp.dll",
+        "lib/netstandard2.0/RestSharp.xml",
+        "restsharp.112.1.0.nupkg.sha512",
+        "restsharp.nuspec",
+        "restsharp.png"
       ]
     },
     "Serilog/3.1.1": {
@@ -2805,8 +2890,10 @@
       "Microsoft.Extensions.Configuration >= 7.0.0",
       "Microsoft.Extensions.Logging >= 8.0.0",
       "Microsoft.IdentityModel.Tokens >= 7.3.1",
+      "NUnit >= 4.2.2",
       "Newtonsoft.Json >= 13.0.3",
       "Oauth2Login >= 1.2.1",
+      "RestSharp >= 112.1.0",
       "Serilog.AspNetCore >= 8.0.2-dev-00336",
       "Serilog.Extensions.Logging >= 8.0.1-dev-10382",
       "Serilog.Sinks.File >= 5.0.1-dev-00972"
@@ -2818,11 +2905,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/alessandrogattico/Desktop/fixPissir/ProgettoPissir/WaterManagerUI/WaterManagerUI.csproj",
+      "projectUniqueName": "/Users/alessandrogattico/Desktop/WaterManager/WaterManagerUI/WaterManagerUI.csproj",
       "projectName": "WaterManagerUI",
-      "projectPath": "/Users/alessandrogattico/Desktop/fixPissir/ProgettoPissir/WaterManagerUI/WaterManagerUI.csproj",
+      "projectPath": "/Users/alessandrogattico/Desktop/WaterManager/WaterManagerUI/WaterManagerUI.csproj",
       "packagesPath": "/Users/alessandrogattico/.nuget/packages/",
-      "outputPath": "/Users/alessandrogattico/Desktop/fixPissir/ProgettoPissir/WaterManagerUI/obj/",
+      "outputPath": "/Users/alessandrogattico/Desktop/WaterManager/WaterManagerUI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/alessandrogattico/.nuget/NuGet/NuGet.Config"
@@ -2831,7 +2918,7 @@
         "net7.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/sdk/7.0.316/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+        "/usr/local/share/dotnet/sdk/7.0.317/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2894,6 +2981,10 @@
             "target": "Package",
             "version": "[7.3.1, )"
           },
+          "NUnit": {
+            "target": "Package",
+            "version": "[4.2.2, )"
+          },
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
@@ -2901,6 +2992,10 @@
           "Oauth2Login": {
             "target": "Package",
             "version": "[1.2.1, )"
+          },
+          "RestSharp": {
+            "target": "Package",
+            "version": "[112.1.0, )"
           },
           "Serilog.AspNetCore": {
             "target": "Package",
@@ -2934,7 +3029,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.316/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.317/RuntimeIdentifierGraph.json"
       }
     }
   },

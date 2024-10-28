@@ -74,14 +74,14 @@ public class SecurityConfiguration {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
 				.csrf(csrf -> csrf.disable())
+				
 				.authorizeHttpRequests(auth -> {
 					auth
 							.requestMatchers("/api/v1/auth/**").permitAll()
 							.requestMatchers("/api/v1/utils/**").permitAll()
 							.requestMatchers("/api/v1/misura/add").permitAll()
 							.requestMatchers("/swagger-ui/**").permitAll()
-							.requestMatchers("/swagger-ui/index.html").permitAll()
-							.requestMatchers("/v3/api-docs/**").permitAll()
+							.requestMatchers("/api-docs/**").permitAll()
 							.anyRequest().authenticated();
 				})
 				.oauth2ResourceServer(OAuth2ResourceServerConfigurer :: jwt)

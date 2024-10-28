@@ -5,32 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b6e3f15b-bbd0-41cb-b2a3-44256e0e5956" name="Changes" comment="sistemare documentazione 2">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/22b14fec-5022-4040-8f20-f32fb2cfe927.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/22b14fec-5022-4040-8f20-f32fb2cfe927.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6e317284-8877-48a1-aa9c-fd341f2196fd.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6e317284-8877-48a1-aa9c-fd341f2196fd.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7b2cb2a7-5df1-42ec-b994-08a156a42e40.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/7b2cb2a7-5df1-42ec-b994-08a156a42e40.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d64f6b82-7ae2-4190-81cf-edfa6e939cd8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d64f6b82-7ae2-4190-81cf-edfa6e939cd8.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Database/DATABASEWATER" beforeDir="false" afterPath="$PROJECT_DIR$/Database/DATABASEWATER" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Documentazione/Diagrammi WaterManager.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Documentazione/Diagrammi WaterManager.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Documentazione/PissirDiagrams.vpp" beforeDir="false" afterPath="$PROJECT_DIR$/Documentazione/PissirDiagrams.vpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Documentazione/Relazione Progetto PISSIR 2023-2024.docx" beforeDir="false" afterPath="$PROJECT_DIR$/Documentazione/Relazione Progetto PISSIR 2023-2024.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/config/SwaggerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/publisher/Publisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/publisher/Publisher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/simulazione/Simulazione.java" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/simulazione/Simulazione.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/subscriber/SubscribeCallback.java" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/subscriber/SubscribeCallback.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/subscriber/Subscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/java/pissir/watermanager/mqtt/subscriber/Subscriber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQTT/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MQTT/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MQTT/src/main/resources/log4j2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WaterManager/src/main/java/pissir/watermanager/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManager/src/main/java/pissir/watermanager/config/SwaggerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WaterManager/src/main/java/pissir/watermanager/security/model/RegistrationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManager/src/main/java/pissir/watermanager/security/model/RegistrationDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WaterManagerUI/.idea/.idea.WaterManagerUI/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/.idea/.idea.WaterManagerUI/.idea/material_theme_project_new.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WaterManagerUI/WaterManagerUI.sln" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/WaterManagerUI.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManager/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManager/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManager/src/main/java/pissir/watermanager/security/configuration/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManager/src/main/java/pissir/watermanager/security/configuration/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManager/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManager/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI.staticwebassets.runtime.json" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/bin/Debug/net7.0/WaterManagerUI.staticwebassets.runtime.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.csproj.FileListAbsolute.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.dll" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.genruntimeconfig.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/WaterManagerUI.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/apphost" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/apphost" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/staticwebassets.build.json" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/staticwebassets.build.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/staticwebassets.development.json" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/staticwebassets.development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/staticwebassets.pack.json" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/Debug/net7.0/staticwebassets.pack.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/WaterManagerUI.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/WaterManagerUI.csproj.nuget.dgspec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/WaterManagerUI.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/WaterManagerUI.csproj.nuget.g.props" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/project.assets.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/project.packagespec.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WaterManagerUI/wwwroot/css/site.css" beforeDir="false" afterPath="$PROJECT_DIR$/WaterManagerUI/wwwroot/css/site.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +86,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.MqttApplication.executor": "Run",
     "Spring Boot.WaterManagerApplication.executor": "Run",
-    "com.google.cloudcode.ide_session_index": "20240606_0000",
+    "com.google.cloudcode.ide_session_index": "20241028_0001",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/alessandrogattico/Desktop/fixPissir/pissir/WaterManager/src/main/java/pissir/watermanager",
@@ -100,17 +106,6 @@
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.WaterManagerApplication">
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -195,6 +190,13 @@
       <workItem from="1717165603522" duration="618000" />
       <workItem from="1717172838644" duration="606000" />
       <workItem from="1717676312834" duration="551000" />
+      <workItem from="1728050858614" duration="1758000" />
+      <workItem from="1728292510520" duration="845000" />
+      <workItem from="1728306958765" duration="287000" />
+      <workItem from="1729765713213" duration="82000" />
+      <workItem from="1729765809095" duration="14000" />
+      <workItem from="1730106843107" duration="31000" />
+      <workItem from="1730106890479" duration="2806000" />
     </task>
     <task id="LOCAL-00001" summary="sistemare api">
       <option name="closed" value="true" />
